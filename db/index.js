@@ -1,11 +1,11 @@
 const db = require('./db');
 const { User } = require('./models');
 
-const dbSync = force => {
+const dbSync = (force = false) => {
     return db.authenticate()
-        .then(() => db.sync())
+        .then(() => db.sync({ force }))
 };
 
-dbSync().catch(e => console.log(e.message));
+dbSync(true).catch(e => console.log(e.message));
 
-module.exports = { db, User };
+module.exports = { dbSync, db, User };
