@@ -21,7 +21,7 @@ router.get('/users/:id', (req, res, next) => {
 router.get('/users/:id/relationships', (req, res, next) => {
     Relationship.findAll({
         where: {
-            [Op.or]: [{ relationshipId: req.params.id }, { userId: req.params.id }]
+            userId: req.params.id
         }
     })
         .then(relationships => res.send(relationships))
