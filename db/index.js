@@ -8,4 +8,4 @@ const dbSync = (force = false) => {
 
 dbSync(true).catch(e => console.log(e.message));
 
-module.exports = { db, User };
+module.exports = { dbSync, db, User };
