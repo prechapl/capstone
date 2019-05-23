@@ -97,6 +97,13 @@ const User = db.define('user', {
     password: {
         type: Sequelize.STRING,
         allowNull: false,
+        validation: {
+            requirements(password){
+                if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/){
+                    throw new Error('Passwords must be at least 8 characters long, and contain a mix of lowercase/uppercase letters, numbers and special characters.');
+                }
+            }
+        }
     }
 });
 
