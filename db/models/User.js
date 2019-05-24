@@ -72,10 +72,10 @@ const User = db.define('user', {
       notEmpty: {
         args: true,
         msg: 'User must have a profile image URL.'
-      }
+      },
       isUrl: {
-          args: true,
-          msg: 'Please enter a valid image URL.'
+        args: true,
+        msg: 'Please enter a valid image URL.'
       }
     }
   },
@@ -99,7 +99,11 @@ const User = db.define('user', {
     allowNull: false,
     validation: {
       requirements(password) {
-        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/) {
+        if (
+          !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(
+            password
+          )
+        ) {
           throw new Error(
             'Passwords must be at least 8 characters long, and contain a mix of lowercase/uppercase letters, numbers and special characters.'
           );
