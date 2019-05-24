@@ -1,36 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import AppContainer from './src/Nav';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
-
-class HomeScreen extends Component {
+export default class App extends Component {
   render() {
-    return (
-      <View style={styles.container}>
-        <Text>Home Screen</Text>
-        <Text>
-          This is the beginning of Mender or whatever we'll call it! Many thanks
-          to Dave, Ruby and Lauren for taking this on!
-        </Text>
-      </View>
-    );
+    return <AppContainer />;
   }
 }
-
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen
-  }
-});
-
-export default createAppContainer(AppNavigator);
-
-// https://reactnavigation.org/docs/en/hello-react-navigation.html
