@@ -24,7 +24,7 @@ const users = [
     firstName: 'Ruby',
     lastName: 'Barry',
     isAdmin: true,
-    age: 13,
+    age: 18,
     imgUrl: 'http://i64.tinypic.com/11lu3qc.png',
     email: 'ruby.barry@gmail.com',
     password: '12345'
@@ -34,7 +34,7 @@ const users = [
     firstName: 'Lauren',
     lastName: 'West',
     isAdmin: true,
-    age: 13,
+    age: 18,
     imgUrl: 'http://i68.tinypic.com/1zd6wpx.png',
     email: 'lauren.west@gmail.com',
     password: '12345'

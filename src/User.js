@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class App extends React.Component {
+export default class User extends React.Component {
   render() {
     const { navigation } = this.props;
     const userTitle = navigation.getParam('firstName', 'no name');
@@ -21,7 +21,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Avatar
           rounded
-          size={100}
+          size={150}
           source={{
             uri: `${url}`
           }}
