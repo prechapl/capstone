@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "node ./node_modules/mocha/bin/mocha ./tests/*/*.spec.js --watch"
+    "test": "node ./node_modules/mocha/bin/mocha ./tests/*/*.spec.js --watch",
+    "seed": "node ./db/seed.js"
   },
   "dependencies": {
     "expo": "32.0.0",
@@ -14,6 +15,8 @@
     "pg": "7.11.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-elements": "^1.1.0",
+    "react-navigation": "^3.11.0",
     "sequelize": "5.8.6",
     "socket-io": "1.0.0",
     "supertest": "^4.0.2"
