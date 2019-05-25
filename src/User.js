@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  avatar: {
+    borderWidth: 1
   }
 });
 
@@ -21,6 +24,7 @@ export default class User extends React.Component {
       <View style={styles.container}>
         <Avatar
           rounded
+          overlayContainerStyle={styles.avatar}
           size={150}
           source={{
             uri: `${url}`

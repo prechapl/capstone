@@ -5,7 +5,7 @@ const users = [
     lastName: 'Chaplin',
     isAdmin: true,
     age: 43,
-    imgUrl: 'http://i64.tinypic.com/292mj3k.jpg',
+    imgUrl: 'http://i64.tinypic.com/347egqf.jpg',
     email: 'preston.chaplin@gmail.com',
     password: '12345'
   },
