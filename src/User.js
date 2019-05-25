@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class User extends React.Component {
+class User extends React.Component {
   render() {
     const { navigation } = this.props;
     const userTitle = navigation.getParam('firstName', 'no name');
@@ -37,3 +38,11 @@ export default class User extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({ users }) => {
+  return {
+    users
+  };
+};
+
+export default connect(mapStateToProps)(User);
