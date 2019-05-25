@@ -5,7 +5,7 @@ const User = db.define('user', {
   id: {
     type: Sequelize.UUID,
     primaryKey: true,
-    defaultValue: Sequelize.UUIDV4,
+    defaultValue: Sequelize.UUIDV4
   },
   firstName: {
     type: Sequelize.STRING,
@@ -13,15 +13,15 @@ const User = db.define('user', {
     validate: {
       notEmpty: {
         args: true,
-        msg: 'User must have a first name.',
+        msg: 'User must have a first name.'
       },
       lettersOnly(firstName) {
         const regexp = /^[A-Za-z]+$/;
         if (!regexp.test(firstName)) {
           throw new Error('First name must consist only of letters.');
         }
-      },
-    },
+      }
+    }
   },
   lastName: {
     type: Sequelize.STRING,
@@ -29,19 +29,19 @@ const User = db.define('user', {
     validate: {
       notEmpty: {
         args: true,
-        msg: 'User must have a last name.',
+        msg: 'User must have a last name.'
       },
       lettersOnly(lastName) {
         const regexp = /^[A-Za-z]+$/;
         if (!regexp.test(lastName)) {
           throw new Error('Last name must consist only of letters.');
         }
-      },
-    },
+      }
+    }
   },
   isAdmin: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false,
+    defaultValue: false
   },
   age: {
     type: Sequelize.INTEGER,
@@ -49,21 +49,21 @@ const User = db.define('user', {
     validate: {
       isInt: {
         args: true,
-        msg: 'Age must be an integer.',
+        msg: 'Age must be an integer.'
       },
       notEmpty: {
         args: true,
-        msg: 'User must have an age.',
+        msg: 'User must have an age.'
       },
       min: {
         args: [0],
-        msg: 'Age must be a positive integer.',
+        msg: 'Age must be a positive integer.'
       },
       max: {
         args: 120,
-        msg: 'User age should be less than 120 years.',
-      },
-    },
+        msg: 'User age should be less than 120 years.'
+      }
+    }
   },
   imgUrl: {
     type: Sequelize.STRING,
@@ -71,13 +71,13 @@ const User = db.define('user', {
     validate: {
       notEmpty: {
         args: true,
-        msg: 'User must have a profile image URL.',
+        msg: 'User must have a profile image URL.'
       },
       isUrl: {
         args: true,
-        msg: 'Please enter a valid image URL.',
-      },
-    },
+        msg: 'Please enter a valid image URL.'
+      }
+    }
   },
   email: {
     type: Sequelize.STRING,
@@ -86,13 +86,13 @@ const User = db.define('user', {
     validate: {
       notEmpty: {
         args: true,
-        msg: 'User must have an email address.',
+        msg: 'User must have an email address.'
       },
       isEmail: {
         args: true,
-        msg: 'Please enter valid email address.',
-      },
-    },
+        msg: 'Please enter valid email address.'
+      }
+    }
   },
   password: {
     type: Sequelize.STRING,
@@ -108,9 +108,9 @@ const User = db.define('user', {
             'Passwords must be at least 8 characters long, and contain a mix of lowercase/uppercase letters, numbers and special characters.'
           );
         }
-      },
-    },
-  },
+      }
+    }
+  }
 });
 
 module.exports = User;
