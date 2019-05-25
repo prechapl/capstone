@@ -25,7 +25,7 @@ export default class User extends React.Component {
           source={{
             uri: `${url}`
           }}
-          title={userTitle}
+          title={userTitle.slice(0, 1)}
         />
 
         <Text>This is the single user view</Text>

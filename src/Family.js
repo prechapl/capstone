@@ -17,7 +17,7 @@ export default class Family extends Component {
       <View style={styles.container}>
         <Avatar
           rounded
-          size={100}
+          size={120}
           title="PC"
           source={{
             uri: 'http://i64.tinypic.com/292mj3k.jpg'
@@ -32,7 +32,7 @@ export default class Family extends Component {
 
         <Avatar
           rounded
-          size={100}
+          size={120}
           title="DS"
           source={{
             uri: 'http://i64.tinypic.com/14tm2v7.png'
@@ -46,7 +46,7 @@ export default class Family extends Component {
         />
         <Avatar
           rounded
-          size={100}
+          size={120}
           title="RB"
           source={{
             uri: 'http://i64.tinypic.com/11lu3qc.png'
@@ -60,7 +60,7 @@ export default class Family extends Component {
         />
         <Avatar
           rounded
-          size={100}
+          size={120}
           title="LW"
           source={{
             uri: 'http://i68.tinypic.com/1zd6wpx.png'
