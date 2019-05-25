@@ -18,7 +18,8 @@
     "react-native-elements": "^1.1.0",
     "react-navigation": "^3.11.0",
     "sequelize": "5.8.6",
-    "socket-io": "1.0.0"
+    "socket-io": "1.0.0",
+    "supertest": "^4.0.2"
   },
   "devDependencies": {
     "babel-preset-expo": "5.0.0",
