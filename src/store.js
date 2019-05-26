@@ -26,7 +26,7 @@ const fetchUsers = () => {
 
 //REDUCERS
 
-const users = (state = {}, action) => {
+const usersReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_USERS:
       return action.users;
@@ -36,7 +36,7 @@ const users = (state = {}, action) => {
 };
 
 const reducer = combineReducers({
-  users
+  usersReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));

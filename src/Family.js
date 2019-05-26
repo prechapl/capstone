@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
+import { fetchUsers } from './store';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +16,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class Family extends Component {
+class Family extends Component {
+  componentDidMount() {
+    this.props.fetchUsers();
+    console.log(this.props.users);
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -80,3 +86,19 @@ export default class Family extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUsers: () => dispatch(fetchUsers())
+  };
+};
+
+const mapStateToProps = ({ users }) => {
+  return {
+    users
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Family);
