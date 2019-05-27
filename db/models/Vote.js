@@ -9,7 +9,7 @@ const Vote = db.define('vote', {
     }
 }, {
         hooks: {
-            beforeUpdate: function (vote) {
+            beforeCreate: function (vote) {
                 if (!vote.choiceId) {
                     throw new Error('vote must have a choiceId')
                 }
