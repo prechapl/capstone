@@ -19,9 +19,10 @@ const styles = StyleSheet.create({
 class Family extends Component {
   componentDidMount() {
     this.props.fetchUsers();
-    console.log(this.props.users);
+    console.log('users in cdm', this.props.users);
   }
   render() {
+    console.log('users in Family render: ', this.props.users);
     return (
       <View style={styles.container}>
         <Avatar

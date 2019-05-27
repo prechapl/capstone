@@ -21,7 +21,7 @@ class User extends React.Component {
     const userTitle = navigation.getParam('firstName', 'no name');
     const url = navigation.getParam('imgUrl', 'no url');
 
-    console.log(this.props.users);
+    // console.log(this.props.users);
 
     return (
       <View style={styles.container}>

@@ -25,12 +25,15 @@ const getUsers = users => ({
 //THUNKS
 
 const fetchUsers = () => {
+  // console.log('manifest', manifest);
+  console.log('api', api);
   return dispatch => {
     return (
       axios
-        .get(`/${api}/users`)
-        // .get('http://96.246.143.116:3000/users')
-        // .get('http://192.168.1.218:3000/users')
+        .get(`http://${api}/api/users`)
+        // .get('http://96.246.143.116:3000/api/users')
+        // .get('/api/users')
+        // .get('http://192.168.1.218:3000/api/users')
         .then(response => response.data)
         .then(users => dispatch(getUsers(users)))
         .catch(error => console.log(error))
@@ -49,10 +52,10 @@ const usersReducer = (state = {}, action) => {
   }
 };
 
-const reducer = combineReducers({
-  usersReducer
-});
+// const reducer = combineReducers({
+//   usersReducer
+// });
 
-const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+const store = createStore(usersReducer, applyMiddleware(thunkMiddleware));
 
 export { store, fetchUsers };
