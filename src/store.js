@@ -20,7 +20,8 @@ const fetchUsers = () => {
     return axios
       .get('/api/users')
       .then(response => response.data)
-      .then(users => dispatch(getUsers(users)));
+      .then(users => dispatch(getUsers(users)))
+      .catch(error => console.log(error));
   };
 };
 

@@ -2,6 +2,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "start:server": "DATABASE_URL=postgres://localhost/capstone nodemon ./server.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
