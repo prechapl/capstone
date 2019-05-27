@@ -15,7 +15,7 @@ describe('Family database model', done => {
       })
       .catch(e => done(e));
   });
-  it('Throws an error if Family name is blank', done => {
+  it('Throws an error if Family name is blank', () => {
     Family.create({
       name: ''
     })
