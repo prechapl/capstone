@@ -20,7 +20,7 @@ const Vote = db.define('vote', {
         }
     });
 
-Vote.castVote({ userId, pollId, choiceId }) {
+Vote.castVote = function ({ userId, pollId, choiceId }) {
     return Vote.findOne({
         where: {
             userId: userId,
