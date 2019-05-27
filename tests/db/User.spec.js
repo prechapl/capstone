@@ -52,7 +52,7 @@ describe('User database model', () => {
       email: faker.internet.email(),
       imgUrl:
         'https://m.media-amazon.com/images/M/MV5BODAyMGNkNWItYmFjZC00MTA5LTg3ZGItZWQ0MTIxNTg2N2JmXkEyXkFqcGdeQXVyNDQzMDg4Nzk@._V1_.jpg',
-      password: 'Password',
+      password: 'passwor',
     })
       .then(() => {
         const e = new Error('User was created with invalid password');
