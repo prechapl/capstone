@@ -30,8 +30,8 @@ const fetchUsers = () => {
   return dispatch => {
     return (
       axios
-        .get(`http://${api}/api/users`)
-        // .get('http://96.246.143.116:3000/api/users')
+        // .get(`http://${api}/api/users`)
+        .get('http://96.246.143.116:3000/api/users')
         // .get('/api/users')
         // .get('http://192.168.1.218:3000/api/users')
         .then(response => response.data)
