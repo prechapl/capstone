@@ -18,7 +18,7 @@ const Family = db.define('family', {
     }
   },
   code: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
       notEmpty: {
