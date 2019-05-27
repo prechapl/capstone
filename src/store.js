@@ -1,6 +1,15 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import axios from 'axios';
+import Expo from 'expo';
+const { manifest } = Expo.Constants;
+const api =
+  typeof manifest.packagerOpts === `object` && manifest.packagerOpts.dev
+    ? manifest.debuggerHost
+        .split(`:`)
+        .shift()
+        .concat(`:3000`)
+    : `api.example.com`;
 
 //CONSTANTS
 
@@ -18,7 +27,7 @@ const getUsers = users => ({
 const fetchUsers = () => {
   return dispatch => {
     return axios
-      .get('/api/users')
+      .get(`/${api}/users`)
       .then(response => response.data)
       .then(users => dispatch(getUsers(users)))
       .catch(error => console.log(error));
