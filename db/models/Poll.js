@@ -19,7 +19,7 @@ const Poll = db.define('poll', {
     }
 }, {
         hooks: {
-            beforeUpdate: function (poll) {
+            beforeCreate: function (poll) {
                 if (!poll.ownerId) {
                     throw new Error('poll must have ownerId')
                 }

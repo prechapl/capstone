@@ -19,7 +19,7 @@ const Choice = db.define('choice', {
     }
 }, {
         hooks: {
-            beforeUpdate: function (choice) {
+            beforeCreate: function (choice) {
                 if (!choice.pollId) {
                     throw new Error('choice must have pollId')
                 }

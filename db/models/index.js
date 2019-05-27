@@ -5,7 +5,7 @@ const Poll = require('./Poll');
 const Choice = require('./Choice');
 const Vote = require('./Vote');
 
-Poll.belongsTo(User, { as: 'Owner' });
+Poll.belongsTo(User, { as: 'Owner', foreignKey: 'ownerId' });
 User.hasMany(Poll);
 
 Choice.belongsTo(Poll);
