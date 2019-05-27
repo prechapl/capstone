@@ -4,7 +4,7 @@ const faker = require('faker');
 
 const familyName = faker.name.lastName();
 
-describe('Family database model', () => {
+describe('Family database model', done => {
   it('Creates a family with a correct Family name', done => {
     Family.create({
       name: familyName
