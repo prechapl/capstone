@@ -1,5 +1,5 @@
 const faker = require('faker');
-const { Family, Relationship, User } = require('./models');
+const { Family, Relationship, User, Mood } = require('./models');
 const { dbSync } = require('./index');
 
 dbSync(true).then(() => {
@@ -86,6 +86,15 @@ dbSync(true).then(() => {
           RelationshipId: c1.id,
           type: 'sibling',
         }),
+        Mood.create({
+          userId: p1.id,
+          title: 'stressed',
+        }).then(() =>
+          Mood.create({
+            userId: p1.id,
+            title: 'relaxed',
+          })
+        ),
       ]);
     })
     .catch(e => console.log(e));
