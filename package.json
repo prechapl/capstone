@@ -5,7 +5,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "node ./node_modules/mocha/bin/mocha ./tests/api/moods.spec.js --watch",
+    "test": "node ./node_modules/mocha/bin/mocha ./tests/*/*.spec.js --watch",
     "seed": "node ./db/seed.js"
   },
   "dependencies": {
