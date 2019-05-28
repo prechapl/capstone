@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
-import { PathLine } from 'react-svg-pathline';
 import { Svg } from 'expo';
 const { Line } = Svg;
 
