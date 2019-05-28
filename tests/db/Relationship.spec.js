@@ -1,10 +1,10 @@
 const expect = require('chai').expect();
 const { Relationship } = require('../../db');
 
-describe('Relationship database model', done => {
-  it('Creates a relationship with a type', () => {
+describe('Relationship database model', () => {
+  it('Creates a relationship with a type', done => {
     Relationship.create({
-      title: 'sister'
+      title: 'sister',
     })
       .then(relationship => {
         expect(relationship.title).to.equal('sister');
@@ -12,11 +12,11 @@ describe('Relationship database model', done => {
       })
       .catch(e => done(e));
   });
-  it('Handles relationships between users', () => {
+  it('Handles relationships between users', done => {
     Relationship.create({
       userId: 1,
       relationshipId: 2,
-      title: 'father'
+      title: 'father',
     })
       .then(relationship => {
         expect(relationship.title.to.equal('father'));

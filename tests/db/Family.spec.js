@@ -4,10 +4,11 @@ const faker = require('faker');
 
 const familyName = faker.name.lastName();
 
-describe('Family database model', done => {
-  it('Creates a family with a correct Family name', () => {
+describe('Family database model', () => {
+  it('Creates a family with a correct Family name', done => {
     Family.create({
-      name: familyName
+      name: familyName,
+      code: `${familyName}Code`,
     })
       .then(family => {
         expect(family.name).to.equal(familyName);
@@ -15,9 +16,9 @@ describe('Family database model', done => {
       })
       .catch(e => done(e));
   });
-  it('Throws an error if Family name is blank', () => {
+  it('Throws an error if Family name is blank', done => {
     Family.create({
-      name: ''
+      name: '',
     })
       .then(() => {
         const e = new Error('Family name creation did not fail with bad input');
