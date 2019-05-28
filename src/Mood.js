@@ -1,13 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Avatar, Button } from 'react-native-elements';
-// import { Svg } from 'expo';
-// const { Line } = Svg;
+import { Avatar, Button, Slider } from 'react-native-elements';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
@@ -25,7 +23,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class User extends React.Component {
+export default class Mood extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mood: 0
+    };
+  }
   render() {
     const { navigation } = this.props;
     const userTitle = navigation.getParam('firstName', 'no name');
@@ -33,20 +37,31 @@ export default class User extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.col} />
-        <Button
-          title="Family"
-          onPress={() => this.props.navigation.navigate('Family')}
-          buttonStyle={{ backgroundColor: '#8EB51A', margin: 24 }}
-        />
-        <View style={styles.col}>
-          <View style={styles.fitButton}>
+        <View style={{ flexDirection: 'column' }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'stretch',
+              justifyContent: 'center'
+            }}
+          >
+            <Slider
+              value={this.state.mood}
+              onValueChange={value => this.setState({ mood: value })}
+            />
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text>Moodometer: {this.state.mood}</Text>
+          </View>
+        </View>
+        {/* <View style={styles.fitButton}>
             <Button
               title="Mood"
               onPress={() => this.props.navigation.navigate('Mood')}
               buttonStyle={{ backgroundColor: '#FF9900', margin: 24 }}
             />
-          </View>
+          </View> */}
+        <View>
           <Avatar
             rounded
             overlayContainerStyle={styles.avatar}
@@ -56,29 +71,27 @@ export default class User extends React.Component {
             }}
             title={userTitle.slice(0, 1)}
           />
+        </View>
+        <View style={styles.row}>
+          <Button
+            title="Family"
+            onPress={() => this.props.navigation.navigate('Family')}
+            buttonStyle={{ backgroundColor: '#8EB51A', margin: 24 }}
+          />
+
           <Button
             title="Values"
             onPress={() => this.props.navigation.navigate('Values')}
             buttonStyle={{ backgroundColor: '#7DC6CD', margin: 24 }}
           />
+
+          <Button
+            title="Events"
+            onPress={() => this.props.navigation.navigate('Events')}
+            buttonStyle={{ backgroundColor: '#EF5029', margin: 24 }}
+          />
         </View>
-        <Button
-          title="Events"
-          onPress={() => this.props.navigation.navigate('Events')}
-          buttonStyle={{ backgroundColor: '#EF5029', margin: 24 }}
-        />
-        <View style={styles.col} />
       </View>
     );
   }
-}
-
-//testing connecting lines
-
-{
-  /* <View style={{ paddingLeft: 0 }}>
-<Svg width="300" height="300" style={{ paddingTop: 0 }}>
-  <Line x1="0" y1="0" x2="35" y2="35" stroke="red" strokeWidth="3" />
-</Svg>
-</View> */
 }
