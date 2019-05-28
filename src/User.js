@@ -2,8 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar, Button } from "react-native-elements";
 import { withNavigation } from "react-navigation";
-// import { Svg } from 'expo';
-// const { Line } = Svg;
 
 const styles = StyleSheet.create({
   container: {
