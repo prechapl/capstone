@@ -5,6 +5,7 @@ const { dbSync } = require('./index');
 dbSync(true).then(() => {
   Family.create({
     name: 'Marx',
+    code: 'MarxBros',
   })
     .then(family => {
       const famCount = [...new Array(4)];
