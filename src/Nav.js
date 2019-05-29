@@ -1,13 +1,13 @@
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Family from './Family';
 import User from './User';
 import Login from './Login';
 import SignUp from './SignUp';
 import Mood from './Mood';
 
-const AppNavigator = createStackNavigator({
-  Home: Login,
-  SignUp: SignUp,
+const AppNavigator = createBottomTabNavigator({
+  'Log In': Login,
+  'Sign Up': SignUp,
   Family: Family,
   User: User,
   Mood: Mood
