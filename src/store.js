@@ -1,19 +1,10 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import thunkMiddleware from "redux-thunk";
-import axios from "axios";
-import { Constants } from "expo";
-const { manifest } = Constants;
-const api =
-  typeof manifest.packagerOpts === `object` && manifest.packagerOpts.dev
-    ? manifest.debuggerHost
-        .split(`:`)
-        .shift()
-        .concat(`:3000`)
-    : `api.example.com`;
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import axios from 'axios';
 
 //CONSTANTS
 
-const GET_USERS = "GET_USERS";
+const GET_USERS = 'GET_USERS';
 
 //ACTION CREATORS
 
@@ -27,7 +18,7 @@ const getUsers = users => ({
 const fetchUsers = () => {
   return dispatch => {
     return axios
-      .get("https://cap-api-server-test.herokuapp.com/api/users")
+      .get('https://cap-api-server-test.herokuapp.com/api/users')
       .then(response => response.data)
       .then(users => dispatch(getUsers(users)))
       .catch(error => console.log(error));
@@ -39,7 +30,6 @@ const fetchUsers = () => {
 const usersReducer = (state = [], action) => {
   switch (action.type) {
     case GET_USERS:
-      //   console.log("users reducer", action.users);
       return action.users;
     default:
       return state;
