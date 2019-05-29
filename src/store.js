@@ -25,12 +25,10 @@ const getUsers = users => ({
 //THUNKS
 
 const fetchUsers = () => {
-  // console.log('manifest', manifest);
-  //   console.log("api", api);
   return dispatch => {
     return axios
       .get("https://cap-api-server-test.herokuapp.com/api/users")
-      .then(response => console.log(response.data))
+      .then(response => response.data)
       .then(users => dispatch(getUsers(users)))
       .catch(error => console.log(error));
   };
@@ -38,19 +36,20 @@ const fetchUsers = () => {
 
 //REDUCERS
 
-const usersReducer = (state = {}, action) => {
+const usersReducer = (state = [], action) => {
   switch (action.type) {
     case GET_USERS:
+      //   console.log("users reducer", action.users);
       return action.users;
     default:
       return state;
   }
 };
 
-// const reducer = combineReducers({
-//   usersReducer
-// });
+const reducer = combineReducers({
+  users: usersReducer
+});
 
-const store = createStore(usersReducer, applyMiddleware(thunkMiddleware));
+const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
 export { store, fetchUsers };
