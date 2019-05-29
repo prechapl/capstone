@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  avatar: {
+    borderWidth: 1
   }
 });
 
@@ -17,19 +20,19 @@ export default class Family extends Component {
       <View style={styles.container}>
         <Avatar
           rounded
+          overlayContainerStyle={styles.avatar}
           size={120}
           title="PC"
           source={{
-            uri: 'http://i64.tinypic.com/292mj3k.jpg'
+            uri: 'http://i64.tinypic.com/347egqf.jpg'
           }}
           onPress={() =>
             this.props.navigation.navigate('User', {
               firstName: 'Preston',
-              imgUrl: 'http://i64.tinypic.com/292mj3k.jpg'
+              imgUrl: 'http://i64.tinypic.com/347egqf.jpg'
             })
           }
         />
-
         <Avatar
           rounded
           size={120}

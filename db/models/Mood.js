@@ -7,7 +7,7 @@ const Mood = db.define(
     id: {
       type: Sequelize.UUID,
       primaryKey: true,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: Sequelize.UUIDV4
     },
     title: {
       type: Sequelize.STRING,
@@ -15,28 +15,28 @@ const Mood = db.define(
       validate: {
         notEmpty: {
           args: true,
-          msg: 'Mood must be named.',
-        },
-      },
+          msg: 'Mood must be named.'
+        }
+      }
     },
     active: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      defaultValue: true,
-    },
+      defaultValue: true
+    }
   },
   {
     hooks: {
       beforeCreate: function(mood) {
         return Mood.findOne({
-          where: { userId: mood.userId, active: true },
+          where: { userId: mood.userId, active: true }
         }).then(foundMood => {
           if (foundMood) {
             foundMood.update({ active: false });
           }
         });
-      },
-    },
+      }
+    }
   }
 );
 
