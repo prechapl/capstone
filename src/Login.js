@@ -19,17 +19,24 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: '#D3D3D4',
     marginBottom: 20,
-    width: 200,
+    width: 300,
     paddingHorizontal: 10
   },
   button: {
     backgroundColor: '#448AE6',
     padding: 10,
-    margin: 10
+    margin: 10,
+    width: 300
   },
   buttonText: {
     textAlign: 'center',
     color: '#FFFFFF'
+  },
+  header: {
+    padding: 10,
+    margin: 10,
+    fontSize: 50,
+    fontFamily: 'AmericanTypewriter-Condensed'
   }
 });
 
@@ -52,6 +59,7 @@ export default class Login extends Component {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.container}>
+          <Text style={styles.header}>Mend</Text>
           <TextInput
             style={styles.input}
             placeholder="Email"
