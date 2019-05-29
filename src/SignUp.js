@@ -19,16 +19,24 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: '#D3D3D4',
     marginBottom: 20,
-    width: 200,
+    width: 300,
     paddingHorizontal: 10
   },
   button: {
     backgroundColor: '#448AE6',
-    padding: 10
+    padding: 10,
+    width: 300,
+    margin: 10
   },
   buttonText: {
     textAlign: 'center',
     color: '#FFFFFF'
+  },
+  header: {
+    padding: 10,
+    margin: 10,
+    fontSize: 50,
+    fontFamily: 'AmericanTypewriter-Condensed'
   }
 });
 
@@ -43,69 +51,137 @@ export default class SignUp extends Component {
       email: '',
       password: '',
       image: '',
-      familyCode: ''
+      familyCode: '',
+      page: 1
     };
   }
 
   handleSubmit = (ev, history) => {
     console.log(this.state);
     this.props.navigation.navigate('Family');
+    this.setState({ page: 1 });
+  };
+
+  nextPage = () => {
+    this.setState({
+      page: this.state.page + 1
+    });
+  };
+
+  previousPage = () => {
+    this.setState({
+      page: this.state.page - 1
+    });
   };
 
   render() {
-    return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            placeholder="First Name"
-            onChangeText={firstName => this.setState({ firstName })}
-          />
+    if (this.state.page === 1) {
+      return (
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          <View style={styles.container}>
+            <Text style={styles.header}>Mend</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="First Name"
+              onChangeText={firstName => this.setState({ firstName })}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Last Name"
-            onChangeText={lastName => this.setState({ lastName })}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Last Name"
+              onChangeText={lastName => this.setState({ lastName })}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Age"
-            onChangeText={age => this.setState({ age })}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Age"
+              onChangeText={age => this.setState({ age })}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            onChangeText={email => this.setState({ email })}
-          />
+            <TouchableOpacity style={styles.button} onPress={this.nextPage}>
+              <Text style={styles.buttonText}>Next</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      );
+    }
 
-          <TextInput
-            style={styles.input}
-            secureTextEntry
-            placeholder="password"
-            onChangeText={password => {
-              this.setState({ password });
-            }}
-          />
+    if (this.state.page === 2) {
+      return (
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          <View style={styles.container}>
+            <Text style={styles.header}>Mend</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              onChangeText={email => this.setState({ email })}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Image"
-            onChangeText={image => this.setState({ image })}
-          />
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              placeholder="password"
+              onChangeText={password => {
+                this.setState({ password });
+              }}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Family Code"
-            onChangeText={familyCode => this.setState({ familyCode })}
-          />
+            <TouchableOpacity style={styles.button} onPress={this.nextPage}>
+              <Text style={styles.buttonText}>Next</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
-            <Text style={styles.buttonText}>Submit</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    );
+            <TouchableOpacity style={styles.button} onPress={this.previousPage}>
+              <Text style={styles.buttonText}>Previous</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      );
+    }
+
+    if (this.state.page === 3) {
+      return (
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          <View style={styles.container}>
+            <Text style={styles.header}>Mend</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Image"
+              onChangeText={image => this.setState({ image })}
+            />
+
+            <TouchableOpacity style={styles.button} onPress={this.nextPage}>
+              <Text style={styles.buttonText}>Next</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.button} onPress={this.previousPage}>
+              <Text style={styles.buttonText}>Previous</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      );
+    }
+
+    if (this.state.page === 4) {
+      return (
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          <View style={styles.container}>
+            <Text style={styles.header}>Mend</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Family Code"
+              onChangeText={familyCode => this.setState({ familyCode })}
+            />
+
+            <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.button} onPress={this.previousPage}>
+              <Text style={styles.buttonText}>Previous</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      );
+    }
   }
 }
