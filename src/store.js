@@ -18,7 +18,7 @@ const getUsers = users => ({
 const fetchUsers = () => {
   return dispatch => {
     return axios
-      .get('https://cap-api-server-test.herokuapp.com/api/users')
+      .get('https://capstone-api-server.herokuapp.com/api/users')
       .then(response => response.data)
       .then(users => dispatch(getUsers(users)))
       .catch(error => console.log(error));

@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
   header: {
     padding: 10,
     margin: 10,
-    fontSize: 50,
-    fontFamily: 'AmericanTypewriter-Condensed'
+    fontSize: 50
+    // fontFamily: 'AmericanTypewriter-Condensed'
   }
 });
 
