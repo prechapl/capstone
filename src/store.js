@@ -1,19 +1,19 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import thunkMiddleware from "redux-thunk";
-import axios from "axios";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import axios from 'axios';
 
 //CONSTANTS
 
-// const GET_USERS = "GET_USERS";
-const GET_USER = "GET_USERS";
-const GET_RELATED = "GET_RELATED";
+const GET_USERS = 'GET_USERS';
+const GET_USER = 'GET_USERS';
+const GET_RELATED = 'GET_RELATED';
 
 //ACTION CREATORS
 
-// const getUsers = users => ({
-//   type: GET_USERS,
-//   users
-// });
+const getUsers = users => ({
+  type: GET_USERS,
+  users
+});
 
 const getUser = user => ({
   type: GET_USER,
@@ -26,15 +26,15 @@ const getRelated = related => ({
 });
 //THUNKS
 
-// const fetchUsers = () => {
-//   return dispatch => {
-//     return axios
-//       .get("https://capstone-api-server.herokuapp.com/api/users")
-//       .then(response => response.data)
-//       .then(users => dispatch(getUsers(users)))
-//       .catch(error => console.log(error));
-//   };
-// };
+const fetchUsers = () => {
+  return dispatch => {
+    return axios
+      .get('https://capstone-api-server.herokuapp.com/api/users/')
+      .then(response => response.data)
+      .then(users => dispatch(getUsers(users)))
+      .catch(error => console.log(error));
+  };
+};
 
 const fetchUser = id => {
   return dispatch => {
@@ -59,16 +59,16 @@ const fetchRelated = id => {
 };
 //REDUCERS
 
-// const usersReducer = (state = [], action) => {
-//   switch (action.type) {
-//     case GET_USERS:
-//       return action.users;
-//     default:
-//       return state;
-//   }
-// };
+const usersReducer = (state = [], action) => {
+  switch (action.type) {
+    case GET_USERS:
+      return action.users;
+    default:
+      return state;
+  }
+};
 
-const userReducer = (state = [], action) => {
+const userReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_USER:
       return action.user;
@@ -77,20 +77,18 @@ const userReducer = (state = [], action) => {
   }
 };
 
-const relatedReducer = (state = [], action) => {
-  switch (action.type) {
-    case GET_RELATED:
-      return action.related;
-    default:
-      return state;
-  }
-};
+// const relatedReducer = (state = [], action) => {
+//   switch (action.type) {
+//     case GET_RELATED:
+//       return action.related;
+//     default:
+//       return state;
+//   }
+// };
 const reducer = combineReducers({
-  // users: usersReducer,
-  user: userReducer,
-  related: relatedReducer
+  users: usersReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
-export { store, fetchUser, fetchRelated };
+export { store, fetchUsers, fetchUser };
