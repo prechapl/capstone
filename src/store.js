@@ -86,9 +86,7 @@ const relatedReducer = (state = [], action) => {
   }
 };
 const reducer = combineReducers({
-  users: usersReducer,
-  user: userReducer,
-  related: relatedReducer
+  users: usersReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
