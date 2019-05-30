@@ -1,57 +1,82 @@
-// //
+////
 
-// import React, { Component } from "react";
-// import { FlatList, StyleSheet, Text, View } from "react-native";
-// import { Avatar } from "react-native-elements";
-// import { fetchUsers } from "./store";
-// import { connect } from "react-redux";
+// import React, { Component } from 'react';
+// import { StyleSheet, View } from 'react-native';
+// import { Avatar } from 'react-native-elements';
+// import { fetchUser, fetchUsers, fetchRelated } from './store';
+// import { connect } from 'react-redux';
 
 // class Family extends Component {
 //   constructor() {
 //     super();
 //     this.state = {
-//       users: []
+//       users: [],
+//       user: {}
 //     };
 //   }
 //   componentDidMount() {
-//     this.load();
-//     console.log("users in Family CDM", this.state.users);
+//     // this.load();
+//     this.loadUser();
+//     this.loadUsers();
+//     // this.loadRelated();
+//     // console.log('user in Family CDM', this.state.user);
 //   }
 
-//   load = () => {
+//   // load = () => {
+//   //   const tempUserId = 'feb104b5-bdc0-48eb-9998-9d8794f02b3e';
+
+//   //   this.props
+//   //     .fetchUsers()
+//   //     .then(() => {
+//   //       this.props.fetchUser(tempUserId);
+//   //     })
+//   //     .then(() => {
+//   //       this.props.fetchRelated(tempUserId);
+//   //     })
+//   //     .then(() => {
+//   //       this.setState({
+//   //         user: this.props.user,
+//   //         related: this.props.related,
+//   //         users: this.props.users
+//   //       });
+//   //     });
+//   // };
+
+//   loadUser = () => {
+//     const tempUserId = 'feb104b5-bdc0-48eb-9998-9d8794f02b3e';
+//     this.props.fetchUser(tempUserId).then(() => {
+//       this.setState({ user: this.props.user });
+//     });
+//   };
+//   loadUsers = () => {
 //     this.props.fetchUsers().then(() => {
 //       this.setState({ users: this.props.users });
 //     });
 //   };
+//   // loadRelated = () => {
+//   //   const tempUserId = 'feb104b5-bdc0-48eb-9998-9d8794f02b3e';
+//   //   this.props.fetchRelated(tempUserId).then(() => {
+//   //     this.setState({ related: this.props.related });
+//   //   });
+//   // };
 
 //   componentDidUpdate(prevProps) {
-//     if (this.props.users !== prevProps.users) {
-//       this.setState({ users: this.props.users });
-//       // console.log('users in Family CDU', this.props.users);
+//     if (this.props.user !== prevProps.user) {
+//       this.setState({
+//         users: this.props.users,
+//         user: this.props.user
+//       });
 //     }
-//     console.log("update ran");
+//     console.log('CDU in family ran');
 //   }
 
-//   keyExtractor = (item, index) => index.toString();
-
-//   formatGrid = (data, numColumns) => {
-//     const numFullRows = Math.floor(data.length / numColumns);
-//     let numElementsLastRow = data.length - numFullRows * numColumns;
-//     // while (numElementsLastRow !== numColumns && numElementsLastRow !== 0) {
-//     while (numElementsLastRow !== numColumns) {
-//       data.push({ key: `blank-${numElementsLastRow}`, empty: true });
-//       numElementsLastRow = numElementsLastRow + 1;
-//     }
-//     return data;
-//   };
+//   // findUser = id => {
+//   //   return this.props.users.find(id);
+//   // };
 
 //   renderItem = ({ item }) => {
-//     // if (item.empty === true) {
-//     //   return <View style={[styles.itemInvisible]} />;
-//     // }
 //     return (
 //       <Avatar
-//         keyExtractor={this.keyExtractor}
 //         rounded
 //         overlayContainerStyle={styles.avatar}
 //         size={125}
@@ -60,7 +85,7 @@
 //           uri: item.imgUrl
 //         }}
 //         onPress={() =>
-//           this.props.navigation.navigate("User", {
+//           this.props.navigation.navigate('User', {
 //             firstName: item.firstName,
 //             imgUrl: item.imgUrl
 //           })
@@ -71,20 +96,33 @@
 
 //   render() {
 //     if (this.state.users) {
-//       const user = this.state.users[0];
-//       const family = this.state.users.slice(1, 4);
-//       console.log("users in Family render", this.state.users[0]);
-//       // const userArr = users.slice(0, 1);
-//       // const familyMembers = users.slice(1, 4);
-//       const numColumns = 3;
+//       const users = this.state.users;
+//       const user = this.state.user;
+//       console.log('user in Family render', user);
+//       console.log('users in Family render', users);
+//       // console.log('related in Family render', related);
+//       // const usersFamily = related.map(rel => this.findUser(rel.RelationshipId));
+//       // console.log('usersFamily', usersFamily);
+
 //       return (
 //         <View style={styles.container}>
-//           <FlatList
-//             data={this.formatGrid(this.state.users, numColumns)}
-//             keyExtractor={this.keyExtractor}
-//             renderItem={this.renderItem}
-//             numColumns={numColumns}
-//           />
+//           {/* <View style={styles.col} />
+//           {this.renderItem(related[0])}
+//           <View style={styles.col}>
+//             <View>{this.renderItem(related[1])}</View>
+//             <Avatar
+//               rounded
+//               overlayContainerStyle={styles.avatar}
+//               size={150}
+//               source={{
+//                 uri: `${user.url}`
+//               }}
+//               title={user.firstName.slice(0, 1)}
+//             />
+//             {this.renderItem(related[2])}
+//           </View>
+//           {this.renderItem(related[2])}
+//           <View style={styles.col} /> */}
 //         </View>
 //       );
 //     } else {
@@ -96,31 +134,36 @@
 // const styles = StyleSheet.create({
 //   container: {
 //     flex: 1,
-//     flexDirection: "row",
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
+//     flexDirection: 'row',
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
 //     marginTop: 250
 //   },
 //   avatar: {
 //     borderWidth: 1,
 //     margin: 10
 //   },
-
+//   col: {
+//     flex: 1,
+//     flexDirection: 'column'
+//   },
 //   itemInvisible: {
-//     backgroundColor: "transparent"
+//     backgroundColor: 'transparent'
 //   }
 // });
 
 // const mapDispatchToProps = dispatch => {
 //   return {
-//     fetchUsers: () => dispatch(fetchUsers())
+//     fetchUsers: () => dispatch(fetchUsers()),
+//     fetchUser: id => dispatch(fetchUser(id))
 //   };
 // };
 
-// const mapStateToProps = ({ users }) => {
+// const mapStateToProps = ({ users, user }) => {
 //   return {
-//     users
+//     users,
+//     user
 //   };
 // };
 

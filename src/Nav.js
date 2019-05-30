@@ -11,8 +11,8 @@ import Mood from './Mood';
 import AllPolls from './AllPolls';
 import SinglePoll from './SinglePoll';
 
-// const AppNavigator = createBottomTabNavigator({
-const AppNavigator = createStackNavigator({
+const AppNavigator = createBottomTabNavigator({
+  // const AppNavigator = createStackNavigator({
   'Log In': Login,
   'Sign Up': SignUp,
   Family: Family,
