@@ -14,7 +14,7 @@ class Family extends Component {
   }
   componentDidMount() {
     // this.load();
-    this.loadUser();
+    // this.loadUser();
     this.loadUsers();
     // this.loadRelated();
     // console.log('user in Family CDM', this.state.user);
@@ -40,12 +40,12 @@ class Family extends Component {
   //     });
   // };
 
-  loadUser = () => {
-    const tempUserId = 'feb104b5-bdc0-48eb-9998-9d8794f02b3e';
-    this.props.fetchUser(tempUserId).then(() => {
-      this.setState({ user: this.props.user });
-    });
-  };
+  // loadUser = () => {
+  //   const tempUserId = 'feb104b5-bdc0-48eb-9998-9d8794f02b3e';
+  //   this.props.fetchUser(tempUserId).then(() => {
+  //     this.setState({ user: this.props.user });
+  //   });
+  // };
   loadUsers = () => {
     this.props.fetchUsers().then(() => {
       this.setState({ users: this.props.users });
@@ -95,8 +95,9 @@ class Family extends Component {
   render() {
     if (this.state.users) {
       const users = this.state.users;
-      const user = this.state.user;
-      console.log('user in Family render', user);
+      // const user = this.state.user;
+      // const related = this.state.related;
+      // console.log('user in Family render', user);
       console.log('users in Family render', users);
       // console.log('related in Family render', related);
       // const usersFamily = related.map(rel => this.findUser(rel.RelationshipId));
@@ -153,15 +154,15 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => dispatch(fetchUsers()),
-    fetchUser: id => dispatch(fetchUser(id))
+    fetchUsers: () => dispatch(fetchUsers())
+    // fetchUser: id => dispatch(fetchUser(id)),
+    // fetchRelated: id => dispatch(fetchRelated(id))
   };
 };
 
-const mapStateToProps = ({ users, user }) => {
+const mapStateToProps = ({ users }) => {
   return {
-    users,
-    user
+    users
   };
 };
 

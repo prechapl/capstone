@@ -77,18 +77,20 @@ const userReducer = (state = {}, action) => {
   }
 };
 
-// const relatedReducer = (state = [], action) => {
-//   switch (action.type) {
-//     case GET_RELATED:
-//       return action.related;
-//     default:
-//       return state;
-//   }
-// };
+const relatedReducer = (state = [], action) => {
+  switch (action.type) {
+    case GET_RELATED:
+      return action.related;
+    default:
+      return state;
+  }
+};
 const reducer = combineReducers({
-  users: usersReducer
+  users: usersReducer,
+  user: userReducer,
+  related: relatedReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
-export { store, fetchUsers, fetchUser };
+export { store, fetchUsers, fetchUser, fetchRelated };
