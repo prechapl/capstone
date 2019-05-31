@@ -7,9 +7,6 @@ import { connect } from "react-redux";
 class Family extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   users: []
-    // };
   }
   componentDidMount() {
     this.load();
@@ -17,24 +14,16 @@ class Family extends Component {
   }
 
   load = () => {
-    const id = "feb104b5-bdc0-48eb-9998-9d8794f02b3e";
-    // this.props.fetchUsers();
+    const id = "b40453fe-171e-4eee-8ea2-2efb93e70ad2";
+    this.props.fetchUsers();
     this.props.fetchUser(id);
-    this.props.fetchRelated(id);
   };
-  // load = () => {
-  //   this.props.fetchUsers().then(() => {
-  //     this.setState({ users: this.props.users });
-  //   });
-  // };
 
-  // componentDidUpdate(prevProps) {
-  //   if (this.props.users !== prevProps.users) {
-  //     this.setState({ users: this.props.users });
-  //     console.log('users in Family CDU', this.props.users);
-  //   }
-  //   console.log("update ran");
-  // }
+  findFamily = user => {
+    return this.props.users.filter(
+      usr => usr.familyId === user.familyId && usr.id !== user.id
+    );
+  };
 
   keyExtractor = (item, index) => index.toString();
 
@@ -50,9 +39,9 @@ class Family extends Component {
   };
 
   renderItem = ({ item }) => {
-    // if (item.empty === true) {
-    //   return <View style={[styles.itemInvisible]} />;
-    // }
+    if (item.empty === true) {
+      return <View style={[styles.itemInvisible]} />;
+    }
     return (
       <Avatar
         keyExtractor={this.keyExtractor}
@@ -74,26 +63,14 @@ class Family extends Component {
   };
 
   render() {
-    if (this.props.user.id && this.props.related.length) {
+    if (this.props.user.id && this.props.users.length) {
       const user = this.props.user;
-      const related = this.props.related;
-
-      // const family = this.state.users.slice(1, 4);
-      // console.log('users in Family render', this.state.users);
-      console.log("user in Family render", user);
-      console.log("related in Family render", related);
+      const family = this.findFamily(user);
 
       const numColumns = 3;
+
       return (
         <View style={styles.container}>
-          <Text> redux hell </Text>
-          {/* <FlatList
-            data={this.formatGrid(family, numColumns)}
-            keyExtractor={this.keyExtractor}
-            renderItem={this.renderItem}
-            numColumns={numColumns}
-          /> */}
-
           <View
             style={{
               flex: 1,
@@ -119,12 +96,12 @@ class Family extends Component {
             />
           </View>
           <View style={{ flex: 1, flexDirection: "column" }}>
-            {/* <FlatList
+            <FlatList
               data={this.formatGrid(family, numColumns)}
               keyExtractor={this.keyExtractor}
               renderItem={this.renderItem}
               numColumns={numColumns}
-            /> */}
+            />
           </View>
         </View>
       );
