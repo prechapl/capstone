@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,31 +6,31 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView
-} from 'react-native';
+} from "react-native";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
   input: {
     height: 40,
-    backgroundColor: '#D3D3D4',
+    backgroundColor: "#D3D3D4",
     marginBottom: 20,
     width: 300,
     paddingHorizontal: 10
   },
   button: {
-    backgroundColor: '#448AE6',
+    backgroundColor: "#448AE6",
     padding: 10,
     margin: 10,
     width: 300
   },
   buttonText: {
-    textAlign: 'center',
-    color: '#FFFFFF'
+    textAlign: "center",
+    color: "#FFFFFF"
   },
   header: {
     padding: 10,
@@ -45,14 +45,14 @@ export default class Login extends Component {
     super();
 
     this.state = {
-      email: '',
-      password: ''
+      email: "",
+      password: ""
     };
   }
 
   handleSubmit = (ev, history) => {
-    console.log(this.state);
-    this.props.navigation.navigate('Family');
+    // console.log(this.state);
+    this.props.navigation.navigate("Family");
   };
 
   render() {
@@ -80,7 +80,7 @@ export default class Login extends Component {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('SignUp')}
+            onPress={() => this.props.navigation.navigate("SignUp")}
           >
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>

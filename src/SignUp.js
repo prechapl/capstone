@@ -57,7 +57,7 @@ export default class SignUp extends Component {
   }
 
   handleSubmit = (ev, history) => {
-    console.log(this.state);
+    // console.log(this.state);
     this.props.navigation.navigate("Family");
     this.setState({ page: 1 });
   };

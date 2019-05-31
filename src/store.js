@@ -1,12 +1,12 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import axios from 'axios';
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import thunkMiddleware from "redux-thunk";
+import axios from "axios";
 
 //CONSTANTS
 
-const GET_USERS = 'GET_USERS';
-const GET_USER = 'GET_USERS';
-const GET_RELATED = 'GET_RELATED';
+const GET_USERS = "GET_USERS";
+const GET_USER = "GET_USER";
+const GET_RELATED = "GET_RELATED";
 
 //ACTION CREATORS
 
@@ -29,7 +29,7 @@ const getRelated = related => ({
 const fetchUsers = () => {
   return dispatch => {
     return axios
-      .get('https://capstone-api-server.herokuapp.com/api/users/')
+      .get("https://capstone-api-server.herokuapp.com/api/users/")
       .then(response => response.data)
       .then(users => dispatch(getUsers(users)))
       .catch(error => console.log(error));
@@ -87,11 +87,11 @@ const relatedReducer = (state = [], action) => {
 };
 
 const reducer = combineReducers({
-  users: usersReducer
-  // user: userReducer,
-  // related: relatedReducer
+  users: usersReducer,
+  user: userReducer,
+  related: relatedReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
-export { store, fetchUsers };
+export { store, fetchUsers, fetchUser, fetchRelated };

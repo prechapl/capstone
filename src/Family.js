@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import { fetchUsers } from './store';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { Avatar } from "react-native-elements";
+import { fetchUsers, fetchUser, fetchRelated } from "./store";
+import { connect } from "react-redux";
 
 class Family extends Component {
   constructor() {
     super();
-    this.state = {
-      users: []
-    };
+    // this.state = {
+    //   users: []
+    // };
   }
   componentDidMount() {
     this.load();
@@ -17,18 +17,24 @@ class Family extends Component {
   }
 
   load = () => {
-    this.props.fetchUsers().then(() => {
-      this.setState({ users: this.props.users });
-    });
+    const id = "feb104b5-bdc0-48eb-9998-9d8794f02b3e";
+    // this.props.fetchUsers();
+    this.props.fetchUser(id);
+    this.props.fetchRelated(id);
   };
+  // load = () => {
+  //   this.props.fetchUsers().then(() => {
+  //     this.setState({ users: this.props.users });
+  //   });
+  // };
 
-  componentDidUpdate(prevProps) {
-    if (this.props.users !== prevProps.users) {
-      this.setState({ users: this.props.users });
-      // console.log('users in Family CDU', this.props.users);
-    }
-    console.log('update ran');
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.users !== prevProps.users) {
+  //     this.setState({ users: this.props.users });
+  //     console.log('users in Family CDU', this.props.users);
+  //   }
+  //   console.log("update ran");
+  // }
 
   keyExtractor = (item, index) => index.toString();
 
@@ -58,7 +64,7 @@ class Family extends Component {
           uri: item.imgUrl
         }}
         onPress={() =>
-          this.props.navigation.navigate('User', {
+          this.props.navigation.navigate("User", {
             firstName: item.firstName,
             imgUrl: item.imgUrl
           })
@@ -68,30 +74,19 @@ class Family extends Component {
   };
 
   render() {
-    if (this.state.users) {
-      // const user = this.state.users[0];
-      const user = {
-        age: 30,
-        createdAt: '2019-05-30T01:44:03.795Z',
-        email: 'Stan_Sauer@yahoo.com',
-        familyId: '00497908-be04-4b9a-9532-c87a3660302f',
-        firstName: 'Gerard',
-        id: 'feb104b5-bdc0-48eb-9998-9d8794f02b3e',
-        imgUrl:
-          'https://s3.amazonaws.com/uifaces/faces/twitter/bistrianiosip/128.jpg',
-        isAdmin: true,
-        lastName: 'Willms',
-        password: 'tH1s1sVal1d!',
-        updatedAt: '2019-05-30T01:44:03.795Z'
-      };
-      const family = this.state.users.slice(1, 4);
+    if (this.props.user.id && this.props.related.length) {
+      const user = this.props.user;
+      const related = this.props.related;
+
+      // const family = this.state.users.slice(1, 4);
       // console.log('users in Family render', this.state.users);
-      // console.log('user in Family render', user.age);
-      // console.log('family in Family render', family);
+      console.log("user in Family render", user);
+      console.log("related in Family render", related);
 
       const numColumns = 3;
       return (
         <View style={styles.container}>
+          <Text> redux hell </Text>
           {/* <FlatList
             data={this.formatGrid(family, numColumns)}
             keyExtractor={this.keyExtractor}
@@ -102,9 +97,9 @@ class Family extends Component {
           <View
             style={{
               flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center'
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
             <Avatar
@@ -116,20 +111,20 @@ class Family extends Component {
                 uri: user.imgUrl
               }}
               onPress={() =>
-                this.props.navigation.navigate('User', {
+                this.props.navigation.navigate("User", {
                   firstName: user.firstName,
                   imgUrl: user.imgUrl
                 })
               }
             />
           </View>
-          <View style={{ flex: 1, flexDirection: 'column' }}>
-            <FlatList
+          <View style={{ flex: 1, flexDirection: "column" }}>
+            {/* <FlatList
               data={this.formatGrid(family, numColumns)}
               keyExtractor={this.keyExtractor}
               renderItem={this.renderItem}
               numColumns={numColumns}
-            />
+            /> */}
           </View>
         </View>
       );
@@ -142,10 +137,10 @@ class Family extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
     // marginTop: 250
   },
   avatar: {
@@ -154,19 +149,23 @@ const styles = StyleSheet.create({
   },
 
   itemInvisible: {
-    backgroundColor: 'transparent'
+    backgroundColor: "transparent"
   }
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => dispatch(fetchUsers())
+    fetchUsers: () => dispatch(fetchUsers()),
+    fetchUser: id => dispatch(fetchUser(id)),
+    fetchRelated: id => dispatch(fetchRelated(id))
   };
 };
 
-const mapStateToProps = ({ users }) => {
+const mapStateToProps = ({ users, user, related }) => {
   return {
-    users
+    users,
+    user,
+    related
   };
 };
 
