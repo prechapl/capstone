@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,37 +6,37 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView
-} from 'react-native';
+} from "react-native";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
   input: {
     height: 40,
-    backgroundColor: '#D3D3D4',
+    backgroundColor: "#D3D3D4",
     marginBottom: 20,
     width: 300,
     paddingHorizontal: 10
   },
   button: {
-    backgroundColor: '#448AE6',
+    backgroundColor: "#448AE6",
     padding: 10,
     width: 300,
     margin: 10
   },
   buttonText: {
-    textAlign: 'center',
-    color: '#FFFFFF'
+    textAlign: "center",
+    color: "#FFFFFF"
   },
   header: {
     padding: 10,
     margin: 10,
-    fontSize: 50,
-    fontFamily: 'AmericanTypewriter-Condensed'
+    fontSize: 50
+    // fontFamily: 'AmericanTypewriter-Condensed'
   }
 });
 
@@ -45,20 +45,20 @@ export default class SignUp extends Component {
     super();
 
     this.state = {
-      firstName: '',
-      lastName: '',
-      age: '',
-      email: '',
-      password: '',
-      image: '',
-      familyCode: '',
+      firstName: "",
+      lastName: "",
+      age: "",
+      email: "",
+      password: "",
+      image: "",
+      familyCode: "",
       page: 1
     };
   }
 
   handleSubmit = (ev, history) => {
-    console.log(this.state);
-    this.props.navigation.navigate('Family');
+    // console.log(this.state);
+    this.props.navigation.navigate("Family");
     this.setState({ page: 1 });
   };
 

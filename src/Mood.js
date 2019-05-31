@@ -2,27 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Avatar, Button, Slider } from 'react-native-elements';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  avatar: {
-    borderWidth: 1
-  },
-  col: {
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  fitButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
-});
-
 export default class Mood extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +13,6 @@ export default class Mood extends React.Component {
     const { navigation } = this.props;
     const userTitle = navigation.getParam('firstName', 'no name');
     const url = navigation.getParam('imgUrl', 'no url');
-    // console.log("in mood render", this.props.navigation);
 
     return (
       <View
@@ -48,19 +26,22 @@ export default class Mood extends React.Component {
       >
         <View
           style={{
-            flex: 1,
-            alignItems: 'stretch',
+            width: 300,
+            paddingTop: 100,
+            paddingBottom: 50,
+            // alignItems: 'stretch',
             justifyContent: 'center'
           }}
         >
-          <Text>Mood Meter: {this.state.mood}</Text>
           <Slider
             value={this.state.mood}
             onValueChange={value => this.setState({ mood: value })}
+            // debugTouchArea={true}
           />
+          <Text>Mood Meter: {this.state.mood}</Text>
         </View>
 
-        <View style={{ flex: 1, flexDirection: 'row', marginTop: 5 }}>
+        <View style={{ marginTop: 5 }}>
           <Avatar
             rounded
             overlayContainerStyle={styles.avatar}
@@ -71,7 +52,7 @@ export default class Mood extends React.Component {
             title={userTitle.slice(0, 1)}
           />
         </View>
-        <View style={styles.row}>
+        <View style={{}}>
           <Button
             title="Family"
             onPress={() => this.props.navigation.navigate('Family')}
@@ -94,3 +75,24 @@ export default class Mood extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  avatar: {
+    borderWidth: 1
+  },
+  col: {
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  fitButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
+});
