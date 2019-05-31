@@ -29,7 +29,7 @@ class User extends React.Component {
     const { navigation } = this.props;
     const userTitle = navigation.getParam('firstName', 'no name');
     const url = navigation.getParam('imgUrl', 'no url');
-    // console.log("url in User", url);
+    // console.log('navigation.getParam', navigation);
 
     return (
       <View style={styles.container}>
@@ -43,7 +43,12 @@ class User extends React.Component {
           <View style={styles.fitButton}>
             <Button
               title="Mood"
-              onPress={() => this.props.navigation.navigate('Mood')}
+              onPress={() =>
+                this.props.navigation.navigate('Mood', {
+                  firstName: userTitle,
+                  imgUrl: url
+                })
+              }
               buttonStyle={{ backgroundColor: '#FF9900', margin: 24 }}
             />
           </View>
