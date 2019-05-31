@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,59 +6,27 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView
-} from "react-native";
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  input: {
-    height: 40,
-    backgroundColor: "#D3D3D4",
-    marginBottom: 20,
-    width: 300,
-    paddingHorizontal: 10
-  },
-  button: {
-    backgroundColor: "#448AE6",
-    padding: 10,
-    width: 300,
-    margin: 10
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "#FFFFFF"
-  },
-  header: {
-    padding: 10,
-    margin: 10,
-    fontSize: 50
-    // fontFamily: 'AmericanTypewriter-Condensed'
-  }
-});
+} from 'react-native';
 
 export default class SignUp extends Component {
   constructor() {
     super();
 
     this.state = {
-      firstName: "",
-      lastName: "",
-      age: "",
-      email: "",
-      password: "",
-      image: "",
-      familyCode: "",
+      firstName: '',
+      lastName: '',
+      age: '',
+      email: '',
+      password: '',
+      image: '',
+      familyCode: '',
       page: 1
     };
   }
 
   handleSubmit = (ev, history) => {
     // console.log(this.state);
-    this.props.navigation.navigate("Family");
+    this.props.navigation.navigate('Family');
     this.setState({ page: 1 });
   };
 
@@ -79,7 +47,10 @@ export default class SignUp extends Component {
       return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
-            <Text style={styles.header}>Mend</Text>
+            <Text style={styles.header}>Mender</Text>
+            <Text style={{ fontSize: 12, marginBottom: 16 }}>
+              sign up for a free account
+            </Text>
             <TextInput
               style={styles.input}
               placeholder="First Name"
@@ -98,8 +69,8 @@ export default class SignUp extends Component {
               onChangeText={age => this.setState({ age })}
             />
 
-            <TouchableOpacity style={styles.button} onPress={this.nextPage}>
-              <Text style={styles.buttonText}>Next</Text>
+            <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
+              <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
@@ -185,3 +156,34 @@ export default class SignUp extends Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  input: {
+    height: 40,
+    backgroundColor: '#D3D3D4',
+    marginBottom: 20,
+    width: 300,
+    paddingHorizontal: 10
+  },
+  button: {
+    backgroundColor: '#448AE6',
+    padding: 10,
+    width: 300,
+    margin: 10
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: '#FFFFFF'
+  },
+  header: {
+    padding: 10,
+    marginBottom: 30,
+    fontSize: 75
+  }
+});
