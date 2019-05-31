@@ -3,27 +3,39 @@ import thunkMiddleware from "redux-thunk";
 import axios from "axios";
 
 //CONSTANTS
-
 const GET_USERS = "GET_USERS";
 const GET_USER = "GET_USER";
 const GET_RELATED = "GET_RELATED";
+const SET_MOOD = "SET_MOOD";
+const GET_MOOD = "GET_MOOD";
+const GET_MOODS = "GET_MOOD";
 
 //ACTION CREATORS
-
 const getUsers = users => ({
   type: GET_USERS,
   users
 });
-
 const getUser = user => ({
   type: GET_USER,
   user
 });
-
 const getRelated = related => ({
   type: GET_RELATED,
   related
 });
+const setMood = mood => ({
+  type: SET_MOOD,
+  mood
+});
+const getMood = mood => ({
+  type: GET_MOOD,
+  mood
+});
+const getMoods = moods => ({
+  type: GET_MOODS,
+  moods
+});
+
 //THUNKS
 
 const fetchUsers = () => {
@@ -57,6 +69,42 @@ const fetchRelated = id => {
       .catch(error => console.log(error));
   };
 };
+
+const setActiveMood = (id, value) => {
+  return dispatch => {
+    return axios
+      .post(
+        `https://capstone-api-server.herokuapp.com/api/moods/${id}/${value}`,
+        value
+      )
+      .then(response => response.data)
+      .then(data => {
+        dispatch(setMood(data));
+      })
+      .catch(e => console.log(e));
+  };
+};
+
+const getActiveMood = id => {
+  return dispatch => {
+    return axios
+      .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}`)
+      .then(response => response.data)
+      .then(data => {
+        dispatch(getMood(data));
+      });
+  };
+};
+const getAllMoods = id => {
+  return dispatch => {
+    return axios
+      .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}/all`)
+      .then(response => response.data)
+      .then(data => {
+        dispatch(getMoods(data));
+      });
+  };
+};
 //REDUCERS
 
 const usersReducer = (state = [], action) => {
@@ -85,13 +133,34 @@ const relatedReducer = (state = [], action) => {
       return state;
   }
 };
+const moodReducer = (state = [], action) => {
+  switch (action.type) {
+    case SET_MOOD:
+      return action.mood;
+    case GET_MOOD:
+      return action.mood;
+    case GET_MOODS:
+      return action.moods;
+    default:
+      return state;
+  }
+};
 
 const reducer = combineReducers({
   users: usersReducer,
   user: userReducer,
-  related: relatedReducer
+  related: relatedReducer,
+  mood: moodReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
-export { store, fetchUsers, fetchUser, fetchRelated };
+export {
+  store,
+  fetchUsers,
+  fetchUser,
+  fetchRelated,
+  setActiveMood,
+  getActiveMood,
+  getAllMoods
+};

@@ -1,55 +1,35 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Avatar, Button } from 'react-native-elements';
-import { withNavigation } from 'react-navigation';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  avatar: {
-    borderWidth: 1
-  },
-  col: {
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  fitButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
-});
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Avatar, Button } from "react-native-elements";
+import { withNavigation } from "react-navigation";
 
 class User extends React.Component {
   render() {
     const { navigation } = this.props;
-    const userTitle = navigation.getParam('firstName', 'no name');
-    const url = navigation.getParam('imgUrl', 'no url');
-    // console.log('navigation.getParam', navigation);
+    const userTitle = navigation.getParam("firstName", "no name");
+    const url = navigation.getParam("imgUrl", "no url");
+    // console.log("navigation.getParam", navigation);
 
     return (
       <View style={styles.container}>
         <View style={styles.col} />
         <Button
           title="Family"
-          onPress={() => this.props.navigation.navigate('Family')}
-          buttonStyle={{ backgroundColor: '#8EB51A', margin: 24 }}
+          onPress={() => this.props.navigation.navigate("Family")}
+          buttonStyle={{ backgroundColor: "#8EB51A", margin: 24 }}
         />
         <View style={styles.col}>
           <View style={styles.fitButton}>
             <Button
               title="Mood"
               onPress={() =>
-                this.props.navigation.navigate('Mood', {
+                this.props.navigation.navigate("Mood", {
                   firstName: userTitle,
-                  imgUrl: url
+                  imgUrl: url,
+                  id: "b40453fe-171e-4eee-8ea2-2efb93e70ad2"
                 })
               }
-              buttonStyle={{ backgroundColor: '#FF9900', margin: 24 }}
+              buttonStyle={{ backgroundColor: "#FF9900", margin: 24 }}
             />
           </View>
           <Avatar
@@ -63,14 +43,14 @@ class User extends React.Component {
           />
           <Button
             title="Values"
-            onPress={() => this.props.navigation.navigate('Values')}
-            buttonStyle={{ backgroundColor: '#7DC6CD', margin: 24 }}
+            onPress={() => this.props.navigation.navigate("Values")}
+            buttonStyle={{ backgroundColor: "#7DC6CD", margin: 24 }}
           />
         </View>
         <Button
           title="Events"
-          onPress={() => this.props.navigation.navigate('Events')}
-          buttonStyle={{ backgroundColor: '#EF5029', margin: 24 }}
+          onPress={() => this.props.navigation.navigate("Events")}
+          buttonStyle={{ backgroundColor: "#EF5029", margin: 24 }}
         />
         <View style={styles.col} />
       </View>
@@ -79,6 +59,27 @@ class User extends React.Component {
 }
 
 export default withNavigation(User);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  avatar: {
+    borderWidth: 1
+  },
+  col: {
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  fitButton: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  }
+});
 
 //testing connecting lines
 
