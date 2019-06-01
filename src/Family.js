@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { Avatar } from "react-native-elements";
 import { fetchUsers, fetchUser, fetchRelated } from "./store";
 import { connect } from "react-redux";
@@ -8,9 +8,9 @@ class Family extends Component {
   constructor() {
     super();
   }
+
   componentDidMount() {
     this.load();
-    // console.log('users in Family CDM', this.state.users);
   }
 
   load = () => {
@@ -25,7 +25,7 @@ class Family extends Component {
     );
   };
 
-  keyExtractor = (item, index) => index.toString();
+  // begin >> create family grid layout <<
 
   formatGrid = (data, numColumns) => {
     const numFullRows = Math.floor(data.length / numColumns);
@@ -38,15 +38,26 @@ class Family extends Component {
     return data;
   };
 
+  keyExtractor = index => index.toString();
+
   renderItem = ({ item }) => {
     if (item.empty === true) {
-      return <View style={[styles.itemInvisible]} />;
+      return (
+        <View
+          style={{
+            backgroundColor: "transparent"
+          }}
+        />
+      );
     }
     return (
       <Avatar
         keyExtractor={this.keyExtractor}
         rounded
-        overlayContainerStyle={styles.avatar}
+        overlayContainerStyle={{
+          borderWidth: 1,
+          margin: 10
+        }}
         size={125}
         title={item.firstName}
         source={{
@@ -62,6 +73,8 @@ class Family extends Component {
     );
   };
 
+  // end >> create family grid layout <<
+
   render() {
     if (this.props.user.id && this.props.users.length) {
       const user = this.props.user;
@@ -70,7 +83,15 @@ class Family extends Component {
       const numColumns = 3;
 
       return (
-        <View style={styles.container}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            backgroundColor: "#fff",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
           <View
             style={{
               flex: 1,
@@ -90,7 +111,8 @@ class Family extends Component {
               onPress={() =>
                 this.props.navigation.navigate("User", {
                   firstName: user.firstName,
-                  imgUrl: user.imgUrl
+                  imgUrl: user.imgUrl,
+                  userID: user.id
                 })
               }
             />
@@ -110,25 +132,6 @@ class Family extends Component {
     }
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-    // marginTop: 250
-  },
-  avatar: {
-    borderWidth: 1,
-    margin: 10
-  },
-
-  itemInvisible: {
-    backgroundColor: "transparent"
-  }
-});
 
 const mapDispatchToProps = dispatch => {
   return {
