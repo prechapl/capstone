@@ -63,7 +63,7 @@ class Mood extends React.Component {
             }}
           >
             <Slider
-              value={this.state.mood}
+              value={this.props.mood.value}
               step={0.2}
               onValueChange={value => this.setState({ mood: value })}
               // onSlidingComplete={() => console.log("onSlidingComplete!")}
@@ -73,7 +73,10 @@ class Mood extends React.Component {
 
               // debugTouchArea={true}
             />
-            <Text>Mood Meter: {String(this.state.mood).slice(0, 3)}</Text>
+            {/* <Text>Mood Meter: {String(this.state.mood).slice(0, 3)}</Text> */}
+            <Text style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+              Mood Meter: {this.props.mood.value}
+            </Text>
           </View>
 
           <View style={{ marginTop: 5 }}>
