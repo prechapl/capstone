@@ -8,10 +8,6 @@ class User extends React.Component {
     const { navigation } = this.props;
     const userTitle = navigation.getParam("firstName", "no name");
     const url = navigation.getParam("imgUrl", "no url");
-    // console.log(
-    //   "navigation.getParam in User",
-    //   navigation.getParam("userId", "no id")
-    // );
 
     return (
       <View style={styles.container}>

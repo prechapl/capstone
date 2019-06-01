@@ -2,8 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar, Button, Slider } from "react-native-elements";
 import { connect } from "react-redux";
-import { setActiveMood } from "./store";
-// , getActiveMood,getAllMoods
+import { setActiveMood, getActiveMood, getAllMoods } from "./store";
 
 class Mood extends React.Component {
   constructor(props) {
@@ -13,88 +12,101 @@ class Mood extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.load();
-  // }
+  componentDidMount() {
+    this.load();
+    console.log("mount ran");
+  }
 
-  // load = () => {
-  //   // this.props.getActiveMood();
-  //   // this.props.getAllMoods();
-  //   this.props.setActiveMood();
-  // };
+  componentDidUpdate(prevProps) {
+    if (this.props.mood.id !== prevProps.mood.id) {
+      console.log("update ran");
+      this.load();
+    }
+  }
+
+  load = () => {
+    this.props.getActiveMood(this.props.navigation.getParam("userId", "no id"));
+    // this.props.getAllMoods(this.props.navigation.getParam("userId", "no id"));
+    // this.props.setActiveMood();
+  };
 
   render() {
     const { navigation } = this.props;
     const userTitle = navigation.getParam("firstName", "no name");
     const url = navigation.getParam("imgUrl", "no url");
     const id = navigation.getParam("userId", "no id");
-    console.log("id", id);
-
-    return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          backgroundColor: "#fff",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
+    // console.log("moods", this.props.moods);
+    if (this.props.mood.length) {
+      // console.log("mood", this.props.mood);
+      return (
         <View
           style={{
-            width: 300,
-            paddingTop: 100,
-            paddingBottom: 50,
-            // alignItems: 'stretch',
+            flex: 1,
+            flexDirection: "column",
+            backgroundColor: "#fff",
+            alignItems: "center",
             justifyContent: "center"
           }}
         >
-          <Slider
-            value={this.state.mood}
-            step={0.2}
-            onValueChange={value => this.setState({ mood: value })}
-            // onSlidingComplete={() => console.log("onSlidingComplete!")}
-            onSlidingComplete={() =>
-              this.props.setActiveMood(id, this.state.mood)
-            }
-
-            // debugTouchArea={true}
-          />
-          <Text>Mood Meter: {this.state.mood}</Text>
-        </View>
-
-        <View style={{ marginTop: 5 }}>
-          <Avatar
-            rounded
-            overlayContainerStyle={styles.avatar}
-            size={150}
-            source={{
-              uri: `${url}`
+          {/* <Text>{this.props.mood[0].value}</Text> */}
+          <View
+            style={{
+              width: 300,
+              paddingTop: 100,
+              paddingBottom: 50,
+              // alignItems: 'stretch',
+              justifyContent: "center"
             }}
-            title={userTitle.slice(0, 1)}
-          />
-        </View>
-        <View style={{}}>
-          <Button
-            title="Family"
-            onPress={() => this.props.navigation.navigate("Family")}
-            buttonStyle={{ backgroundColor: "#8EB51A", margin: 24 }}
-          />
+          >
+            <Slider
+              value={this.state.mood}
+              step={0.2}
+              onValueChange={value => this.setState({ mood: value })}
+              // onSlidingComplete={() => console.log("onSlidingComplete!")}
+              onSlidingComplete={() =>
+                this.props.setActiveMood(id, this.state.mood)
+              }
 
-          <Button
-            title="Values"
-            onPress={() => this.props.navigation.navigate("Values")}
-            buttonStyle={{ backgroundColor: "#7DC6CD", margin: 24 }}
-          />
+              // debugTouchArea={true}
+            />
+            <Text>Mood Meter: {this.state.mood}</Text>
+          </View>
 
-          <Button
-            title="Events"
-            onPress={() => this.props.navigation.navigate("Events")}
-            buttonStyle={{ backgroundColor: "#EF5029", margin: 24 }}
-          />
+          <View style={{ marginTop: 5 }}>
+            <Avatar
+              rounded
+              overlayContainerStyle={styles.avatar}
+              size={150}
+              source={{
+                uri: `${url}`
+              }}
+              title={userTitle.slice(0, 1)}
+            />
+          </View>
+          <View style={{}}>
+            <Button
+              title="Family"
+              onPress={() => this.props.navigation.navigate("Family")}
+              buttonStyle={{ backgroundColor: "#8EB51A", margin: 24 }}
+            />
+
+            <Button
+              title="Values"
+              onPress={() => this.props.navigation.navigate("Values")}
+              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 24 }}
+            />
+
+            <Button
+              title="Events"
+              onPress={() => this.props.navigation.navigate("Events")}
+              buttonStyle={{ backgroundColor: "#EF5029", margin: 24 }}
+            />
+          </View>
         </View>
-      </View>
-    );
+      );
+    } else {
+      return null;
+    }
   }
 }
 
@@ -121,22 +133,19 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    // setActiveMood: (userId, value) =>
-    // console.log("in mood dispatch", userId, value)
-    setActiveMood: (userId, value) => dispatch(setActiveMood(userId, value))
-    // getActiveMood: id => dispatch(getActiveMood(id)),
+    setActiveMood: (userId, value) => dispatch(setActiveMood(userId, value)),
+    getActiveMood: id => dispatch(getActiveMood(id))
     // getAllMoods: id => dispatch(getAllMoods(id))
   };
 };
 
-// const mapStateToProps = ({ mood, moods }) => {
-//   return {
-//     mood,
-//     moods
-//   };
-// };
+const mapStateToProps = ({ mood }) => {
+  return {
+    mood
+  };
+};
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Mood);

@@ -7,8 +7,8 @@ const GET_USERS = "GET_USERS";
 const GET_USER = "GET_USER";
 const GET_RELATED = "GET_RELATED";
 const SET_MOOD = "SET_MOOD";
-// const GET_MOOD = "GET_MOOD";
-// const GET_MOODS = "GET_MOOD";
+const GET_MOOD = "GET_MOOD";
+const GET_MOODS = "GET_MOODS";
 
 //ACTION CREATORS
 const getUsers = users => ({
@@ -27,14 +27,14 @@ const setMood = mood => ({
   type: SET_MOOD,
   mood
 });
-// const getMood = mood => ({
-//   type: GET_MOOD,
-//   mood
-// });
-// const getMoods = moods => ({
-//   type: GET_MOODS,
-//   moods
-// });
+const getMood = mood => ({
+  type: GET_MOOD,
+  mood
+});
+const getMoods = moods => ({
+  type: GET_MOODS,
+  moods
+});
 
 //THUNKS
 
@@ -84,29 +84,25 @@ const setActiveMood = (userId, value) => {
   };
 };
 
-// const getActiveMood = id => {
-//   return dispatch => {
-//     return axios
-//       .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}`)
-//       .then(response => response.data)
-//       .then(data => {
-//         dispatch(getMood(data));
-//       })
-//       .catch(e => console.log(e));
-//   };
-// };
+const getActiveMood = id => {
+  return dispatch => {
+    return axios
+      .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}`)
+      .then(response => response.data)
+      .then(data => dispatch(getMood(data)))
+      .catch(e => console.log(e));
+  };
+};
 
-// const getAllMoods = id => {
-//   return dispatch => {
-//     return axios
-//       .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}/all`)
-//       .then(response => response.data)
-//       .then(data => {
-//         dispatch(getMoods(data));
-//       })
-//       .catch(e => console.log(e));
-//   };
-// };
+const getAllMoods = id => {
+  return dispatch => {
+    return axios
+      .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}/all`)
+      .then(response => response.data)
+      .then(data => dispatch(getMoods(data)))
+      .catch(e => console.log(e));
+  };
+};
 //REDUCERS
 
 const usersReducer = (state = [], action) => {
@@ -139,10 +135,10 @@ const moodReducer = (state = [], action) => {
   switch (action.type) {
     case SET_MOOD:
       return action.mood;
-    // case GET_MOOD:
-    //   return action.mood;
-    // case GET_MOODS:
-    //   return action.moods;
+    case GET_MOOD:
+      return action.mood;
+    case GET_MOODS:
+      return action.moods;
     default:
       return state;
   }
@@ -162,7 +158,7 @@ export {
   fetchUsers,
   fetchUser,
   fetchRelated,
-  setActiveMood
-  // getActiveMood,
-  // getAllMoods
+  setActiveMood,
+  getActiveMood,
+  getAllMoods
 };
