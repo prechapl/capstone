@@ -30,7 +30,30 @@ class Mood extends React.Component {
     this.props.getAllMoods(this.props.navigation.getParam('userId', 'no id'));
   };
 
+  findColor = value => {
+    const colors = {
+      0.0: '#FF2A00',
+      0.25: '#E68200',
+      0.5: '#FAD400',
+      0.75: '#80E600',
+      1.0: '#00FF53'
+    };
+    return colors[value];
+  };
+
+  findMood = value => {
+    const feelings = {
+      0.0: 'bad',
+      0.25: 'kinda bad',
+      0.5: 'neutral',
+      0.75: 'pretty good',
+      1.0: 'excellent'
+    };
+    return feelings[value];
+  };
+
   render() {
+    console.log('color', this.findColor(0.25));
     const { navigation } = this.props;
     const userTitle = navigation.getParam('firstName', 'no name');
     const url = navigation.getParam('imgUrl', 'no url');
@@ -49,14 +72,23 @@ class Mood extends React.Component {
         >
           <Text>active mood value: {this.props.mood.value}</Text>
           <Text>
-            mood set: {this.props.mood.createdAt.slice(0, 10)} @{' '}
+            date set: {this.props.mood.createdAt.slice(0, 10)} @{' '}
             {this.props.mood.createdAt.slice(11, 19)}
           </Text>
           <Text>previous mood entries: {this.props.moods.length}</Text>
+          <Text
+            style={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              marginTop: 66
+            }}
+          >
+            My mood is {this.findMood(this.props.mood.value)}
+          </Text>
           <View
             style={{
               width: 300,
-              paddingTop: 100,
+              paddingTop: 50,
               paddingBottom: 50,
               // alignItems: 'stretch',
               justifyContent: 'center'
@@ -64,19 +96,22 @@ class Mood extends React.Component {
           >
             <Slider
               value={this.props.mood.value}
-              step={0.2}
+              step={0.25}
               onValueChange={value => this.setState({ mood: value })}
-              // onSlidingComplete={() => console.log("onSlidingComplete!")}
               onSlidingComplete={() =>
                 this.props.setActiveMood(id, this.state.mood)
               }
-
+              thumbStyle={{
+                height: 80,
+                width: 80,
+                borderRadius: 40
+              }}
+              thumbTintColor={this.findColor(this.props.mood.value)}
+              thumbTouchSize={{ width: 120, height: 120 }}
+              minimumTrackTintColor={this.findColor(this.props.mood.value)}
+              // maximumTrackTintColor="#D9241A"
               // debugTouchArea={true}
             />
-            {/* <Text>Mood Meter: {String(this.state.mood).slice(0, 3)}</Text> */}
-            <Text style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-              Mood Meter: {this.props.mood.value}
-            </Text>
           </View>
 
           <View style={{ marginTop: 5 }}>
