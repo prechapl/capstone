@@ -2,7 +2,8 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar, Button, Slider } from "react-native-elements";
 import { connect } from "react-redux";
-import { setActiveMood, getActiveMood, getAllMoods } from "./store";
+import { setActiveMood } from "./store";
+// , getActiveMood,getAllMoods
 
 class Mood extends React.Component {
   constructor(props) {
@@ -12,19 +13,21 @@ class Mood extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.load();
-  }
+  // componentDidMount() {
+  //   this.load();
+  // }
 
-  load = () => {
-    this.props.getActiveMood(id);
-    this.props.getAllMoods(id);
-  };
+  // load = () => {
+  //   // this.props.getActiveMood();
+  //   // this.props.getAllMoods();
+  //   this.props.setActiveMood();
+  // };
+
   render() {
     const { navigation } = this.props;
     const userTitle = navigation.getParam("firstName", "no name");
     const url = navigation.getParam("imgUrl", "no url");
-    const id = navigation.getParam("id", "no id");
+    const id = navigation.getParam("userId", "no id");
     console.log("id", id);
 
     return (
@@ -51,7 +54,9 @@ class Mood extends React.Component {
             step={0.2}
             onValueChange={value => this.setState({ mood: value })}
             // onSlidingComplete={() => console.log("onSlidingComplete!")}
-            onSlidingComplete={value => this.props.setActiveMood(id, value)}
+            onSlidingComplete={() =>
+              this.props.setActiveMood(id, this.state.mood)
+            }
 
             // debugTouchArea={true}
           />
@@ -116,20 +121,22 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    setActiveMood: (id, value) => dispatch(setActiveMood(id, value)),
-    getActiveMood: id => dispatch(getActiveMood(id)),
-    getAllMoods: id => dispatch(getAllMoods(id))
+    // setActiveMood: (userId, value) =>
+    // console.log("in mood dispatch", userId, value)
+    setActiveMood: (userId, value) => dispatch(setActiveMood(userId, value))
+    // getActiveMood: id => dispatch(getActiveMood(id)),
+    // getAllMoods: id => dispatch(getAllMoods(id))
   };
 };
 
-const mapStateToProps = ({ mood, moods }) => {
-  return {
-    mood,
-    moods
-  };
-};
+// const mapStateToProps = ({ mood, moods }) => {
+//   return {
+//     mood,
+//     moods
+//   };
+// };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Mood);

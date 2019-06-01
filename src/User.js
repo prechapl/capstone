@@ -8,7 +8,10 @@ class User extends React.Component {
     const { navigation } = this.props;
     const userTitle = navigation.getParam("firstName", "no name");
     const url = navigation.getParam("imgUrl", "no url");
-    // console.log("navigation.getParam", navigation);
+    // console.log(
+    //   "navigation.getParam in User",
+    //   navigation.getParam("userId", "no id")
+    // );
 
     return (
       <View style={styles.container}>
@@ -26,7 +29,7 @@ class User extends React.Component {
                 this.props.navigation.navigate("Mood", {
                   firstName: userTitle,
                   imgUrl: url,
-                  id: "b40453fe-171e-4eee-8ea2-2efb93e70ad2"
+                  userId: "b40453fe-171e-4eee-8ea2-2efb93e70ad2"
                 })
               }
               buttonStyle={{ backgroundColor: "#FF9900", margin: 24 }}

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import { fetchUsers, fetchUser, fetchRelated } from './store';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { FlatList, View } from "react-native";
+import { Avatar } from "react-native-elements";
+import { fetchUsers, fetchUser, fetchRelated } from "./store";
+import { connect } from "react-redux";
 
 class Family extends Component {
   constructor() {
@@ -14,7 +14,7 @@ class Family extends Component {
   }
 
   load = () => {
-    const id = 'b40453fe-171e-4eee-8ea2-2efb93e70ad2';
+    const id = "b40453fe-171e-4eee-8ea2-2efb93e70ad2";
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
@@ -45,7 +45,7 @@ class Family extends Component {
       return (
         <View
           style={{
-            backgroundColor: 'transparent'
+            backgroundColor: "transparent"
           }}
         />
       );
@@ -64,7 +64,7 @@ class Family extends Component {
           uri: item.imgUrl
         }}
         onPress={() =>
-          this.props.navigation.navigate('User', {
+          this.props.navigation.navigate("User", {
             firstName: item.firstName,
             imgUrl: item.imgUrl
           })
@@ -86,18 +86,18 @@ class Family extends Component {
         <View
           style={{
             flex: 1,
-            flexDirection: 'column',
-            backgroundColor: '#fff',
-            alignItems: 'center',
-            justifyContent: 'center'
+            flexDirection: "column",
+            backgroundColor: "#fff",
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
           <View
             style={{
               flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center'
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
             <Avatar
@@ -109,14 +109,15 @@ class Family extends Component {
                 uri: user.imgUrl
               }}
               onPress={() =>
-                this.props.navigation.navigate('User', {
+                this.props.navigation.navigate("User", {
                   firstName: user.firstName,
-                  imgUrl: user.imgUrl
+                  imgUrl: user.imgUrl,
+                  userID: user.id
                 })
               }
             />
           </View>
-          <View style={{ flex: 1, flexDirection: 'column' }}>
+          <View style={{ flex: 1, flexDirection: "column" }}>
             <FlatList
               data={this.formatGrid(family, numColumns)}
               keyExtractor={this.keyExtractor}
