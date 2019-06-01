@@ -31,7 +31,6 @@ const UserNavigator = createStackNavigator({
 
 const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
-  // Family: Family,
   User: UserNavigator,
   Polls: PollsNavigator
 });

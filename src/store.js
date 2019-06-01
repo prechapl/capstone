@@ -1,14 +1,14 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import thunkMiddleware from "redux-thunk";
-import axios from "axios";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import axios from 'axios';
 
 //CONSTANTS
-const GET_USERS = "GET_USERS";
-const GET_USER = "GET_USER";
-const GET_RELATED = "GET_RELATED";
-const SET_MOOD = "SET_MOOD";
-const GET_MOOD = "GET_MOOD";
-const GET_MOODS = "GET_MOODS";
+const GET_USERS = 'GET_USERS';
+const GET_USER = 'GET_USER';
+const GET_RELATED = 'GET_RELATED';
+const SET_MOOD = 'SET_MOOD';
+const GET_MOOD = 'GET_MOOD';
+const GET_ALL_MOODS = 'GET_ALL_MOODS';
 
 //ACTION CREATORS
 const getUsers = users => ({
@@ -31,9 +31,9 @@ const getMood = mood => ({
   type: GET_MOOD,
   mood
 });
-const getMoods = moods => ({
-  type: GET_MOODS,
-  moods
+const getMoods = allmoods => ({
+  type: GET_ALL_MOODS,
+  allmoods
 });
 
 //THUNKS
@@ -41,7 +41,7 @@ const getMoods = moods => ({
 const fetchUsers = () => {
   return dispatch => {
     return axios
-      .get("https://capstone-api-server.herokuapp.com/api/users/")
+      .get('https://capstone-api-server.herokuapp.com/api/users/')
       .then(response => response.data)
       .then(users => dispatch(getUsers(users)))
       .catch(error => console.log(error));
@@ -131,14 +131,25 @@ const relatedReducer = (state = [], action) => {
       return state;
   }
 };
-const moodReducer = (state = [], action) => {
+const moodObjReducer = (state = {}, action) => {
   switch (action.type) {
     case SET_MOOD:
       return action.mood;
     case GET_MOOD:
       return action.mood;
-    case GET_MOODS:
-      return action.moods;
+    // case GET_ALL_MOODS:
+    //   return action.allmoods;
+    default:
+      return state;
+  }
+};
+const moodArrReducer = (state = [], action) => {
+  switch (action.type) {
+    // case SET_MOOD:
+    //   return action.mood;
+
+    case GET_ALL_MOODS:
+      return action.allmoods;
     default:
       return state;
   }
@@ -148,7 +159,8 @@ const reducer = combineReducers({
   users: usersReducer,
   user: userReducer,
   related: relatedReducer,
-  mood: moodReducer
+  mood: moodObjReducer,
+  moods: moodArrReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));

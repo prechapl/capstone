@@ -1,8 +1,8 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Avatar, Button, Slider } from "react-native-elements";
-import { connect } from "react-redux";
-import { setActiveMood, getActiveMood, getAllMoods } from "./store";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Avatar, Button, Slider } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { setActiveMood, getActiveMood, getAllMoods } from './store';
 
 class Mood extends React.Component {
   constructor(props) {
@@ -14,48 +14,52 @@ class Mood extends React.Component {
 
   componentDidMount() {
     this.load();
-    console.log("mount ran");
+    console.log('mount ran, mood: ', JSON.stringify(this.props.mood.value));
+    // console.log('mount ran, moods: ', this.props.moods);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.mood.id !== prevProps.mood.id) {
-      console.log("update ran");
+      console.log('update ran, moods: ', this.props.moods.length);
       this.load();
     }
   }
 
   load = () => {
-    this.props.getActiveMood(this.props.navigation.getParam("userId", "no id"));
-    // this.props.getAllMoods(this.props.navigation.getParam("userId", "no id"));
-    // this.props.setActiveMood();
+    this.props.getActiveMood(this.props.navigation.getParam('userId', 'no id'));
+    this.props.getAllMoods(this.props.navigation.getParam('userId', 'no id'));
   };
 
   render() {
     const { navigation } = this.props;
-    const userTitle = navigation.getParam("firstName", "no name");
-    const url = navigation.getParam("imgUrl", "no url");
-    const id = navigation.getParam("userId", "no id");
-    // console.log("moods", this.props.moods);
-    if (this.props.mood.length) {
-      // console.log("mood", this.props.mood);
+    const userTitle = navigation.getParam('firstName', 'no name');
+    const url = navigation.getParam('imgUrl', 'no url');
+    const id = navigation.getParam('userId', 'no id');
+
+    if (this.props.mood.id) {
       return (
         <View
           style={{
             flex: 1,
-            flexDirection: "column",
-            backgroundColor: "#fff",
-            alignItems: "center",
-            justifyContent: "center"
+            flexDirection: 'column',
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
-          {/* <Text>{this.props.mood[0].value}</Text> */}
+          <Text>active mood value: {this.props.mood.value}</Text>
+          <Text>
+            mood set: {this.props.mood.createdAt.slice(0, 10)} @{' '}
+            {this.props.mood.createdAt.slice(11, 19)}
+          </Text>
+          <Text>previous mood entries: {this.props.moods.length}</Text>
           <View
             style={{
               width: 300,
               paddingTop: 100,
               paddingBottom: 50,
               // alignItems: 'stretch',
-              justifyContent: "center"
+              justifyContent: 'center'
             }}
           >
             <Slider
@@ -69,7 +73,7 @@ class Mood extends React.Component {
 
               // debugTouchArea={true}
             />
-            <Text>Mood Meter: {this.state.mood}</Text>
+            <Text>Mood Meter: {String(this.state.mood).slice(0, 3)}</Text>
           </View>
 
           <View style={{ marginTop: 5 }}>
@@ -86,20 +90,20 @@ class Mood extends React.Component {
           <View style={{}}>
             <Button
               title="Family"
-              onPress={() => this.props.navigation.navigate("Family")}
-              buttonStyle={{ backgroundColor: "#8EB51A", margin: 24 }}
+              onPress={() => this.props.navigation.navigate('Family')}
+              buttonStyle={{ backgroundColor: '#8EB51A', margin: 24 }}
             />
 
             <Button
               title="Values"
-              onPress={() => this.props.navigation.navigate("Values")}
-              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 24 }}
+              onPress={() => this.props.navigation.navigate('Values')}
+              buttonStyle={{ backgroundColor: '#7DC6CD', margin: 24 }}
             />
 
             <Button
               title="Events"
-              onPress={() => this.props.navigation.navigate("Events")}
-              buttonStyle={{ backgroundColor: "#EF5029", margin: 24 }}
+              onPress={() => this.props.navigation.navigate('Events')}
+              buttonStyle={{ backgroundColor: '#EF5029', margin: 24 }}
             />
           </View>
         </View>
@@ -113,35 +117,36 @@ class Mood extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   avatar: {
     borderWidth: 1
   },
   col: {
-    flexDirection: "column",
-    alignItems: "center"
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   fitButton: {
-    flexDirection: "row",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     setActiveMood: (userId, value) => dispatch(setActiveMood(userId, value)),
-    getActiveMood: id => dispatch(getActiveMood(id))
-    // getAllMoods: id => dispatch(getAllMoods(id))
+    getActiveMood: id => dispatch(getActiveMood(id)),
+    getAllMoods: id => dispatch(getAllMoods(id))
   };
 };
 
-const mapStateToProps = ({ mood }) => {
+const mapStateToProps = ({ mood, moods }) => {
   return {
-    mood
+    mood: mood,
+    moods: moods
   };
 };
 
