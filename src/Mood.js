@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { Avatar, Badge, Button, Slider } from 'react-native-elements';
+import { StyleSheet, Text, View } from 'react-native';
+import { Avatar, Button, Slider } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { setActiveMood, getActiveMood, getAllMoods } from './store';
 
@@ -14,10 +14,13 @@ class Mood extends React.Component {
 
   componentDidMount() {
     this.load();
+    console.log('mount ran, mood: ', JSON.stringify(this.props.mood.value));
+    // console.log('mount ran, moods: ', this.props.moods);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.mood.id !== prevProps.mood.id) {
+      console.log('update ran, moods: ', this.props.moods.length);
       this.load();
     }
   }
@@ -40,16 +43,17 @@ class Mood extends React.Component {
 
   findMood = value => {
     const feelings = {
-      0.0: 'horrible',
-      0.25: 'bad',
+      0.0: 'bad',
+      0.25: 'kinda bad',
       0.5: 'neutral',
-      0.75: 'good',
+      0.75: 'pretty good',
       1.0: 'excellent'
     };
     return feelings[value];
   };
 
   render() {
+    console.log('color', this.findColor(0.25));
     const { navigation } = this.props;
     const userTitle = navigation.getParam('firstName', 'no name');
     const url = navigation.getParam('imgUrl', 'no url');
@@ -66,6 +70,12 @@ class Mood extends React.Component {
             justifyContent: 'center'
           }}
         >
+          <Text>active mood value: {this.props.mood.value}</Text>
+          <Text>
+            date set: {this.props.mood.createdAt.slice(0, 10)} @{' '}
+            {this.props.mood.createdAt.slice(11, 19)}
+          </Text>
+          <Text>previous mood entries: {this.props.moods.length}</Text>
           <Text
             style={{
               marginLeft: 'auto',
@@ -75,12 +85,12 @@ class Mood extends React.Component {
           >
             My mood is {this.findMood(this.props.mood.value)}
           </Text>
-
           <View
             style={{
               width: 300,
               paddingTop: 50,
               paddingBottom: 50,
+              // alignItems: 'stretch',
               justifyContent: 'center'
             }}
           >
@@ -99,28 +109,23 @@ class Mood extends React.Component {
               thumbTintColor={this.findColor(this.props.mood.value)}
               thumbTouchSize={{ width: 120, height: 120 }}
               minimumTrackTintColor={this.findColor(this.props.mood.value)}
+            // maximumTrackTintColor="#D9241A"
+            // debugTouchArea={true}
             />
           </View>
 
-          <View>
+          <View style={{ marginTop: 5 }}>
             <Avatar
               rounded
-              overlayContainerStyle={{ borderWidth: 1 }}
+              overlayContainerStyle={styles.avatar}
               size={150}
               source={{
                 uri: `${url}`
               }}
               title={userTitle.slice(0, 1)}
             />
-            <Badge
-              containerStyle={{ position: 'absolute', top: 4, right: 4 }}
-              badgeStyle={{
-                backgroundColor: this.findColor(this.props.mood.value)
-              }}
-              value={this.findMood(this.props.mood.value)}
-            />
           </View>
-          <View>
+          <View style={{}}>
             <Button
               title="Family"
               onPress={() => this.props.navigation.navigate('Family')}
@@ -146,6 +151,27 @@ class Mood extends React.Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  avatar: {
+    borderWidth: 1
+  },
+  col: {
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  fitButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
+});
 
 const mapDispatchToProps = dispatch => {
   return {

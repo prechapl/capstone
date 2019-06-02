@@ -48,6 +48,12 @@ class Events extends Component {
     render() {
         let events;
         this.state.selection === 'MY EVENTS' ? events = myEvents : events = assignedEvents;
+        const colorMap = {
+            chore: '#AA8EB7',
+            event: '#9BB8D5',
+            appointment: '#BCD59B',
+            errand: '#D79963'
+        }
         return (
             <View>
                 <Header
@@ -66,7 +72,7 @@ class Events extends Component {
                                 key={i}
                                 title={event.title}
                                 subtitle={`${event.deadline.getMonth()}/${event.deadline.getDate()}`}
-                                badge={{ value: event.category }}
+                                badge={{ value: event.category, badgeStyle: { backgroundColor: colorMap[event.category] } }}
                             />
                         </TouchableOpacity>
                     )

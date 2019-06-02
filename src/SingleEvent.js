@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Text } from 'react-native';
+import { Card, Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 class SingleEvent extends Component {
@@ -9,12 +9,30 @@ class SingleEvent extends Component {
         this.state = {}
     }
     render() {
-        const event = this.props.navigation.getParam('event')
+        const event = this.props.navigation.getParam('event');
+        const badgeStatusMap = {
+            upcoming: 'primary',
+            'completed-approved': 'success',
+            'completed-pending': 'warning',
+            overdue: 'warning',
+            missed: 'error'
+        };
+        const colorMap = {
+            chore: '#AA8EB7',
+            event: '#9BB8D5',
+            appointment: '#BCD59B',
+            errand: '#D79963'
+        };
         return (
             <Card
                 title={event.title}
                 subtitle={event.category}
+                containerStyle={{ borderColor: colorMap[event.category], flex: 1 }}
             >
+                <Badge
+                    value={event.status}
+                    status={badgeStatusMap[event.status]}
+                />
                 <Text>
                     DATE: {event.deadline.toDateString()}
 
