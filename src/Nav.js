@@ -12,6 +12,7 @@ import AllPolls from './AllPolls';
 import SinglePoll from './SinglePoll';
 import ForgotPassword from './ForgotPassword';
 import Events from './Events';
+import SingleEvent from './SingleEvent'
 
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
@@ -31,10 +32,16 @@ const UserNavigator = createStackNavigator({
   Events: Events
 });
 
+const EventNavigator = createStackNavigator({
+  Events: Events,
+  Event: SingleEvent
+});
+
 const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
   User: UserNavigator,
-  Polls: PollsNavigator
+  Polls: PollsNavigator,
+  Events: EventNavigator
 });
 
 const AppContainer = createAppContainer(RootNavigator);

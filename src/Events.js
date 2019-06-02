@@ -57,12 +57,18 @@ class Events extends Component {
                 />
                 {events.map((event, i) => {
                     return (
-                        <ListItem
+                        <TouchableOpacity
                             key={i}
-                            title={event.title}
-                            subtitle={`${event.deadline.getMonth()}/${event.deadline.getDate()}`}
-                            badge={{ value: event.category }}
-                        />
+                            onPress={() => {
+                                this.props.navigation.navigate('Event', event = { event })
+                            }} >
+                            <ListItem
+                                key={i}
+                                title={event.title}
+                                subtitle={`${event.deadline.getMonth()}/${event.deadline.getDate()}`}
+                                badge={{ value: event.category }}
+                            />
+                        </TouchableOpacity>
                     )
                 })}
 
