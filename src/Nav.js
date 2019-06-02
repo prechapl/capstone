@@ -10,18 +10,31 @@ import SignUp from './SignUp';
 import Mood from './Mood';
 import AllPolls from './AllPolls';
 import SinglePoll from './SinglePoll';
+import ForgotPassword from './ForgotPassword';
 
-const AppNavigator = createBottomTabNavigator({
-  // const AppNavigator = createStackNavigator({
-  'Log In': Login,
-  'Sign Up': SignUp,
-  Family: Family,
-  User: User,
-  Mood: Mood,
+const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
   Poll: SinglePoll
 });
 
-const AppContainer = createAppContainer(AppNavigator);
+const AuthNavigator = createStackNavigator({
+  Login: Login,
+  SignUp: SignUp,
+  ForgotPassword: ForgotPassword
+});
+
+const UserNavigator = createStackNavigator({
+  User: User,
+  Family: Family,
+  Mood: Mood
+});
+
+const RootNavigator = createBottomTabNavigator({
+  Account: AuthNavigator,
+  User: UserNavigator,
+  Polls: PollsNavigator
+});
+
+const AppContainer = createAppContainer(RootNavigator);
 
 export default AppContainer;

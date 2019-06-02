@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { Avatar } from "react-native-elements";
 import { fetchUsers, fetchUser, fetchRelated } from "./store";
 import { connect } from "react-redux";
@@ -7,36 +7,25 @@ import { connect } from "react-redux";
 class Family extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   users: []
-    // };
   }
+
   componentDidMount() {
     this.load();
-    // console.log('users in Family CDM', this.state.users);
   }
 
   load = () => {
-    const id = "feb104b5-bdc0-48eb-9998-9d8794f02b3e";
-    // this.props.fetchUsers();
+    const id = "b40453fe-171e-4eee-8ea2-2efb93e70ad2";
+    this.props.fetchUsers();
     this.props.fetchUser(id);
-    this.props.fetchRelated(id);
   };
-  // load = () => {
-  //   this.props.fetchUsers().then(() => {
-  //     this.setState({ users: this.props.users });
-  //   });
-  // };
 
-  // componentDidUpdate(prevProps) {
-  //   if (this.props.users !== prevProps.users) {
-  //     this.setState({ users: this.props.users });
-  //     console.log('users in Family CDU', this.props.users);
-  //   }
-  //   console.log("update ran");
-  // }
+  findFamily = user => {
+    return this.props.users.filter(
+      usr => usr.familyId === user.familyId && usr.id !== user.id
+    );
+  };
 
-  keyExtractor = (item, index) => index.toString();
+  // begin >> create family grid layout <<
 
   formatGrid = (data, numColumns) => {
     const numFullRows = Math.floor(data.length / numColumns);
@@ -49,15 +38,26 @@ class Family extends Component {
     return data;
   };
 
+  keyExtractor = index => index.toString();
+
   renderItem = ({ item }) => {
-    // if (item.empty === true) {
-    //   return <View style={[styles.itemInvisible]} />;
-    // }
+    if (item.empty === true) {
+      return (
+        <View
+          style={{
+            backgroundColor: "transparent"
+          }}
+        />
+      );
+    }
     return (
       <Avatar
         keyExtractor={this.keyExtractor}
         rounded
-        overlayContainerStyle={styles.avatar}
+        overlayContainerStyle={{
+          borderWidth: 1,
+          margin: 10
+        }}
         size={125}
         title={item.firstName}
         source={{
@@ -73,27 +73,25 @@ class Family extends Component {
     );
   };
 
-  render() {
-    if (this.props.user.id && this.props.related.length) {
-      const user = this.props.user;
-      const related = this.props.related;
+  // end >> create family grid layout <<
 
-      // const family = this.state.users.slice(1, 4);
-      // console.log('users in Family render', this.state.users);
-      console.log("user in Family render", user);
-      console.log("related in Family render", related);
+  render() {
+    if (this.props.user.id && this.props.users.length) {
+      const user = this.props.user;
+      const family = this.findFamily(user);
 
       const numColumns = 3;
-      return (
-        <View style={styles.container}>
-          <Text> redux hell </Text>
-          {/* <FlatList
-            data={this.formatGrid(family, numColumns)}
-            keyExtractor={this.keyExtractor}
-            renderItem={this.renderItem}
-            numColumns={numColumns}
-          /> */}
 
+      return (
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            backgroundColor: "#fff",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
           <View
             style={{
               flex: 1,
@@ -113,18 +111,19 @@ class Family extends Component {
               onPress={() =>
                 this.props.navigation.navigate("User", {
                   firstName: user.firstName,
-                  imgUrl: user.imgUrl
+                  imgUrl: user.imgUrl,
+                  userID: user.id
                 })
               }
             />
           </View>
           <View style={{ flex: 1, flexDirection: "column" }}>
-            {/* <FlatList
+            <FlatList
               data={this.formatGrid(family, numColumns)}
               keyExtractor={this.keyExtractor}
               renderItem={this.renderItem}
               numColumns={numColumns}
-            /> */}
+            />
           </View>
         </View>
       );
@@ -133,25 +132,6 @@ class Family extends Component {
     }
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-    // marginTop: 250
-  },
-  avatar: {
-    borderWidth: 1,
-    margin: 10
-  },
-
-  itemInvisible: {
-    backgroundColor: "transparent"
-  }
-});
 
 const mapDispatchToProps = dispatch => {
   return {
