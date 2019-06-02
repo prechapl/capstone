@@ -137,17 +137,12 @@ const moodObjReducer = (state = {}, action) => {
       return action.mood;
     case GET_MOOD:
       return action.mood;
-    // case GET_ALL_MOODS:
-    //   return action.allmoods;
     default:
       return state;
   }
 };
 const moodArrReducer = (state = [], action) => {
   switch (action.type) {
-    // case SET_MOOD:
-    //   return action.mood;
-
     case GET_ALL_MOODS:
       return action.allmoods;
     default:
