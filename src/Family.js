@@ -14,7 +14,7 @@ class Family extends Component {
   }
 
   load = () => {
-    const id = "b40453fe-171e-4eee-8ea2-2efb93e70ad2";
+    const id = "587f40ad-3cbb-42e6-8d0e-752bf14bb759";
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
