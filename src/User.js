@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Avatar, Button } from "react-native-elements";
 import { withNavigation } from "react-navigation";
 

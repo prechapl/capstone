@@ -3,6 +3,7 @@ import { FlatList, View } from "react-native";
 import { Avatar } from "react-native-elements";
 import { fetchUsers, fetchUser, fetchRelated } from "./store";
 import { connect } from "react-redux";
+// import AvatarChild from "./AvatarChild";
 
 class Family extends Component {
   constructor() {
@@ -27,50 +28,74 @@ class Family extends Component {
 
   // begin >> create family grid layout <<
 
-  formatGrid = (data, numColumns) => {
-    const numFullRows = Math.floor(data.length / numColumns);
-    let numElementsLastRow = data.length - numFullRows * numColumns;
+  formatGrid = (family, numColumns) => {
+    const numFullRows = Math.floor(family.length / numColumns);
+    let numElementsLastRow = family.length - numFullRows * numColumns;
     while (numElementsLastRow !== numColumns && numElementsLastRow !== 0) {
       // while (numElementsLastRow !== numColumns) {
-      data.push({ key: `blank-${numElementsLastRow}`, empty: true });
+      family.push({ key: `blank-${numElementsLastRow}`, empty: true });
       numElementsLastRow = numElementsLastRow + 1;
     }
-    return data;
+    return family;
   };
 
   keyExtractor = index => index.toString();
 
-  renderItem = ({ item }) => {
-    if (item.empty === true) {
+  renderItem = user => {
+    // if (user.empty === true) {
+    //   return (
+    //     <View
+    //       style={{
+    //         backgroundColor: "transparent"
+    //       }}
+    //     />
+    //   );
+    // }
+    if (user.age > 18) {
       return (
-        <View
-          style={{
-            backgroundColor: "transparent"
+        <Avatar
+          keyExtractor={this.keyExtractor}
+          rounded
+          overlayContainerStyle={{
+            borderWidth: 1,
+            margin: 10
           }}
+          size={125}
+          title={user.firstName}
+          source={{
+            uri: user.imgUrl
+          }}
+          onPress={() =>
+            this.props.navigation.navigate("User", {
+              firstName: user.firstName,
+              imgUrl: user.imgUrl
+            })
+          }
+        />
+      );
+    } else {
+      return (
+        <Avatar
+          keyExtractor={this.keyExtractor}
+          rounded
+          overlayContainerStyle={{
+            borderWidth: 1,
+            margin: 10
+          }}
+          size={125}
+          title={user.firstName}
+          source={{
+            uri: user.imgUrl
+          }}
+          onPress={() =>
+            this.props.navigation.navigate("AvatarChild", {
+              firstName: user.firstName,
+              imgUrl: user.imgUrl
+            })
+          }
         />
       );
     }
-    return (
-      <Avatar
-        keyExtractor={this.keyExtractor}
-        rounded
-        overlayContainerStyle={{
-          borderWidth: 1,
-          margin: 10
-        }}
-        size={125}
-        title={item.firstName}
-        source={{
-          uri: item.imgUrl
-        }}
-        onPress={() =>
-          this.props.navigation.navigate("User", {
-            firstName: item.firstName,
-            imgUrl: item.imgUrl
-          })
-        }
-      />
-    );
   };
 
   // end >> create family grid layout <<
@@ -112,7 +137,7 @@ class Family extends Component {
                 this.props.navigation.navigate("User", {
                   firstName: user.firstName,
                   imgUrl: user.imgUrl,
-                  userID: user.id
+                  userId: user.id
                 })
               }
             />
