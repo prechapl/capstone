@@ -8,7 +8,7 @@ class Mood extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mood: 0.5
+      mood: 0
     };
   }
 
@@ -20,17 +20,17 @@ class Mood extends React.Component {
     if (
       this.props.mood &&
       prevProps.mood &&
-      this.state.mood.value !== prevProps.mood.value
+      this.props.mood.value !== prevProps.mood.value
     ) {
       this.load();
     }
   }
 
   load = () => {
-    const { navigation } = this.props;
-    const user = navigation.getParam('user', 'no user');
+    const user = this.props.navigation.getParam('user', 'no user');
     const id = user.id;
     this.props.getActiveMood(id);
+    this.setState({ mood: this.props.mood.value });
   };
 
   findColor = value => {
@@ -56,8 +56,10 @@ class Mood extends React.Component {
   };
 
   render() {
-    const { navigation } = this.props;
-    const user = navigation.getParam('user', 'no user');
+    const user = this.props.navigation.getParam('user', 'no user');
+    // console.log('user in mood render', user.firstName);
+    // console.log('state.mood', this.state.mood);
+    // console.log('props.mood', this.props.mood.value);
 
     return (
       <View
@@ -76,7 +78,7 @@ class Mood extends React.Component {
             marginTop: 66
           }}
         >
-          My mood is {this.findMood(this.state.mood.value)}
+          My mood is {this.findMood(this.state.mood)}
         </Text>
 
         <View
@@ -88,7 +90,7 @@ class Mood extends React.Component {
           }}
         >
           <Slider
-            value={this.state.mood.value}
+            value={this.state.mood}
             step={0.25}
             onValueChange={value => this.setState({ mood: value })}
             onSlidingComplete={() =>
@@ -99,9 +101,9 @@ class Mood extends React.Component {
               width: 80,
               borderRadius: 40
             }}
-            thumbTintColor={this.findColor(this.state.mood.value)}
+            thumbTintColor={this.findColor(this.state.mood)}
             thumbTouchSize={{ width: 120, height: 120 }}
-            minimumTrackTintColor={this.findColor(this.state.mood.value)}
+            minimumTrackTintColor={this.findColor(this.state.mood)}
           />
         </View>
 
@@ -118,9 +120,9 @@ class Mood extends React.Component {
           <Badge
             containerStyle={{ position: 'absolute', top: 4, right: 4 }}
             badgeStyle={{
-              backgroundColor: this.findColor(this.state.mood.value)
+              backgroundColor: this.findColor(this.state.mood)
             }}
-            value={this.findMood(this.state.mood.value)}
+            value={this.findMood(this.state.mood)}
           />
         </View>
         <View>

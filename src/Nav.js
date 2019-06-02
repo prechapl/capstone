@@ -34,8 +34,8 @@ const UserNavigator = createStackNavigator({
 const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
   User: UserNavigator,
-  Polls: PollsNavigator,
-  AvatarChild: AvatarChild
+  Polls: PollsNavigator
+  // AvatarChild: AvatarChild
 });
 
 const AppContainer = createAppContainer(RootNavigator);
