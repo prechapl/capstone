@@ -5,7 +5,7 @@ const { dbSync } = require('./index');
 dbSync(true).then(() => {
   Family.create({
     name: 'Marx',
-    code: 'MarxBros',
+    code: 'MarxBros'
   })
     .then(family => {
       const famCount = [...new Array(4)];
@@ -20,9 +20,8 @@ dbSync(true).then(() => {
             imgUrl: faker.internet.avatar(),
             email: faker.internet.email(),
             password: 'tH1s1sVal1d!',
-            familyId: family.id,
-          })
-        )
+            familyId: family.id
+          }))
       );
     })
     .then(([p1, p2, c1, c2]) => {
@@ -30,72 +29,71 @@ dbSync(true).then(() => {
         Relationship.create({
           userId: p1.id,
           RelationshipId: p2.id,
-          type: 'spouse',
+          type: 'spouse'
         }),
         Relationship.create({
           userId: p1.id,
           RelationshipId: c1.id,
-          type: 'child',
+          type: 'child'
         }),
         Relationship.create({
           userId: p1.id,
           RelationshipId: c2.id,
-          type: 'child',
+          type: 'child'
         }),
         Relationship.create({
           userId: p2.id,
           RelationshipId: p1.id,
-          type: 'spouse',
+          type: 'spouse'
         }),
         Relationship.create({
           userId: p2.id,
           RelationshipId: c1.id,
-          type: 'child',
+          type: 'child'
         }),
         Relationship.create({
           userId: p2.id,
           RelationshipId: c2.id,
-          type: 'child',
+          type: 'child'
         }),
         Relationship.create({
           userId: c1.id,
           RelationshipId: p1.id,
-          type: 'parent',
+          type: 'parent'
         }),
         Relationship.create({
           userId: c1.id,
           RelationshipId: p2.id,
-          type: 'parent',
+          type: 'parent'
         }),
         Relationship.create({
           userId: c1.id,
           RelationshipId: c2.id,
-          type: 'sibling',
+          type: 'sibling'
         }),
         Relationship.create({
           userId: c2.id,
           RelationshipId: p1.id,
-          type: 'parent',
+          type: 'parent'
         }),
         Relationship.create({
           userId: c2.id,
           RelationshipId: p2.id,
-          type: 'parent',
+          type: 'parent'
         }),
         Relationship.create({
           userId: c2.id,
           RelationshipId: c1.id,
-          type: 'sibling',
+          type: 'sibling'
         }),
         Mood.create({
           userId: p1.id,
-          title: 'stressed',
+          title: 'stressed'
         }).then(() =>
           Mood.create({
             userId: p1.id,
-            title: 'relaxed',
-          })
-        ),
+            title: 'relaxed'
+          }))
       ]);
     })
     .catch(e => console.log(e));
