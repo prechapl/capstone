@@ -36,10 +36,10 @@ class SingleEvent extends Component {
                     status={badgeStatusMap[event.status]}
                 />
                 <Text>
-                    DATE: {event.deadline.toDateString()}
+                    DATE: {event.deadline}
                 </Text>
                 <Text>
-                    TIME: {event.deadline.toTimeString()}
+                    TIME:
                 </Text>
                 <Text>
                     {event.description}

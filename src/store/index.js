@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import axios from 'axios';
+import { eventReducer, assignedEventReducer } from './events';
 
 //CONSTANTS
 const GET_USERS = 'GET_USERS';
@@ -160,7 +161,9 @@ const reducer = combineReducers({
   user: userReducer,
   related: relatedReducer,
   mood: moodObjReducer,
-  moods: moodArrReducer
+  moods: moodArrReducer,
+  events: eventReducer,
+  assignedEvents: assignedEventReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));

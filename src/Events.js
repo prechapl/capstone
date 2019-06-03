@@ -2,38 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Header, ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-
-const myEvents = [
-    {
-        title: 'Dog Vet Appointment',
-        description: 'Dog needs updates on rabies & bordatella vaccines',
-        status: 'upcoming',
-        category: 'appointment',
-        deadline: new Date('2019-12-17T03:24:00'),
-    }, {
-        title: 'Vacuum',
-        description: 'Must vaccuum floors AND couches',
-        status: 'upcoming',
-        category: 'chore',
-        deadline: new Date('2019-09-17T03:24:00')
-    }
-]
-
-const assignedEvents = [
-    {
-        title: "Timmy's choir recital",
-        status: 'upcoming',
-        category: 'event',
-        deadline: new Date('2019-07-09T16:30:00')
-    },
-    {
-        title: 'Walk the Dog',
-        description: 'Dog must have a minimum of thirty minutes exercise!',
-        status: 'upcoming',
-        category: 'chore',
-        deadline: new Date('2019-06-15T17:00:00')
-    }
-]
+import { fetchEvents, fetchAssigned } from './store/events';
 
 class Events extends Component {
     constructor() {
@@ -44,15 +13,29 @@ class Events extends Component {
     }
     componentDidMount() {
         //must fetch events
+        const id = this.props.id ? this.props.id : 'b2c4d898-05ca-40e0-98b1-6cc86972ecea';
+        this.props.fetchEvents(id);
+        this.props.fetchAssigned(id);
+
     }
     render() {
         let events;
-        this.state.selection === 'MY EVENTS' ? events = myEvents : events = assignedEvents;
+        if (this.props.events.length) {
+            this.state.selection === 'MY EVENTS' ? events = this.props.events : events = this.props.assignedEvents;
+        }
+
         const colorMap = {
             chore: '#AA8EB7',
             event: '#9BB8D5',
             appointment: '#BCD59B',
             errand: '#D79963'
+        }
+        if (!events) {
+            return (
+                <Text>
+                    Oops! We don't have any data!
+                </Text>
+            )
         }
         return (
             <View>
@@ -71,7 +54,7 @@ class Events extends Component {
                             <ListItem
                                 key={i}
                                 title={event.title}
-                                subtitle={`${event.deadline.getMonth()}/${event.deadline.getDate()}`}
+                                //subtitle={`${event.deadline.getMonth()}/${event.deadline.getDate()}`}
                                 badge={{ value: event.category, badgeStyle: { backgroundColor: colorMap[event.category] } }}
                             />
                         </TouchableOpacity>
@@ -85,4 +68,19 @@ class Events extends Component {
     }
 }
 
-export default Events;
+const mapStateToProps = ({ events, assignedEvents, user }) => {
+    return {
+        id: user.id,
+        events,
+        assignedEvents
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchEvents: (id) => dispatch(fetchEvents(id)),
+        fetchAssigned: (id) => dispatch(fetchAssigned(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Events);
