@@ -17,7 +17,6 @@ class Family extends Component {
   load = () => {
     // HARD CODING USER ID HERE!!
     const id = '587f40ad-3cbb-42e6-8d0e-752bf14bb759';
-    // const id = '3121d11c-4d7c-4cf2-a1f9-c02c6c1b00df';
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
@@ -30,30 +29,30 @@ class Family extends Component {
 
   // begin >> create family grid layout <<
 
-  formatGrid = (family, numColumns) => {
-    const numFullRows = Math.floor(family.length / numColumns);
-    let numElementsLastRow = family.length - numFullRows * numColumns;
+  formatGrid = (data, numColumns) => {
+    const numFullRows = Math.floor(data.length / numColumns);
+    let numElementsLastRow = data.length - numFullRows * numColumns;
     while (numElementsLastRow !== numColumns && numElementsLastRow !== 0) {
       // while (numElementsLastRow !== numColumns) {
-      family.push({ key: `blank-${numElementsLastRow}`, empty: true });
+      data.push({ key: `blank-${numElementsLastRow}`, empty: true });
       numElementsLastRow = numElementsLastRow + 1;
     }
-    return family;
+    return data;
   };
 
   keyExtractor = index => index.toString();
 
-  renderItem = user => {
-    // if (user.empty === true) {
-    //   return (
-    //     <View
-    //       style={{
-    //         backgroundColor: "transparent"
-    //       }}
-    //     />
-    //   );
-    // }
-    if (user.age > 18) {
+  renderItem = ({ item }) => {
+    if (item.empty === true) {
+      return (
+        <View
+          style={{
+            backgroundColor: 'transparent'
+          }}
+        />
+      );
+    }
+    if (item.age > 18) {
       return (
         <Avatar
           keyExtractor={this.keyExtractor}
@@ -63,15 +62,13 @@ class Family extends Component {
             margin: 10
           }}
           size={125}
-          title={user.firstName}
+          title={item.firstName}
           source={{
-            uri: user.imgUrl
+            uri: item.imgUrl
           }}
           onPress={() =>
-            this.props.navigation.navigate('User', {
-              user: user,
-              firstName: user.firstName,
-              imgUrl: user.imgUrl
+            this.props.navigation.navigate('item', {
+              user: item
             })
           }
         />
@@ -86,15 +83,13 @@ class Family extends Component {
             margin: 10
           }}
           size={125}
-          title={user.firstName}
+          title={item.firstName}
           source={{
-            uri: user.imgUrl
+            uri: item.imgUrl
           }}
           onPress={() =>
             this.props.navigation.navigate('AvatarChild', {
-              user: user
-              // firstName: user.firstName,
-              // imgUrl: user.imgUrl
+              user: item
             })
           }
         />
@@ -105,11 +100,13 @@ class Family extends Component {
   // end >> create family grid layout <<
 
   render() {
-    if (this.props.user.id && this.props.users.length) {
-      const user = this.props.user;
-      const family = this.findFamily(user);
-      const numColumns = 3;
+    const user = this.props.user;
+    const family = this.findFamily(user);
+    const numColumns = 3;
+    // console.log('user in Family render', user.age);
+    // console.log('family in Family render', family);
 
+    if (this.props.user.id && this.props.users.length) {
       return (
         <View
           style={{
@@ -138,8 +135,7 @@ class Family extends Component {
               }}
               onPress={() =>
                 this.props.navigation.navigate('User', {
-                  user: user,
-                  keyExtractor: this.keyExtractor
+                  user: user
                 })
               }
             />
