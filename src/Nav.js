@@ -11,6 +11,7 @@ import Mood from './Mood';
 import AllPolls from './AllPolls';
 import SinglePoll from './SinglePoll';
 import ForgotPassword from './ForgotPassword';
+import AvatarChild from './AvatarChild';
 
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
@@ -26,7 +27,8 @@ const AuthNavigator = createStackNavigator({
 const UserNavigator = createStackNavigator({
   User: User,
   Family: Family,
-  Mood: Mood
+  Mood: Mood,
+  AvatarChild: AvatarChild
 });
 
 const RootNavigator = createBottomTabNavigator({
