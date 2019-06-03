@@ -15,7 +15,9 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-    const id = '587f40ad-3cbb-42e6-8d0e-752bf14bb759';
+    //jane's id
+    const id = '9ffc2e57-ead5-41c0-8ca2-92abfd7e4ab1';
+
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
@@ -38,7 +40,7 @@ class Family extends Component {
     return data;
   };
 
-  keyExtractor = index => index.toString();
+  keyExtractor = (item, index) => item.key;
 
   renderItem = ({ item }) => {
     if (item.empty === true) {
