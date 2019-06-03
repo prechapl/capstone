@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import { fetchUsers, fetchUser, fetchRelated } from './store';
+import { fetchUsers, fetchUser, fetchRelated } from './store/users';
 import { connect } from 'react-redux';
 
 class Family extends Component {
@@ -33,6 +33,7 @@ class Family extends Component {
     const numFullRows = Math.floor(data.length / numColumns);
     let numElementsLastRow = data.length - numFullRows * numColumns;
     while (numElementsLastRow !== numColumns && numElementsLastRow !== 0) {
+      // while (numElementsLastRow !== numColumns) {
       data.push({ key: `blank-${numElementsLastRow}`, empty: true });
       numElementsLastRow = numElementsLastRow + 1;
     }

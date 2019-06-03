@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Avatar, Badge, Button, Slider } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { setActiveMood, getActiveMood } from './store';
+import { setActiveMood, getActiveMood } from './store/mood';
 
 class Mood extends React.Component {
   constructor(props) {
