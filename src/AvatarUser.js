@@ -4,11 +4,11 @@ import { Avatar } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import ActionButton from 'react-native-circular-action-menu';
 
-class AvatarAdult extends Component {
+class AvatarUser extends Component {
   render() {
     const { navigation } = this.props;
     const user = navigation.getParam('user', 'no user');
-    // console.log('user in AvatarAdult', user);
+    // console.log('user in AvatarUser', user);
 
     return (
       <View
@@ -71,7 +71,7 @@ class AvatarAdult extends Component {
               </View>
             </ActionButton.Item>
 
-            {/* Events */}
+            {/* EVENTS */}
             <ActionButton.Item
               onPress={() =>
                 this.props.navigation.navigate('Events', {
@@ -84,7 +84,7 @@ class AvatarAdult extends Component {
               </View>
             </ActionButton.Item>
 
-            {/* Polls */}
+            {/* POLLS */}
 
             <ActionButton.Item
               onPress={() =>
@@ -115,4 +115,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withNavigation(AvatarAdult);
+export default withNavigation(AvatarUser);

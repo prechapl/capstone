@@ -39,8 +39,8 @@ class User extends React.Component {
               title={user.firstName}
             />
             <Button
-              title="Values"
-              onPress={() => this.props.navigation.navigate('Values')}
+              title="Polls"
+              onPress={() => this.props.navigation.navigate('Polls')}
               buttonStyle={{ backgroundColor: '#7DC6CD', margin: 24 }}
             />
           </View>

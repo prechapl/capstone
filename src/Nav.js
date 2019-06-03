@@ -16,6 +16,7 @@ import SingleEvent from './SingleEvent';
 import AddEvent from './AddEvent';
 import AvatarChild from './AvatarChild';
 import AvatarAdult from './AvatarAdult';
+import AvatarUser from './AvatarUser';
 
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
@@ -34,7 +35,8 @@ const UserNavigator = createStackNavigator({
   Mood: Mood,
   Events: Events,
   AvatarChild: AvatarChild,
-  AvatarAdult: AvatarAdult
+  AvatarAdult: AvatarAdult,
+  AvatarUser: AvatarUser
 });
 
 const EventNavigator = createStackNavigator({
@@ -47,8 +49,7 @@ const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
   User: UserNavigator,
   Polls: PollsNavigator,
-  Events: EventNavigator,
-  AvatarAdult: AvatarAdult
+  Events: EventNavigator
 });
 
 const AppContainer = createAppContainer(RootNavigator);

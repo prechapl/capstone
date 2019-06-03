@@ -134,7 +134,7 @@ class Family extends Component {
                 uri: user.imgUrl
               }}
               onPress={() =>
-                this.props.navigation.navigate('User', {
+                this.props.navigation.navigate('AvatarUser', {
                   user: user
                 })
               }
