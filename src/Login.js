@@ -23,7 +23,6 @@ export default class Login extends Component {
   };
 
   render() {
-    console.log('navigation props', this.props.navigation.navigate);
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.container}>
