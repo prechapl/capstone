@@ -14,7 +14,6 @@ export default class ForgotPassord extends Component {
   }
 
   handleSubmit = (ev, history) => {
-    // console.log(this.state);
     this.props.navigation.navigate('Login');
   };
 
@@ -32,13 +31,6 @@ export default class ForgotPassord extends Component {
           <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
             <Text style={styles.buttonText}>Send Password Reset Link</Text>
           </TouchableOpacity>
-          {/*
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('SignUp')}
-          >
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </TouchableOpacity> */}
         </View>
       </KeyboardAvoidingView>
     );

@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import { fetchUsers, fetchUser, fetchRelated } from './store';
-import { connect } from 'react-redux';
-// import AvatarChild from "./AvatarChild";
+import React, { Component } from "react";
+import { FlatList, View } from "react-native";
+import { Avatar } from "react-native-elements";
+import { fetchUsers, fetchUser, fetchRelated } from "./store";
+import { connect } from "react-redux";
 
 class Family extends Component {
   constructor() {
@@ -49,7 +48,7 @@ class Family extends Component {
       return (
         <View
           style={{
-            backgroundColor: 'transparent'
+            backgroundColor: "transparent"
           }}
         />
       );
@@ -105,26 +104,24 @@ class Family extends Component {
     const user = this.props.user;
     const family = this.findFamily(user);
     const numColumns = 3;
-    // console.log('user in Family render', user.age);
-    // console.log('family in Family render', family);
 
     if (this.props.user.id && this.props.users.length) {
       return (
         <View
           style={{
             flex: 1,
-            flexDirection: 'column',
-            backgroundColor: '#fff',
-            alignItems: 'center',
-            justifyContent: 'center'
+            flexDirection: "column",
+            backgroundColor: "#fff",
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
           <View
             style={{
               flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center'
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
             <Avatar
@@ -142,7 +139,7 @@ class Family extends Component {
               }
             />
           </View>
-          <View style={{ flex: 1, flexDirection: 'column' }}>
+          <View style={{ flex: 1, flexDirection: "column" }}>
             <FlatList
               data={this.formatGrid(family, numColumns)}
               keyExtractor={this.keyExtractor}

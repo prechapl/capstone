@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { Avatar, Badge, Button, Slider } from 'react-native-elements';
+import { StyleSheet, Text, View } from 'react-native';
+import { Avatar, Button, Slider } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { setActiveMood, getActiveMood } from './store';
 
@@ -14,6 +14,8 @@ class Mood extends React.Component {
 
   componentDidMount() {
     this.load();
+    console.log('mount ran, mood: ', JSON.stringify(this.props.mood.value));
+    // console.log('mount ran, moods: ', this.props.moods);
   }
 
   componentDidUpdate(prevProps) {
@@ -46,10 +48,10 @@ class Mood extends React.Component {
 
   findMood = value => {
     const feelings = {
-      0.0: 'horrible',
-      0.25: 'bad',
+      0.0: 'bad',
+      0.25: 'kinda bad',
       0.5: 'neutral',
-      0.75: 'good',
+      0.75: 'pretty good',
       1.0: 'excellent'
     };
     return feelings[value];
@@ -57,9 +59,6 @@ class Mood extends React.Component {
 
   render() {
     const user = this.props.navigation.getParam('user', 'no user');
-    // console.log('user in mood render', user.firstName);
-    // console.log('state.mood', this.state.mood);
-    // console.log('props.mood', this.props.mood.value);
 
     return (
       <View
@@ -148,6 +147,27 @@ class Mood extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  avatar: {
+    borderWidth: 1
+  },
+  col: {
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  fitButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
+});
 
 const mapDispatchToProps = dispatch => {
   return {

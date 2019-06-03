@@ -1,14 +1,15 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import thunkMiddleware from "redux-thunk";
-import axios from "axios";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import axios from 'axios';
+import { eventReducer, assignedEventReducer } from './events';
 
 //CONSTANTS
-const GET_USERS = "GET_USERS";
-const GET_USER = "GET_USER";
-const GET_RELATED = "GET_RELATED";
-const SET_MOOD = "SET_MOOD";
-const GET_MOOD = "GET_MOOD";
-const GET_ALL_MOODS = "GET_ALL_MOODS";
+const GET_USERS = 'GET_USERS';
+const GET_USER = 'GET_USER';
+const GET_RELATED = 'GET_RELATED';
+const SET_MOOD = 'SET_MOOD';
+const GET_MOOD = 'GET_MOOD';
+const GET_ALL_MOODS = 'GET_ALL_MOODS';
 
 //ACTION CREATORS
 const getUsers = users => ({
@@ -41,7 +42,7 @@ const getMoods = allmoods => ({
 const fetchUsers = () => {
   return dispatch => {
     return axios
-      .get("https://capstone-api-server.herokuapp.com/api/users/")
+      .get('https://capstone-api-server.herokuapp.com/api/users/')
       .then(response => response.data)
       .then(users => dispatch(getUsers(users)))
       .catch(error => console.log(error));
@@ -137,12 +138,17 @@ const moodObjReducer = (state = {}, action) => {
       return action.mood;
     case GET_MOOD:
       return action.mood;
+    // case GET_ALL_MOODS:
+    //   return action.allmoods;
     default:
       return state;
   }
 };
 const moodArrReducer = (state = [], action) => {
   switch (action.type) {
+    // case SET_MOOD:
+    //   return action.mood;
+
     case GET_ALL_MOODS:
       return action.allmoods;
     default:
@@ -155,7 +161,9 @@ const reducer = combineReducers({
   user: userReducer,
   related: relatedReducer,
   mood: moodObjReducer,
-  moods: moodArrReducer
+  moods: moodArrReducer,
+  events: eventReducer,
+  assignedEvents: assignedEventReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
