@@ -23,6 +23,13 @@ router.post('/', (req, res, next) => {
         .catch(next);
 });
 
+//update poll (i.e. mark as "closed")
+router.put('/:id', (req, res, next) => {
+    Poll.findByPk(req.params.id)
+        .then(poll => poll.update(req.body))
+        .then(() => res.sendStatus(202))
+        .catch(next);
+})
 //get options by poll id
 router.get('/:id/choices', (req, res, next) => {
     Choice.findAll({
