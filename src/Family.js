@@ -14,7 +14,8 @@ class Family extends Component {
   }
 
   load = () => {
-    const id = "587f40ad-3cbb-42e6-8d0e-752bf14bb759";
+    // HARD CODING USER ID HERE!!
+    const id = '587f40ad-3cbb-42e6-8d0e-752bf14bb759';
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
@@ -50,38 +51,59 @@ class Family extends Component {
         />
       );
     }
-    return (
-      <Avatar
-        keyExtractor={this.keyExtractor}
-        rounded
-        overlayContainerStyle={{
-          borderWidth: 1,
-          margin: 10
-        }}
-        size={125}
-        title={item.firstName}
-        source={{
-          uri: item.imgUrl
-        }}
-        onPress={() =>
-          this.props.navigation.navigate("User", {
-            firstName: item.firstName,
-            imgUrl: item.imgUrl
-          })
-        }
-      />
-    );
+    if (item.age > 18) {
+      return (
+        <Avatar
+          keyExtractor={this.keyExtractor}
+          rounded
+          overlayContainerStyle={{
+            borderWidth: 1,
+            margin: 10
+          }}
+          size={125}
+          title={item.firstName}
+          source={{
+            uri: item.imgUrl
+          }}
+          onPress={() =>
+            this.props.navigation.navigate('User', {
+              user: item
+            })
+          }
+        />
+      );
+    } else {
+      return (
+        <Avatar
+          keyExtractor={this.keyExtractor}
+          rounded
+          overlayContainerStyle={{
+            borderWidth: 1,
+            margin: 10
+          }}
+          size={125}
+          title={item.firstName}
+          source={{
+            uri: item.imgUrl
+          }}
+          onPress={() =>
+            this.props.navigation.navigate('AvatarChild', {
+              user: item
+            })
+          }
+        />
+      );
+    }
   };
 
   // end >> create family grid layout <<
 
   render() {
+    const user = this.props.user;
+    const family = this.findFamily(user);
+    const numColumns = 3;
+
     if (this.props.user.id && this.props.users.length) {
-      const user = this.props.user;
-      const family = this.findFamily(user);
-
-      const numColumns = 3;
-
       return (
         <View
           style={{
@@ -109,10 +131,8 @@ class Family extends Component {
                 uri: user.imgUrl
               }}
               onPress={() =>
-                this.props.navigation.navigate("User", {
-                  firstName: user.firstName,
-                  imgUrl: user.imgUrl,
-                  userID: user.id
+                this.props.navigation.navigate('User', {
+                  user: user
                 })
               }
             />

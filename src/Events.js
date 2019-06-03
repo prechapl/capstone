@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { Header, ListItem, Badge, Button } from 'react-native-elements';
+import { Header, ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 const myEvents = [
@@ -59,14 +59,14 @@ class Events extends Component {
                 <Header
                     leftComponent={<Button type='clear' title='MY EVENTS' titleStyle={{ color: 'white' }} onPress={() => this.setState({ selection: 'MY EVENTS' })} />}
                     centerComponent={<Button type='clear' title='ASSIGNED' titleStyle={{ color: 'white' }} onPress={() => this.setState({ selection: 'ASSIGNED' })} />}
-                    rightComponent={<Button type='clear' title='ADD' titleStyle={{ color: 'white' }} onPress={this.props.navigation.navigate('AddEvent')} />}
+                    rightComponent={<Button type='clear' title='ADD' titleStyle={{ color: 'white' }} onPress={() => this.props.navigation.navigate('AddEvent')} />}
                 />
                 {events.map((event, i) => {
                     return (
                         <TouchableOpacity
                             key={i}
                             onPress={() => {
-                                this.props.navigation.navigate('Event', event = { event })
+                                this.props.navigation.navigate('Event', { event: event, type: this.state.selection })
                             }} >
                             <ListItem
                                 key={i}

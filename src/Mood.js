@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Avatar, Button, Slider } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { setActiveMood, getActiveMood, getAllMoods } from './store';
+import { setActiveMood, getActiveMood } from './store';
 
 class Mood extends React.Component {
   constructor(props) {
@@ -19,15 +19,20 @@ class Mood extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.mood.id !== prevProps.mood.id) {
-      console.log('update ran, moods: ', this.props.moods.length);
+    if (
+      this.props.mood &&
+      prevProps.mood &&
+      this.props.mood.value !== prevProps.mood.value
+    ) {
       this.load();
     }
   }
 
   load = () => {
-    this.props.getActiveMood(this.props.navigation.getParam('userId', 'no id'));
-    this.props.getAllMoods(this.props.navigation.getParam('userId', 'no id'));
+    const user = this.props.navigation.getParam('user', 'no user');
+    const id = user.id;
+    this.props.getActiveMood(id);
+    this.setState({ mood: this.props.mood.value });
   };
 
   findColor = value => {
@@ -53,102 +58,93 @@ class Mood extends React.Component {
   };
 
   render() {
-    console.log('color', this.findColor(0.25));
-    const { navigation } = this.props;
-    const userTitle = navigation.getParam('firstName', 'no name');
-    const url = navigation.getParam('imgUrl', 'no url');
-    const id = navigation.getParam('userId', 'no id');
+    const user = this.props.navigation.getParam('user', 'no user');
 
-    if (this.props.mood.id) {
-      return (
+    return (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          backgroundColor: '#fff',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Text
+          style={{
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: 66
+          }}
+        >
+          My mood is {this.findMood(this.state.mood)}
+        </Text>
+
         <View
           style={{
-            flex: 1,
-            flexDirection: 'column',
-            backgroundColor: '#fff',
-            alignItems: 'center',
+            width: 300,
+            paddingTop: 50,
+            paddingBottom: 50,
             justifyContent: 'center'
           }}
         >
-          <Text>active mood value: {this.props.mood.value}</Text>
-          <Text>
-            date set: {this.props.mood.createdAt.slice(0, 10)} @{' '}
-            {this.props.mood.createdAt.slice(11, 19)}
-          </Text>
-          <Text>previous mood entries: {this.props.moods.length}</Text>
-          <Text
-            style={{
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              marginTop: 66
+          <Slider
+            value={this.state.mood}
+            step={0.25}
+            onValueChange={value => this.setState({ mood: value })}
+            onSlidingComplete={() =>
+              this.props.setActiveMood(user.id, this.state.mood)
+            }
+            thumbStyle={{
+              height: 80,
+              width: 80,
+              borderRadius: 40
             }}
-          >
-            My mood is {this.findMood(this.props.mood.value)}
-          </Text>
-          <View
-            style={{
-              width: 300,
-              paddingTop: 50,
-              paddingBottom: 50,
-              // alignItems: 'stretch',
-              justifyContent: 'center'
-            }}
-          >
-            <Slider
-              value={this.props.mood.value}
-              step={0.25}
-              onValueChange={value => this.setState({ mood: value })}
-              onSlidingComplete={() =>
-                this.props.setActiveMood(id, this.state.mood)
-              }
-              thumbStyle={{
-                height: 80,
-                width: 80,
-                borderRadius: 40
-              }}
-              thumbTintColor={this.findColor(this.props.mood.value)}
-              thumbTouchSize={{ width: 120, height: 120 }}
-              minimumTrackTintColor={this.findColor(this.props.mood.value)}
-            // maximumTrackTintColor="#D9241A"
-            // debugTouchArea={true}
-            />
-          </View>
-
-          <View style={{ marginTop: 5 }}>
-            <Avatar
-              rounded
-              overlayContainerStyle={styles.avatar}
-              size={150}
-              source={{
-                uri: `${url}`
-              }}
-              title={userTitle.slice(0, 1)}
-            />
-          </View>
-          <View style={{}}>
-            <Button
-              title="Family"
-              onPress={() => this.props.navigation.navigate('Family')}
-              buttonStyle={{ backgroundColor: '#8EB51A', margin: 24 }}
-            />
-
-            <Button
-              title="Values"
-              onPress={() => this.props.navigation.navigate('Values')}
-              buttonStyle={{ backgroundColor: '#7DC6CD', margin: 24 }}
-            />
-
-            <Button
-              title="Events"
-              onPress={() => this.props.navigation.navigate('Events')}
-              buttonStyle={{ backgroundColor: '#EF5029', margin: 24 }}
-            />
-          </View>
+            thumbTintColor={this.findColor(this.state.mood)}
+            thumbTouchSize={{ width: 120, height: 120 }}
+            minimumTrackTintColor={this.findColor(this.state.mood)}
+          />
         </View>
-      );
-    } else {
-      return null;
-    }
+
+        <View>
+          <Avatar
+            rounded
+            overlayContainerStyle={{ borderWidth: 1 }}
+            size={150}
+            source={{
+              uri: `${user.imgUrl}`
+            }}
+            title={user.firstName}
+          />
+          <Badge
+            containerStyle={{ position: 'absolute', top: 4, right: 4 }}
+            badgeStyle={{
+              backgroundColor: this.findColor(this.state.mood)
+            }}
+            value={this.findMood(this.state.mood)}
+          />
+        </View>
+        <View>
+          <Button
+            title="Family"
+            onPress={() => this.props.navigation.navigate('Family')}
+            buttonStyle={{ backgroundColor: '#8EB51A', margin: 24 }}
+          />
+
+          <Button
+            title="Values"
+            onPress={() => this.props.navigation.navigate('Values')}
+            buttonStyle={{ backgroundColor: '#7DC6CD', margin: 24 }}
+          />
+
+          <Button
+            title="Events"
+            onPress={() => this.props.navigation.navigate('Events')}
+            buttonStyle={{ backgroundColor: '#EF5029', margin: 24 }}
+          />
+        </View>
+      </View>
+    );
   }
 }
 
@@ -176,15 +172,13 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => {
   return {
     setActiveMood: (userId, value) => dispatch(setActiveMood(userId, value)),
-    getActiveMood: id => dispatch(getActiveMood(id)),
-    getAllMoods: id => dispatch(getAllMoods(id))
+    getActiveMood: id => dispatch(getActiveMood(id))
   };
 };
 
-const mapStateToProps = ({ mood, moods }) => {
+const mapStateToProps = ({ mood }) => {
   return {
-    mood: mood,
-    moods: moods
+    mood: mood
   };
 };
 

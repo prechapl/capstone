@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
-import { Card, Badge } from 'react-native-elements';
+import { Text, View } from 'react-native';
+import { Card, Badge, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+
 
 class SingleEvent extends Component {
     constructor() {
@@ -10,6 +11,7 @@ class SingleEvent extends Component {
     }
     render() {
         const event = this.props.navigation.getParam('event');
+        const type = this.props.navigation.getParam('type');
         const badgeStatusMap = {
             upcoming: 'primary',
             'completed-approved': 'success',
@@ -27,7 +29,7 @@ class SingleEvent extends Component {
             <Card
                 title={event.title}
                 subtitle={event.category}
-                containerStyle={{ borderColor: colorMap[event.category], flex: 1 }}
+                containerStyle={{ borderColor: colorMap[event.category], flex: 1, justifyContent: 'space-between' }}
             >
                 <Badge
                     value={event.status}
@@ -35,7 +37,6 @@ class SingleEvent extends Component {
                 />
                 <Text>
                     DATE: {event.deadline.toDateString()}
-
                 </Text>
                 <Text>
                     TIME: {event.deadline.toTimeString()}
@@ -44,6 +45,20 @@ class SingleEvent extends Component {
                     {event.description}
                 </Text>
 
+                {type === 'ASSIGNED' ? (<Button
+                    title="COMPLETE"
+                //onPress={() => this.props.completeAssignedTask()}
+                />) : (
+                        <View>
+                            <Button
+                                title="EDIT"
+                            //onPress === can edit 
+                            />
+                            <Button
+                                title="DELETE"
+                            />
+                        </View>
+                    )}
             </Card>
         )
     }

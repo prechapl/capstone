@@ -14,6 +14,7 @@ import ForgotPassword from './ForgotPassword';
 import Events from './Events';
 import SingleEvent from './SingleEvent';
 import AddEvent from './AddEvent';
+import AvatarChild from './AvatarChild';
 
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
@@ -30,7 +31,8 @@ const UserNavigator = createStackNavigator({
   User: User,
   Family: Family,
   Mood: Mood,
-  Events: Events
+  Events: Events,
+  AvatarChild: AvatarChild
 });
 
 const EventNavigator = createStackNavigator({
