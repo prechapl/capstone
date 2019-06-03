@@ -12,7 +12,8 @@ import AllPolls from './AllPolls';
 import SinglePoll from './SinglePoll';
 import ForgotPassword from './ForgotPassword';
 import Events from './Events';
-import SingleEvent from './SingleEvent'
+import SingleEvent from './SingleEvent';
+import AddEvent from './AddEvent';
 
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
@@ -34,7 +35,8 @@ const UserNavigator = createStackNavigator({
 
 const EventNavigator = createStackNavigator({
   Events: Events,
-  Event: SingleEvent
+  Event: SingleEvent,
+  AddEvent: AddEvent
 });
 
 const RootNavigator = createBottomTabNavigator({

@@ -59,7 +59,7 @@ class Events extends Component {
                 <Header
                     leftComponent={<Button type='clear' title='MY EVENTS' titleStyle={{ color: 'white' }} onPress={() => this.setState({ selection: 'MY EVENTS' })} />}
                     centerComponent={<Button type='clear' title='ASSIGNED' titleStyle={{ color: 'white' }} onPress={() => this.setState({ selection: 'ASSIGNED' })} />}
-                    rightComponent={{ text: 'ADD' }}
+                    rightComponent={<Button type='clear' title='ADD' titleStyle={{ color: 'white' }} onPress={this.props.navigation.navigate('AddEvent')} />}
                 />
                 {events.map((event, i) => {
                     return (
