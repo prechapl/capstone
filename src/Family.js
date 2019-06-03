@@ -15,7 +15,6 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-    //jane's id
     const id = '9ffc2e57-ead5-41c0-8ca2-92abfd7e4ab1';
 
     this.props.fetchUsers();
@@ -40,7 +39,7 @@ class Family extends Component {
     return data;
   };
 
-  keyExtractor = (item, index) => item.key;
+  keyExtractor = item => item.key;
 
   renderItem = ({ item }) => {
     if (item.empty === true) {
