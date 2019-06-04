@@ -85,7 +85,7 @@ const fetchAssigned = id => {
 const goUpdateAssigned = (id, updates) => {
   return dispatch => {
     return axios
-      .put(`${API_URL}/events/id`, updates)
+      .put(`${API_URL}/events/${id}`, updates)
       .then(res => res.data)
       .then(updatedEvent => dispatch(updateAssigned(updatedEvent)));
   };
@@ -94,7 +94,7 @@ const goUpdateAssigned = (id, updates) => {
 const goUpdateEvent = (id, updates) => {
   return dispatch => {
     return axios
-      .put(`${API_URL}/events/id`, updates)
+      .put(`${API_URL}/events/${id}`, updates)
       .then(res => res.data)
       .then(updatedEvent => dispatch(updateEvent(updatedEvent)));
   };
