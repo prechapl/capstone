@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Card, Badge, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { goUpdateAssigned, goUpdateEvent } from './store/events';
 
 
 class SingleEvent extends Component {
@@ -14,7 +15,7 @@ class SingleEvent extends Component {
         const type = this.props.navigation.getParam('type');
         const badgeStatusMap = {
             upcoming: 'primary',
-            'completed-approved': 'success',
+            'completed': 'success',
             'completed-pending': 'warning',
             overdue: 'warning',
             missed: 'error'
@@ -47,7 +48,7 @@ class SingleEvent extends Component {
 
                 {type === 'ASSIGNED' ? (<Button
                     title="COMPLETE"
-                //onPress={() => this.props.completeAssignedTask()}
+                    onPress={() => this.props.completeAssignedTask(event.id, { status: 'completed-pending' })}
                 />) : (
                         <View>
                             <Button
@@ -64,4 +65,10 @@ class SingleEvent extends Component {
     }
 }
 
-export default SingleEvent;
+const mapDispatchToProps = dispatch => {
+    return {
+        completeAssignedTask: (id, updates) => dispatch(goUpdateAssigned(id, updates))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(SingleEvent);
