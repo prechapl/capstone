@@ -16,9 +16,7 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-
     const id = '1544f466-8518-4b8d-91ed-f5f9660eee85';
-
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
@@ -30,32 +28,57 @@ class Family extends Component {
   };
 
   generateFamilyAvatars = family => {
-    return family.map(user => (
-      <ActionButton.Item
-        key={user.id}
-        onPress={() =>
-          this.props.navigation.navigate(
-            `${user.id > 18 ? 'AvatarAdult' : 'AvatarChild'}`,
-            {
-              user: user
+    return family.map(user => {
+      if (user.age > 18) {
+        return (
+          <ActionButton.Item
+            key={user.id}
+            onPress={() =>
+              this.props.navigation.navigate('AvatarAdult', {
+                user: user
+              })
             }
-          )
-        }
-      >
-        <Avatar
-          rounded
-          overlayContainerStyle={{
-            borderWidth: 1,
-            margin: 10
-          }}
-          size={100}
-          title={user.firstName}
-          source={{
-            uri: user.imgUrl
-          }}
-        />
-      </ActionButton.Item>
-    ));
+          >
+            <Avatar
+              rounded
+              overlayContainerStyle={{
+                borderWidth: 1,
+                margin: 10
+              }}
+              size={100}
+              title={user.firstName}
+              source={{
+                uri: user.imgUrl
+              }}
+            />
+          </ActionButton.Item>
+        );
+      } else {
+        return (
+          <ActionButton.Item
+            key={user.id}
+            onPress={() =>
+              this.props.navigation.navigate('AvatarChild', {
+                user: user
+              })
+            }
+          >
+            <Avatar
+              rounded
+              overlayContainerStyle={{
+                borderWidth: 1,
+                margin: 10
+              }}
+              size={100}
+              title={user.firstName}
+              source={{
+                uri: user.imgUrl
+              }}
+            />
+          </ActionButton.Item>
+        );
+      }
+    });
   };
 
   render() {
@@ -88,7 +111,7 @@ class Family extends Component {
                 <Avatar
                   rounded
                   overlayContainerStyle={{ borderWidth: 1 }}
-                  size={200}
+                  size={150}
                   title={user.firstName}
                   source={{
                     uri: user.imgUrl
