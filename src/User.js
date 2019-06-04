@@ -7,7 +7,6 @@ class User extends React.Component {
   render() {
     const { navigation } = this.props;
     const user = navigation.getParam('user', 'no user');
-    // console.log('user in user', user);
 
     if (user.id) {
       return (
@@ -40,8 +39,8 @@ class User extends React.Component {
               title={user.firstName}
             />
             <Button
-              title="Values"
-              onPress={() => this.props.navigation.navigate('Values')}
+              title="Polls"
+              onPress={() => this.props.navigation.navigate('Polls')}
               buttonStyle={{ backgroundColor: '#7DC6CD', margin: 24 }}
             />
           </View>
@@ -81,13 +80,3 @@ const styles = StyleSheet.create({
 });
 
 export default withNavigation(User);
-
-//testing connecting lines
-
-{
-  /* <View style={{ paddingLeft: 0 }}>
-<Svg width="300" height="300" style={{ paddingTop: 0 }}>
-  <Line x1="0" y1="0" x2="35" y2="35" stroke="red" strokeWidth="3" />
-</Svg>
-</View> */
-}

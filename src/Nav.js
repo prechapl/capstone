@@ -2,16 +2,20 @@ import {
   createBottomTabNavigator,
   createStackNavigator,
   createAppContainer
-} from "react-navigation";
-import Family from "./Family";
-import User from "./User";
-import Login from "./Login";
-import SignUp from "./SignUp";
-import Mood from "./Mood";
-import AllPolls from "./AllPolls";
-import SinglePoll from "./SinglePoll";
-import ForgotPassword from "./ForgotPassword";
-import AvatarChild from "./AvatarChild";
+} from 'react-navigation';
+import Family from './Family';
+import Login from './Login';
+import SignUp from './SignUp';
+import Mood from './Mood';
+import AllPolls from './AllPolls';
+import SinglePoll from './SinglePoll';
+import ForgotPassword from './ForgotPassword';
+import Events from './Events';
+import SingleEvent from './SingleEvent';
+import AddEvent from './AddEvent';
+import AvatarChild from './AvatarChild';
+import AvatarAdult from './AvatarAdult';
+import AvatarUser from './AvatarUser';
 
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
@@ -25,17 +29,25 @@ const AuthNavigator = createStackNavigator({
 });
 
 const UserNavigator = createStackNavigator({
-  User: User,
   Family: Family,
   Mood: Mood,
-  AvatarChild: AvatarChild
+  Events: Events,
+  AvatarChild: AvatarChild,
+  AvatarAdult: AvatarAdult,
+  AvatarUser: AvatarUser
+});
+
+const EventNavigator = createStackNavigator({
+  Events: Events,
+  Event: SingleEvent,
+  AddEvent: AddEvent
 });
 
 const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
   User: UserNavigator,
-  Polls: PollsNavigator
-  // AvatarChild: AvatarChild
+  Polls: PollsNavigator,
+  Events: EventNavigator
 });
 
 const AppContainer = createAppContainer(RootNavigator);

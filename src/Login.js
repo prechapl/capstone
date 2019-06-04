@@ -18,12 +18,11 @@ export default class Login extends Component {
     };
   }
 
-  handleSubmit = (ev, history) => {
+  handleSubmit = () => {
     this.props.navigation.navigate('Family');
   };
 
   render() {
-    console.log('navigation props', this.props.navigation.navigate);
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.container}>
@@ -99,12 +98,6 @@ const styles = StyleSheet.create({
     width: 300,
     paddingHorizontal: 10
   },
-  // button: {
-  //   backgroundColor: '#448AE6',
-  //   padding: 10,
-  //   margin: 10,
-  //   width: 300
-  // },
   buttonText: {
     textAlign: 'center',
     color: '#FFFFFF'

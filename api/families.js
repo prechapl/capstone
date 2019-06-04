@@ -15,4 +15,11 @@ router.get('/:id', (req, res, next) => {
         .catch(next)
 });
 
+//create new family
+router.post('/', (req, res, next) => {
+    Family.create(req.body)
+        .then(family => res.status(201).send(family))
+        .catch(next)
+})
+
 module.exports = router;

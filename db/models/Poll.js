@@ -16,6 +16,10 @@ const Poll = db.define('poll', {
                 msg: 'You must enter a question'
             }
         }
+    },
+    status: {
+        type: Sequelize.ENUM('open', 'closed'),
+        defaultValue: 'open'
     }
 }, {
         hooks: {
