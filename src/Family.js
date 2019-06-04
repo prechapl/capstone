@@ -41,8 +41,7 @@ class Family extends Component {
             <Avatar
               rounded
               overlayContainerStyle={{
-                borderWidth: 1,
-                margin: 10
+                borderWidth: 1
               }}
               size={100}
               title={user.firstName}
@@ -65,8 +64,7 @@ class Family extends Component {
             <Avatar
               rounded
               overlayContainerStyle={{
-                borderWidth: 1,
-                margin: 10
+                borderWidth: 1
               }}
               size={100}
               title={user.firstName}
@@ -95,9 +93,10 @@ class Family extends Component {
         >
           <View
             style={{
-              flexDirection: 'column',
+              flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              paddingEnd: 25
             }}
           >
             <ActionButton
@@ -105,20 +104,25 @@ class Family extends Component {
               degrees={360}
               radius={130}
               outRangeScale={0.5}
+              // onPress={() =>
+              //   this.props.navigation.navigate('AvatarUser', {
+              //     user: user
+              //   })
+              // }
+              onLongPress={() =>
+                this.props.navigation.navigate('AvatarUser', {
+                  user: user
+                })
+              }
               icon={
                 <Avatar
                   rounded
                   overlayContainerStyle={{ borderWidth: 1 }}
-                  size={200}
+                  size={175}
                   title={user.firstName}
                   source={{
                     uri: user.imgUrl
                   }}
-                  // onPress={() =>
-                  //   this.props.navigation.navigate('AvatarUser', {
-                  //     user: user
-                  //   })
-                  // }
                 />
               }
             >

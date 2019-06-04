@@ -22,12 +22,14 @@ class AvatarChild extends Component {
         >
           <View
             style={{
-              flexDirection: 'column',
+              flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              paddingEnd: 25
             }}
           >
             <ActionButton
+              active={true}
               degrees={360}
               radius={150}
               outRangeScale={0.75}
@@ -170,7 +172,7 @@ class AvatarChild extends Component {
 
               {/* Values */}
 
-              <ActionButton.Item
+              {/* <ActionButton.Item
                 onPress={() =>
                   this.props.navigation.navigate('Values', {
                     user: user
@@ -180,7 +182,7 @@ class AvatarChild extends Component {
                 <View style={{ width: 66, backgroundColor: '#AD0978' }}>
                   <Text style={styles.text}>Values</Text>
                 </View>
-              </ActionButton.Item>
+              </ActionButton.Item> */}
 
               {/* Location */}
 

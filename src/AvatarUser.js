@@ -25,16 +25,17 @@ class AvatarUser extends Component {
           }}
         >
           <ActionButton
+            active={true}
             degrees={360}
-            radius={120}
-            outRangeScale={0.75}
+            radius={130}
+            outRangeScale={0.8}
             icon={
               <Avatar
                 rounded
                 overlayContainerStyle={{
                   borderWidth: 1
                 }}
-                size={170}
+                size={175}
                 source={{
                   uri: `${user.imgUrl}`
                 }}

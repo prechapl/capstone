@@ -21,14 +21,16 @@ class AvatarAdult extends Component {
       >
         <View
           style={{
-            flexDirection: 'column',
-            alignItems: 'center'
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingEnd: 25
           }}
         >
           <ActionButton
+            active={true}
             degrees={360}
             radius={120}
-            // active={true}
             // position="right"
             outRangeScale={0.75}
             icon={
