@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import { fetchUsers, fetchUser, fetchRelated } from './store/users';
-import { connect } from 'react-redux';
-import ActionButton from 'react-native-circular-action-menu';
+import React, { Component } from "react";
+import { View } from "react-native";
+import { Avatar } from "react-native-elements";
+import { fetchUsers, fetchUser, fetchRelated } from "./store/users";
+import { connect } from "react-redux";
+import ActionButton from "react-native-circular-action-menu";
 
 class Family extends Component {
   constructor() {
@@ -16,7 +16,7 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-    const id = '1544f466-8518-4b8d-91ed-f5f9660eee85';
+    const id = "1544f466-8518-4b8d-91ed-f5f9660eee85";
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
@@ -34,7 +34,7 @@ class Family extends Component {
           <ActionButton.Item
             key={user.id}
             onPress={() =>
-              this.props.navigation.navigate('AvatarAdult', {
+              this.props.navigation.navigate("AvatarAdult", {
                 user: user
               })
             }
@@ -58,7 +58,7 @@ class Family extends Component {
           <ActionButton.Item
             key={user.id}
             onPress={() =>
-              this.props.navigation.navigate('AvatarChild', {
+              this.props.navigation.navigate("AvatarChild", {
                 user: user
               })
             }
@@ -90,16 +90,16 @@ class Family extends Component {
         <View
           style={{
             flex: 1,
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
           <View
             style={{
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center'
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center"
             }}
           >
             <ActionButton

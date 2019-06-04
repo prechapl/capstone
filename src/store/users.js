@@ -5,6 +5,7 @@ import axios from 'axios';
 const GET_USERS = 'GET_USERS';
 const GET_USER = 'GET_USER';
 const GET_RELATED = 'GET_RELATED';
+const GET_USER_POLLS = 'GET_USER_POLLS';
 
 //ACTION CREATORS
 
@@ -19,6 +20,10 @@ const getUser = user => ({
 const getRelated = related => ({
   type: GET_RELATED,
   related
+});
+const getUserPolls = polls => ({
+  type: GET_USER_POLLS,
+  polls
 });
 
 //THUNKS
@@ -55,6 +60,15 @@ const fetchRelated = id => {
   };
 };
 
+const fetchUserPolls = id => {
+  return dispatch => {
+    return axios
+      .get(`http://capstone-api-server.herokuapp.com/api/users/${id}/polls`)
+      .then(({ data }) => dispatch(getUserPolls(data)))
+      .catch(error => console.log(error));
+  };
+};
+
 //REDUCERS
 
 const usersReducer = (state = [], action) => {
@@ -84,11 +98,22 @@ const relatedReducer = (state = [], action) => {
   }
 };
 
+const userPollsReducer = (state = [], action) => {
+  switch (action.type) {
+    case GET_USER_POLLS:
+      return action.polls;
+    default:
+      return state;
+  }
+};
+
 export {
   fetchUsers,
   fetchUser,
   fetchRelated,
+  fetchUserPolls,
   userReducer,
   usersReducer,
-  relatedReducer
+  relatedReducer,
+  userPollsReducer
 };
