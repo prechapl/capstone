@@ -15,7 +15,6 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-    //jane's id
     const id = '9ffc2e57-ead5-41c0-8ca2-92abfd7e4ab1';
 
     this.props.fetchUsers();
@@ -34,7 +33,6 @@ class Family extends Component {
     const numFullRows = Math.floor(data.length / numColumns);
     let numElementsLastRow = data.length - numFullRows * numColumns;
     while (numElementsLastRow !== numColumns && numElementsLastRow !== 0) {
-      // while (numElementsLastRow !== numColumns) {
       data.push({ key: `blank-${numElementsLastRow}`, empty: true });
       numElementsLastRow = numElementsLastRow + 1;
     }
@@ -68,7 +66,6 @@ class Family extends Component {
             uri: item.imgUrl
           }}
           onPress={() =>
-            // this.props.navigation.navigate('User', {
             this.props.navigation.navigate('AvatarAdult', {
               user: item
             })

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Avatar, Badge, Button, Slider } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { setActiveMood, getActiveMood } from './store/mood';
