@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { fetchUsers, fetchUser, fetchRelated } from './store/users';
@@ -104,16 +104,16 @@ class Family extends Component {
               degrees={360}
               radius={130}
               outRangeScale={0.5}
-              // onPress={() =>
-              //   this.props.navigation.navigate('AvatarUser', {
-              //     user: user
-              //   })
-              // }
-              onLongPress={() =>
+              onPress={() =>
                 this.props.navigation.navigate('AvatarUser', {
                   user: user
                 })
               }
+              // onLongPress={() =>
+              //   this.props.navigation.navigate('AvatarUser', {
+              //     user: user
+              //   })
+              // }
               icon={
                 <Avatar
                   rounded

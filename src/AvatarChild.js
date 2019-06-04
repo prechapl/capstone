@@ -8,7 +8,6 @@ class AvatarChild extends Component {
   render() {
     const { navigation } = this.props;
     const user = navigation.getParam('user', 'no user');
-    // console.log('user in AvatarChild', user);
 
     if (user.id) {
       return (
@@ -114,34 +113,6 @@ class AvatarChild extends Component {
                 </View>
               </ActionButton.Item>
 
-              {/* Grades */}
-
-              {/* <ActionButton.Item
-                onPress={() =>
-                  this.props.navigation.navigate('Grades', {
-                    user: user
-                  })
-                }
-              >
-                <View style={{ width: 62, backgroundColor: '#E0BF00' }}>
-                  <Text style={styles.text}>Grades</Text>
-                </View>
-              </ActionButton.Item> */}
-
-              {/* Gratitude */}
-
-              {/* <ActionButton.Item
-                onPress={() =>
-                  this.props.navigation.navigate('Gratitude', {
-                    user: user
-                  })
-                }
-              >
-                <View style={{ width: 62, backgroundColor: '#AD0978' }}>
-                  <Text style={styles.text}>Gratitude</Text>
-                </View>
-              </ActionButton.Item> */}
-
               {/* Goals */}
 
               <ActionButton.Item
@@ -155,34 +126,6 @@ class AvatarChild extends Component {
                   <Text style={styles.text}>Goals</Text>
                 </View>
               </ActionButton.Item>
-
-              {/* Sports */}
-
-              {/* <ActionButton.Item
-                onPress={() =>
-                  this.props.navigation.navigate('Sports', {
-                    user: user
-                  })
-                }
-              >
-                <View style={{ width: 62, backgroundColor: '#BA9E00' }}>
-                  <Text style={styles.text}>Sports</Text>
-                </View>
-              </ActionButton.Item> */}
-
-              {/* Values */}
-
-              {/* <ActionButton.Item
-                onPress={() =>
-                  this.props.navigation.navigate('Values', {
-                    user: user
-                  })
-                }
-              >
-                <View style={{ width: 66, backgroundColor: '#AD0978' }}>
-                  <Text style={styles.text}>Values</Text>
-                </View>
-              </ActionButton.Item> */}
 
               {/* Location */}
 
@@ -209,7 +152,6 @@ class AvatarChild extends Component {
 
 const styles = StyleSheet.create({
   text: {
-    // justifyContent: 'space-around',
     paddingStart: 5,
     paddingTop: 0,
     paddingBottom: 1,

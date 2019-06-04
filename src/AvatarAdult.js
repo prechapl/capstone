@@ -8,7 +8,6 @@ class AvatarAdult extends Component {
   render() {
     const { navigation } = this.props;
     const user = navigation.getParam('user', 'no user');
-    // console.log('user in AvatarAdult', user);
 
     return (
       <View
@@ -31,7 +30,6 @@ class AvatarAdult extends Component {
             active={true}
             degrees={360}
             radius={120}
-            // position="right"
             outRangeScale={0.75}
             icon={
               <Avatar
