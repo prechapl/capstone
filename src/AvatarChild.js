@@ -1,201 +1,165 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import { Avatar, Button } from "react-native-elements";
-import { withNavigation } from "react-navigation";
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Avatar } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
+import ActionButton from 'react-native-circular-action-menu';
 
 class AvatarChild extends Component {
   render() {
     const { navigation } = this.props;
-    const user = navigation.getParam("user", "no user");
+    const user = navigation.getParam('user', 'no user');
 
-    return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
+    if (user.id) {
+      return (
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center"
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           <View
             style={{
-              flexDirection: "column",
-              justifyContent: "space-between"
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingEnd: 25
             }}
           >
-            <Button
-              title="Events"
-              onPress={() => this.props.navigation.navigate("Events")}
-              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 6 }}
-            />
-          </View>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "space-between"
-            }}
-          >
-            <Button
-              title="Grades"
-              onPress={() => this.props.navigation.navigate("Grades")}
-              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 6 }}
-            />
-          </View>
-
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "space-between"
-            }}
-          >
-            <Button
-              title="Gratitude"
-              onPress={() => this.props.navigation.navigate("Gratitude")}
-              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 6 }}
-            />
-          </View>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "space-between"
-            }}
-          >
-            <Button
-              title="Goals"
-              onPress={() => this.props.navigation.navigate("Goals")}
-              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 6 }}
-            />
-          </View>
-          <Avatar
-            keyExtractor={item => item.key}
-            rounded
-            overlayContainerStyle={{
-              borderWidth: 1,
-              margin: 10
-            }}
-            size={150}
-            title={user.firstName}
-            source={{
-              uri: user.imgUrl
-            }}
-            onPress={() =>
-              this.props.navigation.navigate("AvatarChild", {
-                firstName: user.firstName,
-                imgUrl: user.imgUrl,
-                user: user
-              })
-            }
-          />
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "space-between"
-            }}
-          >
-            <Button
-              title="Location"
-              onPress={() => this.props.navigation.navigate("Location")}
-              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 6 }}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "space-between"
-            }}
-          >
-            <Button
-              title="Moods"
-              onPress={() => this.props.navigation.navigate("Moods")}
-              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 6 }}
-            />
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center"
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "space-between"
-              }}
+            <ActionButton
+              active={true}
+              degrees={360}
+              radius={150}
+              outRangeScale={0.75}
+              icon={
+                <Avatar
+                  rounded
+                  overlayContainerStyle={{
+                    borderWidth: 1
+                  }}
+                  size={170}
+                  source={{
+                    uri: `${user.imgUrl}`
+                  }}
+                  title={user.firstName}
+                />
+              }
             >
-              <Button
-                title="Polls"
-                onPress={() => this.props.navigation.navigate("Polls")}
-                buttonStyle={{ backgroundColor: "#7DC6CD", margin: 6 }}
-              />
-            </View>
-          </View>
+              {/* Records */}
 
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "space-between"
-            }}
-          >
-            <Button
-              title="Sports"
-              onPress={() => this.props.navigation.navigate("Sports")}
-              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 6 }}
-            />
+              <ActionButton.Item
+                onPress={() =>
+                  this.props.navigation.navigate('Records', {
+                    user: user
+                  })
+                }
+              >
+                <View style={{ width: 82, backgroundColor: '#E0BF00' }}>
+                  <Text style={styles.text}>Records</Text>
+                </View>
+              </ActionButton.Item>
+
+              {/* MOOD */}
+              <ActionButton.Item
+                onPress={() =>
+                  this.props.navigation.navigate('Mood', {
+                    user: user
+                  })
+                }
+              >
+                <View style={{ width: 62, backgroundColor: '#FF9900' }}>
+                  <Text style={styles.text}>Mood</Text>
+                </View>
+              </ActionButton.Item>
+
+              {/* FAMILY */}
+              <ActionButton.Item
+                onPress={() =>
+                  this.props.navigation.navigate('Family', {
+                    user: user
+                  })
+                }
+              >
+                <View style={{ width: 66, backgroundColor: '#8EB51A' }}>
+                  <Text style={styles.text}>Family</Text>
+                </View>
+              </ActionButton.Item>
+
+              {/* Events */}
+              <ActionButton.Item
+                onPress={() =>
+                  this.props.navigation.navigate('Events', {
+                    user: user
+                  })
+                }
+              >
+                <View style={{ width: 68, backgroundColor: '#EF5029' }}>
+                  <Text style={styles.text}>Events</Text>
+                </View>
+              </ActionButton.Item>
+
+              {/* Polls */}
+
+              <ActionButton.Item
+                onPress={() =>
+                  this.props.navigation.navigate('Polls', {
+                    user: user
+                  })
+                }
+              >
+                <View style={{ width: 53, backgroundColor: '#7DC6CD' }}>
+                  <Text style={styles.text}>Polls</Text>
+                </View>
+              </ActionButton.Item>
+
+              {/* Goals */}
+
+              <ActionButton.Item
+                onPress={() =>
+                  this.props.navigation.navigate('Goals', {
+                    user: user
+                  })
+                }
+              >
+                <View style={{ width: 61, backgroundColor: '#1500FA' }}>
+                  <Text style={styles.text}>Goals</Text>
+                </View>
+              </ActionButton.Item>
+
+              {/* Location */}
+
+              <ActionButton.Item
+                onPress={() =>
+                  this.props.navigation.navigate('Location', {
+                    user: user
+                  })
+                }
+              >
+                <View style={{ width: 84, backgroundColor: '#7DC6CD' }}>
+                  <Text style={styles.text}>Location</Text>
+                </View>
+              </ActionButton.Item>
+            </ActionButton>
           </View>
         </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "space-between"
-            }}
-          >
-            <Button
-              title="Values"
-              onPress={() => this.props.navigation.navigate("Values")}
-              buttonStyle={{ backgroundColor: "#7DC6CD", margin: 6 }}
-            />
-          </View>
-        </View>
-      </View>
-    );
+      );
+    } else {
+      return null;
+    }
   }
 }
+
+const styles = StyleSheet.create({
+  text: {
+    paddingStart: 5,
+    paddingTop: 0,
+    paddingBottom: 1,
+    marginBottom: 1,
+
+    color: 'white',
+    fontSize: 20
+  }
+});
 
 export default withNavigation(AvatarChild);

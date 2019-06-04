@@ -4,7 +4,6 @@ import {
   createAppContainer
 } from 'react-navigation';
 import Family from './Family';
-import User from './User';
 import Login from './Login';
 import SignUp from './SignUp';
 import Mood from './Mood';
@@ -15,6 +14,8 @@ import Events from './Events';
 import SingleEvent from './SingleEvent';
 import AddEvent from './AddEvent';
 import AvatarChild from './AvatarChild';
+import AvatarAdult from './AvatarAdult';
+import AvatarUser from './AvatarUser';
 
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
@@ -28,11 +29,12 @@ const AuthNavigator = createStackNavigator({
 });
 
 const UserNavigator = createStackNavigator({
-  User: User,
   Family: Family,
   Mood: Mood,
   Events: Events,
-  AvatarChild: AvatarChild
+  AvatarChild: AvatarChild,
+  AvatarAdult: AvatarAdult,
+  AvatarUser: AvatarUser
 });
 
 const EventNavigator = createStackNavigator({
