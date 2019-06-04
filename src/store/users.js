@@ -11,19 +11,19 @@ const GET_USER_POLLS = 'GET_USER_POLLS';
 
 const getUsers = users => ({
   type: GET_USERS,
-  users
+  users,
 });
 const getUser = user => ({
   type: GET_USER,
-  user
+  user,
 });
 const getRelated = related => ({
   type: GET_RELATED,
-  related
+  related,
 });
 const getUserPolls = polls => ({
   type: GET_USER_POLLS,
-  polls
+  polls,
 });
 
 //THUNKS
@@ -45,6 +45,35 @@ const fetchUser = id => {
       .then(response => response.data)
       .then(user => dispatch(getUser(user)))
       .catch(error => console.log(error));
+  };
+};
+
+const loginUser = (email, password) => {
+  return dispatch => {
+    return axios
+      .put('https://capstone-api-server.herokuapp.com/api/users/login', {
+        email,
+        password,
+      })
+      .then(response => response.data)
+      .then(user => dispatch(getUser(user)));
+  };
+};
+
+const getUserSession = () => {
+  return dispatch => {
+    return axios
+      .get('https://capstone-api-server.herokuapp.com/api/users/session')
+      .then(response => response.data)
+      .then(user => dispatch(getUser(user)));
+  };
+};
+
+const logoutUser = () => {
+  return dispatch => {
+    return axios
+      .delete('https://capstone-api-server.herokuapp.com/api/users/logout')
+      .then(() => dispatch(getUser({})));
   };
 };
 
@@ -110,10 +139,13 @@ const userPollsReducer = (state = [], action) => {
 export {
   fetchUsers,
   fetchUser,
+  loginUser,
+  logoutUser,
+  getUserSession,
   fetchRelated,
   fetchUserPolls,
   userReducer,
   usersReducer,
   relatedReducer,
-  userPollsReducer
+  userPollsReducer,
 };
