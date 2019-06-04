@@ -30,8 +30,6 @@ class AvatarChild extends Component {
             <ActionButton
               degrees={360}
               radius={150}
-              // active={true}
-              // position="right"
               outRangeScale={0.75}
               icon={
                 <Avatar
