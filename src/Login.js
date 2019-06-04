@@ -18,7 +18,7 @@ export default class Login extends Component {
     };
   }
 
-  handleSubmit = (ev, history) => {
+  handleSubmit = () => {
     this.props.navigation.navigate('Family');
   };
 
