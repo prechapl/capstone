@@ -4,7 +4,6 @@ import {
   createAppContainer
 } from 'react-navigation';
 import Family from './Family';
-import User from './User';
 import Login from './Login';
 import SignUp from './SignUp';
 import Mood from './Mood';
@@ -30,7 +29,6 @@ const AuthNavigator = createStackNavigator({
 });
 
 const UserNavigator = createStackNavigator({
-  User: User,
   Family: Family,
   Mood: Mood,
   Events: Events,

@@ -8,7 +8,6 @@ class AvatarUser extends Component {
   render() {
     const { navigation } = this.props;
     const user = navigation.getParam('user', 'no user');
-    // console.log('user in AvatarUser', user);
 
     return (
       <View
@@ -28,8 +27,6 @@ class AvatarUser extends Component {
           <ActionButton
             degrees={360}
             radius={120}
-            // active={true}
-            // position="right"
             outRangeScale={0.75}
             icon={
               <Avatar
