@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { fetchUsers, fetchUserPolls } from './store/users';
-import { createPollThunk } from './store/polls';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,14 +30,17 @@ const styles = StyleSheet.create({
 });
 
 class AllPolls extends Component {
-  componentDidMount() {
-    this.props.fetchUsers();
-    this.props.fetchUserPolls('e5fce01a-b34d-4472-8989-7368d033e6eb');
+  constructor() {
+    super();
+    this.state = {
+      text: ''
+    };
   }
 
-  createPoll = () => {
-    console.log('create new poll reached');
-  };
+  componentDidMount() {
+    this.props.fetchUsers();
+    this.props.fetchUserPolls('7ae98093-504d-4137-9acd-81d976990b42');
+  }
 
   render() {
     const { userPolls } = this.props;
@@ -68,7 +70,7 @@ class AllPolls extends Component {
             margin: 10,
             width: 300
           }}
-          onPress={this.createPoll}
+          onPress={() => this.props.navigation.navigate('CreatePoll')}
         >
           <Text style={styles.createButtonText}>Create New Poll</Text>
         </TouchableOpacity>

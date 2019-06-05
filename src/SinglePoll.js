@@ -56,7 +56,7 @@ class SinglePoll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 'e5fce01a-b34d-4472-8989-7368d033e6eb',
+      userId: '7ae98093-504d-4137-9acd-81d976990b42',
       pollId: props.navigation.getParam('id'),
       choiceId: '',
       selectedOption: ''
