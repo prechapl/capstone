@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   KeyboardAvoidingView,
   Text,
@@ -6,33 +6,33 @@ import {
   Picker,
   StyleSheet,
   TouchableOpacity
-} from 'react-native';
-import { connect } from 'react-redux';
-import { goCreateEvent } from './store/events';
+} from "react-native";
+import { connect } from "react-redux";
+import { goCreateEvent } from "./store/events";
 
 class AddEvent extends Component {
   constructor() {
     super();
     this.state = {
-      title: '',
-      category: 'event',
-      description: ''
+      title: "",
+      category: "event",
+      description: ""
     };
   }
   save = () => {
     const id = this.props.id
       ? this.props.id
-      : '23af4a42-29c3-4ab2-8229-67bac74bea03';
+      : "1544f466-8518-4b8d-91ed-f5f9660eee85";
     const newEvent = this.state;
     newEvent.ownerId = id;
     this.props.saveEvent(newEvent);
   };
   render() {
     const colorMap = {
-      chore: '#AA8EB7',
-      event: '#9BB8D5',
-      appointment: '#BCD59B',
-      errand: '#D79963'
+      chore: "#AA8EB7",
+      event: "#9BB8D5",
+      appointment: "#BCD59B",
+      errand: "#D79963"
     };
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -53,7 +53,7 @@ class AddEvent extends Component {
           onValueChange={category => this.setState({ category })}
           style={{ height: 50, width: 100 }}
         >
-          <Picker.Item label="event" value="event" style={{ color: 'red' }} />
+          <Picker.Item label="event" value="event" style={{ color: "red" }} />
           <Picker.Item
             label="chore"
             value="chore"
@@ -93,26 +93,26 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
   input: {
     height: 40,
-    backgroundColor: '#D3D3D4',
+    backgroundColor: "#D3D3D4",
     marginBottom: 20,
     width: 300,
     paddingHorizontal: 10
   },
   button: {
-    backgroundColor: '#448AE6',
+    backgroundColor: "#448AE6",
     padding: 10,
     width: 300,
     margin: 10
   },
   buttonText: {
-    textAlign: 'center',
-    color: '#FFFFFF'
+    textAlign: "center",
+    color: "#FFFFFF"
   },
   header: {
     padding: 10,
