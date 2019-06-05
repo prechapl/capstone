@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Avatar } from 'react-native-elements';
+import React, { Component } from "react";
+import { View } from "react-native";
+import { Avatar } from "react-native-elements";
 import {
   fetchUsers,
   fetchUser,
   fetchRelated,
   getActiveMood
-} from './store/users';
-import { connect } from 'react-redux';
-import ActionButton from 'react-native-circular-action-menu';
-import AvatarGenerator from './AvatarGenerator';
+} from "./store/users";
+import { connect } from "react-redux";
+import ActionButton from "react-native-circular-action-menu";
+import AvatarGenerator from "./AvatarGenerator";
 
 class Family extends Component {
   constructor() {
@@ -28,7 +28,7 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-    const id = 'e5fce01a-b34d-4472-8989-7368d033e6eb';
+    const id = "e5fce01a-b34d-4472-8989-7368d033e6eb";
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
@@ -40,25 +40,25 @@ class Family extends Component {
   };
 
   render() {
+    // console.log("family", family);
+
     const user = this.props.user;
     const family = this.findFamily(user);
-    console.log('family', family);
-
-    if (this.props.user.id && this.props.related.length) {
+    if (this.props.user.id && family.length) {
       return (
         <View
           style={{
             flex: 1,
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
               paddingEnd: 25
             }}
           >
@@ -68,7 +68,7 @@ class Family extends Component {
               radius={130}
               outRangeScale={1}
               onLongPress={() =>
-                this.props.navigation.navigate('AvatarUser', {
+                this.props.navigation.navigate("AvatarUser", {
                   user: user
                 })
               }
@@ -88,22 +88,24 @@ class Family extends Component {
               }
             />
 
-            {family.map((person, idx) => {
-              return (
-                <ActionButton.Item
-                  key={idx}
-                  onPress={() =>
-                    this.props.navigation.navigate('AvatarAdult', {
-                      user: person
-                    })
-                  }
-                >
-                  <AvatarGenerator user={person} />
-                </ActionButton.Item>
-              );
-            })}
-
-            {/* <AvatarGenerator user={user} size={175} items={family} /> */}
+            {family !== undefined
+              ? family.map(person => {
+                  return (
+                    <View key={user.id}>
+                      <ActionButton.Item
+                        // key={user.id}
+                        onPress={() =>
+                          this.props.navigation.navigate("AvatarAdult", {
+                            user: person
+                          })
+                        }
+                      >
+                        <AvatarGenerator user={person} />
+                      </ActionButton.Item>
+                    </View>
+                  );
+                })
+              : null}
           </View>
         </View>
       );
