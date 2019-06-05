@@ -5,6 +5,7 @@ import { fetchUserPolls } from './users';
 
 const GET_CHOICES = 'GET_CHOICES';
 const GET_VOTES = 'GET_VOTES';
+const GET_USER_VOTES = 'GET_USER_VOTES';
 
 //ACTION CREATORS
 
@@ -15,6 +16,11 @@ const getChoices = choices => ({
 
 const getVotes = votes => ({
   type: GET_VOTES,
+  votes
+});
+
+const getUserVotes = votes => ({
+  type: GET_USER_VOTES,
   votes
 });
 
@@ -38,6 +44,16 @@ const fetchVotes = id => {
   };
 };
 
+const fetchUserVotes = (pollId, userId) => {
+  return dispatch => {
+    return axios
+      .get(
+        `https://capstone-api-server.herokuapp.com/api/polls/${pollId}/votes/${userId}`
+      )
+      .then(({ data }) => dispatch(getUserVotes(data)))
+      .catch(error => console.log(error));
+  };
+};
 const castVoteThunk = (id, vote) => {
   return dispatch => {
     return axios
@@ -89,12 +105,23 @@ const votesReducer = (state = [], action) => {
   }
 };
 
+const userVotesReducer = (state = [], action) => {
+  switch (action.type) {
+    case GET_USER_VOTES:
+      return action.votes;
+    default:
+      return state;
+  }
+};
+
 export {
   fetchChoices,
   fetchVotes,
+  fetchUserVotes,
   castVoteThunk,
+  createPollThunk,
+  changeVoteThunk,
   choicesReducer,
   votesReducer,
-  createPollThunk,
-  changeVoteThunk
+  userVotesReducer
 };

@@ -8,7 +8,12 @@ import {
 } from 'react-native';
 import { RadioButtons } from 'react-native-radio-buttons';
 import { connect } from 'react-redux';
-import { fetchChoices, fetchVotes, castVoteThunk } from './store/polls';
+import {
+  fetchChoices,
+  fetchVotes,
+  castVoteThunk,
+  changeVoteThunk
+} from './store/polls';
 import { findChoiceText } from './HelperFunctions';
 import PureChart from 'react-native-pure-chart';
 
@@ -64,6 +69,13 @@ class SinglePoll extends React.Component {
 
   handleSubmit = () => {
     this.props.castVote(this.state.pollId, this.state);
+  };
+
+  handleDelete = () => {
+    this.props.changeVote(
+      this.state.pollId,
+      '5a6b80e9-f20d-450b-905d-bc14c8149bd2'
+    );
   };
 
   render() {
@@ -134,6 +146,18 @@ class SinglePoll extends React.Component {
         <View style={styles.container}>
           <Text style={styles.header}>{question}</Text>
           <PureChart data={votesData} type="pie" />
+
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#8EB51A',
+              padding: 10,
+              margin: 10,
+              width: 300
+            }}
+            onPress={this.handleSubmit}
+          >
+            <Text style={styles.buttonText}>Change Vote</Text>
+          </TouchableOpacity>
         </View>
       );
     } else {
@@ -170,7 +194,8 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchChoices: id => dispatch(fetchChoices(id)),
     fetchVotes: id => dispatch(fetchVotes(id)),
-    castVote: (id, vote) => dispatch(castVoteThunk(id, vote))
+    castVote: (id, vote) => dispatch(castVoteThunk(id, vote)),
+    changeVote: (pollId, voteId) => dispatch(changeVoteThunk(pollId, voteId))
   };
 };
 

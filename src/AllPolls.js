@@ -22,10 +22,6 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     width: 300
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#FFFFFF'
   }
 });
 
@@ -55,19 +51,6 @@ class AllPolls extends Component {
             <Text style={styles.buttonText}>{poll.text}</Text>
           </TouchableOpacity>
         ))}
-
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#7DC6CD',
-            padding: 10,
-            margin: 10,
-            width: 300
-          }}
-          onPress={() => this.props.navigation.navigate('CreatePoll')}
-        >
-          {' '}
-          <Text style={styles.buttonText}>CreatePoll</Text>
-        </TouchableOpacity>
       </View>
     );
   }
