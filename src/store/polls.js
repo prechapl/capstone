@@ -50,10 +50,10 @@ const castVoteThunk = (id, vote) => {
   };
 };
 
-const createPollThunk = (id, userId, poll) => {
+const createPollThunk = (userId, poll) => {
   return dispatch => {
     return axios
-      .post(`https://capstone-api-server.herokuapp.com/api/polls/${id}/`, poll)
+      .post(`https://capstone-api-server.herokuapp.com/api/polls/`, poll)
       .then(() => dispatch(fetchUserPolls(userId)));
   };
 };
