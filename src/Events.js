@@ -15,7 +15,7 @@ class Events extends Component {
     //must fetch events
     const id = this.props.id
       ? this.props.id
-      : '23af4a42-29c3-4ab2-8229-67bac74bea03';
+      : 'e5fce01a-b34d-4472-8989-7368d033e6eb';
     this.props.fetchEvents(id);
     this.props.fetchAssigned(id);
   }
