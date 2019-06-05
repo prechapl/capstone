@@ -65,6 +65,7 @@ class SinglePoll extends React.Component {
   componentDidMount() {
     this.props.fetchChoices(this.state.pollId);
     this.props.fetchVotes(this.state.pollId);
+    this.props.fetchUserVotes(this.state.pollId, this.state.userId);
   }
 
   handleSubmit = () => {
@@ -72,10 +73,7 @@ class SinglePoll extends React.Component {
   };
 
   handleDelete = () => {
-    this.props.changeVote(
-      this.state.pollId,
-      '5a6b80e9-f20d-450b-905d-bc14c8149bd2'
-    );
+    this.props.changeVote(this.state.pollId, this.state.userId);
   };
 
   render() {
@@ -154,7 +152,7 @@ class SinglePoll extends React.Component {
               margin: 10,
               width: 300
             }}
-            onPress={this.handleSubmit}
+            onPress={this.handleDelete}
           >
             <Text style={styles.buttonText}>Change Vote</Text>
           </TouchableOpacity>

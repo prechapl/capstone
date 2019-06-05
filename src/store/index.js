@@ -8,7 +8,7 @@ import {
   userPollsReducer
 } from './users';
 import { eventReducer, assignedEventReducer } from './events';
-import { choicesReducer, votesReducer, userVotesReducer } from './polls';
+import { choicesReducer, votesReducer } from './polls';
 
 const reducer = combineReducers({
   users: usersReducer,
@@ -20,8 +20,7 @@ const reducer = combineReducers({
   assignedEvents: assignedEventReducer,
   userPolls: userPollsReducer,
   choices: choicesReducer,
-  votes: votesReducer,
-  userVotes: userVotesReducer
+  votes: votesReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
