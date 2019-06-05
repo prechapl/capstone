@@ -1,10 +1,8 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Avatar } from "react-native-elements";
-import { withNavigation } from "react-navigation";
-import ActionButton from "react-native-circular-action-menu";
-
-//user, button data,
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Avatar } from 'react-native-elements';
+// import { withNavigation } from 'react-navigation';
+import ActionButton from 'react-native-circular-action-menu';
 
 class AvatarGenerator extends Component {
   constructor(props) {
@@ -12,49 +10,53 @@ class AvatarGenerator extends Component {
   }
 
   render() {
-    // const { navigation } = this.props;
-    // const user = navigation.getParam("user", "no user");
+    const { user, items, size } = this.props;
 
-    const { user, buttons } = this.props;
-
-    // if (user.age > 18) {
     return (
-      <ActionButton
-        active={true}
-        degrees={360}
-        radius={130}
-        outRangeScale={0.8}
-        icon={
-          <Avatar
-            rounded
-            overlayContainerStyle={{
-              borderWidth: 1
-            }}
-            size={175}
-            source={{
-              uri: `${user.imgUrl}`
-            }}
-            title={user.firstName}
-          />
-        }
-      />
+      <View key={user.id}>
+        <ActionButton
+          // active={true}
+          degrees={360}
+          radius={130}
+          outRangeScale={1}
+          icon={
+            <Avatar
+              rounded
+              overlayContainerStyle={{
+                borderWidth: 3
+              }}
+              size={size}
+              source={{
+                uri: `${user.imgUrl}`
+              }}
+              title={user.firstName}
+              // activeOpacity={0}
+            />
+          }
+          // buttonColor="rgba(0, 0, 0, 0)"
+          // btnOutRange="rgba(0, 0, 0, 0)"
+        />
 
-        { buttons.map(button => {
-          return (
-          <ActionButton.Item
-            key={button.title}
-            onPress={() =>
-              this.props.navigation.navigate(button.title, {
-                user: user
-              })
-            }
-          >
-            <View style={{ width: 62, backgroundColor: "#FF9900" }}>
-              <Text style={styles.text}>Mood</Text>
-            </View>
-          </ActionButton.Item>
-        )})
-      } 
+        {items !== undefined
+          ? items.forEach(item => {
+              return (
+                <ActionButton.Item
+                  // key={idx}
+                  onPress={() =>
+                    this.props.navigation.navigate('temp', {
+                      user: user
+                    })
+                  }
+                >
+                  <View style={{ width: 62, backgroundColor: '#FF9900' }}>
+                    <Text style={styles.text}>{item.title}</Text>
+                  </View>
+                </ActionButton.Item>
+              );
+            })
+          : null}
+      </View>
+    );
   }
 }
 
@@ -64,9 +66,9 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 1,
     marginBottom: 1,
-    color: "white",
+    color: 'white',
     fontSize: 20
   }
 });
 
-export default withNavigation(AvatarGenerator);
+export default AvatarGenerator;

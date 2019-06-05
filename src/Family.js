@@ -1,14 +1,15 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import { Avatar } from "react-native-elements";
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { Avatar } from 'react-native-elements';
 import {
   fetchUsers,
   fetchUser,
   fetchRelated,
   getActiveMood
-} from "./store/users";
-import { connect } from "react-redux";
-import ActionButton from "react-native-circular-action-menu";
+} from './store/users';
+import { connect } from 'react-redux';
+import ActionButton from 'react-native-circular-action-menu';
+import AvatarGenerator from './AvatarGenerator';
 
 class Family extends Component {
   constructor() {
@@ -19,9 +20,15 @@ class Family extends Component {
     this.load();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.related.length !== prevProps.related.length) {
+      this.load();
+    }
+  }
+
   load = () => {
     // HARD CODING USER ID HERE!!
-    const id = "1544f466-8518-4b8d-91ed-f5f9660eee85";
+    const id = 'e5fce01a-b34d-4472-8989-7368d033e6eb';
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
@@ -31,109 +38,72 @@ class Family extends Component {
       usr => usr.familyId === user.familyId && usr.id !== user.id
     );
   };
-  generateFamilyAvatars = family => {
-    return family.map(user => {
-      if (user.age > 18) {
-        return (
-          <ActionButton.Item
-            key={user.id}
-            onPress={() =>
-              this.props.navigation.navigate("AvatarAdult", {
-                user: user
-              })
-            }
-          >
-            {/* <Avatar
-              rounded
-              overlayContainerStyle={{
-                borderWidth: 1
-              }}
-              size={100}
-              title={user.firstName}
-              source={{
-                uri: user.imgUrl
-              }}
-            /> */}
-            <AvatarGenerator user={user} buttons={} />
-          </ActionButton.Item>
-        );
-      } else {
-        return (
-          <ActionButton.Item
-            key={user.id}
-            onPress={() =>
-              this.props.navigation.navigate("AvatarChild", {
-                user: user
-              })
-            }
-          >
-            <Avatar
-              rounded
-              overlayContainerStyle={{
-                borderWidth: 1
-              }}
-              size={100}
-              title={user.firstName}
-              source={{
-                uri: user.imgUrl
-              }}
-            />
-          </ActionButton.Item>
-        );
-      }
-    });
-  };
+
   render() {
     const user = this.props.user;
     const family = this.findFamily(user);
+    console.log('family', family);
 
-    if (this.props.user.id && this.props.users.length) {
+    if (this.props.user.id && this.props.related.length) {
       return (
         <View
           style={{
             flex: 1,
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center"
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
               paddingEnd: 25
             }}
           >
             <ActionButton
               active={true}
-              degrees={0}
+              degrees={360}
               radius={130}
-              outRangeScale={0.5}
-              // onPress={() =>
-              //   this.props.navigation.navigate("AvatarUser", {
-              //     user: user
-              //   })
-              // }
+              outRangeScale={1}
               onLongPress={() =>
-                this.props.navigation.navigate("AvatarUser", {
+                this.props.navigation.navigate('AvatarUser', {
                   user: user
                 })
               }
               icon={
                 <Avatar
                   rounded
-                  overlayContainerStyle={{ borderWidth: 1 }}
-                  size={175}
-                  title={user.firstName}
-                  source={{
-                    uri: user.imgUrl
+                  overlayContainerStyle={{
+                    borderWidth: 3
                   }}
+                  size={175}
+                  source={{
+                    uri: `${user.imgUrl}`
+                  }}
+                  title={user.firstName}
+                  // activeOpacity={0}
                 />
               }
-            >
-              {this.generateFamilyAvatars(family)}
-            </ActionButton>
+            />
+
+            {family.map((person, idx) => {
+              return (
+                <ActionButton.Item
+                  key={idx}
+                  onPress={() =>
+                    this.props.navigation.navigate('AvatarAdult', {
+                      user: person
+                    })
+                  }
+                >
+                  <AvatarGenerator user={person} />
+                </ActionButton.Item>
+              );
+            })}
+
+            {/* <AvatarGenerator user={user} size={175} items={family} /> */}
           </View>
         </View>
       );
