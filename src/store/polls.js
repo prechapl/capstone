@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fetchUserPolls } from './users';
 
 //CONSTANTS
 
@@ -49,6 +50,14 @@ const castVoteThunk = (id, vote) => {
   };
 };
 
+const createPollThunk = (id, userId, poll) => {
+  return dispatch => {
+    return axios
+      .post(`https://capstone-api-server.herokuapp.com/api/polls/${id}/`, poll)
+      .then(() => dispatch(fetchUserPolls(userId)));
+  };
+};
+
 //REDUCERS
 
 const choicesReducer = (state = [], action) => {
@@ -74,5 +83,6 @@ export {
   fetchVotes,
   castVoteThunk,
   choicesReducer,
-  votesReducer
+  votesReducer,
+  createPollThunk
 };
