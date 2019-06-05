@@ -65,7 +65,6 @@ class SinglePoll extends React.Component {
   componentDidMount() {
     this.props.fetchChoices(this.state.pollId);
     this.props.fetchVotes(this.state.pollId);
-    this.props.fetchUserVotes(this.state.pollId, this.state.userId);
   }
 
   handleSubmit = () => {
