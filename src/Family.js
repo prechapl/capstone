@@ -1,15 +1,14 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import { Avatar } from "react-native-elements";
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { Avatar } from 'react-native-elements';
 import {
   fetchUsers,
   fetchUser,
   fetchRelated,
   getActiveMood
-} from "./store/users";
-import { connect } from "react-redux";
-import ActionButton from "react-native-circular-action-menu";
-import AvatarGenerator from "./AvatarGenerator";
+} from './store/users';
+import { connect } from 'react-redux';
+import ActionButton from 'react-native-circular-action-menu';
 
 class Family extends Component {
   constructor() {
@@ -28,7 +27,7 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-    const id = "e5fce01a-b34d-4472-8989-7368d033e6eb";
+    const id = 'e5fce01a-b34d-4472-8989-7368d033e6eb';
     this.props.fetchUsers();
     this.props.fetchUser(id);
   };
@@ -40,36 +39,35 @@ class Family extends Component {
   };
 
   render() {
-    // console.log("family", family);
-
     const user = this.props.user;
     const family = this.findFamily(user);
-    if (this.props.user.id && family.length) {
+    if (family.length) {
       return (
         <View
           style={{
             flex: 1,
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center"
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
               paddingEnd: 25
             }}
           >
             <ActionButton
               active={true}
-              degrees={360}
+              degrees={0}
               radius={130}
-              outRangeScale={1}
+              outRangeScale={0.65}
               onLongPress={() =>
-                this.props.navigation.navigate("AvatarUser", {
-                  user: user
+                this.props.navigation.navigate('AvatarGenerator', {
+                  user: user,
+                  buttonSet: 'UserButtons'
                 })
               }
               icon={
@@ -83,29 +81,34 @@ class Family extends Component {
                     uri: `${user.imgUrl}`
                   }}
                   title={user.firstName}
-                  // activeOpacity={0}
                 />
               }
-            />
-
-            {family !== undefined
-              ? family.map(person => {
-                  return (
-                    <View key={user.id}>
-                      <ActionButton.Item
-                        // key={user.id}
-                        onPress={() =>
-                          this.props.navigation.navigate("AvatarAdult", {
-                            user: person
-                          })
-                        }
-                      >
-                        <AvatarGenerator user={person} />
-                      </ActionButton.Item>
-                    </View>
-                  );
-                })
-              : null}
+            >
+              {family.map(person => {
+                return (
+                  <ActionButton.Item key={person.id}>
+                    <Avatar
+                      rounded
+                      overlayContainerStyle={{
+                        borderWidth: 3
+                      }}
+                      size={100}
+                      source={{
+                        uri: `${person.imgUrl}`
+                      }}
+                      title={person.firstName}
+                      onPress={() =>
+                        this.props.navigation.navigate('AvatarGenerator', {
+                          user: person,
+                          buttonSet:
+                            person.age > 18 ? 'RelativeButtons' : 'ChildButtons'
+                        })
+                      }
+                    />
+                  </ActionButton.Item>
+                );
+              })}
+            </ActionButton>
           </View>
         </View>
       );

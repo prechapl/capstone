@@ -13,9 +13,10 @@ import ForgotPassword from './ForgotPassword';
 import Events from './Events';
 import SingleEvent from './SingleEvent';
 import AddEvent from './AddEvent';
-import AvatarChild from './AvatarChild';
-import AvatarAdult from './AvatarAdult';
-import AvatarUser from './AvatarUser';
+// import AvatarChild from './AvatarChild';
+// import AvatarAdult from './AvatarAdult';
+// import AvatarUser from './AvatarUser';
+import AvatarGenerator from './AvatarGenerator';
 
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
@@ -32,9 +33,10 @@ const UserNavigator = createStackNavigator({
   Family: Family,
   Mood: Mood,
   Events: Events,
-  AvatarChild: AvatarChild,
-  AvatarAdult: AvatarAdult,
-  AvatarUser: AvatarUser
+  // AvatarChild: AvatarChild,
+  // AvatarAdult: AvatarAdult,
+  // AvatarUser: AvatarUser,
+  AvatarGenerator: AvatarGenerator
 });
 
 const EventNavigator = createStackNavigator({

@@ -1,37 +1,37 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { Header, ListItem, Button } from "react-native-elements";
-import { connect } from "react-redux";
-import { fetchEvents, fetchAssigned } from "./store/events";
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Header, ListItem, Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { fetchEvents, fetchAssigned } from './store/events';
 
 class Events extends Component {
   constructor() {
     super();
     this.state = {
-      selection: "MY EVENTS"
+      selection: 'MY EVENTS'
     };
   }
   componentDidMount() {
     //must fetch events
     const id = this.props.id
       ? this.props.id
-      : "1544f466-8518-4b8d-91ed-f5f9660eee85";
+      : 'e5fce01a-b34d-4472-8989-7368d033e6eb';
     this.props.fetchEvents(id);
     this.props.fetchAssigned(id);
   }
   render() {
     let events;
     if (this.props.events.length) {
-      this.state.selection === "MY EVENTS"
+      this.state.selection === 'MY EVENTS'
         ? (events = this.props.events)
         : (events = this.props.assignedEvents);
     }
 
     const colorMap = {
-      chore: "#AA8EB7",
-      event: "#9BB8D5",
-      appointment: "#BCD59B",
-      errand: "#D79963"
+      chore: '#AA8EB7',
+      event: '#9BB8D5',
+      appointment: '#BCD59B',
+      errand: '#D79963'
     };
     if (!events) {
       return <Text>Oops! We don't have any data!</Text>;
@@ -43,24 +43,24 @@ class Events extends Component {
             <Button
               type="clear"
               title="MY EVENTS"
-              titleStyle={{ color: "white" }}
-              onPress={() => this.setState({ selection: "MY EVENTS" })}
+              titleStyle={{ color: 'white' }}
+              onPress={() => this.setState({ selection: 'MY EVENTS' })}
             />
           }
           centerComponent={
             <Button
               type="clear"
               title="ASSIGNED"
-              titleStyle={{ color: "white" }}
-              onPress={() => this.setState({ selection: "ASSIGNED" })}
+              titleStyle={{ color: 'white' }}
+              onPress={() => this.setState({ selection: 'ASSIGNED' })}
             />
           }
           rightComponent={
             <Button
               type="clear"
               title="ADD"
-              titleStyle={{ color: "white" }}
-              onPress={() => this.props.navigation.navigate("AddEvent")}
+              titleStyle={{ color: 'white' }}
+              onPress={() => this.props.navigation.navigate('AddEvent')}
             />
           }
         />
@@ -69,7 +69,7 @@ class Events extends Component {
             <TouchableOpacity
               key={i}
               onPress={() => {
-                this.props.navigation.navigate("Event", {
+                this.props.navigation.navigate('Event', {
                   event: event,
                   type: this.state.selection
                 });

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
-// import { withNavigation } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import ActionButton from 'react-native-circular-action-menu';
 
 class AvatarGenerator extends Component {
@@ -10,51 +10,90 @@ class AvatarGenerator extends Component {
   }
 
   render() {
-    const { user, items, size } = this.props;
+    const { navigation } = this.props;
+    const user = navigation.getParam('user', 'no user');
+    const buttonSet = navigation.getParam('buttonSet');
+    const buttons = {
+      UserButtons: [
+        { title: 'Mood', color: '#FF9900', width: 62 },
+        { title: 'Family', color: '#8EB51A', width: 66 },
+        { title: 'Events', color: '#EF5029', width: 68 },
+        { title: 'Polls', color: '#7DC6CD', width: 53 }
+      ],
+      RelativeButtons: [
+        { title: 'Family', color: '#8EB51A', width: 66 },
+        { title: 'Events', color: '#EF5029', width: 68 },
+        { title: 'Polls', color: '#7DC6CD', width: 53 }
+      ],
+      ChildButtons: [
+        { title: 'Family', color: '#8EB51A', width: 66 },
+        { title: 'Events', color: '#EF5029', width: 68 },
+        { title: 'Polls', color: '#7DC6CD', width: 53 },
+        { title: 'Location', color: '#AD0978', width: 84 },
+        { title: 'Goals', color: '#1500FA', width: 61 },
+        { title: 'Records', color: '#E0BF00', width: 82 }
+      ]
+    };
 
     return (
-      <View key={user.id}>
-        <ActionButton
-          // active={true}
-          degrees={360}
-          radius={130}
-          outRangeScale={1}
-          icon={
-            <Avatar
-              rounded
-              overlayContainerStyle={{
-                borderWidth: 3
-              }}
-              size={size}
-              source={{
-                uri: `${user.imgUrl}`
-              }}
-              title={user.firstName}
-              // activeOpacity={0}
-            />
-          }
-          // buttonColor="rgba(0, 0, 0, 0)"
-          // btnOutRange="rgba(0, 0, 0, 0)"
-        />
-
-        {items !== undefined
-          ? items.forEach(item => {
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingEnd: 25
+          }}
+        >
+          <ActionButton
+            active={true}
+            degrees={360}
+            radius={130}
+            outRangeScale={0.75}
+            icon={
+              <Avatar
+                rounded
+                overlayContainerStyle={{
+                  borderWidth: 3
+                }}
+                size={175}
+                source={{
+                  uri: `${user.imgUrl}`
+                }}
+                title={user.firstName}
+              />
+            }
+          >
+            {buttons[buttonSet].map((button, idx) => {
               return (
                 <ActionButton.Item
-                  // key={idx}
+                  key={idx}
                   onPress={() =>
-                    this.props.navigation.navigate('temp', {
+                    this.props.navigation.navigate(button.title, {
                       user: user
                     })
                   }
                 >
-                  <View style={{ width: 62, backgroundColor: '#FF9900' }}>
-                    <Text style={styles.text}>{item.title}</Text>
+                  <View
+                    style={{
+                      width: button.width,
+                      backgroundColor: button.color
+                    }}
+                  >
+                    <Text style={styles.text}>{button.title}</Text>
                   </View>
                 </ActionButton.Item>
               );
-            })
-          : null}
+            })}
+          </ActionButton>
+        </View>
       </View>
     );
   }
@@ -71,4 +110,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AvatarGenerator;
+export default withNavigation(AvatarGenerator);
