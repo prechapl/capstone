@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { fetchUsers, fetchUserPolls } from './store/users';
+import { createPollThunk } from './store/polls';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,14 +23,22 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     width: 300
+  },
+  createButtonText: {
+    textAlign: 'center',
+    color: '#FFFFFF'
   }
 });
 
 class AllPolls extends Component {
   componentDidMount() {
     this.props.fetchUsers();
-    this.props.fetchUserPolls('5a6b80e9-f20d-450b-905d-bc14c8149bd2');
+    this.props.fetchUserPolls('e5fce01a-b34d-4472-8989-7368d033e6eb');
   }
+
+  createPoll = () => {
+    console.log('create new poll reached');
+  };
 
   render() {
     const { userPolls } = this.props;
@@ -51,6 +60,18 @@ class AllPolls extends Component {
             <Text style={styles.buttonText}>{poll.text}</Text>
           </TouchableOpacity>
         ))}
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#8EB51A',
+            padding: 10,
+            margin: 10,
+            width: 300
+          }}
+          onPress={this.createPoll}
+        >
+          <Text style={styles.createButtonText}>Create New Poll</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -59,7 +80,8 @@ class AllPolls extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUsers: () => dispatch(fetchUsers()),
-    fetchUserPolls: id => dispatch(fetchUserPolls(id))
+    fetchUserPolls: id => dispatch(fetchUserPolls(id)),
+    createPoll: (userId, poll) => dispatch(createPollThunk(userId, poll))
   };
 };
 

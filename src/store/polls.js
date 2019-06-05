@@ -54,7 +54,7 @@ const changeVoteThunk = (pollId, voteId) => {
   return dispatch => {
     return axios
       .delete(
-        `https://capstone-api-server.herokuapp.com/api/polls/${pollId}/votes/${voteId}`
+        `https://capstone-api-server.herokuapp.com/api/polls/votes/${voteId}`
       )
       .then(() => dispatch(fetchVotes(pollId)))
       .catch(error => console.log(error));
