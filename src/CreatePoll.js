@@ -16,12 +16,14 @@ class CreatePoll extends Component {
     super();
 
     this.state = {
-      text: ''
+      text: '',
+      ownerId: '7ae98093-504d-4137-9acd-81d976990b42'
     };
   }
 
   handleSubmit = () => {
-    console.log('here');
+    this.props.createPoll('7ae98093-504d-4137-9acd-81d976990b42', this.state);
+    this.props.navigation.navigate('Polls');
   };
 
   render() {
