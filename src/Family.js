@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { Avatar, Badge } from 'react-native-elements';
-import { fetchUsers, fetchUser, fetchRelated } from './store/users';
-import { getActiveMood, getMoodsByFamilyId } from './store/mood';
-import { connect } from 'react-redux';
-import ActionButton from 'react-native-circular-action-menu';
-import { findMoodColor, findMoodText } from './HelperFunctions';
+import React, { Component } from "react";
+import { View, Text } from "react-native";
+import { Avatar, Badge } from "react-native-elements";
+import { fetchUsers, fetchUser, fetchRelated } from "./store/users";
+import { getActiveMood, findMoodById } from "./store/mood";
+import { connect } from "react-redux";
+import ActionButton from "react-native-circular-action-menu";
+import { findMoodColor, findMoodText } from "./HelperFunctions";
 
 class Family extends Component {
   constructor() {
@@ -24,7 +24,7 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-    const id = '4587f43b-eb75-4af7-b942-7d9ea1c36f84';
+    const id = "4587f43b-eb75-4af7-b942-7d9ea1c36f84";
     this.props.fetchUsers();
     this.props.fetchUser(id);
     // .then(() => {
@@ -54,16 +54,16 @@ class Family extends Component {
         <View
           style={{
             flex: 0.9,
-            flexDirection: 'column',
+            flexDirection: "column",
             // alignItems: "center",
-            justifyContent: 'flex-end'
+            justifyContent: "flex-end"
           }}
         >
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
               paddingEnd: 25,
               marginBottom: 25
             }}
@@ -74,9 +74,9 @@ class Family extends Component {
               radius={145}
               outRangeScale={1}
               onLongPress={() =>
-                this.props.navigation.navigate('AvatarGenerator', {
+                this.props.navigation.navigate("AvatarGenerator", {
                   user: user,
-                  buttonSet: 'UserButtons',
+                  buttonSet: "UserButtons",
                   mood: mood
                 })
               }
@@ -96,16 +96,16 @@ class Family extends Component {
                   />
                   <Badge
                     containerStyle={{
-                      position: 'relative',
+                      position: "relative",
                       top: -18
                     }}
                     badgeStyle={{
                       backgroundColor: moodColor,
                       paddingHorizontal: 10,
-                      borderColor: 'transparent'
+                      borderColor: "transparent"
                     }}
                     value={
-                      <Text style={{ fontSize: 12, color: 'white' }}>
+                      <Text style={{ fontSize: 12, color: "white" }}>
                         {`${moodText}`} mood
                       </Text>
                     }
@@ -114,6 +114,8 @@ class Family extends Component {
               }
             >
               {family.map(person => {
+                // const personMood = findMoodById(person.id);
+                // console.log(personMood);
                 const personMoodColor = findMoodColor(0.5);
                 const personMoodText = findMoodText(0.5);
                 return (
@@ -131,28 +133,28 @@ class Family extends Component {
                         }}
                         title={person.firstName}
                         onPress={() =>
-                          this.props.navigation.navigate('AvatarGenerator', {
+                          this.props.navigation.navigate("AvatarGenerator", {
                             user: person,
                             buttonSet:
                               person.age > 18
-                                ? 'RelativeButtons'
-                                : 'ChildButtons',
+                                ? "RelativeButtons"
+                                : "ChildButtons",
                             mood: { value: 0.5 }
                           })
                         }
                       />
                       <Badge
                         containerStyle={{
-                          position: 'relative',
+                          position: "relative",
                           top: -18
                         }}
                         badgeStyle={{
                           backgroundColor: personMoodColor,
                           paddingHorizontal: 10,
-                          borderColor: 'transparent'
+                          borderColor: "transparent"
                         }}
                         value={
-                          <Text style={{ fontSize: 12, color: 'white' }}>
+                          <Text style={{ fontSize: 12, color: "white" }}>
                             {`${personMoodText}`} mood
                           </Text>
                         }
