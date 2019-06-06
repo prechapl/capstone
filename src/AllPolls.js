@@ -38,7 +38,6 @@ class AllPolls extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user.id);
     this.props.fetchUsers();
     this.props.fetchUserPolls(this.props.user.id);
   }

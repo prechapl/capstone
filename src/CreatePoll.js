@@ -18,13 +18,20 @@ class CreatePoll extends Component {
     this.state = {
       pollId: '',
       text: '',
-      ownerId: '47713ff6-3ac6-4631-92ed-532828dcfef4'
+      ownerId: ''
     };
+  }
+
+  componenDidMount() {
+    const user = this.props.user.id;
   }
 
   handleSubmit = () => {
     this.props
-      .createPoll('7ae98093-504d-4137-9acd-81d976990b42', this.state)
+      .createPoll(this.props.user.id, {
+        text: this.state.text,
+        ownerId: this.props.user.id
+      })
       .then(({ poll }) => this.setState({ pollId: poll.id }));
   };
 
@@ -88,7 +95,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+const mapStateToProps = ({ user }) => {
+  return {
+    user
+  };
+};
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(CreatePoll);
