@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { Card, Badge, Button } from 'react-native-elements';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Card, Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { goUpdateAssigned, goUpdateEvent } from './store/events';
+import {
+    goUpdateAssigned,
+    goDeleteEvent,
+    fetchAssignees
+} from './store/events';
 
 
 class SingleEvent extends Component {
@@ -10,12 +14,17 @@ class SingleEvent extends Component {
         super();
         this.state = {}
     }
+    delete = (id) => {
+        this.props.deleteEvent(id);
+        this.props.navigation.navigate('Events');
+    }
     render() {
         const event = this.props.navigation.getParam('event');
+        const deadline = new Date(event.deadline);
         const type = this.props.navigation.getParam('type');
         const badgeStatusMap = {
             upcoming: 'primary',
-            'completed': 'success',
+            completed: 'success',
             'completed-pending': 'warning',
             overdue: 'warning',
             missed: 'error'
@@ -37,38 +46,73 @@ class SingleEvent extends Component {
                     status={badgeStatusMap[event.status]}
                 />
                 <Text>
-                    DATE: {event.deadline}
+                    DATE: {deadline.getMonth()}/{deadline.getDate()}/{deadline.getFullYear()}
                 </Text>
                 <Text>
-                    TIME:
+                    TIME: {deadline.getHours()}:{('0' + deadline.getMinutes()).slice(-2)}
                 </Text>
                 <Text>
                     {event.description}
                 </Text>
 
-                {type === 'ASSIGNED' ? (<Button
-                    title="COMPLETE"
+                {this.props.assignees.length ? (
+                    <Text>Assigned to: {this.props.assignees.join(', ')}</Text>) :
+                    (<Text> Not yet assigned</Text>)}
+
+                {type === 'ASSIGNED' ? (<TouchableOpacity
                     onPress={() => this.props.completeAssignedTask(event.id, { status: 'completed-pending' })}
-                />) : (
-                        <View>
-                            <Button
-                                title="EDIT"
-                            //onPress === can edit 
-                            />
-                            <Button
-                                title="DELETE"
-                            />
-                        </View>
+                    style={styles.button}>
+                    <Text>complete</Text>
+                </TouchableOpacity>
+                ) : (
+                        <TouchableOpacity
+                            onPress={() => this.delete(event.id)}
+                            style={styles.button}>
+                            <Text>delete</Text>
+                        </TouchableOpacity>
                     )}
             </Card>
         )
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = ({ assignees }) => {
     return {
-        completeAssignedTask: (id, updates) => dispatch(goUpdateAssigned(id, updates))
+        assignees
     }
 }
 
-export default connect(null, mapDispatchToProps)(SingleEvent);
+const mapDispatchToProps = dispatch => {
+    return {
+        completeAssignedTask: (id, updates) => dispatch(goUpdateAssigned(id, updates)),
+        deleteEvent: (id) => dispatch(goDeleteEvent(id)),
+        fetchAssignees: (id) => dispatch(fetchAssignees(id))
+    }
+}
+
+const styles = StyleSheet.create({
+    input: {
+        height: 40,
+        backgroundColor: "#D3D3D4",
+        marginBottom: 20,
+        width: 300,
+        paddingHorizontal: 10
+    },
+    button: {
+        backgroundColor: "#448AE6",
+        padding: 10,
+        width: 300,
+        margin: 10
+    },
+    buttonText: {
+        textAlign: "center",
+        color: "#FFFFFF"
+    },
+    header: {
+        padding: 10,
+        marginBottom: 30,
+        fontSize: 35
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleEvent);

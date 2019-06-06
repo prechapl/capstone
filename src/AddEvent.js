@@ -22,10 +22,11 @@ class AddEvent extends Component {
   save = () => {
     const id = this.props.id
       ? this.props.id
-      : "1544f466-8518-4b8d-91ed-f5f9660eee85";
+      : "d3c0791a-352f-4f00-94dc-27c26d7817dd";
     const newEvent = this.state;
     newEvent.ownerId = id;
-    this.props.saveEvent(newEvent);
+    this.props.saveEvent(newEvent)
+    this.props.navigation.navigate('Events');
   };
   render() {
     const colorMap = {

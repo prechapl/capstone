@@ -7,7 +7,7 @@ import {
   relatedReducer,
   userPollsReducer
 } from './users';
-import { eventReducer, assignedEventReducer } from './events';
+import { eventReducer, assignedEventReducer, assigneeReducer } from './events';
 import { choicesReducer, votesReducer } from './polls';
 
 const reducer = combineReducers({
@@ -17,6 +17,7 @@ const reducer = combineReducers({
   mood: moodObjReducer,
   moods: moodArrReducer,
   events: eventReducer,
+  assignees: assigneeReducer,
   assignedEvents: assignedEventReducer,
   userPolls: userPollsReducer,
   choices: choicesReducer,

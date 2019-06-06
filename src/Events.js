@@ -15,7 +15,7 @@ class Events extends Component {
     //must fetch events
     const id = this.props.id
       ? this.props.id
-      : 'e5fce01a-b34d-4472-8989-7368d033e6eb';
+      : 'd3c0791a-352f-4f00-94dc-27c26d7817dd';
     this.props.fetchEvents(id);
     this.props.fetchAssigned(id);
   }
@@ -78,7 +78,7 @@ class Events extends Component {
               <ListItem
                 key={i}
                 title={event.title}
-                //subtitle={`${event.deadline.getMonth()}/${event.deadline.getDate()}`}
+                subtitle={`${new Date(event.deadline).getMonth()}/${new Date(event.deadline).getDate()}`}
                 badge={{
                   value: event.category,
                   badgeStyle: { backgroundColor: colorMap[event.category] }
