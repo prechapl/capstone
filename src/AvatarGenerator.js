@@ -37,6 +37,7 @@ class AvatarGenerator extends Component {
       ]
     };
     const mood = navigation.getParam('mood');
+    // console.log('mood', mood.value);
     const moodColor = findMoodColor(mood.value);
     const moodText = findMoodText(mood.value);
 
