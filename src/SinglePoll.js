@@ -8,7 +8,12 @@ import {
 } from 'react-native';
 import { RadioButtons } from 'react-native-radio-buttons';
 import { connect } from 'react-redux';
-import { fetchChoices, fetchVotes, castVoteThunk } from './store/polls';
+import {
+  fetchChoices,
+  fetchVotes,
+  castVoteThunk,
+  changeVoteThunk
+} from './store/polls';
 import { findChoiceText } from './HelperFunctions';
 import PureChart from 'react-native-pure-chart';
 
@@ -51,7 +56,7 @@ class SinglePoll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '1544f466-8518-4b8d-91ed-f5f9660eee85',
+      userId: '47713ff6-3ac6-4631-92ed-532828dcfef4',
       pollId: props.navigation.getParam('id'),
       choiceId: '',
       selectedOption: ''
@@ -64,6 +69,10 @@ class SinglePoll extends React.Component {
 
   handleSubmit = () => {
     this.props.castVote(this.state.pollId, this.state);
+  };
+
+  handleDelete = () => {
+    this.props.changeVote(this.state.pollId, this.state.userId);
   };
 
   render() {
@@ -134,6 +143,18 @@ class SinglePoll extends React.Component {
         <View style={styles.container}>
           <Text style={styles.header}>{question}</Text>
           <PureChart data={votesData} type="pie" />
+
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#8EB51A',
+              padding: 10,
+              margin: 10,
+              width: 300
+            }}
+            onPress={this.handleDelete}
+          >
+            <Text style={styles.buttonText}>Change Vote</Text>
+          </TouchableOpacity>
         </View>
       );
     } else {
@@ -170,7 +191,8 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchChoices: id => dispatch(fetchChoices(id)),
     fetchVotes: id => dispatch(fetchVotes(id)),
-    castVote: (id, vote) => dispatch(castVoteThunk(id, vote))
+    castVote: (id, vote) => dispatch(castVoteThunk(id, vote)),
+    changeVote: (pollId, voteId) => dispatch(changeVoteThunk(pollId, voteId))
   };
 };
 
