@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
 //CONSTANTS
 
-const SET_MOOD = 'SET_MOOD';
-const GET_MOOD = 'GET_MOOD';
-const GET_ALL_MOODS = 'GET_ALL_MOODS';
+const SET_MOOD = "SET_MOOD";
+const GET_MOOD = "GET_MOOD";
+const GET_ALL_MOODS = "GET_ALL_MOODS";
 
 //ACTION CREATORS
 
@@ -77,9 +77,17 @@ const moodArrReducer = (state = [], action) => {
   }
 };
 
+const getMoodById = id => {
+  return axios
+    .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}`)
+    .then(response => response.data)
+    .catch(e => console.log(e));
+};
+
 export {
   setActiveMood,
   getActiveMood,
+  getMoodById,
   getAllMoods,
   moodObjReducer,
   moodArrReducer
