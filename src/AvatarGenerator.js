@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Avatar, Badge } from "react-native-elements";
-import { withNavigation } from "react-navigation";
-import ActionButton from "react-native-circular-action-menu";
-import { findMoodColor, findMoodText } from "./HelperFunctions";
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Avatar, Badge } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
+import ActionButton from 'react-native-circular-action-menu';
+import { findMoodColor, findMoodText } from './HelperFunctions';
 
 class AvatarGenerator extends Component {
   constructor(props) {
@@ -12,65 +12,66 @@ class AvatarGenerator extends Component {
 
   render() {
     const { navigation } = this.props;
-    const user = navigation.getParam("user", "no user");
-    const buttonSet = navigation.getParam("buttonSet");
+    const user = navigation.getParam('user', 'no user');
+    const buttonSet = navigation.getParam('buttonSet');
 
     const buttons = {
       UserButtons: [
-        { title: "Mood", color: "#FF9900", width: 62 },
-        { title: "Family", color: "#8EB51A", width: 66 },
-        { title: "Events", color: "#EF5029", width: 68 },
-        { title: "Polls", color: "#7DC6CD", width: 53 }
+        { title: 'Mood', color: '#FF9900', width: 62 },
+        { title: 'Family', color: '#8EB51A', width: 66 },
+        { title: 'Events', color: '#EF5029', width: 68 },
+        { title: 'Polls', color: '#7DC6CD', width: 53 }
       ],
       RelativeButtons: [
-        { title: "Family", color: "#8EB51A", width: 66 },
-        { title: "Events", color: "#EF5029", width: 68 },
-        { title: "Polls", color: "#7DC6CD", width: 53 }
+        { title: 'Family', color: '#8EB51A', width: 66 },
+        { title: 'Events', color: '#EF5029', width: 68 },
+        { title: 'Polls', color: '#7DC6CD', width: 53 }
       ],
       ChildButtons: [
-        { title: "Family", color: "#8EB51A", width: 66 },
-        { title: "Events", color: "#EF5029", width: 68 },
-        { title: "Polls", color: "#7DC6CD", width: 53 },
-        { title: "Location", color: "#AD0978", width: 84 },
-        { title: "Goals", color: "#1500FA", width: 61 },
-        { title: "Records", color: "#E0BF00", width: 82 }
+        { title: 'Family', color: '#8EB51A', width: 66 },
+        { title: 'Events', color: '#EF5029', width: 68 },
+        { title: 'Polls', color: '#7DC6CD', width: 53 },
+        { title: 'Location', color: '#AD0978', width: 84 },
+        { title: 'Goals', color: '#1500FA', width: 61 },
+        { title: 'Records', color: '#E0BF00', width: 82 }
       ]
     };
-    const mood = navigation.getParam("mood");
-    const moodColor = findMoodColor(mood);
-    const moodText = findMoodText(mood);
+    const mood = navigation.getParam('mood');
+    const moodColor = findMoodColor(mood.value);
+    const moodText = findMoodText(mood.value);
 
     return (
       <View
         style={{
-          flex: 1,
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center"
+          flex: 0.9,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-end'
         }}
       >
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingEnd: 25
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingEnd: 25,
+            marginBottom: 25
           }}
         >
           <ActionButton
             active={true}
             degrees={360}
-            radius={130}
+            radius={140}
             outRangeScale={1}
             icon={
               <View>
                 <Avatar
                   rounded
                   overlayContainerStyle={{
-                    borderWidth: 18,
+                    borderWidth: 5,
                     borderColor: moodColor
                   }}
-                  size={175}
+                  size={165}
                   source={{
                     uri: `${user.imgUrl}`
                   }}
@@ -78,16 +79,18 @@ class AvatarGenerator extends Component {
                 />
                 <Badge
                   containerStyle={{
-                    position: "relative",
+                    position: 'relative',
                     top: -18
                   }}
                   badgeStyle={{
-                    backgroundColor: moodColor
+                    backgroundColor: moodColor,
+                    paddingHorizontal: 10,
+                    borderColor: 'transparent'
                   }}
                   value={
-                    <Text
-                      style={{ fontSize: 12, color: "white" }}
-                    >{`${moodText}`}</Text>
+                    <Text style={{ fontSize: 12, color: 'white' }}>
+                      {`${moodText}`} mood
+                    </Text>
                   }
                 />
               </View>
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 1,
     marginBottom: 1,
-    color: "white",
+    color: 'white',
     fontSize: 20
   }
 });
