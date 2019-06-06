@@ -75,9 +75,7 @@ const getAuthedUser = () => {
 
 const logoutUser = () => {
   return dispatch => {
-    return axios
-      .delete('https://capstone-api-server.herokuapp.com/api/users/logout')
-      .then(() => dispatch(getUser({})));
+    return AsyncStorage.removeItem('token').then(() => dispatch(getUser({})));
   };
 };
 
