@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
 
 //CONSTANTS
 
@@ -49,21 +50,24 @@ const fetchUser = id => {
 };
 
 const loginUser = (email, password) => {
-  return dispatch => {
-    return axios
-      .put('https://capstone-api-server.herokuapp.com/api/users/login', {
-        email,
-        password,
-      })
-      .then(response => response.data)
-      .then(user => dispatch(getUser(user)));
-  };
+  return axios
+    .put('https://capstone-api-server.herokuapp.com/api/users/login', {
+      email,
+      password,
+    })
+    .then(response => response.data)
+    .then(token => AsyncStorage.setItem('token', token));
 };
 
-const getUserSession = () => {
+const getAuthedUser = () => {
   return dispatch => {
-    return axios
-      .get('https://capstone-api-server.herokuapp.com/api/users/session')
+    AsyncStorage.getItem('token')
+      .then(token => {
+        return axios.get(
+          'https://capstone-api-server.herokuapp.com/api/users/authed',
+          { headers: { authorization: token } }
+        );
+      })
       .then(response => response.data)
       .then(user => dispatch(getUser(user)));
   };
@@ -71,9 +75,7 @@ const getUserSession = () => {
 
 const logoutUser = () => {
   return dispatch => {
-    return axios
-      .delete('https://capstone-api-server.herokuapp.com/api/users/logout')
-      .then(() => dispatch(getUser({})));
+    return AsyncStorage.removeItem('token').then(() => dispatch(getUser({})));
   };
 };
 
@@ -141,7 +143,7 @@ export {
   fetchUser,
   loginUser,
   logoutUser,
-  getUserSession,
+  getAuthedUser,
   fetchRelated,
   fetchUserPolls,
   userReducer,
