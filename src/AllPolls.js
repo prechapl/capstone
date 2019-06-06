@@ -42,6 +42,12 @@ class AllPolls extends Component {
     this.props.fetchUserPolls(this.props.user.id);
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps.props) {
+      this.props.fetchUserPolls(this.props.user.id);
+    }
+  }
+
   render() {
     const { userPolls } = this.props;
     return (
