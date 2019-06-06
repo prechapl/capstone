@@ -12,19 +12,19 @@ const GET_USER_POLLS = 'GET_USER_POLLS';
 
 const getUsers = users => ({
   type: GET_USERS,
-  users,
+  users
 });
 const getUser = user => ({
   type: GET_USER,
-  user,
+  user
 });
 const getRelated = related => ({
   type: GET_RELATED,
-  related,
+  related
 });
 const getUserPolls = polls => ({
   type: GET_USER_POLLS,
-  polls,
+  polls
 });
 
 //THUNKS
@@ -53,7 +53,7 @@ const loginUser = (email, password) => {
   return axios
     .put('https://capstone-api-server.herokuapp.com/api/users/login', {
       email,
-      password,
+      password
     })
     .then(response => response.data)
     .then(token => AsyncStorage.setItem('token', token));
@@ -61,7 +61,7 @@ const loginUser = (email, password) => {
 
 const getAuthedUser = () => {
   return dispatch => {
-    AsyncStorage.getItem('token')
+    return AsyncStorage.getItem('token')
       .then(token => {
         return axios.get(
           'https://capstone-api-server.herokuapp.com/api/users/authed',
@@ -149,5 +149,5 @@ export {
   userReducer,
   usersReducer,
   relatedReducer,
-  userPollsReducer,
+  userPollsReducer
 };

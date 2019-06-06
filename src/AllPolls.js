@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import { fetchUsers, fetchUserPolls } from './store/users';
+import { fetchUsers, fetchUserPolls, getAuthedUser } from './store/users';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,8 +38,9 @@ class AllPolls extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.user.id);
     this.props.fetchUsers();
-    this.props.fetchUserPolls('47713ff6-3ac6-4631-92ed-532828dcfef4');
+    this.props.fetchUserPolls(this.props.user.id);
   }
 
   render() {
@@ -86,8 +87,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ users, userPolls }) => {
+const mapStateToProps = ({ user, users, userPolls }) => {
   return {
+    user,
     users,
     userPolls
   };
