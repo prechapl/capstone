@@ -9,21 +9,23 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { createPollThunk } from './store/polls';
+import { createPollThunk, createChoiceThunk } from './store/polls';
 
 class CreatePoll extends Component {
   constructor() {
     super();
 
     this.state = {
+      pollId: '',
       text: '',
-      ownerId: '7ae98093-504d-4137-9acd-81d976990b42'
+      ownerId: '47713ff6-3ac6-4631-92ed-532828dcfef4'
     };
   }
 
   handleSubmit = () => {
-    this.props.createPoll('7ae98093-504d-4137-9acd-81d976990b42', this.state);
-    this.props.navigation.navigate('Polls');
+    this.props
+      .createPoll('7ae98093-504d-4137-9acd-81d976990b42', this.state)
+      .then(({ poll }) => this.setState({ pollId: poll.id }));
   };
 
   render() {
@@ -80,7 +82,9 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    createPoll: (userId, poll) => dispatch(createPollThunk(userId, poll))
+    createPoll: (userId, poll) => dispatch(createPollThunk(userId, poll)),
+    createChoice: (pollId, choice) =>
+      dispatch(createChoiceThunk(pollId, choice))
   };
 };
 

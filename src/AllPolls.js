@@ -39,7 +39,7 @@ class AllPolls extends Component {
 
   componentDidMount() {
     this.props.fetchUsers();
-    this.props.fetchUserPolls('7ae98093-504d-4137-9acd-81d976990b42');
+    this.props.fetchUserPolls('47713ff6-3ac6-4631-92ed-532828dcfef4');
   }
 
   render() {
@@ -82,8 +82,7 @@ class AllPolls extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUsers: () => dispatch(fetchUsers()),
-    fetchUserPolls: id => dispatch(fetchUserPolls(id)),
-    createPoll: (userId, poll) => dispatch(createPollThunk(userId, poll))
+    fetchUserPolls: id => dispatch(fetchUserPolls(id))
   };
 };
 
