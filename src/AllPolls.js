@@ -22,13 +22,24 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     width: 300
+  },
+  createButtonText: {
+    textAlign: 'center',
+    color: '#FFFFFF'
   }
 });
 
 class AllPolls extends Component {
+  constructor() {
+    super();
+    this.state = {
+      text: ''
+    };
+  }
+
   componentDidMount() {
     this.props.fetchUsers();
-    this.props.fetchUserPolls('5a6b80e9-f20d-450b-905d-bc14c8149bd2');
+    this.props.fetchUserPolls('47713ff6-3ac6-4631-92ed-532828dcfef4');
   }
 
   render() {
@@ -51,6 +62,18 @@ class AllPolls extends Component {
             <Text style={styles.buttonText}>{poll.text}</Text>
           </TouchableOpacity>
         ))}
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#8EB51A',
+            padding: 10,
+            margin: 10,
+            width: 300
+          }}
+          onPress={() => this.props.navigation.navigate('CreatePoll')}
+        >
+          <Text style={styles.createButtonText}>Create New Poll</Text>
+        </TouchableOpacity>
       </View>
     );
   }

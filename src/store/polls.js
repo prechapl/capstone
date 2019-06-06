@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const GET_CHOICES = 'GET_CHOICES';
 const GET_VOTES = 'GET_VOTES';
+const GET_POLL = 'GET_POLL';
 
 //ACTION CREATORS
 
@@ -15,6 +16,11 @@ const getChoices = choices => ({
 const getVotes = votes => ({
   type: GET_VOTES,
   votes
+});
+
+const getPoll = poll => ({
+  type: GET_POLL,
+  poll
 });
 
 //THUNKS
@@ -49,6 +55,36 @@ const castVoteThunk = (id, vote) => {
   };
 };
 
+const changeVoteThunk = (pollId, voteId) => {
+  return dispatch => {
+    return axios
+      .delete(
+        `https://capstone-api-server.herokuapp.com/api/polls/votes/${voteId}`
+      )
+      .then(() => dispatch(fetchVotes(pollId)))
+      .catch(error => console.log(error));
+  };
+};
+
+const createPollThunk = (userId, poll) => {
+  return dispatch => {
+    return axios
+      .post(`https://capstone-api-server.herokuapp.com/api/polls/`, poll)
+      .then(({ data }) => dispatch(getPoll(data)));
+  };
+};
+
+const createChoiceThunk = (pollId, choice) => {
+  return dispatch => {
+    return axios
+      .post(
+        `https://capstone-api-server.herokuapp.com/api/polls/${pollId}/votes`,
+        choice
+      )
+      .then(() => dispatch(fetchChoices(pollId)));
+  };
+};
+
 //REDUCERS
 
 const choicesReducer = (state = [], action) => {
@@ -69,10 +105,23 @@ const votesReducer = (state = [], action) => {
   }
 };
 
+const pollReducer = (state = {}, action) => {
+  switch (action.type) {
+    case GET_POLL:
+      return action.poll;
+    default:
+      return state;
+  }
+};
+
 export {
   fetchChoices,
   fetchVotes,
   castVoteThunk,
+  createPollThunk,
+  changeVoteThunk,
+  createChoiceThunk,
   choicesReducer,
-  votesReducer
+  votesReducer,
+  pollReducer
 };
