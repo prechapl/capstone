@@ -78,9 +78,11 @@ const moodArrReducer = (state = [], action) => {
 };
 
 const getMoodById = id => {
-  return axios
+  axios
     .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}`)
-    .then(response => response.data)
+    .then(response => {
+      return response.data;
+    })
     .catch(e => console.log(e));
 };
 
