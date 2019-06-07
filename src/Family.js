@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Avatar, Badge } from "react-native-elements";
+<<<<<<< HEAD
 import { getActiveMood, getMoodsByFamilyId } from "./store/mood";
+=======
+import { fetchUsers, fetchUser, fetchRelated } from "./store/users";
+import { getActiveMood } from "./store/mood";
+>>>>>>> 77f08096ee7d8eec8d7fbde81e63aa78fb28c23f
 import { connect } from "react-redux";
 import ActionButton from "react-native-circular-action-menu";
 import { findMoodColor, findMoodText } from "./HelperFunctions";
@@ -102,12 +107,18 @@ class Family extends Component {
               }
             >
               {family.map(person => {
+<<<<<<< HEAD
                 const personMoodColor = findMoodColor(
                   person.moods.find(m => m.active).value
                 );
                 const personMoodText = findMoodText(
                   person.moods.find(m => m.active).value
                 );
+=======
+                //temp hardcoding values here
+                const personMoodColor = findMoodColor(0.5);
+                const personMoodText = findMoodText(0.5);
+>>>>>>> 77f08096ee7d8eec8d7fbde81e63aa78fb28c23f
                 return (
                   <ActionButton.Item key={person.id}>
                     <View>
@@ -165,8 +176,15 @@ class Family extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
+<<<<<<< HEAD
     getActiveMood: id => dispatch(getActiveMood(id)),
     getMoodsByFamilyId: familyId => dispatch(getMoodsByFamilyId(familyId))
+=======
+    fetchUsers: () => dispatch(fetchUsers()),
+    fetchUser: id => dispatch(fetchUser(id)),
+    fetchRelated: id => dispatch(fetchRelated(id)),
+    getActiveMood: id => dispatch(getActiveMood(id))
+>>>>>>> 77f08096ee7d8eec8d7fbde81e63aa78fb28c23f
   };
 };
 
