@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Avatar, Badge } from "react-native-elements";
 import { fetchUsers, fetchUser, fetchRelated } from "./store/users";
-import { getActiveMood, findMoodById } from "./store/mood";
+import { getActiveMood} from "./store/mood";
 import { connect } from "react-redux";
 import ActionButton from "react-native-circular-action-menu";
 import { findMoodColor, findMoodText } from "./HelperFunctions";
@@ -24,13 +24,8 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-    const id = "4587f43b-eb75-4af7-b942-7d9ea1c36f84";
     this.props.fetchUsers();
-    this.props.fetchUser(id);
-    // .then(() => {
-    //   this.props.getMoodsByFamilyId(this.props.user.familyId);
-    // });
-    this.props.getActiveMood(id);
+    this.props.getActiveMood(this.props.user.id);
   };
 
   findFamily = user => {
@@ -45,17 +40,13 @@ class Family extends Component {
     const mood = this.props.mood;
 
     if (family.length && mood.id) {
-      // console.log('mood', mood);
-
       const moodColor = findMoodColor(mood.value);
       const moodText = findMoodText(mood.value);
-      // console.log(moodText);
       return (
         <View
           style={{
             flex: 0.9,
             flexDirection: "column",
-            // alignItems: "center",
             justifyContent: "flex-end"
           }}
         >
@@ -114,8 +105,7 @@ class Family extends Component {
               }
             >
               {family.map(person => {
-                // const personMood = findMoodById(person.id);
-                // console.log(personMood);
+//temp hardcoding values here
                 const personMoodColor = findMoodColor(0.5);
                 const personMoodText = findMoodText(0.5);
                 return (
@@ -178,18 +168,17 @@ const mapDispatchToProps = dispatch => {
     fetchUsers: () => dispatch(fetchUsers()),
     fetchUser: id => dispatch(fetchUser(id)),
     fetchRelated: id => dispatch(fetchRelated(id)),
-    getActiveMood: id => dispatch(getActiveMood(id)),
-    getMoodsByFamilyId: familyId => dispatch(getMoodsByFamilyId(familyId))
+    getActiveMood: id => dispatch(getActiveMood(id))
+ 
   };
 };
 
-const mapStateToProps = ({ mood, users, user, related, familyMoods }) => {
+const mapStateToProps = ({ mood, users, user, related }) => {
   return {
     users,
     user,
     related,
-    mood,
-    familyMoods
+    mood
   };
 };
 

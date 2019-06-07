@@ -104,22 +104,10 @@ const moodArrReducer = (state = [], action) => {
   switch (action.type) {
     case GET_ALL_MOODS:
       return action.allmoods;
-    // case GET_FAMILY_MOODS:
-    //   return action.familyMoods;
     default:
       return state;
   }
 };
-
-// async function getMoodById(id) {
-//   const usersMood = await axios
-//     .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}`)
-//     .then(response => {
-//       return response.data;
-//     })
-//     .catch(e => console.log(e));
-//   return usersMood;
-// }
 
 const findMoodById = async person => {
   const mood = await axios.get(
