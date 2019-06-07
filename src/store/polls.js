@@ -56,8 +56,6 @@ const castVoteThunk = (id, vote) => {
 };
 
 const changeVoteThunk = (pollId, userId) => {
-  console.log('pollId:', pollId);
-  console.log('voteId:', userId);
   return dispatch => {
     return axios
       .delete(
