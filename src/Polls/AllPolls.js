@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import { fetchUsers, fetchUserPolls, getAuthedUser } from './store/users';
+import { fetchUsers, fetchUserPolls } from '../store/users';
 
 const styles = StyleSheet.create({
   container: {

@@ -14,8 +14,8 @@ import {
   castVoteThunk,
   changeVoteThunk,
   updatePollStatusThunk
-} from './store/polls';
-import { findChoiceText } from './HelperFunctions';
+} from '../store/polls';
+import { findChoiceText } from '../HelperFunctions';
 import PureChart from 'react-native-pure-chart';
 
 const styles = StyleSheet.create({

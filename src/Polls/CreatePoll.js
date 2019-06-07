@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { createPollThunk, createChoiceThunk } from './store/polls';
+import { createPollThunk, createChoiceThunk } from '../store/polls';
 
 class CreatePoll extends Component {
   constructor() {
