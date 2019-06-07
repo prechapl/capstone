@@ -50,13 +50,13 @@ class SinglePoll extends React.Component {
     super(props);
     this.state = {
       userId: '',
-      pollId: props.navigation.getParam('id')
+      pollId: ''
     };
   }
   componentDidMount() {
     this.props.fetchChoices(this.state.pollId);
     this.props.fetchVotes(this.state.pollId);
-    this.setState({ userId: this.props.user.id });
+    this.setState({ userId: this.props.user.id, pollId: this.props.pollId });
   }
 
   handleDelete = () => {
@@ -94,12 +94,12 @@ class SinglePoll extends React.Component {
         return acc;
       }, []);
 
-    const question = this.props.navigation.getParam('question', 'no question');
+    // const question = this.props.navigation.getParam('question', 'no question');
 
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>{question}</Text>
-        <PureChart data={votesData} type="pie" />
+        {/* <Text style={styles.header}>{question}</Text> */}
+        {votesData.length && <PureChart data={votesData} type="pie" />}
 
         <TouchableOpacity
           style={{

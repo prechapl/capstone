@@ -50,14 +50,14 @@ class SinglePoll extends React.Component {
     super(props);
     this.state = {
       userId: '',
-      pollId: props.navigation.getParam('id'),
+      pollId: '',
       choiceId: '',
       selectedOption: ''
     };
   }
   componentDidMount() {
     this.props.fetchChoices(this.state.pollId);
-    this.setState({ userId: this.props.user.id });
+    this.setState({ userId: this.props.user.id, pollId: this.props.pollId });
   }
 
   handleSubmit = () => {
@@ -72,7 +72,7 @@ class SinglePoll extends React.Component {
       return acc;
     }, []);
 
-    const question = this.props.navigation.getParam('question', 'no question');
+    // const question = this.props.navigation.getParam('question', 'no question');
 
     const setSelectedOption = selectedOption => {
       const selected = choices.filter(choice => choice.text === selectedOption);
@@ -99,7 +99,7 @@ class SinglePoll extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>{question}</Text>
+        {/* <Text style={styles.header}>{question}</Text> */}
 
         <RadioButtons
           options={options}
