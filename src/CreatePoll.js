@@ -28,7 +28,7 @@ class CreatePoll extends Component {
 
   handleSubmit = () => {
     this.props
-      .createPoll(this.props.user.id, {
+      .createPoll({
         text: this.state.text,
         ownerId: this.props.user.id
       })
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    createPoll: (userId, poll) => dispatch(createPollThunk(userId, poll)),
+    createPoll: poll => dispatch(createPollThunk(poll)),
     createChoice: (pollId, choice) =>
       dispatch(createChoiceThunk(pollId, choice))
   };

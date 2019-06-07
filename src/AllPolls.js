@@ -52,7 +52,7 @@ class AllPolls extends Component {
     const { userPolls } = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>View Poll</Text>
+        <Text style={styles.header}>Your Polls</Text>
         {userPolls.map(poll => (
           <TouchableOpacity
             key={poll.id}

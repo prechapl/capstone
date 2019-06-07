@@ -12,7 +12,8 @@ import {
   fetchChoices,
   fetchVotes,
   castVoteThunk,
-  changeVoteThunk
+  changeVoteThunk,
+  updatePollStatusThunk
 } from './store/polls';
 import { findChoiceText } from './HelperFunctions';
 import PureChart from 'react-native-pure-chart';
@@ -74,6 +75,10 @@ class SinglePoll extends React.Component {
 
   handleDelete = () => {
     this.props.changeVote(this.state.pollId, this.state.userId);
+  };
+
+  handleClose = () => {
+    this.props.closePoll(this.state.pollId, { status: 'closed' });
   };
 
   render() {
@@ -156,6 +161,18 @@ class SinglePoll extends React.Component {
           >
             <Text style={styles.buttonText}>Change Vote</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#FF0000',
+              padding: 10,
+              margin: 10,
+              width: 300
+            }}
+            onPress={this.handleClose}
+          >
+            <Text style={styles.buttonText}>Close Poll</Text>
+          </TouchableOpacity>
         </View>
       );
     } else {
@@ -193,7 +210,9 @@ const mapDispatchToProps = dispatch => {
     fetchChoices: id => dispatch(fetchChoices(id)),
     fetchVotes: id => dispatch(fetchVotes(id)),
     castVote: (id, vote) => dispatch(castVoteThunk(id, vote)),
-    changeVote: (pollId, voteId) => dispatch(changeVoteThunk(pollId, voteId))
+    changeVote: (pollId, voteId) => dispatch(changeVoteThunk(pollId, voteId)),
+    closePoll: (pollId, status) =>
+      dispatch(updatePollStatusThunk(pollId, status))
   };
 };
 
