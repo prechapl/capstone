@@ -1,10 +1,11 @@
-import axios from 'axios';
+import axios from "axios";
 
 //CONSTANTS
 
-const SET_MOOD = 'SET_MOOD';
-const GET_MOOD = 'GET_MOOD';
-const GET_ALL_MOODS = 'GET_ALL_MOODS';
+const SET_MOOD = "SET_MOOD";
+const GET_MOOD = "GET_MOOD";
+const GET_ALL_MOODS = "GET_ALL_MOODS";
+// const GET_FAMILY_MOODS = 'GET_FAMILY_MOODS';
 
 //ACTION CREATORS
 
@@ -20,6 +21,10 @@ const getMoods = allmoods => ({
   type: GET_ALL_MOODS,
   allmoods
 });
+// const getFamilyMoods = moods => ({
+//   type: GET_FAMILY_MOODS,
+//   moods
+// });
 
 //THUNKS
 
@@ -56,6 +61,33 @@ const getAllMoods = id => {
       .catch(e => console.log(e));
   };
 };
+
+// const getMoodsByFamilyId = familyId => {
+//   return dispatch => {
+//     return axios
+//       .get(`https://capstone-api-server.herokuapp.com/api/users/`)
+//       .then(response => response.data)
+//       .then(users => users.filter(user => user.familyId === familyId))
+//       .then(family => {
+//         // console.log('family in thunk', family);
+
+//         family.map(member => {
+//           // const familyMoodsArr = [];
+//           return axios
+//             .get(
+//               `https://capstone-api-server.herokuapp.com/api/moods/${member.id}`
+//             )
+//             .then(response => response.data)
+//             .catch(e => console.log(e));
+//           // return familyMoodsArr;
+//         });
+//       })
+//       .then(response => response.data)
+//       .then(data => dispatch(getFamilyMoods(data)))
+//       .catch(e => console.log(e));
+//   };
+// };
+
 //REDUCERS
 
 const moodObjReducer = (state = {}, action) => {
@@ -77,9 +109,17 @@ const moodArrReducer = (state = [], action) => {
   }
 };
 
+const findMoodById = async person => {
+  const mood = await axios.get(
+    `https://capstone-api-server.herokuapp.com/api/moods/${person.id}`
+  );
+  person.mood = mood;
+};
+
 export {
   setActiveMood,
   getActiveMood,
+  findMoodById,
   getAllMoods,
   moodObjReducer,
   moodArrReducer

@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import {
-  fetchUsers,
-  fetchUser,
-  fetchRelated,
-  getActiveMood,
-} from './store/users';
-import { connect } from 'react-redux';
-import ActionButton from 'react-native-circular-action-menu';
+import React, { Component } from "react";
+import { View, Text } from "react-native";
+import { Avatar, Badge } from "react-native-elements";
+import { fetchUsers, fetchUser, fetchRelated } from "./store/users";
+import { getActiveMood } from "./store/mood";
+import { connect } from "react-redux";
+import ActionButton from "react-native-circular-action-menu";
+import { findMoodColor, findMoodText } from "./HelperFunctions";
 
 class Family extends Component {
   constructor() {
@@ -27,10 +24,8 @@ class Family extends Component {
 
   load = () => {
     // HARD CODING USER ID HERE!!
-    // const id = 'bd941ccf-155d-4186-b4d2-4949180b859f';
-    // this.props.fetchUsers();
-    // this.props.fetchUser(id);
     this.props.fetchUsers();
+    this.props.getActiveMood(this.props.user.id);
   };
 
   findFamily = user => {
@@ -42,72 +37,119 @@ class Family extends Component {
   render() {
     const user = this.props.user;
     const family = this.findFamily(user);
-    if (family.length) {
+    const mood = this.props.mood;
+
+    if (family.length && mood.id) {
+      const moodColor = findMoodColor(mood.value);
+      const moodText = findMoodText(mood.value);
       return (
         <View
           style={{
-            flex: 1,
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flex: 0.9,
+            flexDirection: "column",
+            justifyContent: "flex-end"
           }}
         >
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
               paddingEnd: 25,
+              marginBottom: 25
             }}
           >
             <ActionButton
               active={true}
               degrees={0}
-              radius={130}
-              outRangeScale={0.65}
+              radius={145}
+              outRangeScale={1}
               onLongPress={() =>
-                this.props.navigation.navigate('AvatarGenerator', {
+                this.props.navigation.navigate("AvatarGenerator", {
                   user: user,
-                  buttonSet: 'UserButtons',
+                  buttonSet: "UserButtons",
+                  mood: mood
                 })
               }
               icon={
-                <Avatar
-                  rounded
-                  overlayContainerStyle={{
-                    borderWidth: 3,
-                  }}
-                  size={175}
-                  source={{
-                    uri: `${user.imgUrl}`,
-                  }}
-                  title={user.firstName}
-                />
+                <View>
+                  <Avatar
+                    rounded
+                    overlayContainerStyle={{
+                      borderWidth: 5,
+                      borderColor: moodColor
+                    }}
+                    size={120}
+                    source={{
+                      uri: `${user.imgUrl}`
+                    }}
+                    title={user.firstName}
+                  />
+                  <Badge
+                    containerStyle={{
+                      position: "relative",
+                      top: -18
+                    }}
+                    badgeStyle={{
+                      backgroundColor: moodColor,
+                      paddingHorizontal: 10,
+                      borderColor: "transparent"
+                    }}
+                    value={
+                      <Text style={{ fontSize: 12, color: "white" }}>
+                        {`${moodText}`} mood
+                      </Text>
+                    }
+                  />
+                </View>
               }
             >
               {family.map(person => {
+                //temp hardcoding values here
+                const personMoodColor = findMoodColor(0.5);
+                const personMoodText = findMoodText(0.5);
                 return (
                   <ActionButton.Item key={person.id}>
-                    <Avatar
-                      rounded
-                      overlayContainerStyle={{
-                        borderWidth: 3,
-                      }}
-                      size={100}
-                      source={{
-                        uri: `${person.imgUrl}`,
-                      }}
-                      title={person.firstName}
-                      onPress={() =>
-                        this.props.navigation.navigate('AvatarGenerator', {
-                          user: person,
-                          buttonSet:
-                            person.age > 18
-                              ? 'RelativeButtons'
-                              : 'ChildButtons',
-                        })
-                      }
-                    />
+                    <View>
+                      <Avatar
+                        rounded
+                        overlayContainerStyle={{
+                          borderWidth: 5,
+                          borderColor: personMoodColor
+                        }}
+                        size={110}
+                        source={{
+                          uri: `${person.imgUrl}`
+                        }}
+                        title={person.firstName}
+                        onPress={() =>
+                          this.props.navigation.navigate("AvatarGenerator", {
+                            user: person,
+                            buttonSet:
+                              person.age > 18
+                                ? "RelativeButtons"
+                                : "ChildButtons",
+                            mood: { value: 0.5 }
+                          })
+                        }
+                      />
+                      <Badge
+                        containerStyle={{
+                          position: "relative",
+                          top: -18
+                        }}
+                        badgeStyle={{
+                          backgroundColor: personMoodColor,
+                          paddingHorizontal: 10,
+                          borderColor: "transparent"
+                        }}
+                        value={
+                          <Text style={{ fontSize: 12, color: "white" }}>
+                            {`${personMoodText}`} mood
+                          </Text>
+                        }
+                      />
+                    </View>
                   </ActionButton.Item>
                 );
               })}
@@ -126,15 +168,16 @@ const mapDispatchToProps = dispatch => {
     fetchUsers: () => dispatch(fetchUsers()),
     fetchUser: id => dispatch(fetchUser(id)),
     fetchRelated: id => dispatch(fetchRelated(id)),
-    getActiveMood: id => dispatch(getActiveMood(id)),
+    getActiveMood: id => dispatch(getActiveMood(id))
   };
 };
 
-const mapStateToProps = ({ users, user, related }) => {
+const mapStateToProps = ({ mood, users, user, related }) => {
   return {
     users,
     user,
     related,
+    mood
   };
 };
 
