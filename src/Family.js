@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { FlatList, View } from "react-native";
-import { Avatar } from "react-native-elements";
-import { fetchUsers, fetchUser, fetchRelated } from "./store";
+import { View, Text } from "react-native";
+import { Avatar, Badge } from "react-native-elements";
+import { fetchUsers, fetchUser, fetchRelated } from "./store/users";
+import { getActiveMood } from "./store/mood";
 import { connect } from "react-redux";
+import ActionButton from "react-native-circular-action-menu";
+import { findMoodColor, findMoodText } from "./HelperFunctions";
 
 class Family extends Component {
   constructor() {
@@ -13,12 +16,16 @@ class Family extends Component {
     this.load();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.related.length !== prevProps.related.length) {
+      this.load();
+    }
+  }
+
   load = () => {
     // HARD CODING USER ID HERE!!
-    const id = "587f40ad-3cbb-42e6-8d0e-752bf14bb759";
-    // const id = '3121d11c-4d7c-4cf2-a1f9-c02c6c1b00df';
     this.props.fetchUsers();
-    this.props.fetchUser(id);
+    this.props.getActiveMood(this.props.user.id);
   };
 
   findFamily = user => {
@@ -27,129 +34,126 @@ class Family extends Component {
     );
   };
 
-  // begin >> create family grid layout <<
-
-  formatGrid = (family, numColumns) => {
-    const numFullRows = Math.floor(family.length / numColumns);
-    let numElementsLastRow = family.length - numFullRows * numColumns;
-    while (numElementsLastRow !== numColumns && numElementsLastRow !== 0) {
-      // while (numElementsLastRow !== numColumns) {
-      family.push({ key: `blank-${numElementsLastRow}`, empty: true });
-      numElementsLastRow = numElementsLastRow + 1;
-    }
-    return family;
-  };
-
-  keyExtractor = index => index.toString();
-
-  renderItem = user => {
-    // if (user.empty === true) {
-    //   return (
-    //     <View
-    //       style={{
-    //         backgroundColor: "transparent"
-    //       }}
-    //     />
-    //   );
-    // }
-    if (user.age > 18) {
-      return (
-        <Avatar
-          keyExtractor={this.keyExtractor}
-          rounded
-          overlayContainerStyle={{
-            borderWidth: 1,
-            margin: 10
-          }}
-          size={125}
-          title={user.firstName}
-          source={{
-            uri: user.imgUrl
-          }}
-          onPress={() =>
-            this.props.navigation.navigate("User", {
-              user: user,
-              firstName: user.firstName,
-              imgUrl: user.imgUrl
-            })
-          }
-        />
-      );
-    } else {
-      return (
-        <Avatar
-          keyExtractor={this.keyExtractor}
-          rounded
-          overlayContainerStyle={{
-            borderWidth: 1,
-            margin: 10
-          }}
-          size={125}
-          title={user.firstName}
-          source={{
-            uri: user.imgUrl
-          }}
-          onPress={() =>
-            this.props.navigation.navigate("AvatarChild", {
-              user: user
-              // firstName: user.firstName,
-              // imgUrl: user.imgUrl
-            })
-          }
-        />
-      );
-    }
-  };
-
-  // end >> create family grid layout <<
-
   render() {
-    if (this.props.user.id && this.props.users.length) {
-      const user = this.props.user;
-      const family = this.findFamily(user);
-      const numColumns = 3;
+    const user = this.props.user;
+    const family = this.findFamily(user);
+    const mood = this.props.mood;
 
+    if (family.length && mood.id) {
+      const moodColor = findMoodColor(mood.value);
+      const moodText = findMoodText(mood.value);
       return (
         <View
           style={{
-            flex: 1,
+            flex: 0.9,
             flexDirection: "column",
-            backgroundColor: "#fff",
-            alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "flex-end"
           }}
         >
           <View
             style={{
-              flex: 1,
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "center",
+              paddingEnd: 25,
+              marginBottom: 25
             }}
           >
-            <Avatar
-              rounded
-              overlayContainerStyle={{ borderWidth: 1 }}
-              size={150}
-              title={user.firstName}
-              source={{
-                uri: user.imgUrl
-              }}
-              onPress={() =>
-                this.props.navigation.navigate("User", {
+            <ActionButton
+              active={true}
+              degrees={0}
+              radius={145}
+              outRangeScale={1}
+              onLongPress={() =>
+                this.props.navigation.navigate("AvatarGenerator", {
                   user: user,
-                  keyExtractor: this.keyExtractor
+                  buttonSet: "UserButtons",
+                  mood: mood
                 })
               }
-            />
-          </View>
-          <View style={{ flex: 1, flexDirection: "column" }}>
-            <FlatList
-              data={this.formatGrid(family, numColumns)}
-              keyExtractor={this.keyExtractor}
-              renderItem={this.renderItem}
-              numColumns={numColumns}
-            />
+              icon={
+                <View>
+                  <Avatar
+                    rounded
+                    overlayContainerStyle={{
+                      borderWidth: 5,
+                      borderColor: moodColor
+                    }}
+                    size={120}
+                    source={{
+                      uri: `${user.imgUrl}`
+                    }}
+                    title={user.firstName}
+                  />
+                  <Badge
+                    containerStyle={{
+                      position: "relative",
+                      top: -18
+                    }}
+                    badgeStyle={{
+                      backgroundColor: moodColor,
+                      paddingHorizontal: 10,
+                      borderColor: "transparent"
+                    }}
+                    value={
+                      <Text style={{ fontSize: 12, color: "white" }}>
+                        {`${moodText}`} mood
+                      </Text>
+                    }
+                  />
+                </View>
+              }
+            >
+              {family.map(person => {
+                //temp hardcoding values here
+                const personMoodColor = findMoodColor(0.5);
+                const personMoodText = findMoodText(0.5);
+                return (
+                  <ActionButton.Item key={person.id}>
+                    <View>
+                      <Avatar
+                        rounded
+                        overlayContainerStyle={{
+                          borderWidth: 5,
+                          borderColor: personMoodColor
+                        }}
+                        size={110}
+                        source={{
+                          uri: `${person.imgUrl}`
+                        }}
+                        title={person.firstName}
+                        onPress={() =>
+                          this.props.navigation.navigate("AvatarGenerator", {
+                            user: person,
+                            buttonSet:
+                              person.age > 18
+                                ? "RelativeButtons"
+                                : "ChildButtons",
+                            mood: { value: 0.5 }
+                          })
+                        }
+                      />
+                      <Badge
+                        containerStyle={{
+                          position: "relative",
+                          top: -18
+                        }}
+                        badgeStyle={{
+                          backgroundColor: personMoodColor,
+                          paddingHorizontal: 10,
+                          borderColor: "transparent"
+                        }}
+                        value={
+                          <Text style={{ fontSize: 12, color: "white" }}>
+                            {`${personMoodText}`} mood
+                          </Text>
+                        }
+                      />
+                    </View>
+                  </ActionButton.Item>
+                );
+              })}
+            </ActionButton>
           </View>
         </View>
       );
@@ -163,15 +167,17 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchUsers: () => dispatch(fetchUsers()),
     fetchUser: id => dispatch(fetchUser(id)),
-    fetchRelated: id => dispatch(fetchRelated(id))
+    fetchRelated: id => dispatch(fetchRelated(id)),
+    getActiveMood: id => dispatch(getActiveMood(id))
   };
 };
 
-const mapStateToProps = ({ users, user, related }) => {
+const mapStateToProps = ({ mood, users, user, related }) => {
   return {
     users,
     user,
-    related
+    related,
+    mood
   };
 };
 

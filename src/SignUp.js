@@ -25,7 +25,6 @@ export default class SignUp extends Component {
   }
 
   handleSubmit = (ev, history) => {
-    // console.log(this.state);
     this.props.navigation.navigate('Family');
     this.setState({ page: 1 });
   };
@@ -69,8 +68,8 @@ export default class SignUp extends Component {
               onChangeText={age => this.setState({ age })}
             />
 
-            <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
-              <Text style={styles.buttonText}>Submit</Text>
+            <TouchableOpacity style={styles.button} onPress={this.nextPage}>
+              <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>

@@ -5,25 +5,29 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { loginUser, getAuthedUser } from './store/users';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
     };
   }
 
-  handleSubmit = (ev, history) => {
-    this.props.navigation.navigate('Family');
+  handleSubmit = () => {
+    loginUser(this.state.email, this.state.password)
+      .then(() => this.props.getAuthedUser())
+      .then(() => this.props.navigation.navigate('Family'))
+      .catch(e => console.log(e));
   };
 
   render() {
-    console.log('navigation props', this.props.navigation.navigate);
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.container}>
@@ -50,7 +54,7 @@ export default class Login extends Component {
               backgroundColor: '#8EB51A',
               padding: 10,
               margin: 10,
-              width: 300
+              width: 300,
             }}
             onPress={this.handleSubmit}
           >
@@ -62,7 +66,7 @@ export default class Login extends Component {
               backgroundColor: '#7DC6CD',
               padding: 10,
               margin: 10,
-              width: 300
+              width: 300,
             }}
             onPress={() => this.props.navigation.navigate('SignUp')}
           >
@@ -73,7 +77,7 @@ export default class Login extends Component {
               backgroundColor: '#FF9900',
               padding: 10,
               margin: 10,
-              width: 300
+              width: 300,
             }}
             onPress={() => this.props.navigation.navigate('ForgotPassword')}
           >
@@ -90,22 +94,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   input: {
     height: 40,
     backgroundColor: '#D3D3D4',
     marginBottom: 20,
     width: 300,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   buttonText: {
     textAlign: 'center',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   header: {
     padding: 10,
     marginBottom: 30,
-    fontSize: 75
-  }
+    fontSize: 75,
+  },
 });
+
+const mapDispatchToProps = dispatch => ({
+  getAuthedUser: () => dispatch(getAuthedUser()),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);

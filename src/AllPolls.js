@@ -1,13 +1,8 @@
-const tempPoll = [
-  { id: 1, title: "What's for dinner?", ownerId: 2 },
-  { id: 2, title: 'What movie should we watch?', ownerId: 3 }
-];
-
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import { fetchUsers } from './store';
+import { fetchUsers, fetchUserPolls, getAuthedUser } from './store/users';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,32 +22,64 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     width: 300
+  },
+  createButtonText: {
+    textAlign: 'center',
+    color: '#FFFFFF'
   }
 });
 
 class AllPolls extends Component {
+  constructor() {
+    super();
+    this.state = {
+      text: ''
+    };
+  }
+
   componentDidMount() {
     this.props.fetchUsers();
+    this.props.fetchUserPolls(this.props.user.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps.props) {
+      this.props.fetchUserPolls(this.props.user.id);
+    }
   }
 
   render() {
+    const { userPolls } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.header}>View Poll</Text>
-        {tempPoll.map(poll => (
+        {userPolls.map(poll => (
           <TouchableOpacity
             key={poll.id}
             style={styles.poll}
-            title={poll.title}
+            text={poll.text}
             onPress={() =>
               this.props.navigation.navigate('Poll', {
-                question: poll.title
+                id: poll.id,
+                question: poll.text
               })
             }
           >
-            <Text style={styles.buttonText}>{poll.title}</Text>
+            <Text style={styles.buttonText}>{poll.text}</Text>
           </TouchableOpacity>
         ))}
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#8EB51A',
+            padding: 10,
+            margin: 10,
+            width: 300
+          }}
+          onPress={() => this.props.navigation.navigate('CreatePoll')}
+        >
+          <Text style={styles.createButtonText}>Create New Poll</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -60,13 +87,16 @@ class AllPolls extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => dispatch(fetchUsers())
+    fetchUsers: () => dispatch(fetchUsers()),
+    fetchUserPolls: id => dispatch(fetchUserPolls(id))
   };
 };
 
-const mapStateToProps = ({ users }) => {
+const mapStateToProps = ({ user, users, userPolls }) => {
   return {
-    users
+    user,
+    users,
+    userPolls
   };
 };
 export default connect(
