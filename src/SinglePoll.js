@@ -56,7 +56,7 @@ class SinglePoll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '47713ff6-3ac6-4631-92ed-532828dcfef4',
+      userId: '',
       pollId: props.navigation.getParam('id'),
       choiceId: '',
       selectedOption: ''
@@ -65,6 +65,7 @@ class SinglePoll extends React.Component {
   componentDidMount() {
     this.props.fetchChoices(this.state.pollId);
     this.props.fetchVotes(this.state.pollId);
+    this.setState({ userId: this.props.user.id });
   }
 
   handleSubmit = () => {
@@ -196,8 +197,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ choices, votes }) => {
+const mapStateToProps = ({ user, choices, votes }) => {
   return {
+    user,
     choices,
     votes
   };
