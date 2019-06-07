@@ -105,11 +105,15 @@ class AvatarGenerator extends Component {
                       user: user
                     })
                   }
+                  // startDegree={90}
+                  // endDegree={960}
                 >
                   <View
                     style={{
                       width: button.width,
-                      backgroundColor: button.color
+                      backgroundColor: button.color,
+                      // height: 100,
+                      position: "absolute"
                     }}
                   >
                     <Text style={styles.text}>{button.title}</Text>

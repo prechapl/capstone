@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Avatar, Badge } from "react-native-elements";
-import { fetchUsers, fetchUser, fetchRelated } from "./store/users";
-import { getActiveMood} from "./store/mood";
+import { getActiveMood, getMoodsByFamilyId } from "./store/mood";
 import { connect } from "react-redux";
 import ActionButton from "react-native-circular-action-menu";
 import { findMoodColor, findMoodText } from "./HelperFunctions";
 
 class Family extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   componentDidMount() {
@@ -17,29 +16,27 @@ class Family extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.related.length !== prevProps.related.length) {
+    if (this.props.mood.id !== prevProps.mood.id) {
       this.load();
     }
   }
 
   load = () => {
-    // HARD CODING USER ID HERE!!
-    this.props.fetchUsers();
     this.props.getActiveMood(this.props.user.id);
+    this.props.getMoodsByFamilyId(this.props.user.familyId);
   };
 
-  findFamily = user => {
-    return this.props.users.filter(
+  findFamily = (user, fam) => {
+    return fam.filter(
       usr => usr.familyId === user.familyId && usr.id !== user.id
     );
   };
 
   render() {
-    const user = this.props.user;
-    const family = this.findFamily(user);
-    const mood = this.props.mood;
+    const { user, mood, moods } = this.props;
 
-    if (family.length && mood.id) {
+    if (mood.id && this.props.moods !== undefined) {
+      const family = this.findFamily(user, moods);
       const moodColor = findMoodColor(mood.value);
       const moodText = findMoodText(mood.value);
       return (
@@ -105,9 +102,12 @@ class Family extends Component {
               }
             >
               {family.map(person => {
-//temp hardcoding values here
-                const personMoodColor = findMoodColor(0.5);
-                const personMoodText = findMoodText(0.5);
+                const personMoodColor = findMoodColor(
+                  person.moods.find(m => m.active).value
+                );
+                const personMoodText = findMoodText(
+                  person.moods.find(m => m.active).value
+                );
                 return (
                   <ActionButton.Item key={person.id}>
                     <View>
@@ -129,7 +129,7 @@ class Family extends Component {
                               person.age > 18
                                 ? "RelativeButtons"
                                 : "ChildButtons",
-                            mood: { value: 0.5 }
+                            mood: person.moods.find(m => m.active)
                           })
                         }
                       />
@@ -165,20 +165,16 @@ class Family extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => dispatch(fetchUsers()),
-    fetchUser: id => dispatch(fetchUser(id)),
-    fetchRelated: id => dispatch(fetchRelated(id)),
-    getActiveMood: id => dispatch(getActiveMood(id))
- 
+    getActiveMood: id => dispatch(getActiveMood(id)),
+    getMoodsByFamilyId: familyId => dispatch(getMoodsByFamilyId(familyId))
   };
 };
 
-const mapStateToProps = ({ mood, users, user, related }) => {
+const mapStateToProps = ({ mood, moods, user }) => {
   return {
-    users,
     user,
-    related,
-    mood
+    mood,
+    moods
   };
 };
 
