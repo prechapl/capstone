@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { RadioButtons } from 'react-native-radio-buttons';
 import { connect } from 'react-redux';
-import { fetchChoices, castVoteThunk } from '../store/polls';
+import { castVoteThunk } from '../store/polls';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,7 +56,6 @@ class SinglePoll extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.fetchChoices(this.state.pollId);
     this.setState({ userId: this.props.user.id, pollId: this.props.pollId });
   }
 
@@ -71,8 +70,6 @@ class SinglePoll extends React.Component {
       acc.push(item.text);
       return acc;
     }, []);
-
-    // const question = this.props.navigation.getParam('question', 'no question');
 
     const setSelectedOption = selectedOption => {
       const selected = choices.filter(choice => choice.text === selectedOption);
@@ -99,7 +96,7 @@ class SinglePoll extends React.Component {
     }
     return (
       <View style={styles.container}>
-        {/* <Text style={styles.header}>{question}</Text> */}
+        <Text style={styles.header}>{this.props.question}</Text>
 
         <RadioButtons
           options={options}
@@ -127,7 +124,6 @@ class SinglePoll extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchChoices: id => dispatch(fetchChoices(id)),
     castVote: (id, vote) => dispatch(castVoteThunk(id, vote))
   };
 };

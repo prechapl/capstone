@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class SinglePoll extends React.Component {
+class ResultsPoll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,8 +63,10 @@ class SinglePoll extends React.Component {
     this.props.changeVote(this.state.pollId, this.state.userId);
   };
 
-  handleOpen = () => {
-    this.props.openPoll(this.state.pollId, { status: 'open' });
+  handleStatus = () => {
+    this.props.poll.status === 'open'
+      ? this.props.changeStatus(this.state.pollId, { status: 'closed' })
+      : this.props.changeStatus(this.state.pollId, { status: 'open' });
   };
 
   render() {
@@ -94,16 +96,14 @@ class SinglePoll extends React.Component {
         return acc;
       }, []);
 
-    // const question = this.props.navigation.getParam('question', 'no question');
-
     return (
       <View style={styles.container}>
-        {/* <Text style={styles.header}>{question}</Text> */}
-        <PureChart data={votesData} type="pie" />
+        <Text style={styles.header}>{this.props.question}</Text>
+        {votesData.length && <PureChart data={votesData} type="pie" />}
 
         <TouchableOpacity
           style={{
-            backgroundColor: '#7DC6CD',
+            backgroundColor: '#8EB51A',
             padding: 10,
             margin: 10,
             width: 300
@@ -113,17 +113,31 @@ class SinglePoll extends React.Component {
           <Text style={styles.buttonText}>Change Vote</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#8EB51A',
-            padding: 10,
-            margin: 10,
-            width: 300
-          }}
-          onPress={this.handleOpen}
-        >
-          <Text style={styles.buttonText}>Re-open Poll</Text>
-        </TouchableOpacity>
+        {this.props.poll.status === 'open' ? (
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#FF0000',
+              padding: 10,
+              margin: 10,
+              width: 300
+            }}
+            onPress={this.handleStatus}
+          >
+            <Text style={styles.buttonText}>Close Poll</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#8EB51A',
+              padding: 10,
+              margin: 10,
+              width: 300
+            }}
+            onPress={this.handleStatus}
+          >
+            <Text style={styles.buttonText}>Open Poll</Text>
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
@@ -134,7 +148,7 @@ const mapDispatchToProps = dispatch => {
     fetchChoices: id => dispatch(fetchChoices(id)),
     fetchVotes: id => dispatch(fetchVotes(id)),
     changeVote: (pollId, voteId) => dispatch(changeVoteThunk(pollId, voteId)),
-    openPoll: (pollId, status) =>
+    changeStatus: (pollId, status) =>
       dispatch(updatePollStatusThunk(pollId, status))
   };
 };
@@ -150,4 +164,4 @@ const mapStateToProps = ({ user, choices, votes }) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SinglePoll);
+)(ResultsPoll);
