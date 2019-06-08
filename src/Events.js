@@ -74,14 +74,16 @@ class Events extends Component {
                 } else {
                   this.props.navigation.navigate('EventAssigned', {
                     event: event
-                  })
+                  });
                 }
               }}
             >
               <ListItem
                 key={i}
                 title={event.title}
-                subtitle={`${new Date(event.deadline).getMonth()}/${new Date(event.deadline).getDate()}`}
+                subtitle={`${new Date(event.deadline).getMonth()}/${new Date(
+                  event.deadline
+                ).getDate()}`}
                 badge={{
                   value: event.category,
                   badgeStyle: { backgroundColor: colorMap[event.category] }
