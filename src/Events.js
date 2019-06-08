@@ -13,9 +13,7 @@ class Events extends Component {
   }
   componentDidMount() {
     //must fetch events
-    const id = this.props.id
-      ? this.props.id
-      : 'e5fce01a-b34d-4472-8989-7368d033e6eb';
+    const id = this.props.id;
     this.props.fetchEvents(id);
     this.props.fetchAssigned(id);
   }
@@ -42,7 +40,7 @@ class Events extends Component {
           leftComponent={
             <Button
               type="clear"
-              title="MY EVENTS"
+              title="EVENTS"
               titleStyle={{ color: 'white' }}
               onPress={() => this.setState({ selection: 'MY EVENTS' })}
             />
@@ -50,7 +48,7 @@ class Events extends Component {
           centerComponent={
             <Button
               type="clear"
-              title="ASSIGNED"
+              title="INVITED"
               titleStyle={{ color: 'white' }}
               onPress={() => this.setState({ selection: 'ASSIGNED' })}
             />
@@ -69,16 +67,21 @@ class Events extends Component {
             <TouchableOpacity
               key={i}
               onPress={() => {
-                this.props.navigation.navigate('Event', {
-                  event: event,
-                  type: this.state.selection
-                });
+                if (this.state.selection === 'MY EVENTS') {
+                  this.props.navigation.navigate('Event', {
+                    event: event
+                  });
+                } else {
+                  this.props.navigation.navigate('EventAssigned', {
+                    event: event
+                  })
+                }
               }}
             >
               <ListItem
                 key={i}
                 title={event.title}
-                //subtitle={`${event.deadline.getMonth()}/${event.deadline.getDate()}`}
+                subtitle={`${new Date(event.deadline).getMonth()}/${new Date(event.deadline).getDate()}`}
                 badge={{
                   value: event.category,
                   badgeStyle: { backgroundColor: colorMap[event.category] }
