@@ -1,29 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { connect } from 'react-redux';
-import { loginUser, getAuthedUser } from './store/users';
+  KeyboardAvoidingView
+} from "react-native";
+import { connect } from "react-redux";
+import { loginUser, getAuthedUser } from "./store/users";
 
 class Login extends Component {
   constructor() {
     super();
 
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: ""
     };
   }
 
   handleSubmit = () => {
-    loginUser(this.state.email, this.state.password)
+    // loginUser(this.state.email, this.state.password)
+    loginUser("janedoe@email.com", "p@ssWord!2")
       .then(() => this.props.getAuthedUser())
-      .then(() => this.props.navigation.navigate('Family'))
+      .then(() => this.props.navigation.navigate("Family"))
       .catch(e => console.log(e));
   };
 
@@ -51,10 +52,10 @@ class Login extends Component {
 
           <TouchableOpacity
             style={{
-              backgroundColor: '#8EB51A',
+              backgroundColor: "#8EB51A",
               padding: 10,
               margin: 10,
-              width: 300,
+              width: 300
             }}
             onPress={this.handleSubmit}
           >
@@ -63,23 +64,23 @@ class Login extends Component {
 
           <TouchableOpacity
             style={{
-              backgroundColor: '#7DC6CD',
+              backgroundColor: "#7DC6CD",
               padding: 10,
               margin: 10,
-              width: 300,
+              width: 300
             }}
-            onPress={() => this.props.navigation.navigate('SignUp')}
+            onPress={() => this.props.navigation.navigate("SignUp")}
           >
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              backgroundColor: '#FF9900',
+              backgroundColor: "#FF9900",
               padding: 10,
               margin: 10,
-              width: 300,
+              width: 300
             }}
-            onPress={() => this.props.navigation.navigate('ForgotPassword')}
+            onPress={() => this.props.navigation.navigate("ForgotPassword")}
           >
             <Text style={styles.buttonText}>Forgot Password</Text>
           </TouchableOpacity>
@@ -92,30 +93,30 @@ class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
   input: {
     height: 40,
-    backgroundColor: '#D3D3D4',
+    backgroundColor: "#D3D3D4",
     marginBottom: 20,
     width: 300,
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
   buttonText: {
-    textAlign: 'center',
-    color: '#FFFFFF',
+    textAlign: "center",
+    color: "#FFFFFF"
   },
   header: {
     padding: 10,
     marginBottom: 30,
-    fontSize: 75,
-  },
+    fontSize: 75
+  }
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAuthedUser: () => dispatch(getAuthedUser()),
+  getAuthedUser: () => dispatch(getAuthedUser())
 });
 
 export default connect(

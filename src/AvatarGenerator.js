@@ -4,6 +4,9 @@ import { Avatar, Badge } from "react-native-elements";
 import { withNavigation } from "react-navigation";
 import ActionButton from "react-native-circular-action-menu";
 import { findMoodColor, findMoodText } from "./HelperFunctions";
+import { Polls } from "./AllPolls";
+import { Events } from "./Events";
+import { Mood } from "./Mood";
 
 class AvatarGenerator extends Component {
   constructor(props) {
@@ -14,32 +17,84 @@ class AvatarGenerator extends Component {
     const { navigation } = this.props;
     const user = navigation.getParam("user", "no user");
     const buttonSet = navigation.getParam("buttonSet");
-
-    const buttons = {
-      UserButtons: [
-        { title: "Mood", color: "#FF9900", width: 62 },
-        { title: "Family", color: "#8EB51A", width: 66 },
-        { title: "Events", color: "#EF5029", width: 68 },
-        { title: "Polls", color: "#7DC6CD", width: 53 }
-      ],
-      RelativeButtons: [
-        { title: "Family", color: "#8EB51A", width: 66 },
-        { title: "Events", color: "#EF5029", width: 68 },
-        { title: "Polls", color: "#7DC6CD", width: 53 }
-      ],
-      ChildButtons: [
-        { title: "Family", color: "#8EB51A", width: 66 },
-        { title: "Events", color: "#EF5029", width: 68 },
-        { title: "Polls", color: "#7DC6CD", width: 53 },
-        { title: "Location", color: "#AD0978", width: 84 },
-        { title: "Goals", color: "#1500FA", width: 61 },
-        { title: "Records", color: "#E0BF00", width: 82 }
-      ]
-    };
     const mood = navigation.getParam("mood");
     const moodColor = findMoodColor(mood.value);
     const moodText = findMoodText(mood.value);
+    const componentToNest = navigation.getParam("nestComponent");
 
+    const buttons = {
+      UserButtons: [
+        {
+          title: "Mood",
+          color: "#FF9900",
+          width: 62,
+          componentToNest: "<Mood />"
+        },
+        { title: "Family", color: "#8EB51A", width: 66, componentToNest: null },
+        {
+          title: "Events",
+          color: "#EF5029",
+          width: 68,
+          componentToNest: "<Events />"
+        },
+        {
+          title: "Polls",
+          color: "#7DC6CD",
+          width: 53,
+          componentToNest: "<Polls />"
+        }
+      ],
+      RelativeButtons: [
+        { title: "Family", color: "#8EB51A", width: 66, componentToNest: null },
+        {
+          title: "Events",
+          color: "#EF5029",
+          width: 68,
+          componentToNest: "<Events />"
+        },
+        {
+          title: "Polls",
+          color: "#7DC6CD",
+          width: 53,
+          componentToNest: "<Polls />"
+        }
+      ],
+      ChildButtons: [
+        { title: "Family", color: "#8EB51A", width: 66, componentToNest: null },
+        {
+          title: "Events",
+          color: "#EF5029",
+          width: 68,
+          componentToNest: "<Events />"
+        },
+        {
+          title: "Polls",
+          color: "#7DC6CD",
+          width: 53,
+          componentToNest: "<Polls />"
+        },
+        {
+          title: "Location",
+          color: "#AD0978",
+          width: 84,
+          componentToNest: null
+        },
+        {
+          title: "Goals",
+          color: "#1500FA",
+          width: 61,
+          componentToNest: null
+        },
+        {
+          title: "Records",
+          color: "#E0BF00",
+          width: 82,
+          componentToNest: null
+        }
+      ]
+    };
+
+    // const componentToNest = this.props.componentToNest;
     return (
       <View
         style={{
@@ -49,6 +104,7 @@ class AvatarGenerator extends Component {
           justifyContent: "flex-end"
         }}
       >
+        <View>{componentToNest !== null ? componentToNest : ""}</View>
         <View
           style={{
             flexDirection: "row",
@@ -98,15 +154,23 @@ class AvatarGenerator extends Component {
           >
             {buttons[buttonSet].map((button, idx) => {
               return (
+                // <ActionButton.Item
+                //   key={idx}
+                //   onPress={() =>
+                //     this.props.navigation.navigate(button.title, {
+                //       user: user,
+                //       nestComponent: componentToNest
+                //     })
+                //   }
+                // >
                 <ActionButton.Item
                   key={idx}
                   onPress={() =>
                     this.props.navigation.navigate(button.title, {
-                      user: user
+                      user: user,
+                      nestComponent: button.componentToNest
                     })
                   }
-                  // startDegree={90}
-                  // endDegree={960}
                 >
                   <View
                     style={{

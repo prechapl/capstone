@@ -1,9 +1,9 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Avatar, Badge, Slider } from 'react-native-elements';
-import { connect } from 'react-redux';
-import { setActiveMood, getActiveMood } from './store/mood';
-import ActionButton from 'react-native-circular-action-menu';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Avatar, Badge, Slider } from "react-native-elements";
+import { connect } from "react-redux";
+import { setActiveMood, getActiveMood } from "./store/mood";
+import ActionButton from "react-native-circular-action-menu";
 
 class Mood extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class Mood extends React.Component {
   }
 
   load = () => {
-    const user = this.props.navigation.getParam('user', 'no user');
+    const user = this.props.navigation.getParam("user", "no user");
     const id = user.id;
     this.props.getActiveMood(id);
     this.setState({ mood: this.props.mood.value });
@@ -32,84 +32,84 @@ class Mood extends React.Component {
 
   findColor = value => {
     const colors = {
-      0.0: '#FF2A00',
-      0.25: '#E68200',
-      0.5: '#FAD400',
-      0.75: '#80E600',
-      1.0: '#00FF53'
+      0.0: "#FF2A00",
+      0.25: "#E68200",
+      0.5: "#FAD400",
+      0.75: "#80E600",
+      1.0: "#00FF53"
     };
     return colors[value];
   };
 
   findMood = value => {
     const feelings = {
-      0.0: 'horrible',
-      0.25: 'bad',
-      0.5: 'neutral',
-      0.75: 'good',
-      1.0: 'excellent'
+      0.0: "horrible",
+      0.25: "bad",
+      0.5: "neutral",
+      0.75: "good",
+      1.0: "excellent"
     };
     return feelings[value];
   };
 
   render() {
-    const user = this.props.navigation.getParam('user', 'no user');
+    const user = this.props.navigation.getParam("user", "no user");
 
     return (
+      // <View
+      //   style={{
+      //     flex: 1,
+      //     flexDirection: 'column',
+      //     alignItems: 'center',
+      //     justifyContent: 'center'
+      //   }}
+      // >
       <View
         style={{
-          flex: 1,
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center'
+          flexDirection: "column",
+          justifyContent: "center"
         }}
       >
-        <View
+        <Text
           style={{
-            flexDirection: 'column',
-            justifyContent: 'center'
+            marginLeft: "auto",
+            marginRight: "auto"
+            // marginTop: 66
           }}
         >
-          <Text
-            style={{
-              marginLeft: 'auto',
-              marginRight: 'auto'
-              // marginTop: 66
-            }}
-          >
-            My mood is {this.findMood(this.state.mood)}
-          </Text>
-
-          <View
-            style={{
-              width: 300,
-              paddingTop: 50,
-              paddingBottom: 150,
-              justifyContent: 'center'
-            }}
-          >
-            <Slider
-              value={this.state.mood}
-              step={0.25}
-              onValueChange={value => this.setState({ mood: value })}
-              onSlidingComplete={() =>
-                this.props.setActiveMood(user.id, this.state.mood)
-              }
-              thumbStyle={{
-                height: 80,
-                width: 80,
-                borderRadius: 40
-              }}
-              thumbTintColor={this.findColor(this.state.mood)}
-              thumbTouchSize={{ width: 120, height: 120 }}
-              minimumTrackTintColor={this.findColor(this.state.mood)}
-            />
-          </View>
-        </View>
+          My mood is {this.findMood(this.state.mood)}
+        </Text>
 
         <View
           style={{
-            flexDirection: 'column',
+            width: 300,
+            paddingTop: 50,
+            paddingBottom: 150,
+            justifyContent: "center"
+          }}
+        >
+          <Slider
+            value={this.state.mood}
+            step={0.25}
+            onValueChange={value => this.setState({ mood: value })}
+            onSlidingComplete={() =>
+              this.props.setActiveMood(user.id, this.state.mood)
+            }
+            thumbStyle={{
+              height: 80,
+              width: 80,
+              borderRadius: 40
+            }}
+            thumbTintColor={this.findColor(this.state.mood)}
+            thumbTouchSize={{ width: 120, height: 120 }}
+            minimumTrackTintColor={this.findColor(this.state.mood)}
+          />
+        </View>
+        {/* </View> */}
+
+        <View
+          style={{
+            flexDirection: "column",
             paddingTop: 100,
             paddingEnd: 35,
             marginBottom: 150
@@ -134,11 +134,11 @@ class Mood extends React.Component {
                   title={user.firstName}
                 />
                 <Badge
-                  containerStyle={{ position: 'relative' }}
+                  containerStyle={{ position: "relative" }}
                   badgeStyle={{
                     backgroundColor: this.findColor(this.state.mood)
                   }}
-                  value={this.findMood(this.state.mood) + ' mood'}
+                  value={this.findMood(this.state.mood) + " mood"}
                 />
               </View>
             }
@@ -146,12 +146,12 @@ class Mood extends React.Component {
             {/* MOOD */}
             <ActionButton.Item
               onPress={() =>
-                this.props.navigation.navigate('Mood', {
+                this.props.navigation.navigate("Mood", {
                   user: user
                 })
               }
             >
-              <View style={{ width: 62, backgroundColor: '#FF9900' }}>
+              <View style={{ width: 62, backgroundColor: "#FF9900" }}>
                 <Text style={styles.text}>Mood</Text>
               </View>
             </ActionButton.Item>
@@ -159,12 +159,12 @@ class Mood extends React.Component {
             {/* FAMILY */}
             <ActionButton.Item
               onPress={() =>
-                this.props.navigation.navigate('Family', {
+                this.props.navigation.navigate("Family", {
                   user: user
                 })
               }
             >
-              <View style={{ width: 66, backgroundColor: '#8EB51A' }}>
+              <View style={{ width: 66, backgroundColor: "#8EB51A" }}>
                 <Text style={styles.text}>Family</Text>
               </View>
             </ActionButton.Item>
@@ -172,12 +172,12 @@ class Mood extends React.Component {
             {/* EVENTS */}
             <ActionButton.Item
               onPress={() =>
-                this.props.navigation.navigate('Events', {
+                this.props.navigation.navigate("Events", {
                   user: user
                 })
               }
             >
-              <View style={{ width: 68, backgroundColor: '#EF5029' }}>
+              <View style={{ width: 68, backgroundColor: "#EF5029" }}>
                 <Text style={styles.text}>Events</Text>
               </View>
             </ActionButton.Item>
@@ -186,12 +186,12 @@ class Mood extends React.Component {
 
             <ActionButton.Item
               onPress={() =>
-                this.props.navigation.navigate('Polls', {
+                this.props.navigation.navigate("Polls", {
                   user: user
                 })
               }
             >
-              <View style={{ width: 53, backgroundColor: '#7DC6CD' }}>
+              <View style={{ width: 53, backgroundColor: "#7DC6CD" }}>
                 <Text style={styles.text}>Polls</Text>
               </View>
             </ActionButton.Item>
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 1,
     marginBottom: 1,
-    color: 'white',
+    color: "white",
     fontSize: 20
   }
 });
