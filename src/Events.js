@@ -40,7 +40,7 @@ class Events extends Component {
           leftComponent={
             <Button
               type="clear"
-              title="MY EVENTS"
+              title="EVENTS"
               titleStyle={{ color: 'white' }}
               onPress={() => this.setState({ selection: 'MY EVENTS' })}
             />
@@ -48,7 +48,7 @@ class Events extends Component {
           centerComponent={
             <Button
               type="clear"
-              title="ASSIGNED"
+              title="INVITED"
               titleStyle={{ color: 'white' }}
               onPress={() => this.setState({ selection: 'ASSIGNED' })}
             />
@@ -67,10 +67,15 @@ class Events extends Component {
             <TouchableOpacity
               key={i}
               onPress={() => {
-                this.props.navigation.navigate('Event', {
-                  event: event,
-                  type: this.state.selection
-                });
+                if (this.state.selection === 'MY EVENTS') {
+                  this.props.navigation.navigate('Event', {
+                    event: event
+                  });
+                } else {
+                  this.props.navigation.navigate('EventAssigned', {
+                    event: event
+                  })
+                }
               }}
             >
               <ListItem

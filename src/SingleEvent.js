@@ -1,27 +1,73 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+    Text,
+    View,
+    StyleSheet,
+    TouchableOpacity,
+    Picker
+} from 'react-native';
 import { Card, Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
 import {
-    goUpdateAssigned,
     goDeleteEvent,
-    fetchAssignees
+    fetchAssignees,
+    goUpdateEvent,
 } from './store/events';
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center'
+    },
+    button: {
+        backgroundColor: "#448AE6",
+        padding: 10,
+        width: 300,
+        margin: 10
+    },
+    buttonText: {
+        textAlign: "center",
+        color: "#FFFFFF"
+    },
+    bottom: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginBottom: 36
+    }
+});
 
 class SingleEvent extends Component {
     constructor() {
         super();
-        this.state = {}
+        this.state = {
+            showStatusPicker: false,
+            showAssigneePicker: false,
+            assignee: '',
+            status: ''
+        }
     }
     delete = (id) => {
         this.props.deleteEvent(id);
         this.props.navigation.navigate('Events');
     }
+    approve = (id) => {
+        this.props.updateEvent(id, { status: 'complete' });
+    }
+    updateStatus = (id) => {
+        this.props.updateEvent(id, { status: this.state.status });
+        this.toggleStatusPicker();
+    }
+    toggleStatusPicker = () => {
+        const show = !this.state.showStatusPicker;
+        this.setState({ showStatusPicker: show });
+    }
+    toggleAssigneePicker = () => {
+        this.setState({ showAssigneePicker: !this.state.showAssigneePicker });
+    }
     render() {
-        const event = this.props.navigation.getParam('event');
+        const event = this.props.events.find(ev => ev.id === this.props.navigation.getParam('event').id);
         const deadline = new Date(event.deadline);
-        const type = this.props.navigation.getParam('type');
         const badgeStatusMap = {
             upcoming: 'primary',
             completed: 'success',
@@ -36,96 +82,112 @@ class SingleEvent extends Component {
             errand: '#D79963'
         };
         return (
-            <Card
-                title={event.title}
-                subtitle={event.category}
-                containerStyle={{ borderColor: colorMap[event.category], flex: 1, justifyContent: 'space-between' }}
+            <View
+                style={styles.container}
             >
-                <Badge
-                    value={event.status}
-                    status={badgeStatusMap[event.status]}
-                />
-                {event.status === 'completed-pending' ? (
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => this.approve}
-                    >
-                        <Text>approve</Text>
-                    </TouchableOpacity>
-
-                ) : (<TouchableOpacity
-                    style={styles.button}
+                <Text
+                    style={{ fontSize: 30, color: colorMap[event.category] }}
+                >{event.title}
+                </Text>
+                <Text
+                    style={{ fontSize: 15 }}
                 >
-                    <Text>edit status</Text>
-                </TouchableOpacity>)}
-                <Text>
-                    DATE: {deadline.getMonth()}/{deadline.getDate()}/{deadline.getFullYear()}
-                </Text>
-                <Text>
-                    TIME: {deadline.getHours()}:{('0' + deadline.getMinutes()).slice(-2)}
-                </Text>
-                <Text>
-                    {event.description}
+                    {event.category}
                 </Text>
 
-                {this.props.assignees.length ? (
-                    <Text>Assigned to: {this.props.assignees.join(', ')}</Text>) :
-                    (<Text> Not yet assigned</Text>)}
+                {this.state.showStatusPicker ? (
+                    <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
 
-                {type === 'ASSIGNED' ? (<TouchableOpacity
-                    onPress={() => this.props.completeAssignedTask(event.id, { status: 'completed-pending' })}
-                    style={styles.button}>
-                    <Text>complete</Text>
-                </TouchableOpacity>
-                ) : (
+                        <Picker
+                            selectedValue={this.state.status}
+                            style={{ height: 50, width: 200, flex: 2, margin: 10 }}
+                            onValueChange={(val, idx) => this.setState({ status: val })}
+                        >
+                            <Picker.Item label='upcoming' value='upcoming' />
+                            <Picker.Item label='completed' value='completed' />
+                            <Picker.Item label='overdue' value='overdue' />
+                            <Picker.Item label='missed' value='missed' />
+                        </Picker>
+
+                        <View
+                            style={{ flex: 1 }}
+                        >
+                            <TouchableOpacity
+                                onPress={() => this.updateStatus(event.id)}
+                                style={styles.button}
+                            >
+                                <Text style={styles.buttonText}>save</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={this.toggleStatusPicker}
+                                style={styles.button}
+                            >
+                                <Text style={styles.buttonText}>cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                ) : (null)}
+
+                {!this.state.showStatusPicker && !this.state.showAssigneePicker ? (
+                    <View>
+                        <Badge
+                            value={event.status}
+                            status={badgeStatusMap[event.status]}
+                        />
+                        <View>
+                            {event.status === 'completed-pending' ? (
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => this.approve}
+                                >
+                                    <Text>approve</Text>
+                                </TouchableOpacity>
+
+                            ) : (
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={this.toggleStatusPicker}
+                                    >
+                                        <Text>edit status</Text>
+                                    </TouchableOpacity>)}
+                        </View>
+
+                        <Text>
+                            DATE: {deadline.getMonth()}/{deadline.getDate()}/{deadline.getFullYear()}
+                        </Text>
+                        <Text>
+                            TIME: {deadline.getHours()}:{('0' + deadline.getMinutes()).slice(-2)}
+                        </Text>
+                        <Text>
+                            {event.description}
+                        </Text>
+                        <Text>{this.props.assignees.length ? (`Assigned to: ${this.props.assignees.join(', ')}`) : ('not yet assigned')}</Text>
                         <TouchableOpacity
                             onPress={() => this.delete(event.id)}
                             style={styles.button}>
                             <Text>delete</Text>
                         </TouchableOpacity>
-                    )}
-            </Card>
+                    </View>
+                ) : (null)}
+
+            </View>
         )
     }
 }
 
-const mapStateToProps = ({ assignees }) => {
+const mapStateToProps = ({ assignees, events }) => {
     return {
-        assignees
+        assignees,
+        events
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        completeAssignedTask: (id, updates) => dispatch(goUpdateAssigned(id, updates)),
         deleteEvent: (id) => dispatch(goDeleteEvent(id)),
-        fetchAssignees: (id) => dispatch(fetchAssignees(id))
+        fetchAssignees: (id) => dispatch(fetchAssignees(id)),
+        updateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates))
     }
 }
-
-const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        backgroundColor: "#D3D3D4",
-        marginBottom: 20,
-        width: 300,
-        paddingHorizontal: 10
-    },
-    button: {
-        backgroundColor: "#448AE6",
-        padding: 10,
-        width: 300,
-        margin: 10
-    },
-    buttonText: {
-        textAlign: "center",
-        color: "#FFFFFF"
-    },
-    header: {
-        padding: 10,
-        marginBottom: 30,
-        fontSize: 35
-    }
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleEvent);
