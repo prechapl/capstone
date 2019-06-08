@@ -10,7 +10,7 @@ import Mood from './Mood';
 import AllPolls from './Polls/AllPolls';
 import SinglePoll from './/Polls/SinglePoll';
 import CreatePoll from './Polls/CreatePoll';
-import ResultsPoll from './Polls/ResultsPoll';
+import VotedPoll from './Polls/VotedPoll';
 import ForgotPassword from './ForgotPassword';
 import Events from './Events';
 import SingleEvent from './SingleEvent';
@@ -21,7 +21,7 @@ const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
   Poll: SinglePoll,
   CreatePoll: CreatePoll,
-  ResultsPoll: ResultsPoll
+  VotedPoll: VotedPoll
 });
 
 const AuthNavigator = createStackNavigator({

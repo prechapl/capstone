@@ -31,18 +31,23 @@ const styles = StyleSheet.create({
   }
 });
 
-class ResultsPoll extends React.Component {
+class ClosedPoll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: '',
-      pollId: ''
+      pollId: '',
+      status: ''
     };
   }
   componentDidMount() {
     this.props.fetchChoices(this.state.pollId);
     this.props.fetchVotes(this.state.pollId);
-    this.setState({ userId: this.props.user.id, pollId: this.props.pollId });
+    this.setState({
+      userId: this.props.user.id,
+      pollId: this.props.pollId,
+      status: this.props.status
+    });
   }
 
   handleDelete = () => {
@@ -50,9 +55,13 @@ class ResultsPoll extends React.Component {
   };
 
   handleStatus = () => {
-    this.props.poll.status === 'open'
-      ? this.props.changeStatus(this.state.pollId, { status: 'closed' })
-      : this.props.changeStatus(this.state.pollId, { status: 'open' });
+    if (this.state.status === 'closed') {
+      this.props.changeStatus(this.state.pollId, { status: 'open' });
+      this.setState({ status: 'open' });
+    } else {
+      this.props.changeStatus(this.state.pollId, { status: 'closed' });
+      this.setState({ status: 'closed' });
+    }
   };
 
   render() {
@@ -87,31 +96,21 @@ class ResultsPoll extends React.Component {
         <Text style={styles.header}>{this.props.question}</Text>
         {votesData.length && <PureChart data={votesData} type="pie" />}
 
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#8EB51A',
-            padding: 10,
-            margin: 10,
-            width: 300
-          }}
-          onPress={this.handleDelete}
-        >
-          <Text style={styles.buttonText}>Change Vote</Text>
-        </TouchableOpacity>
-
-        {this.props.poll.status === 'open' ? (
+        {this.state.status === 'open' ? (
           <TouchableOpacity
             style={{
-              backgroundColor: '#FF0000',
+              backgroundColor: '#7DC6CD',
               padding: 10,
               margin: 10,
               width: 300
             }}
-            onPress={this.handleStatus}
+            onPress={this.handleDelete}
           >
-            <Text style={styles.buttonText}>Close Poll</Text>
+            <Text style={styles.buttonText}>Change Vote</Text>
           </TouchableOpacity>
-        ) : (
+        ) : null}
+
+        {this.state.status === 'closed' ? (
           <TouchableOpacity
             style={{
               backgroundColor: '#8EB51A',
@@ -122,6 +121,18 @@ class ResultsPoll extends React.Component {
             onPress={this.handleStatus}
           >
             <Text style={styles.buttonText}>Open Poll</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#FF0000',
+              padding: 10,
+              margin: 10,
+              width: 300
+            }}
+            onPress={this.handleStatus}
+          >
+            <Text style={styles.buttonText}>Close Poll</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -150,4 +161,4 @@ const mapStateToProps = ({ user, choices, votes }) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ResultsPoll);
+)(ClosedPoll);

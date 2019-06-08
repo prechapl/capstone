@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchChoices, fetchVotes } from '../store/polls';
-import ResultsPoll from './ResultsPoll';
+import VotedPoll from './VotedPoll';
 import VotePoll from './VotePoll';
 
 class SinglePoll extends React.Component {
@@ -27,12 +27,12 @@ class SinglePoll extends React.Component {
       return acc;
     }, []);
 
-    if (poll.status === 'open' && usersWithVotes.includes(user.id)) {
+    if (usersWithVotes.includes(user.id) || poll.status === 'closed') {
       return (
-        <ResultsPoll
+        <VotedPoll
           pollId={this.state.pollId}
           question={question}
-          poll={poll}
+          status={poll.status === 'open' ? 'open' : 'closed'}
         />
       );
     } else {

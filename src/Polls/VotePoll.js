@@ -45,14 +45,14 @@ const styles = StyleSheet.create({
   }
 });
 
-class SinglePoll extends React.Component {
+class VotePoll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: '',
-      pollId: '',
       choiceId: '',
-      selectedOption: ''
+      selectedOption: '',
+      pollId: ''
     };
   }
   componentDidMount() {
@@ -60,7 +60,7 @@ class SinglePoll extends React.Component {
   }
 
   handleSubmit = () => {
-    this.props.castVote(this.state.pollId, this.state);
+    this.props.castVote(this.props.pollId, this.state);
   };
 
   render() {
@@ -138,4 +138,4 @@ const mapStateToProps = ({ user, choices }) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SinglePoll);
+)(VotePoll);
