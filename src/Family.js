@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import ActionButton from "react-native-circular-action-menu";
 import { findMoodColor, findMoodText } from "./HelperFunctions";
 
+
 class Family extends Component {
   constructor(props) {
     super(props);

@@ -5,7 +5,8 @@ import {
   TextInput,
   Picker,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  View
 } from "react-native";
 import { connect } from "react-redux";
 import { goCreateEvent } from "./store/events";
@@ -15,17 +16,16 @@ class AddEvent extends Component {
     super();
     this.state = {
       title: "",
-      category: "event",
+      category: "",
       description: ""
     };
   }
   save = () => {
-    const id = this.props.id
-      ? this.props.id
-      : "1544f466-8518-4b8d-91ed-f5f9660eee85";
+    const id = this.props.id;
     const newEvent = this.state;
     newEvent.ownerId = id;
-    this.props.saveEvent(newEvent);
+    this.props.saveEvent(newEvent)
+    this.props.navigation.navigate('Events');
   };
   render() {
     const colorMap = {
@@ -47,29 +47,36 @@ class AddEvent extends Component {
           onChangeText={description => this.setState({ description })}
           style={styles.input}
         />
-        <Text>Category</Text>
-        <Picker
-          selectedValue={this.state.category}
-          onValueChange={category => this.setState({ category })}
-          style={{ height: 50, width: 100 }}
-        >
-          <Picker.Item label="event" value="event" style={{ color: "red" }} />
-          <Picker.Item
-            label="chore"
-            value="chore"
-            style={{ backgroundColor: colorMap.chore }}
-          />
-          <Picker.Item
-            label="appointment"
-            value="appointment"
-            style={{ backgroundColor: colorMap.appointment }}
-          />
-          <Picker.Item
-            label="errand"
-            value="errand"
-            style={{ backgroundColor: colorMap.errand }}
-          />
-        </Picker>
+        <View>
+          <Picker
+            selectedValue={this.state.category}
+            onValueChange={category => this.setState({ category })}
+            style={{ height: 30, width: 250 }}
+            itemStyle={{ fontSize: 18 }}
+          >
+            <Picker.Item
+              label="please select a category"
+              value=""
+            />
+            <Picker.Item
+              label="event"
+              value="event"
+            />
+            <Picker.Item
+              label="chore"
+              value="chore"
+            />
+            <Picker.Item
+              label="appointment"
+              value="appointment"
+            />
+            <Picker.Item
+              label="errand"
+              value="errand"
+            />
+          </Picker>
+        </View>
+
         <TouchableOpacity style={styles.button} onPress={() => this.save()}>
           <Text>Save</Text>
         </TouchableOpacity>

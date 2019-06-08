@@ -15,6 +15,7 @@ import ForgotPassword from "./ForgotPassword";
 import Events from "./Events";
 import SingleEvent from "./SingleEvent";
 import AddEvent from "./AddEvent";
+import SingleEventAssigned from "./SingleEventAssigned";
 import AvatarGenerator from "./AvatarGenerator";
 
 const PollsNavigator = createStackNavigator({
@@ -58,6 +59,7 @@ const UserNavigator = createStackNavigator(
 const EventNavigator = createStackNavigator({
   Events: Events,
   Event: SingleEvent,
+  EventAssigned: SingleEventAssigned,
   AddEvent: AddEvent
 });
 
