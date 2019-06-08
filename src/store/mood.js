@@ -1,10 +1,11 @@
-import axios from 'axios';
+import axios from "axios";
 
 //CONSTANTS
 
-const SET_MOOD = 'SET_MOOD';
-const GET_MOOD = 'GET_MOOD';
-const GET_ALL_MOODS = 'GET_ALL_MOODS';
+const SET_MOOD = "SET_MOOD";
+const GET_MOOD = "GET_MOOD";
+const GET_ALL_MOODS = "GET_ALL_MOODS";
+const GET_FAMILY_MOODS = "GET_FAMILY_MOODS";
 
 //ACTION CREATORS
 
@@ -19,6 +20,10 @@ const getMood = mood => ({
 const getMoods = allmoods => ({
   type: GET_ALL_MOODS,
   allmoods
+});
+const getFamilyMoods = moods => ({
+  type: GET_FAMILY_MOODS,
+  moods
 });
 
 //THUNKS
@@ -47,7 +52,7 @@ const getActiveMood = id => {
   };
 };
 
-const getAllMoods = id => {
+const getAllMoodsByUserId = id => {
   return dispatch => {
     return axios
       .get(`https://capstone-api-server.herokuapp.com/api/moods/${id}/all`)
@@ -56,6 +61,19 @@ const getAllMoods = id => {
       .catch(e => console.log(e));
   };
 };
+
+const getMoodsByFamilyId = familyId => {
+  return dispatch => {
+    return axios
+      .get(
+        `https://capstone-api-server.herokuapp.com/api/families/${familyId}/users`
+      )
+      .then(response => response.data)
+      .then(data => dispatch(getFamilyMoods(data)))
+      .catch(e => console.log(e));
+  };
+};
+
 //REDUCERS
 
 const moodObjReducer = (state = {}, action) => {
@@ -72,6 +90,8 @@ const moodArrReducer = (state = [], action) => {
   switch (action.type) {
     case GET_ALL_MOODS:
       return action.allmoods;
+    case GET_FAMILY_MOODS:
+      return action.moods;
     default:
       return state;
   }
@@ -80,7 +100,8 @@ const moodArrReducer = (state = [], action) => {
 export {
   setActiveMood,
   getActiveMood,
-  getAllMoods,
+  getAllMoodsByUserId,
+  getMoodsByFamilyId,
   moodObjReducer,
   moodArrReducer
 };

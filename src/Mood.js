@@ -18,11 +18,7 @@ class Mood extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.mood &&
-      prevProps.mood &&
-      this.props.mood.value !== prevProps.mood.value
-    ) {
+    if (this.props.mood.value !== prevProps.mood.value) {
       this.load();
     }
   }
