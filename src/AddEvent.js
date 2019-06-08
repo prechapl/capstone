@@ -11,6 +11,7 @@ import {
 import { connect } from "react-redux";
 import { goCreateEvent } from "./store/events";
 
+
 class AddEvent extends Component {
   constructor() {
     super();
@@ -24,6 +25,7 @@ class AddEvent extends Component {
     const id = this.props.id;
     const newEvent = this.state;
     newEvent.ownerId = id;
+    console.log(newEvent);
     this.props.saveEvent(newEvent)
     this.props.navigation.navigate('Events');
   };
