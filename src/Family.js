@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import {
-  fetchUsers,
-  fetchUser,
-  fetchRelated,
-  getActiveMood
-} from './store/users';
-import { connect } from 'react-redux';
-import ActionButton from 'react-native-circular-action-menu';
-=======
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Avatar, Badge } from "react-native-elements";
@@ -18,7 +5,6 @@ import { getActiveMood, getMoodsByFamilyId } from "./store/mood";
 import { connect } from "react-redux";
 import ActionButton from "react-native-circular-action-menu";
 import { findMoodColor, findMoodText } from "./HelperFunctions";
->>>>>>> 67215ebf7266a44048678b0c883aeee4f65571a4
 
 
 class Family extends Component {
@@ -37,15 +23,8 @@ class Family extends Component {
   }
 
   load = () => {
-<<<<<<< HEAD
-    // HARD CODING USER ID HERE!!
-    const id = 'e5fce01a-b34d-4472-8989-7368d033e6eb';
-    this.props.fetchUsers();
-    this.props.fetchUser(id);
-=======
     this.props.getActiveMood(this.props.user.id);
     this.props.getMoodsByFamilyId(this.props.user.familyId);
->>>>>>> 67215ebf7266a44048678b0c883aeee4f65571a4
   };
 
   findFamily = (user, fam) => {
@@ -55,19 +34,6 @@ class Family extends Component {
   };
 
   render() {
-<<<<<<< HEAD
-    const user = this.props.user;
-    const family = this.findFamily(user);
-
-    if (family.length) {
-      return (
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
-=======
     const { user, mood, moods } = this.props;
 
     if (mood.id && this.props.moods !== undefined) {
@@ -80,23 +46,15 @@ class Family extends Component {
             flex: 0.9,
             flexDirection: "column",
             justifyContent: "flex-end"
->>>>>>> 67215ebf7266a44048678b0c883aeee4f65571a4
           }}
         >
           <View
             style={{
-<<<<<<< HEAD
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingEnd: 25
-=======
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
               paddingEnd: 25,
               marginBottom: 25
->>>>>>> 67215ebf7266a44048678b0c883aeee4f65571a4
             }}
           >
             <ActionButton
@@ -107,23 +65,6 @@ class Family extends Component {
               onLongPress={() =>
                 this.props.navigation.navigate("AvatarGenerator", {
                   user: user,
-<<<<<<< HEAD
-                  buttonSet: 'UserButtons'
-                })
-              }
-              icon={
-                <Avatar
-                  rounded
-                  overlayContainerStyle={{
-                    borderWidth: 3
-                  }}
-                  size={175}
-                  source={{
-                    uri: `${user.imgUrl}`
-                  }}
-                  title={user.firstName}
-                />
-=======
                   buttonSet: "UserButtons",
                   mood: mood
                 })
@@ -159,7 +100,6 @@ class Family extends Component {
                     }
                   />
                 </View>
->>>>>>> 67215ebf7266a44048678b0c883aeee4f65571a4
               }
             >
               {family.map(person => {
@@ -171,26 +111,6 @@ class Family extends Component {
                 );
                 return (
                   <ActionButton.Item key={person.id}>
-<<<<<<< HEAD
-                    <Avatar
-                      rounded
-                      overlayContainerStyle={{
-                        borderWidth: 3
-                      }}
-                      size={100}
-                      source={{
-                        uri: `${person.imgUrl}`
-                      }}
-                      title={person.firstName}
-                      onPress={() =>
-                        this.props.navigation.navigate('AvatarGenerator', {
-                          user: person,
-                          buttonSet:
-                            person.age > 18 ? 'RelativeButtons' : 'ChildButtons'
-                        })
-                      }
-                    />
-=======
                     <View>
                       <Avatar
                         rounded
@@ -231,7 +151,6 @@ class Family extends Component {
                         }
                       />
                     </View>
->>>>>>> 67215ebf7266a44048678b0c883aeee4f65571a4
                   </ActionButton.Item>
                 );
               })}
@@ -247,27 +166,16 @@ class Family extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-<<<<<<< HEAD
-    fetchUsers: () => dispatch(fetchUsers()),
-    fetchUser: id => dispatch(fetchUser(id)),
-    fetchRelated: id => dispatch(fetchRelated(id)),
-    getActiveMood: id => dispatch(getActiveMood(id))
-=======
     getActiveMood: id => dispatch(getActiveMood(id)),
     getMoodsByFamilyId: familyId => dispatch(getMoodsByFamilyId(familyId))
->>>>>>> 67215ebf7266a44048678b0c883aeee4f65571a4
   };
 };
 
 const mapStateToProps = ({ mood, moods, user }) => {
   return {
     user,
-<<<<<<< HEAD
-    related
-=======
     mood,
     moods
->>>>>>> 67215ebf7266a44048678b0c883aeee4f65571a4
   };
 };
 
