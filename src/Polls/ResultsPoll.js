@@ -25,20 +25,6 @@ const styles = StyleSheet.create({
     width: 400,
     textAlign: 'center'
   },
-  selected: {
-    backgroundColor: '#D3D3D4',
-    textAlign: 'center',
-    padding: 10,
-    width: 300,
-    borderWidth: 1
-  },
-  unselected: {
-    backgroundColor: 'white',
-    textAlign: 'center',
-    padding: 10,
-    width: 300,
-    borderWidth: 1
-  },
   buttonText: {
     textAlign: 'center',
     color: '#FFFFFF'
