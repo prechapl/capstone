@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   header: {
     padding: 10,
     margin: 10,
-    fontSize: 50
+    fontSize: 24
   },
   poll: {
     backgroundColor: '#D3D3D4',
@@ -51,7 +51,8 @@ class AllPolls extends Component {
   render() {
     const { userPolls } = this.props;
     return (
-      <View style={styles.container}>
+      // <View style={styles.container}>
+      <View>
         <Text style={styles.header}>View Poll</Text>
         {userPolls.map(poll => (
           <TouchableOpacity
