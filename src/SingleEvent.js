@@ -45,6 +45,19 @@ class SingleEvent extends Component {
                     value={event.status}
                     status={badgeStatusMap[event.status]}
                 />
+                {event.status === 'completed-pending' ? (
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => this.approve}
+                    >
+                        <Text>approve</Text>
+                    </TouchableOpacity>
+
+                ) : (<TouchableOpacity
+                    style={styles.button}
+                >
+                    <Text>edit status</Text>
+                </TouchableOpacity>)}
                 <Text>
                     DATE: {deadline.getMonth()}/{deadline.getDate()}/{deadline.getFullYear()}
                 </Text>
