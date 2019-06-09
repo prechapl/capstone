@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   fetchChoices,
   fetchVotes,
+  deletePollThunk,
   changeVoteThunk,
   updatePollStatusThunk
 } from '../store/polls';
@@ -50,8 +51,13 @@ class VotedPoll extends React.Component {
     });
   }
 
-  handleDelete = () => {
+  changeVote = () => {
     this.props.changeVote(this.state.pollId, this.state.userId);
+  };
+
+  handleDelete = id => {
+    this.props.deletePoll(id);
+    this.props.navigation.navigate('Polls');
   };
 
   handleStatus = () => {
@@ -104,24 +110,38 @@ class VotedPoll extends React.Component {
               margin: 10,
               width: 300
             }}
-            onPress={this.handleDelete}
+            onPress={this.changeVote}
           >
             <Text style={styles.buttonText}>Change Vote</Text>
           </TouchableOpacity>
         ) : null}
         {this.props.user.id === this.props.poll.ownerId ? (
           this.state.status === 'closed' ? (
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#8EB51A',
-                padding: 10,
-                margin: 10,
-                width: 300
-              }}
-              onPress={this.handleStatus}
-            >
-              <Text style={styles.buttonText}>Open Poll</Text>
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#8EB51A',
+                  padding: 10,
+                  margin: 10,
+                  width: 300
+                }}
+                onPress={this.handleStatus}
+              >
+                <Text style={styles.buttonText}>Open Poll</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FF0000',
+                  padding: 10,
+                  margin: 10,
+                  width: 300
+                }}
+                onPress={this.handleDelete(this.state.pollId)}
+              >
+                <Text style={styles.buttonText}>Delete Poll</Text>
+              </TouchableOpacity>
+            </View>
           ) : (
             <TouchableOpacity
               style={{
@@ -145,6 +165,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchChoices: id => dispatch(fetchChoices(id)),
     fetchVotes: id => dispatch(fetchVotes(id)),
+    deletePoll: id => dispatch(deletePollThunk(id)),
     changeVote: (pollId, voteId) => dispatch(changeVoteThunk(pollId, voteId)),
     changeStatus: (pollId, status) =>
       dispatch(updatePollStatusThunk(pollId, status))

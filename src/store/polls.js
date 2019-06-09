@@ -160,6 +160,7 @@ export {
   fetchChoices,
   fetchVotes,
   updatePollStatusThunk,
+  deletePollThunk,
   castVoteThunk,
   createPollThunk,
   changeVoteThunk,

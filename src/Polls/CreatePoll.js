@@ -34,6 +34,7 @@ class CreatePoll extends Component {
         familyId: this.props.user.familyId
       })
       .then(({ poll }) => this.setState({ pollId: poll.id }));
+    this.props.navigation.navigate('Polls');
   };
 
   render() {
