@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-
 import { fetchUsers, fetchUserPolls } from '../store/users';
+import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   header: {
     padding: 10,
     margin: 10,
-    fontSize: 50
+    fontSize: 24
   },
   poll: {
     backgroundColor: '#D3D3D4',
@@ -51,8 +51,9 @@ class AllPolls extends Component {
   render() {
     const { userPolls } = this.props;
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Your Polls</Text>
+      // <View style={styles.container}>
+      <View style={{ paddingBottom: 100 }}>
+        <Text style={styles.header}>View Poll</Text>
         {userPolls.map(poll => (
           <TouchableOpacity
             key={poll.id}
@@ -100,7 +101,9 @@ const mapStateToProps = ({ user, users, userPolls }) => {
     userPolls
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AllPolls);
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AllPolls)
+);
