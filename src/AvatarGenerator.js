@@ -35,7 +35,7 @@ class AvatarGenerator extends Component {
     return (
       <View
         style={{
-          flex: 0.9,
+          flex: 1,
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center'
@@ -160,7 +160,7 @@ const buttons = {
       title: 'Events',
       color: '#EF5029',
       width: 68,
-      componentToNest: null
+      componentToNest: <Events />
     },
     {
       title: 'Polls',
@@ -180,7 +180,7 @@ const buttons = {
       title: 'Events',
       color: '#EF5029',
       width: 68,
-      componentToNest: null
+      componentToNest: <Events />
     },
     {
       title: 'Polls',
@@ -200,7 +200,7 @@ const buttons = {
       title: 'Events',
       color: '#EF5029',
       width: 68,
-      componentToNest: null
+      componentToNest: <Events />
     },
     {
       title: 'Polls',

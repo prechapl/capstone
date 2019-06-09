@@ -22,8 +22,7 @@ class Login extends Component {
 
   handleSubmit = () => {
     // loginUser(this.state.email, this.state.password)
-    // loginUser("janedoe@email.com", "p@ssWord!2")
-    loginUser('kaya_considine@hotmail.com', 'tH1s1sVal1d!')
+    loginUser('janedoe@email.com', 'p@ssWord!2')
       .then(() => this.props.getAuthedUser())
       .then(() => this.props.navigation.navigate('Family'))
       .catch(e => console.log(e));

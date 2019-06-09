@@ -42,18 +42,18 @@ class Family extends Component {
       return (
         <View
           style={{
-            flex: 0.9,
+            flex: 1,
             flexDirection: 'column',
-            justifyContent: 'flex-end'
+            justifyContent: 'center'
           }}
         >
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'center',
-              paddingEnd: 25,
-              marginBottom: 25
+              justifyContent: 'center'
+              // paddingEnd: 25,
+              // marginBottom: 25
             }}
           >
             <ActionButton

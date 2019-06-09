@@ -33,33 +33,48 @@ class Events extends Component {
     };
 
     return (
-      <View>
+      <View
+        style={{
+          flexDirection: 'column',
+          justifyContent: 'center',
+          width: 300,
+          // flex: 1,
+          // paddingTop: 50,
+          paddingBottom: 150
+        }}
+      >
         <Header
           leftComponent={
             <Button
-              type="clear"
-              title="EVENTS"
+              type="solid"
+              title="Events"
               titleStyle={{ color: 'white' }}
-              onPress={() => this.setState({ selection: 'MY EVENTS' })}
+              containerStyle={{ width: 100, paddingHorizontal: 10 }}
+              onPress={() => this.setState({ selection: 'EVENTS' })}
             />
           }
           centerComponent={
             <Button
-              type="clear"
-              title="INVITED"
+              type="solid"
+              title="Invited"
               titleStyle={{ color: 'white' }}
+              containerStyle={{ width: 100, paddingHorizontal: 10 }}
               onPress={() => this.setState({ selection: 'ASSIGNED' })}
             />
           }
           rightComponent={
             <Button
-              type="clear"
-              title="ADD"
+              type="solid"
+              title="Add"
               titleStyle={{ color: 'white' }}
+              containerStyle={{ width: 100, paddingHorizontal: 10 }}
               onPress={() => this.props.navigation.navigate('AddEvent')}
             />
           }
+          containerStyle={{ backgroundColor: 'transparent' }}
+          // containerStyle={{ backgroundColor: '#EF5029'}}
         />
+        <View />
         {events ? (
           <View>
             {events.map((event, i) => {
@@ -81,6 +96,9 @@ class Events extends Component {
                   <ListItem
                     key={i}
                     title={event.title}
+                    containerStyle={{
+                      backgroundColor: colorMap[event.category]
+                    }}
                     subtitle={`${new Date(
                       event.deadline
                     ).getMonth()}/${new Date(event.deadline).getDate()}`}
