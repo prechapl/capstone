@@ -8,10 +8,9 @@ import Family from './Family';
 import Login from './Login';
 import SignUp from './SignUp';
 import Mood from './Mood';
-import AllPolls from './Polls/AllPolls';
-import SinglePoll from './/Polls/SinglePoll';
-import CreatePoll from './Polls/CreatePoll';
-import VotedPoll from './Polls/VotedPoll';
+import AllPolls from './AllPolls';
+import SinglePoll from './SinglePoll';
+import CreatePoll from './CreatePoll';
 import ForgotPassword from './ForgotPassword';
 import Events from './Events';
 import SingleEvent from './SingleEvent';
@@ -22,8 +21,7 @@ import AvatarGenerator from './AvatarGenerator';
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
   Poll: SinglePoll,
-  CreatePoll: CreatePoll,
-  VotedPoll: VotedPoll
+  CreatePoll: CreatePoll
 });
 
 const AuthNavigator = createStackNavigator({
