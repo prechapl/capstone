@@ -6,6 +6,13 @@ const GET_ASSIGNED = 'GET_ASSIGNED';
 const UPDATE_EVENT = 'UPDATE_EVENT';
 const CREATE_EVENT = 'CREATE_EVENT';
 const UPDATE_ASSIGNED = 'UPDATE_ASSIGNED';
+const DELETE_EVENT = 'DELETE_EVENT';
+const GET_ASSIGNEES = 'GET_ASSIGNEES';
+
+const getAssignees = assignees => ({
+  type: GET_ASSIGNEES,
+  assignees
+})
 
 const getEvents = events => ({
   type: GET_EVENTS,
@@ -32,6 +39,11 @@ const updateAssigned = event => ({
   event
 });
 
+const deleteEvent = id => ({
+  type: DELETE_EVENT,
+  id
+})
+
 const eventReducer = (state = [], action) => {
   switch (action.type) {
     case GET_EVENTS:
@@ -43,6 +55,8 @@ const eventReducer = (state = [], action) => {
       ];
     case CREATE_EVENT:
       return [...state, action.event];
+    case DELETE_EVENT:
+      return state.filter(ev => ev.id !== action.id);
     default:
       return state;
   }
@@ -61,6 +75,15 @@ const assignedEventReducer = (state = [], action) => {
       return state;
   }
 };
+
+const assigneeReducer = (state = [], action) => {
+  switch (action.type) {
+    case GET_ASSIGNEES:
+      return action.assignees;
+    default:
+      return state;
+  }
+}
 
 const fetchEvents = id => {
   return dispatch => {
@@ -104,10 +127,35 @@ const goCreateEvent = newEvent => {
   return dispatch => {
     return axios
       .post(`${API_URL}/events`, newEvent)
-      .then(res => res.data)
-      .then(event => dispatch(createEvent(event)));
+      .then(res => {
+        console.log(res.data)
+        return res.data
+      })
+      .then(event => dispatch(createEvent(event)))
+      .catch(e => console.log(e))
   };
 };
+
+const goDeleteEvent = id => {
+  return dispatch => {
+    return axios
+      .delete(`${API_URL}/events/${id}`)
+      .then((res) => {
+        if (res.status === 204) {
+          dispatch(deleteEvent(id))
+        }
+      })
+  }
+}
+
+const fetchAssignees = id => {
+  return dispatch => {
+    return axios
+      .get(`${API_URL}/events/${id}/assignees`)
+      .then(res => res.data)
+      .then(assignees => dispatch(getAssignees(assignees)))
+  }
+}
 
 export {
   fetchEvents,
@@ -116,5 +164,8 @@ export {
   goUpdateAssigned,
   goUpdateEvent,
   eventReducer,
-  assignedEventReducer
+  assignedEventReducer,
+  goDeleteEvent,
+  fetchAssignees,
+  assigneeReducer
 };

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import ActionButton from "react-native-circular-action-menu";
 import { findMoodColor, findMoodText } from "./HelperFunctions";
 
+
 class Family extends Component {
   constructor(props) {
     super(props);
@@ -59,8 +60,8 @@ class Family extends Component {
             <ActionButton
               active={true}
               degrees={0}
-              radius={145}
-              outRangeScale={1}
+              radius={125}
+              outRangeScale={0.8}
               onLongPress={() =>
                 this.props.navigation.navigate("AvatarGenerator", {
                   user: user,
@@ -69,7 +70,7 @@ class Family extends Component {
                 })
               }
               icon={
-                <View>
+                <View style={{ margin: 80 }}>
                   <Avatar
                     rounded
                     overlayContainerStyle={{
