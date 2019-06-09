@@ -4,7 +4,7 @@ import { Avatar, Badge } from 'react-native-elements';
 import { getActiveMood, getMoodsByFamilyId } from './store/mood';
 import { connect } from 'react-redux';
 import ActionButton from 'react-native-circular-action-menu';
-import { findMoodColor, findMoodText } from './HelperFunctions';
+import { findMoodColor, findMoodText, findStatus } from './HelperFunctions';
 
 class Family extends Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class Family extends Component {
             <ActionButton
               active={true}
               degrees={0}
-              radius={125}
+              radius={130}
               outRangeScale={0.8}
               onLongPress={() =>
                 this.props.navigation.navigate('AvatarGenerator', {
@@ -67,7 +67,7 @@ class Family extends Component {
                 })
               }
               icon={
-                <View style={{ margin: 80 }}>
+                <View>
                   <Avatar
                     rounded
                     overlayContainerStyle={{
@@ -143,7 +143,23 @@ class Family extends Component {
                         }}
                         value={
                           <Text style={{ fontSize: 12, color: 'white' }}>
-                            {`${personMoodText}`} mood
+                            {`${personMoodText}`}
+                          </Text>
+                        }
+                      />
+                      <Badge
+                        containerStyle={{
+                          position: 'relative',
+                          top: -18
+                        }}
+                        badgeStyle={{
+                          backgroundColor: personMoodColor,
+                          paddingHorizontal: 10,
+                          borderColor: 'transparent'
+                        }}
+                        value={
+                          <Text style={{ fontSize: 12, color: 'white' }}>
+                            {`${personMoodText}`}
                           </Text>
                         }
                       />
