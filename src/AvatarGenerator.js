@@ -106,7 +106,7 @@ class AvatarGenerator extends Component {
                     style={{
                       width: button.width,
                       backgroundColor: button.color,
-                      // height: 100,
+
                       position: 'absolute'
                     }}
                   >
@@ -126,7 +126,7 @@ class AvatarGenerator extends Component {
                     style={{
                       width: button.width,
                       backgroundColor: button.color,
-                      // height: 100,
+
                       position: 'absolute'
                     }}
                   >
@@ -166,7 +166,7 @@ const buttons = {
       title: 'Polls',
       color: '#7DC6CD',
       width: 53,
-      componentToNest: null
+      componentToNest: <AllPolls />
     }
   ],
   RelativeButtons: [
@@ -174,7 +174,7 @@ const buttons = {
       title: 'Family',
       color: '#8EB51A',
       width: 66,
-      componentToNest: null
+      componentToNest: <Family />
     },
     {
       title: 'Events',
@@ -186,7 +186,7 @@ const buttons = {
       title: 'Polls',
       color: '#7DC6CD',
       width: 53,
-      componentToNest: null
+      componentToNest: <AllPolls />
     }
   ],
   ChildButtons: [
@@ -194,7 +194,7 @@ const buttons = {
       title: 'Family',
       color: '#8EB51A',
       width: 66,
-      componentToNest: null
+      componentToNest: <Family />
     },
     {
       title: 'Events',
@@ -206,7 +206,7 @@ const buttons = {
       title: 'Polls',
       color: '#7DC6CD',
       width: 53,
-      componentToNest: null
+      componentToNest: <AllPolls />
     },
     {
       title: 'Location',

@@ -2,27 +2,21 @@ import {
   createBottomTabNavigator,
   createStackNavigator,
   createAppContainer
-} from "react-navigation";
-import { Easing, Animated } from "react-native";
-import Family from "./Family";
-import Login from "./Login";
-import SignUp from "./SignUp";
-import Mood from "./Mood";
-import AllPolls from "./AllPolls";
-import SinglePoll from "./SinglePoll";
-import CreatePoll from "./CreatePoll";
-import ForgotPassword from "./ForgotPassword";
-import Events from "./Events";
-import SingleEvent from "./SingleEvent";
-import AddEvent from "./AddEvent";
-import SingleEventAssigned from "./SingleEventAssigned";
-import AvatarGenerator from "./AvatarGenerator";
-
-const PollsNavigator = createStackNavigator({
-  Polls: AllPolls,
-  Poll: SinglePoll,
-  CreatePoll: CreatePoll
-});
+} from 'react-navigation';
+import { Easing, Animated } from 'react-native';
+import Family from './Family';
+import Login from './Login';
+import SignUp from './SignUp';
+import Mood from './Mood';
+import AllPolls from './AllPolls';
+import SinglePoll from './SinglePoll';
+import CreatePoll from './CreatePoll';
+import ForgotPassword from './ForgotPassword';
+import Events from './Events';
+import SingleEvent from './SingleEvent';
+import AddEvent from './AddEvent';
+import SingleEventAssigned from './SingleEventAssigned';
+import AvatarGenerator from './AvatarGenerator';
 
 const AuthNavigator = createStackNavigator({
   Login: Login,
@@ -37,6 +31,12 @@ const UserNavigator = createStackNavigator(
     },
     Mood: { screen: Mood },
     Events: { screen: Events },
+    Event: { screen: SingleEvent },
+    EventAssigned: { screen: SingleEventAssigned },
+    AddEvent: { screen: AddEvent },
+    Polls: { screen: AllPolls },
+    Poll: { screen: SinglePoll },
+    CreatePoll: { screen: CreatePoll },
     AvatarGenerator: {
       screen: AvatarGenerator
     }
@@ -56,18 +56,9 @@ const UserNavigator = createStackNavigator(
   }
 );
 
-const EventNavigator = createStackNavigator({
-  Events: Events,
-  Event: SingleEvent,
-  EventAssigned: SingleEventAssigned,
-  AddEvent: AddEvent
-});
-
 const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
-  User: UserNavigator,
-  Polls: PollsNavigator,
-  Events: EventNavigator
+  User: UserNavigator
 });
 
 const AppContainer = createAppContainer(RootNavigator);

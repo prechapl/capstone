@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Header, ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchEvents, fetchAssigned } from './store/events';
+import { withNavigation } from 'react-navigation';
 
 class Events extends Component {
   constructor() {
@@ -37,25 +38,23 @@ class Events extends Component {
         style={{
           flexDirection: 'column',
           justifyContent: 'center',
-          width: 300,
-          // flex: 1,
-          // paddingTop: 50,
+          width: 350,
           paddingBottom: 150
         }}
       >
         <Header
           leftComponent={
             <Button
-              type="solid"
+              type="outline"
               title="Events"
               titleStyle={{ color: 'white' }}
               containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.setState({ selection: 'EVENTS' })}
+              onPress={() => this.setState({ selection: 'MY EVENTS' })}
             />
           }
           centerComponent={
             <Button
-              type="solid"
+              type="outline"
               title="Invited"
               titleStyle={{ color: 'white' }}
               containerStyle={{ width: 100, paddingHorizontal: 10 }}
@@ -64,15 +63,13 @@ class Events extends Component {
           }
           rightComponent={
             <Button
-              type="solid"
+              type="outline"
               title="Add"
               titleStyle={{ color: 'white' }}
               containerStyle={{ width: 100, paddingHorizontal: 10 }}
               onPress={() => this.props.navigation.navigate('AddEvent')}
             />
           }
-          containerStyle={{ backgroundColor: 'transparent' }}
-          // containerStyle={{ backgroundColor: '#EF5029'}}
         />
         <View />
         {events ? (
@@ -96,9 +93,6 @@ class Events extends Component {
                   <ListItem
                     key={i}
                     title={event.title}
-                    containerStyle={{
-                      backgroundColor: colorMap[event.category]
-                    }}
                     subtitle={`${new Date(
                       event.deadline
                     ).getMonth()}/${new Date(event.deadline).getDate()}`}
@@ -134,7 +128,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Events);
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Events)
+);

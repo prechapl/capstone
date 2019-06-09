@@ -55,6 +55,7 @@ class SingleEvent extends Component {
   toggleAssigneePicker = () => {
     this.setState({ showAssigneePicker: !this.state.showAssigneePicker });
   };
+
   render() {
     const event = this.props.events.find(
       ev => ev.id === this.props.navigation.getParam('event').id

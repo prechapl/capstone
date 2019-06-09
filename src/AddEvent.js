@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   KeyboardAvoidingView,
   Text,
@@ -7,34 +7,32 @@ import {
   StyleSheet,
   TouchableOpacity,
   View
-} from "react-native";
-import { connect } from "react-redux";
-import { goCreateEvent } from "./store/events";
-
+} from 'react-native';
+import { connect } from 'react-redux';
+import { goCreateEvent } from './store/events';
 
 class AddEvent extends Component {
   constructor() {
     super();
     this.state = {
-      title: "",
-      category: "",
-      description: ""
+      title: '',
+      category: '',
+      description: ''
     };
   }
   save = () => {
     const id = this.props.id;
     const newEvent = this.state;
     newEvent.ownerId = id;
-    console.log(newEvent);
-    this.props.saveEvent(newEvent)
+    this.props.saveEvent(newEvent);
     this.props.navigation.navigate('Events');
   };
   render() {
     const colorMap = {
-      chore: "#AA8EB7",
-      event: "#9BB8D5",
-      appointment: "#BCD59B",
-      errand: "#D79963"
+      chore: '#AA8EB7',
+      event: '#9BB8D5',
+      appointment: '#BCD59B',
+      errand: '#D79963'
     };
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -56,26 +54,11 @@ class AddEvent extends Component {
             style={{ height: 30, width: 250 }}
             itemStyle={{ fontSize: 18 }}
           >
-            <Picker.Item
-              label="please select a category"
-              value=""
-            />
-            <Picker.Item
-              label="event"
-              value="event"
-            />
-            <Picker.Item
-              label="chore"
-              value="chore"
-            />
-            <Picker.Item
-              label="appointment"
-              value="appointment"
-            />
-            <Picker.Item
-              label="errand"
-              value="errand"
-            />
+            <Picker.Item label="please select a category" value="" />
+            <Picker.Item label="event" value="event" />
+            <Picker.Item label="chore" value="chore" />
+            <Picker.Item label="appointment" value="appointment" />
+            <Picker.Item label="errand" value="errand" />
           </Picker>
         </View>
 
@@ -102,26 +85,26 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   input: {
     height: 40,
-    backgroundColor: "#D3D3D4",
+    backgroundColor: '#D3D3D4',
     marginBottom: 20,
     width: 300,
     paddingHorizontal: 10
   },
   button: {
-    backgroundColor: "#448AE6",
+    backgroundColor: '#448AE6',
     padding: 10,
     width: 300,
     margin: 10
   },
   buttonText: {
-    textAlign: "center",
-    color: "#FFFFFF"
+    textAlign: 'center',
+    color: '#FFFFFF'
   },
   header: {
     padding: 10,

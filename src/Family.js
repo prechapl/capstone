@@ -52,8 +52,6 @@ class Family extends Component {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center'
-              // paddingEnd: 25,
-              // marginBottom: 25
             }}
           >
             <ActionButton
