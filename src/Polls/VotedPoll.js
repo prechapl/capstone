@@ -109,32 +109,33 @@ class VotedPoll extends React.Component {
             <Text style={styles.buttonText}>Change Vote</Text>
           </TouchableOpacity>
         ) : null}
-
-        {this.state.status === 'closed' ? (
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#8EB51A',
-              padding: 10,
-              margin: 10,
-              width: 300
-            }}
-            onPress={this.handleStatus}
-          >
-            <Text style={styles.buttonText}>Open Poll</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#FF0000',
-              padding: 10,
-              margin: 10,
-              width: 300
-            }}
-            onPress={this.handleStatus}
-          >
-            <Text style={styles.buttonText}>Close Poll</Text>
-          </TouchableOpacity>
-        )}
+        {this.props.user.id === this.props.poll.ownerId ? (
+          this.state.status === 'closed' ? (
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#8EB51A',
+                padding: 10,
+                margin: 10,
+                width: 300
+              }}
+              onPress={this.handleStatus}
+            >
+              <Text style={styles.buttonText}>Open Poll</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#FF0000',
+                padding: 10,
+                margin: 10,
+                width: 300
+              }}
+              onPress={this.handleStatus}
+            >
+              <Text style={styles.buttonText}>Close Poll</Text>
+            </TouchableOpacity>
+          )
+        ) : null}
       </View>
     );
   }

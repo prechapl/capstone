@@ -69,7 +69,9 @@ class AllPolls extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Open Polls</Text>
+        <Text style={styles.header}>
+          {this.state.status === 'open' ? 'Open' : 'Closed'} Polls
+        </Text>
         <Text style={styles.subheader}>Your Polls</Text>
         {currentPolls.map(
           poll =>
@@ -126,7 +128,7 @@ class AllPolls extends Component {
 
         <TouchableOpacity
           style={{
-            backgroundColor: '#8EB51A',
+            backgroundColor: '#7DC6CD',
             padding: 10,
             margin: 10,
             width: 300
