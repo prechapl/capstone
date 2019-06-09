@@ -5,7 +5,7 @@ import { Avatar, Badge } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import ActionButton from 'react-native-circular-action-menu';
 import { findMoodColor, findMoodText } from './HelperFunctions';
-import AllPolls from './AllPolls';
+import AllPolls from './Polls/AllPolls';
 import Events from './Events';
 import Mood from './Mood';
 import Family from './Family';

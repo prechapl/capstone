@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchUsers, fetchUserPolls } from './store/users';
+import { fetchUsers, fetchUserPolls } from '../store/users';
 import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
