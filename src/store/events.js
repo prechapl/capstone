@@ -127,8 +127,12 @@ const goCreateEvent = newEvent => {
   return dispatch => {
     return axios
       .post(`${API_URL}/events`, newEvent)
-      .then(res => res.data)
-      .then(event => dispatch(createEvent(event)));
+      .then(res => {
+        console.log(res.data)
+        return res.data
+      })
+      .then(event => dispatch(createEvent(event)))
+      .catch(e => console.log(e))
   };
 };
 

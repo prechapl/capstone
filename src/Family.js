@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { View, Text } from "react-native";
-import { Avatar, Badge } from "react-native-elements";
-import { getActiveMood, getMoodsByFamilyId } from "./store/mood";
-import { connect } from "react-redux";
-import ActionButton from "react-native-circular-action-menu";
-import { findMoodColor, findMoodText } from "./HelperFunctions";
-
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import { Avatar, Badge } from 'react-native-elements';
+import { getActiveMood, getMoodsByFamilyId } from './store/mood';
+import { connect } from 'react-redux';
+import ActionButton from 'react-native-circular-action-menu';
+import { findMoodColor, findMoodText } from './HelperFunctions';
 
 class Family extends Component {
   constructor(props) {
@@ -44,15 +43,15 @@ class Family extends Component {
         <View
           style={{
             flex: 0.9,
-            flexDirection: "column",
-            justifyContent: "flex-end"
+            flexDirection: 'column',
+            justifyContent: 'flex-end'
           }}
         >
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
               paddingEnd: 25,
               marginBottom: 25
             }}
@@ -63,9 +62,9 @@ class Family extends Component {
               radius={125}
               outRangeScale={0.8}
               onLongPress={() =>
-                this.props.navigation.navigate("AvatarGenerator", {
+                this.props.navigation.navigate('AvatarGenerator', {
                   user: user,
-                  buttonSet: "UserButtons",
+                  buttonSet: 'UserButtons',
                   mood: mood
                 })
               }
@@ -85,16 +84,16 @@ class Family extends Component {
                   />
                   <Badge
                     containerStyle={{
-                      position: "relative",
+                      position: 'relative',
                       top: -18
                     }}
                     badgeStyle={{
                       backgroundColor: moodColor,
                       paddingHorizontal: 10,
-                      borderColor: "transparent"
+                      borderColor: 'transparent'
                     }}
                     value={
-                      <Text style={{ fontSize: 12, color: "white" }}>
+                      <Text style={{ fontSize: 12, color: 'white' }}>
                         {`${moodText}`} mood
                       </Text>
                     }
@@ -124,28 +123,28 @@ class Family extends Component {
                         }}
                         title={person.firstName}
                         onPress={() =>
-                          this.props.navigation.navigate("AvatarGenerator", {
+                          this.props.navigation.navigate('AvatarGenerator', {
                             user: person,
                             buttonSet:
                               person.age > 18
-                                ? "RelativeButtons"
-                                : "ChildButtons",
+                                ? 'RelativeButtons'
+                                : 'ChildButtons',
                             mood: person.moods.find(m => m.active)
                           })
                         }
                       />
                       <Badge
                         containerStyle={{
-                          position: "relative",
+                          position: 'relative',
                           top: -18
                         }}
                         badgeStyle={{
                           backgroundColor: personMoodColor,
                           paddingHorizontal: 10,
-                          borderColor: "transparent"
+                          borderColor: 'transparent'
                         }}
                         value={
-                          <Text style={{ fontSize: 12, color: "white" }}>
+                          <Text style={{ fontSize: 12, color: 'white' }}>
                             {`${personMoodText}`} mood
                           </Text>
                         }

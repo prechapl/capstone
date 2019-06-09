@@ -8,14 +8,25 @@ import { findMoodColor, findMoodText } from './HelperFunctions';
 import AllPolls from './AllPolls';
 import Events from './Events';
 import Mood from './Mood';
+import Family from './Family';
 
 class AvatarGenerator extends Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.mood.value !== prevProps.mood.value) {
+      this.props.navigation.setParams({
+        mood: this.props.mood
+      });
+    }
+  }
+
   render() {
-    const { navigation, user, mood } = this.props;
+    const { navigation } = this.props;
+    const user = navigation.getParam('user');
+    const mood = navigation.getParam('mood');
     const buttonSet = navigation.getParam('buttonSet');
     const componentToNest = navigation.getParam('nestComponent');
     const moodColor = findMoodColor(mood.value);
@@ -27,10 +38,12 @@ class AvatarGenerator extends Component {
           flex: 0.9,
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'space-between'
+          justifyContent: 'center'
         }}
       >
-        <View style={{ flexDirection: 'row' }}>{componentToNest}</View>
+        <View style={{ flexDirection: 'row', marginBottom: 60 }}>
+          {componentToNest}
+        </View>
 
         <View
           style={{
@@ -80,21 +93,31 @@ class AvatarGenerator extends Component {
             }
           >
             {buttons[buttonSet].map((button, idx) => {
-              return (
-                // <ActionButton.Item
-                //   key={idx}
-                //   onPress={() =>
-                //     this.props.navigation.navigate(button.title, {
-                //       user: user
-                //       // nestComponent: componentToNest
-                //     })
-                //   }
-                // >
+              return button.title === 'Family' ? (
+                <ActionButton.Item
+                  key={idx}
+                  onPress={() =>
+                    this.props.navigation.navigate(button.title, {
+                      user: user
+                    })
+                  }
+                >
+                  <View
+                    style={{
+                      width: button.width,
+                      backgroundColor: button.color,
+                      // height: 100,
+                      position: 'absolute'
+                    }}
+                  >
+                    <Text style={styles.text}>{button.title}</Text>
+                  </View>
+                </ActionButton.Item>
+              ) : (
                 <ActionButton.Item
                   key={idx}
                   onPress={() =>
                     this.props.navigation.setParams({
-                      user: user,
                       nestComponent: button.componentToNest
                     })
                   }
@@ -131,19 +154,19 @@ const buttons = {
       title: 'Family',
       color: '#8EB51A',
       width: 66,
-      componentToNest: null
+      componentToNest: <Family />
     },
     {
       title: 'Events',
       color: '#EF5029',
       width: 68,
-      componentToNest: <Events />
+      componentToNest: null
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
       width: 53,
-      componentToNest: <AllPolls />
+      componentToNest: null
     }
   ],
   RelativeButtons: [
@@ -157,13 +180,13 @@ const buttons = {
       title: 'Events',
       color: '#EF5029',
       width: 68,
-      componentToNest: <Events />
+      componentToNest: null
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
       width: 53,
-      componentToNest: <AllPolls />
+      componentToNest: null
     }
   ],
   ChildButtons: [
@@ -177,13 +200,13 @@ const buttons = {
       title: 'Events',
       color: '#EF5029',
       width: 68,
-      componentToNest: <Events />
+      componentToNest: null
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
       width: 53,
-      componentToNest: <AllPolls />
+      componentToNest: null
     },
     {
       title: 'Location',

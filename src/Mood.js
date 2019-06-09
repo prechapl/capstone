@@ -10,12 +10,11 @@ class Mood extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mood: 0
+      mood: 0.5
     };
   }
 
   componentDidMount() {
-    console.log('this.props.user', this.props.user);
     this.load();
   }
 
@@ -64,9 +63,9 @@ class Mood extends React.Component {
             value={this.state.mood}
             step={0.25}
             onValueChange={value => this.setState({ mood: value })}
-            onSlidingComplete={() =>
-              this.props.setActiveMood(user.id, this.state.mood)
-            }
+            onSlidingComplete={() => {
+              this.props.setActiveMood(user.id, this.state.mood);
+            }}
             thumbStyle={{
               height: 80,
               width: 80,

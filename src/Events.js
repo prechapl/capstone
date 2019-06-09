@@ -31,9 +31,7 @@ class Events extends Component {
       appointment: '#BCD59B',
       errand: '#D79963'
     };
-    if (!events) {
-      return <Text>Oops! We don't have any data!</Text>;
-    }
+
     return (
       <View>
         <Header
@@ -62,36 +60,42 @@ class Events extends Component {
             />
           }
         />
-        {events.map((event, i) => {
-          return (
-            <TouchableOpacity
-              key={i}
-              onPress={() => {
-                if (this.state.selection === 'MY EVENTS') {
-                  this.props.navigation.navigate('Event', {
-                    event: event
-                  });
-                } else {
-                  this.props.navigation.navigate('EventAssigned', {
-                    event: event
-                  });
-                }
-              }}
-            >
-              <ListItem
-                key={i}
-                title={event.title}
-                subtitle={`${new Date(event.deadline).getMonth()}/${new Date(
-                  event.deadline
-                ).getDate()}`}
-                badge={{
-                  value: event.category,
-                  badgeStyle: { backgroundColor: colorMap[event.category] }
-                }}
-              />
-            </TouchableOpacity>
-          );
-        })}
+        {events ? (
+          <View>
+            {events.map((event, i) => {
+              return (
+                <TouchableOpacity
+                  key={i}
+                  onPress={() => {
+                    if (this.state.selection === 'MY EVENTS') {
+                      this.props.navigation.navigate('Event', {
+                        event: event
+                      });
+                    } else {
+                      this.props.navigation.navigate('EventAssigned', {
+                        event: event
+                      });
+                    }
+                  }}
+                >
+                  <ListItem
+                    key={i}
+                    title={event.title}
+                    subtitle={`${new Date(
+                      event.deadline
+                    ).getMonth()}/${new Date(event.deadline).getDate()}`}
+                    badge={{
+                      value: event.category,
+                      badgeStyle: { backgroundColor: colorMap[event.category] }
+                    }}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        ) : (
+          <Text>You do not have any events.</Text>
+        )}
       </View>
     );
   }
