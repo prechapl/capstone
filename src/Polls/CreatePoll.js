@@ -30,7 +30,8 @@ class CreatePoll extends Component {
     this.props
       .createPoll({
         text: this.state.text,
-        ownerId: this.props.user.id
+        ownerId: this.props.user.id,
+        familyId: this.props.user.familyId
       })
       .then(({ poll }) => this.setState({ pollId: poll.id }));
   };

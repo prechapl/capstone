@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import { fetchUsers, fetchUserPolls } from '../store/users';
+import { fetchUsers } from '../store/users';
+import { fetchPolls } from '../store/polls';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,21 +40,21 @@ class AllPolls extends Component {
 
   componentDidMount() {
     this.props.fetchUsers();
-    this.props.fetchUserPolls(this.props.user.id);
+    this.props.fetchPolls(this.props.user.familyId);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props !== prevProps.props) {
-      this.props.fetchUserPolls(this.props.user.id);
+      this.props.fetchPolls(this.props.user.familyId);
     }
   }
 
   render() {
-    const { userPolls } = this.props;
+    const { polls } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Your Polls</Text>
-        {userPolls.map(poll => (
+        {polls.map(poll => (
           <TouchableOpacity
             key={poll.id}
             style={styles.poll}
@@ -89,15 +90,15 @@ class AllPolls extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUsers: () => dispatch(fetchUsers()),
-    fetchUserPolls: id => dispatch(fetchUserPolls(id))
+    fetchPolls: id => dispatch(fetchPolls(id))
   };
 };
 
-const mapStateToProps = ({ user, users, userPolls }) => {
+const mapStateToProps = ({ user, users, polls }) => {
   return {
     user,
     users,
-    userPolls
+    polls
   };
 };
 export default connect(

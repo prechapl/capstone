@@ -1,12 +1,17 @@
 import axios from 'axios';
+import fetchUserPolls, { fetchUser } from './users';
 
 //CONSTANTS
-
+const GET_POLLS = 'GET_POLLS';
 const GET_CHOICES = 'GET_CHOICES';
 const GET_VOTES = 'GET_VOTES';
 const GET_POLL = 'GET_POLL';
 
 //ACTION CREATORS
+const getPolls = polls => ({
+  type: GET_POLLS,
+  polls
+});
 
 const getChoices = choices => ({
   type: GET_CHOICES,
@@ -25,12 +30,30 @@ const getPoll = poll => ({
 
 //THUNKS
 
+const fetchPolls = familyId => {
+  return dispatch => {
+    return axios
+      .get(
+        `http://capstone-api-server.herokuapp.com/api/families/${familyId}/polls`
+      )
+      .then(({ data }) => dispatch(getPolls(data)));
+  };
+};
+
 const updatePollStatusThunk = (id, status) => {
   return dispatch => {
     return axios
       .put(`https://capstone-api-server.herokuapp.com/api/polls/${id}/`, status)
       .then(({ data }) => dispatch(getPoll(data)))
       .catch(error => console.log(error));
+  };
+};
+
+const deletePollThunk = (pollId, familyId) => {
+  return dispatch => {
+    return axios
+      .delete(`https://capstone-api-server.herokuapp.com/api/polls/${pollId}/`)
+      .then(() => dispatch(fetchPolls(familyId)));
   };
 };
 
@@ -123,7 +146,17 @@ const pollReducer = (state = {}, action) => {
   }
 };
 
+const pollsReducer = (state = [], action) => {
+  switch (action.type) {
+    case GET_POLLS:
+      return action.polls;
+    default:
+      return state;
+  }
+};
+
 export {
+  fetchPolls,
   fetchChoices,
   fetchVotes,
   updatePollStatusThunk,
@@ -133,5 +166,6 @@ export {
   createChoiceThunk,
   choicesReducer,
   votesReducer,
-  pollReducer
+  pollReducer,
+  pollsReducer
 };
