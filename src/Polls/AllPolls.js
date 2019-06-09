@@ -17,6 +17,11 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 50
   },
+  subheader: {
+    padding: 10,
+    margin: 10,
+    fontSize: 32
+  },
   poll: {
     backgroundColor: '#D3D3D4',
     textAlign: 'center',
@@ -34,7 +39,8 @@ class AllPolls extends Component {
   constructor() {
     super();
     this.state = {
-      text: ''
+      text: '',
+      status: 'open'
     };
   }
 
@@ -49,12 +55,23 @@ class AllPolls extends Component {
     }
   }
 
+  changeViewStatus = () => {
+    this.state.status === 'open'
+      ? this.setState({ status: 'closed' })
+      : this.setState({ status: 'open' });
+  };
+
   render() {
     const { polls } = this.props;
+    const openPolls = polls.filter(poll => poll.status === 'open');
+    const closedPolls = polls.filter(poll => poll.status === 'closed');
+    const currentPolls = this.state.status === 'open' ? openPolls : closedPolls;
+
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Your Polls</Text>
-        {polls.map(
+        <Text style={styles.header}>Open Polls</Text>
+        <Text style={styles.subheader}>Your Polls</Text>
+        {currentPolls.map(
           poll =>
             poll.ownerId === this.props.user.id && (
               <TouchableOpacity
@@ -74,8 +91,8 @@ class AllPolls extends Component {
             )
         )}
 
-        <Text style={styles.header}>Family Polls</Text>
-        {polls.map(
+        <Text style={styles.subheader}>Family Polls</Text>
+        {currentPolls.map(
           poll =>
             poll.ownerId !== this.props.user.id && (
               <TouchableOpacity
@@ -105,6 +122,20 @@ class AllPolls extends Component {
           onPress={() => this.props.navigation.navigate('CreatePoll')}
         >
           <Text style={styles.createButtonText}>Create New Poll</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#8EB51A',
+            padding: 10,
+            margin: 10,
+            width: 300
+          }}
+          onPress={() => this.changeViewStatus()}
+        >
+          <Text style={styles.createButtonText}>
+            View {this.state.status === 'open' ? 'Closed' : 'Open'} Polls
+          </Text>
         </TouchableOpacity>
       </View>
     );
