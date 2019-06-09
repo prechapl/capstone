@@ -9,45 +9,63 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { createPollThunk, createChoiceThunk } from '../store/polls';
+import { createChoiceThunk } from '../store/polls';
 
-class CreatePoll extends Component {
+class CreateChoices extends Component {
   constructor() {
     super();
 
     this.state = {
       pollId: '',
-      text: ''
+      text: '',
+      choices: [],
+      currentChoice: ''
     };
   }
 
   componenDidMount() {
-    const user = this.props.user.id;
+    this.setState({ pollId: this.props.pollId });
   }
 
   handleSubmit = () => {
-    this.props
-      .createPoll({
-        text: this.state.text,
-        ownerId: this.props.user.id,
-        familyId: this.props.user.familyId
-      })
-      .then(({ poll }) => this.setState({ pollId: poll.id }));
-    this.props.navigation.navigate('CreateChoices', {
-      pollId: this.state.pollId,
-      text: this.state.text
+    this.state.choices.map(choice => {
+      this.props.createChoice(this.state.pollId, choice);
     });
   };
 
+  handleChoiceSubmit = () => {
+    this.setState({
+      choices: [...this.state.choices, { text: this.state.currentChoice }]
+    });
+    this.setState({ currentChoice: '' });
+  };
+
   render() {
+    console.log(this.state.choices);
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.container}>
+          <Text>{this.state.text}</Text>
+          {this.state.choices.map(choice => (
+            <Text>{choice.text}</Text>
+          ))}
           <TextInput
             style={styles.input}
-            placeholder="What is your question?"
-            onChangeText={text => this.setState({ text })}
+            placeholder="Add a choice"
+            onChangeText={currentChoice => this.setState({ currentChoice })}
           />
+
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#8EB51A',
+              padding: 10,
+              margin: 10,
+              width: 300
+            }}
+            onPress={this.handleChoiceSubmit}
+          >
+            <Text style={styles.createButtonText}>Add Choice</Text>
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={{
@@ -93,7 +111,6 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    createPoll: poll => dispatch(createPollThunk(poll)),
     createChoice: (pollId, choice) =>
       dispatch(createChoiceThunk(pollId, choice))
   };
@@ -107,4 +124,4 @@ const mapStateToProps = ({ user }) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreatePoll);
+)(CreateChoices);

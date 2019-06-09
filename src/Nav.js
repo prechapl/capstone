@@ -11,6 +11,7 @@ import Mood from './Mood';
 import AllPolls from './Polls/AllPolls';
 import SinglePoll from './Polls/SinglePoll';
 import CreatePoll from './Polls/CreatePoll';
+import CreateChoices from './Polls/CreateChoices';
 import ForgotPassword from './ForgotPassword';
 import Events from './Events';
 import SingleEvent from './SingleEvent';
@@ -21,7 +22,8 @@ import AvatarGenerator from './AvatarGenerator';
 const PollsNavigator = createStackNavigator({
   Polls: AllPolls,
   Poll: SinglePoll,
-  CreatePoll: CreatePoll
+  CreatePoll: CreatePoll,
+  CreateChoices: CreateChoices
 });
 
 const AuthNavigator = createStackNavigator({
