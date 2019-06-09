@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class ClosedPoll extends React.Component {
+class VotedPoll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -161,4 +161,4 @@ const mapStateToProps = ({ user, choices, votes }) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ClosedPoll);
+)(VotedPoll);

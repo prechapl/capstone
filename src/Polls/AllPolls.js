@@ -54,22 +54,46 @@ class AllPolls extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Your Polls</Text>
-        {polls.map(poll => (
-          <TouchableOpacity
-            key={poll.id}
-            style={styles.poll}
-            text={poll.text}
-            onPress={() =>
-              this.props.navigation.navigate('Poll', {
-                poll: poll,
-                id: poll.id,
-                question: poll.text
-              })
-            }
-          >
-            <Text style={styles.buttonText}>{poll.text}</Text>
-          </TouchableOpacity>
-        ))}
+        {polls.map(
+          poll =>
+            poll.ownerId === this.props.user.id && (
+              <TouchableOpacity
+                key={poll.id}
+                style={styles.poll}
+                text={poll.text}
+                onPress={() =>
+                  this.props.navigation.navigate('Poll', {
+                    poll: poll,
+                    id: poll.id,
+                    question: poll.text
+                  })
+                }
+              >
+                <Text style={styles.buttonText}>{poll.text}</Text>
+              </TouchableOpacity>
+            )
+        )}
+
+        <Text style={styles.header}>Family Polls</Text>
+        {polls.map(
+          poll =>
+            poll.ownerId !== this.props.user.id && (
+              <TouchableOpacity
+                key={poll.id}
+                style={styles.poll}
+                text={poll.text}
+                onPress={() =>
+                  this.props.navigation.navigate('Poll', {
+                    poll: poll,
+                    id: poll.id,
+                    question: poll.text
+                  })
+                }
+              >
+                <Text style={styles.buttonText}>{poll.text}</Text>
+              </TouchableOpacity>
+            )
+        )}
 
         <TouchableOpacity
           style={{
