@@ -12,19 +12,19 @@ const GET_USER_POLLS = 'GET_USER_POLLS';
 
 const getUsers = users => ({
   type: GET_USERS,
-  users
+  users,
 });
 const getUser = user => ({
   type: GET_USER,
-  user
+  user,
 });
 const getRelated = related => ({
   type: GET_RELATED,
-  related
+  related,
 });
 const getUserPolls = polls => ({
   type: GET_USER_POLLS,
-  polls
+  polls,
 });
 
 //THUNKS
@@ -53,7 +53,7 @@ const loginUser = (email, password) => {
   return axios
     .put('https://capstone-api-server.herokuapp.com/api/users/login', {
       email,
-      password
+      password,
     })
     .then(response => response.data)
     .then(token => AsyncStorage.setItem('token', token));
@@ -77,6 +77,13 @@ const logoutUser = () => {
   return dispatch => {
     return AsyncStorage.removeItem('token').then(() => dispatch(getUser({})));
   };
+};
+
+const signUp = userData => {
+  return axios
+    .post('https://capstone-api-server.herokuapp.com/api/users', userData)
+    .then(response => response.data)
+    .then(token => AsyncStorage.setItem('token', token));
 };
 
 const fetchRelated = id => {
@@ -144,10 +151,11 @@ export {
   loginUser,
   logoutUser,
   getAuthedUser,
+  signUp,
   fetchRelated,
   fetchUserPolls,
   userReducer,
   usersReducer,
   relatedReducer,
-  userPollsReducer
+  userPollsReducer,
 };
