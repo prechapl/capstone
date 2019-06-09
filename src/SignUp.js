@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
+import { signUp, getAuthedUser } from './store/users';
 
-export default class SignUp extends Component {
+class SignUp extends Component {
   constructor() {
     super();
 
@@ -18,26 +20,30 @@ export default class SignUp extends Component {
       age: '',
       email: '',
       password: '',
-      image: '',
+      imgUrl: '',
       familyCode: '',
-      page: 1
+      page: 1,
     };
   }
 
   handleSubmit = (ev, history) => {
-    this.props.navigation.navigate('Family');
-    this.setState({ page: 1 });
+    signUp(this.state)
+      .then(() => this.props.getAuthedUser())
+      .then(() => {
+        this.props.navigation.navigate('Family');
+        this.setState({ page: 1 });
+      });
   };
 
   nextPage = () => {
     this.setState({
-      page: this.state.page + 1
+      page: this.state.page + 1,
     });
   };
 
   previousPage = () => {
     this.setState({
-      page: this.state.page - 1
+      page: this.state.page - 1,
     });
   };
 
@@ -115,8 +121,9 @@ export default class SignUp extends Component {
             <Text style={styles.header}>Mend</Text>
             <TextInput
               style={styles.input}
+              value={this.state.imgUrl}
               placeholder="Image"
-              onChangeText={image => this.setState({ image })}
+              onChangeText={imgUrl => this.setState({ imgUrl })}
             />
 
             <TouchableOpacity style={styles.button} onPress={this.nextPage}>
@@ -137,6 +144,7 @@ export default class SignUp extends Component {
           <View style={styles.container}>
             <Text style={styles.header}>Mend</Text>
             <TextInput
+              value={this.state.familyCode}
               style={styles.input}
               placeholder="Family Code"
               onChangeText={familyCode => this.setState({ familyCode })}
@@ -161,28 +169,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   input: {
     height: 40,
     backgroundColor: '#D3D3D4',
     marginBottom: 20,
     width: 300,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   button: {
     backgroundColor: '#448AE6',
     padding: 10,
     width: 300,
-    margin: 10
+    margin: 10,
   },
   buttonText: {
     textAlign: 'center',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   header: {
     padding: 10,
     marginBottom: 30,
-    fontSize: 75
-  }
+    fontSize: 75,
+  },
 });
+
+const mapDispatchToProps = dispatch => ({
+  getAuthedUser: () => dispatch(getAuthedUser()),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignUp);

@@ -61,6 +61,7 @@ class AllPolls extends Component {
             text={poll.text}
             onPress={() =>
               this.props.navigation.navigate('Poll', {
+                poll: poll,
                 id: poll.id,
                 question: poll.text
               })

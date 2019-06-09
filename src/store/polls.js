@@ -25,6 +25,15 @@ const getPoll = poll => ({
 
 //THUNKS
 
+const updatePollStatusThunk = (id, status) => {
+  return dispatch => {
+    return axios
+      .put(`https://capstone-api-server.herokuapp.com/api/polls/${id}/`, status)
+      .then(({ data }) => dispatch(getPoll(data)))
+      .catch(error => console.log(error));
+  };
+};
+
 const fetchChoices = id => {
   return dispatch => {
     return axios
@@ -56,8 +65,6 @@ const castVoteThunk = (id, vote) => {
 };
 
 const changeVoteThunk = (pollId, userId) => {
-  console.log('pollId:', pollId);
-  console.log('voteId:', userId);
   return dispatch => {
     return axios
       .delete(
@@ -68,7 +75,7 @@ const changeVoteThunk = (pollId, userId) => {
   };
 };
 
-const createPollThunk = (userId, poll) => {
+const createPollThunk = poll => {
   return dispatch => {
     return axios
       .post(`https://capstone-api-server.herokuapp.com/api/polls/`, poll)
@@ -119,6 +126,7 @@ const pollReducer = (state = {}, action) => {
 export {
   fetchChoices,
   fetchVotes,
+  updatePollStatusThunk,
   castVoteThunk,
   createPollThunk,
   changeVoteThunk,
