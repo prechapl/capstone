@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { signUp, getAuthedUser } from './store/users';
+import console from 'console';
 
 class SignUp extends Component {
   constructor() {
@@ -22,17 +23,48 @@ class SignUp extends Component {
       password: '',
       imgUrl: '',
       familyCode: '',
+      newFamilyCode: '',
+      newFamilyName: '',
       page: 1,
     };
   }
 
-  handleSubmit = (ev, history) => {
-    signUp(this.state)
+  handleSubmit = userData => {
+    signUp(userData)
       .then(() => this.props.getAuthedUser())
       .then(() => {
         this.props.navigation.navigate('Family');
         this.setState({ page: 1 });
       });
+  };
+
+  joinFamily = () => {
+    const userData = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password,
+      age: this.state.age,
+      imgUrl: this.state.imgUrl,
+      familyCode: this.state.familyCode,
+    };
+    this.handleSubmit(userData);
+  };
+
+  createFamily = () => {
+    const userData = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password,
+      age: this.state.age,
+      imgUrl: this.state.imgUrl,
+      family: {
+        code: this.state.newFamilyCode,
+        name: this.state.newFamilyName,
+      },
+    };
+    this.handleSubmit(userData);
   };
 
   nextPage = () => {
@@ -57,18 +89,21 @@ class SignUp extends Component {
               sign up for a free account
             </Text>
             <TextInput
+              value={this.state.firstName}
               style={styles.input}
               placeholder="First Name"
               onChangeText={firstName => this.setState({ firstName })}
             />
 
             <TextInput
+              value={this.state.lastName}
               style={styles.input}
               placeholder="Last Name"
               onChangeText={lastName => this.setState({ lastName })}
             />
 
             <TextInput
+              value={this.state.age}
               style={styles.input}
               placeholder="Age"
               onChangeText={age => this.setState({ age })}
@@ -88,6 +123,7 @@ class SignUp extends Component {
           <View style={styles.container}>
             <Text style={styles.header}>Mend</Text>
             <TextInput
+              value={this.state.email}
               style={styles.input}
               placeholder="Email"
               onChangeText={email => this.setState({ email })}
@@ -96,6 +132,7 @@ class SignUp extends Component {
             <TextInput
               style={styles.input}
               secureTextEntry
+              value={this.state.password}
               placeholder="password"
               onChangeText={password => {
                 this.setState({ password });
@@ -143,6 +180,7 @@ class SignUp extends Component {
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
             <Text style={styles.header}>Mend</Text>
+            <Text style={styles.header2}>Join Family</Text>
             <TextInput
               value={this.state.familyCode}
               style={styles.input}
@@ -150,8 +188,27 @@ class SignUp extends Component {
               onChangeText={familyCode => this.setState({ familyCode })}
             />
 
-            <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
-              <Text style={styles.buttonText}>Submit</Text>
+            <TouchableOpacity style={styles.button} onPress={this.joinFamily}>
+              <Text style={styles.buttonText}>Submit and Join Family</Text>
+            </TouchableOpacity>
+
+            <Text style={styles.header2}>Create Family</Text>
+            <TextInput
+              value={this.state.newFamilyCode}
+              style={styles.input}
+              placeholder="Family Code"
+              onChangeText={newFamilyCode => this.setState({ newFamilyCode })}
+            />
+
+            <TextInput
+              value={this.state.newFamilyName}
+              style={styles.input}
+              placeholder="Family Name"
+              onChangeText={newFamilyName => this.setState({ newFamilyName })}
+            />
+
+            <TouchableOpacity style={styles.button} onPress={this.createFamily}>
+              <Text style={styles.buttonText}>Submit and Create Family</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={this.previousPage}>
@@ -192,6 +249,11 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 30,
     fontSize: 75,
+  },
+  header2: {
+    padding: 10,
+    marginBottom: 30,
+    fontSize: 42,
   },
 });
 
