@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Header, ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchEvents, fetchAssigned } from './store/events';
+import { withNavigation } from 'react-navigation';
 
 class Events extends Component {
   constructor() {
@@ -33,33 +34,44 @@ class Events extends Component {
     };
 
     return (
-      <View>
+      <View
+        style={{
+          flexDirection: 'column',
+          justifyContent: 'center',
+          width: 350,
+          paddingBottom: 150
+        }}
+      >
         <Header
           leftComponent={
             <Button
-              type="clear"
-              title="EVENTS"
+              type="outline"
+              title="Events"
               titleStyle={{ color: 'white' }}
+              containerStyle={{ width: 100, paddingHorizontal: 10 }}
               onPress={() => this.setState({ selection: 'MY EVENTS' })}
             />
           }
           centerComponent={
             <Button
-              type="clear"
-              title="INVITED"
+              type="outline"
+              title="Invited"
               titleStyle={{ color: 'white' }}
+              containerStyle={{ width: 100, paddingHorizontal: 10 }}
               onPress={() => this.setState({ selection: 'ASSIGNED' })}
             />
           }
           rightComponent={
             <Button
-              type="clear"
-              title="ADD"
+              type="outline"
+              title="Add"
               titleStyle={{ color: 'white' }}
+              containerStyle={{ width: 100, paddingHorizontal: 10 }}
               onPress={() => this.props.navigation.navigate('AddEvent')}
             />
           }
         />
+        <View />
         {events ? (
           <View>
             {events.map((event, i) => {
@@ -74,14 +86,16 @@ class Events extends Component {
                     } else {
                       this.props.navigation.navigate('EventAssigned', {
                         event: event
-                      })
+                      });
                     }
                   }}
                 >
                   <ListItem
                     key={i}
                     title={event.title}
-                    subtitle={`${new Date(event.deadline).getMonth()}/${new Date(event.deadline).getDate()}`}
+                    subtitle={`${new Date(
+                      event.deadline
+                    ).getMonth()}/${new Date(event.deadline).getDate()}`}
                     badge={{
                       value: event.category,
                       badgeStyle: { backgroundColor: colorMap[event.category] }
@@ -92,11 +106,8 @@ class Events extends Component {
             })}
           </View>
         ) : (
-            <Text>
-              You do not have any events.
-            </Text>
-          )}
-
+          <Text>You do not have any events.</Text>
+        )}
       </View>
     );
   }
@@ -117,7 +128,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Events);
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Events)
+);

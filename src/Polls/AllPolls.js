@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-
 import { fetchUsers } from '../store/users';
 import { fetchPolls } from '../store/polls';
+import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   header: {
     padding: 10,
     margin: 10,
-    fontSize: 50
+    fontSize: 24
   },
   subheader: {
     padding: 10,
@@ -113,7 +113,6 @@ class AllPolls extends Component {
               </TouchableOpacity>
             )
         )}
-
         <TouchableOpacity
           style={{
             backgroundColor: '#8EB51A',
@@ -158,7 +157,9 @@ const mapStateToProps = ({ user, users, polls }) => {
     polls
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AllPolls);
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AllPolls)
+);

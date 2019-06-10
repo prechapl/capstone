@@ -18,12 +18,6 @@ import AddEvent from './AddEvent';
 import SingleEventAssigned from './SingleEventAssigned';
 import AvatarGenerator from './AvatarGenerator';
 
-const PollsNavigator = createStackNavigator({
-  Polls: AllPolls,
-  Poll: SinglePoll,
-  CreatePoll: CreatePoll
-});
-
 const AuthNavigator = createStackNavigator({
   Login: Login,
   SignUp: SignUp,
@@ -37,6 +31,12 @@ const UserNavigator = createStackNavigator(
     },
     Mood: { screen: Mood },
     Events: { screen: Events },
+    Event: { screen: SingleEvent },
+    EventAssigned: { screen: SingleEventAssigned },
+    AddEvent: { screen: AddEvent },
+    Polls: { screen: AllPolls },
+    Poll: { screen: SinglePoll },
+    CreatePoll: { screen: CreatePoll },
     AvatarGenerator: {
       screen: AvatarGenerator
     }
@@ -56,18 +56,9 @@ const UserNavigator = createStackNavigator(
   }
 );
 
-const EventNavigator = createStackNavigator({
-  Events: Events,
-  Event: SingleEvent,
-  EventAssigned: SingleEventAssigned,
-  AddEvent: AddEvent
-});
-
 const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
-  User: UserNavigator,
-  Polls: PollsNavigator,
-  Events: EventNavigator
+  User: UserNavigator
 });
 
 const AppContainer = createAppContainer(RootNavigator);
