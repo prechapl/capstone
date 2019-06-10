@@ -86,7 +86,7 @@ class CreatePoll extends Component {
       return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
-            <Text style={styles.header}>{this.state.text}</Text>
+            <Text style={styles.subheader}>{this.state.text}</Text>
             {this.state.choices.map(choice => (
               <Text key={choice.text}>{choice.text}</Text>
             ))}

@@ -36,7 +36,8 @@ const fetchPolls = familyId => {
       .get(
         `http://capstone-api-server.herokuapp.com/api/families/${familyId}/polls`
       )
-      .then(({ data }) => dispatch(getPolls(data)));
+      .then(({ data }) => dispatch(getPolls(data)))
+      .catch(err => console.log(err));
   };
 };
 
@@ -45,7 +46,7 @@ const updatePollStatusThunk = (id, status) => {
     return axios
       .put(`https://capstone-api-server.herokuapp.com/api/polls/${id}/`, status)
       .then(({ data }) => dispatch(getPoll(data)))
-      .catch(error => console.log(error));
+      .catch(err => console.log(err));
   };
 };
 
@@ -53,7 +54,8 @@ const deletePollThunk = (pollId, familyId) => {
   return dispatch => {
     return axios
       .delete(`https://capstone-api-server.herokuapp.com/api/polls/${pollId}/`)
-      .then(() => dispatch(fetchPolls(familyId)));
+      .then(() => dispatch(fetchPolls(familyId)))
+      .catch(err => console.log(err));
   };
 };
 
@@ -102,7 +104,8 @@ const createPollThunk = poll => {
   return dispatch => {
     return axios
       .post(`https://capstone-api-server.herokuapp.com/api/polls/`, poll)
-      .then(({ data }) => dispatch(getPoll(data)));
+      .then(({ data }) => dispatch(getPoll(data)))
+      .catch(err => console.log(err));
   };
 };
 
@@ -113,7 +116,8 @@ const createChoiceThunk = (pollId, choice) => {
         `https://capstone-api-server.herokuapp.com/api/polls/${pollId}/choices`,
         choice
       )
-      .then(() => dispatch(fetchChoices(pollId)));
+      .then(() => dispatch(fetchChoices(pollId)))
+      .catch(err => console.log(err));
   };
 };
 
