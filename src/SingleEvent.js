@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import { Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { goDeleteEvent, fetchAssignees, goUpdateEvent } from './store/events';
+import { goDeleteEvent, fetchAssignees, goUpdateEvent, invite } from './store/events';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,6 +36,13 @@ class SingleEvent extends Component {
       assignee: '',
       status: ''
     };
+  }
+  componentDidMount() {
+    this.props.fetchAssignees(this.props.navigation.getParam('event').id);
+  }
+  invite = id => {
+    this.props.invite(id, this.state.assignee);
+    this.toggleAssigneePicker();
   }
   delete = id => {
     this.props.deleteEvent(id);
@@ -81,6 +88,43 @@ class SingleEvent extends Component {
         </Text>
         <Text style={{ fontSize: 15 }}>{event.category}</Text>
 
+        {this.state.showAssigneePicker ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <Picker
+              selectedValue={this.state.assignee}
+              style={{ height: 50, width: 250, flex: 2, margin: 10 }}
+              onValueChange={(val, idx) => this.setState({ assignee: val })}
+            >
+              <Picker.Item label="select a family member to invite" value="" />
+              {this.props.family.filter(user => user.id !== event.ownerId && !this.props.assignees.find(assignee => assignee.id === user.id))
+                .map(user => {
+                  return (
+                    <Picker.Item label={user.firstName} value={user.id} key={user.id} />
+                  )
+                })
+              }
+            </Picker>
+            <TouchableOpacity
+              onPress={() => this.invite(event.id)}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>invite</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.toggleAssigneePicker}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>cancel</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         {this.state.showStatusPicker ? (
           <View
             style={{
@@ -91,7 +135,7 @@ class SingleEvent extends Component {
           >
             <Picker
               selectedValue={this.state.status}
-              style={{ height: 50, width: 200, flex: 2, margin: 10 }}
+              style={{ height: 50, width: 250, flex: 2, margin: 10 }}
               onValueChange={(val, idx) => this.setState({ status: val })}
             >
               <Picker.Item label="upcoming" value="upcoming" />
@@ -129,13 +173,13 @@ class SingleEvent extends Component {
                   <Text>approve</Text>
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={this.toggleStatusPicker}
-                >
-                  <Text>edit status</Text>
-                </TouchableOpacity>
-              )}
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={this.toggleStatusPicker}
+                  >
+                    <Text>edit status</Text>
+                  </TouchableOpacity>
+                )}
             </View>
 
             <Text>
@@ -149,9 +193,15 @@ class SingleEvent extends Component {
             <Text>{event.description}</Text>
             <Text>
               {this.props.assignees.length
-                ? `Assigned to: ${this.props.assignees.join(', ')}`
+                ? `Assigned to: ${this.props.assignees.map(user => user.firstName).join(', ')}`
                 : 'not yet assigned'}
             </Text>
+            <TouchableOpacity
+              onPress={this.toggleAssigneePicker}
+              style={styles.button}
+            >
+              <Text>invite someone</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.delete(event.id)}
               style={styles.button}
@@ -165,10 +215,11 @@ class SingleEvent extends Component {
   }
 }
 
-const mapStateToProps = ({ assignees, events }) => {
+const mapStateToProps = ({ assignees, events, moods }) => {
   return {
     assignees,
-    events
+    events,
+    family: moods
   };
 };
 
@@ -176,7 +227,8 @@ const mapDispatchToProps = dispatch => {
   return {
     deleteEvent: id => dispatch(goDeleteEvent(id)),
     fetchAssignees: id => dispatch(fetchAssignees(id)),
-    updateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates))
+    updateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates)),
+    invite: (evId, userId) => dispatch(invite(evId, userId))
   };
 };
 
