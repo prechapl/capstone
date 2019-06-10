@@ -110,7 +110,7 @@ const createChoiceThunk = (pollId, choice) => {
   return dispatch => {
     return axios
       .post(
-        `https://capstone-api-server.herokuapp.com/api/polls/${pollId}/votes`,
+        `https://capstone-api-server.herokuapp.com/api/polls/${pollId}/choices`,
         choice
       )
       .then(() => dispatch(fetchChoices(pollId)));

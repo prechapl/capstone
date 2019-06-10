@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { RadioButtons } from 'react-native-radio-buttons';
 import { connect } from 'react-redux';
-import { castVoteThunk, deletePollThunk } from '../store/polls';
+import { castVoteThunk } from '../store/polls';
 
 const styles = StyleSheet.create({
   container: {
@@ -61,10 +61,6 @@ class VotePoll extends React.Component {
 
   handleSubmit = () => {
     this.props.castVote(this.props.pollId, this.state);
-  };
-
-  handleDelete = () => {
-    this.props.deletePoll(this.state.pollId);
   };
 
   render() {
@@ -121,18 +117,6 @@ class VotePoll extends React.Component {
         >
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#FF0000',
-            padding: 10,
-            margin: 10,
-            width: 300
-          }}
-          onPress={this.handleDelete(this.state.pollId)}
-        >
-          <Text style={styles.buttonText}>Delete Poll</Text>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -140,8 +124,7 @@ class VotePoll extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    castVote: (id, vote) => dispatch(castVoteThunk(id, vote)),
-    deletePoll: id => dispatch(deletePollThunk(id))
+    castVote: (id, vote) => dispatch(castVoteThunk(id, vote))
   };
 };
 
