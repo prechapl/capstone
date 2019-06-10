@@ -12,7 +12,7 @@ const GET_ASSIGNEES = 'GET_ASSIGNEES';
 const getAssignees = assignees => ({
   type: GET_ASSIGNEES,
   assignees
-})
+});
 
 const getEvents = events => ({
   type: GET_EVENTS,
@@ -157,6 +157,18 @@ const fetchAssignees = id => {
   }
 }
 
+const invite = (evId, userId) => {
+  return dispatch => {
+    return axios
+      .post(`${API_URL}/events/assign`, {
+        eventId: evId,
+        userId: userId
+      })
+      .then(() => dispatch(fetchAssignees(evId)))
+      .catch(e => console.log(e))
+  }
+}
+
 export {
   fetchEvents,
   fetchAssigned,
@@ -167,5 +179,6 @@ export {
   assignedEventReducer,
   goDeleteEvent,
   fetchAssignees,
-  assigneeReducer
+  assigneeReducer,
+  invite
 };
