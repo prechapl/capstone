@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { View, Text } from "react-native";
-import { Avatar, Badge } from "react-native-elements";
-import { getActiveMood, getMoodsByFamilyId } from "./store/mood";
-import { fetchRelated } from "./store/users";
-import { connect } from "react-redux";
-import ActionButton from "react-native-circular-action-menu";
-import { findMoodColor, findMoodText, findStatus } from "./HelperFunctions";
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import { Avatar, Badge } from 'react-native-elements';
+import { getActiveMood, getMoodsByFamilyId } from './store/mood';
+import { fetchRelated } from './store/users';
+import { connect } from 'react-redux';
+import ActionButton from 'react-native-circular-action-menu';
+import { findMoodColor, findMoodText, findStatus } from './HelperFunctions';
 
 class Family extends Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class Family extends Component {
     const { user, mood, moods, related } = this.props;
 
     if (mood.id && moods !== undefined && related.length) {
-      console.log("related", related);
+      // console.log('related', related);
       const family = this.findFamily(user, moods);
       const moodColor = findMoodColor(mood.value);
       const moodText = findMoodText(mood.value);
@@ -46,15 +46,15 @@ class Family extends Component {
         <View
           style={{
             flex: 1,
-            flexDirection: "column",
-            justifyContent: "center"
+            flexDirection: 'column',
+            justifyContent: 'center'
           }}
         >
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center"
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <ActionButton
@@ -63,9 +63,9 @@ class Family extends Component {
               radius={130}
               outRangeScale={0.8}
               onLongPress={() =>
-                this.props.navigation.navigate("AvatarGenerator", {
+                this.props.navigation.navigate('AvatarGenerator', {
                   user: user,
-                  buttonSet: "UserButtons",
+                  buttonSet: 'UserButtons',
                   mood: mood
                 })
               }
@@ -85,16 +85,16 @@ class Family extends Component {
                   />
                   <Badge
                     containerStyle={{
-                      position: "relative",
+                      position: 'relative',
                       top: -18
                     }}
                     badgeStyle={{
                       backgroundColor: moodColor,
                       paddingHorizontal: 10,
-                      borderColor: "transparent"
+                      borderColor: 'transparent'
                     }}
                     value={
-                      <Text style={{ fontSize: 12, color: "white" }}>
+                      <Text style={{ fontSize: 12, color: 'white' }}>
                         {`${moodText}`} mood
                       </Text>
                     }
@@ -109,10 +109,13 @@ class Family extends Component {
                 const personMoodText = findMoodText(
                   person.moods.find(m => m.active).value
                 );
-                console.log("person", person);
-                // const relationshipStatus = findStatus(person.status);
+                // console.log('person', person);
+                // const relation = related.filter(
+                //   r => r.RelationshipId === person.id
+                // );
+                // console.log('relation', relation[0]);
 
-                // console.log(relationshipStatus);
+                // const status = findStatus(relation[0].status);
 
                 return (
                   <ActionButton.Item key={person.id}>
@@ -129,43 +132,43 @@ class Family extends Component {
                         }}
                         title={person.firstName}
                         onPress={() =>
-                          this.props.navigation.navigate("AvatarGenerator", {
+                          this.props.navigation.navigate('AvatarGenerator', {
                             user: person,
                             buttonSet:
                               person.age > 18
-                                ? "RelativeButtons"
-                                : "ChildButtons",
+                                ? 'RelativeButtons'
+                                : 'ChildButtons',
                             mood: person.moods.find(m => m.active)
                           })
                         }
                       />
-                      {/* <Badge
-                        containerStyle={{
-                          position: "relative"
-                        }}
-                        badgeStyle={{
-                          backgroundColor: relationshipStatus.color,
-                          paddingHorizontal: 10,
-                          borderColor: "transparent"
-                        }}
-                        value={
-                          <Text style={{ fontSize: 12, color: "white" }}>
-                            {relationshipStatus.text}
-                          </Text>
-                        }
-                      /> */}
                       <Badge
                         containerStyle={{
-                          position: "relative",
+                          position: 'relative'
+                        }}
+                        badgeStyle={{
+                          backgroundColor: status.color,
+                          paddingHorizontal: 10,
+                          borderColor: 'transparent'
+                        }}
+                        value={
+                          <Text style={{ fontSize: 12, color: 'white' }}>
+                            {status.text}
+                          </Text>
+                        }
+                      />
+                      <Badge
+                        containerStyle={{
+                          position: 'relative',
                           top: -18
                         }}
                         badgeStyle={{
                           backgroundColor: personMoodColor,
                           paddingHorizontal: 10,
-                          borderColor: "transparent"
+                          borderColor: 'transparent'
                         }}
                         value={
-                          <Text style={{ fontSize: 12, color: "white" }}>
+                          <Text style={{ fontSize: 12, color: 'white' }}>
                             {`${personMoodText}`}
                           </Text>
                         }
