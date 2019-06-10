@@ -55,8 +55,8 @@ class VotedPoll extends React.Component {
     this.props.changeVote(this.state.pollId, this.state.userId);
   };
 
-  handleDelete = id => {
-    this.props.deletePoll(id);
+  handleDelete = () => {
+    this.props.deletePoll(this.state.pollId);
     this.props.navigation.navigate('Polls');
   };
 
@@ -137,7 +137,7 @@ class VotedPoll extends React.Component {
                   margin: 10,
                   width: 300
                 }}
-                onPress={this.handleDelete(this.state.pollId)}
+                onPress={this.handleDelete}
               >
                 <Text style={styles.buttonText}>Delete Poll</Text>
               </TouchableOpacity>

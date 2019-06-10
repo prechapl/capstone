@@ -88,7 +88,9 @@ class CreatePoll extends Component {
           <View style={styles.container}>
             <Text style={styles.subheader}>{this.state.text}</Text>
             {this.state.choices.map(choice => (
-              <Text key={choice.text}>{choice.text}</Text>
+              <View key={choice.text} style={styles.choiceContainer}>
+                <Text style={styles.choiceText}>{choice.text}</Text>
+              </View>
             ))}
             <TextInput
               style={styles.input}
@@ -153,6 +155,17 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 30,
     fontSize: 45
+  },
+  choiceText: {
+    height: 40,
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    marginBottom: 20,
+    color: '#000000',
+    width: 300,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#000000'
   }
 });
 

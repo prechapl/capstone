@@ -65,6 +65,7 @@ class VotePoll extends React.Component {
 
   handleDelete = () => {
     this.props.deletePoll(this.state.pollId);
+    this.props.navigation.navigate('Polls');
   };
 
   render() {
@@ -122,17 +123,19 @@ class VotePoll extends React.Component {
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#FF0000',
-            padding: 10,
-            margin: 10,
-            width: 300
-          }}
-          onPress={this.handleDelete(this.state.pollId)}
-        >
-          <Text style={styles.buttonText}>Delete Poll</Text>
-        </TouchableOpacity>
+        {this.props.user.id === this.props.poll.ownerId && (
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#FF0000',
+              padding: 10,
+              margin: 10,
+              width: 300
+            }}
+            onPress={this.handleDelete}
+          >
+            <Text style={styles.buttonText}>Delete Poll</Text>
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
