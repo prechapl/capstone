@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   fetchChoices,
   fetchVotes,
+  deletePollThunk,
   changeVoteThunk,
   updatePollStatusThunk
 } from '../store/polls';
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class ClosedPoll extends React.Component {
+class VotedPoll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,8 +51,13 @@ class ClosedPoll extends React.Component {
     });
   }
 
-  handleDelete = () => {
+  changeVote = () => {
     this.props.changeVote(this.state.pollId, this.state.userId);
+  };
+
+  handleDelete = () => {
+    this.props.deletePoll(this.state.pollId);
+    this.props.navigation.navigate('Polls');
   };
 
   handleStatus = () => {
@@ -93,7 +99,7 @@ class ClosedPoll extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>{this.props.question}</Text>
+        <Text style={styles.subheader}>{this.props.question}</Text>
         {votesData.length && <PureChart data={votesData} type="pie" />}
 
         {this.state.status === 'open' ? (
@@ -104,37 +110,52 @@ class ClosedPoll extends React.Component {
               margin: 10,
               width: 300
             }}
-            onPress={this.handleDelete}
+            onPress={this.changeVote}
           >
             <Text style={styles.buttonText}>Change Vote</Text>
           </TouchableOpacity>
         ) : null}
+        {this.props.user.id === this.props.poll.ownerId ? (
+          this.state.status === 'closed' ? (
+            <View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#8EB51A',
+                  padding: 10,
+                  margin: 10,
+                  width: 300
+                }}
+                onPress={this.handleStatus}
+              >
+                <Text style={styles.buttonText}>Open Poll</Text>
+              </TouchableOpacity>
 
-        {this.state.status === 'closed' ? (
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#8EB51A',
-              padding: 10,
-              margin: 10,
-              width: 300
-            }}
-            onPress={this.handleStatus}
-          >
-            <Text style={styles.buttonText}>Open Poll</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#FF0000',
-              padding: 10,
-              margin: 10,
-              width: 300
-            }}
-            onPress={this.handleStatus}
-          >
-            <Text style={styles.buttonText}>Close Poll</Text>
-          </TouchableOpacity>
-        )}
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FF0000',
+                  padding: 10,
+                  margin: 10,
+                  width: 300
+                }}
+                onPress={this.handleDelete}
+              >
+                <Text style={styles.buttonText}>Delete Poll</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#FF0000',
+                padding: 10,
+                margin: 10,
+                width: 300
+              }}
+              onPress={this.handleStatus}
+            >
+              <Text style={styles.buttonText}>Close Poll</Text>
+            </TouchableOpacity>
+          )
+        ) : null}
       </View>
     );
   }
@@ -144,6 +165,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchChoices: id => dispatch(fetchChoices(id)),
     fetchVotes: id => dispatch(fetchVotes(id)),
+    deletePoll: id => dispatch(deletePollThunk(id)),
     changeVote: (pollId, voteId) => dispatch(changeVoteThunk(pollId, voteId)),
     changeStatus: (pollId, status) =>
       dispatch(updatePollStatusThunk(pollId, status))
@@ -161,4 +183,4 @@ const mapStateToProps = ({ user, choices, votes }) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ClosedPoll);
+)(VotedPoll);

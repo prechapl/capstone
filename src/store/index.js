@@ -8,7 +8,12 @@ import {
   userPollsReducer
 } from './users';
 import { eventReducer, assignedEventReducer, assigneeReducer } from './events';
-import { choicesReducer, votesReducer, pollReducer } from './polls';
+import {
+  choicesReducer,
+  votesReducer,
+  pollReducer,
+  pollsReducer
+} from './polls';
 import { familyMembersReducer } from './family';
 
 const reducer = combineReducers({
@@ -24,6 +29,7 @@ const reducer = combineReducers({
   choices: choicesReducer,
   votes: votesReducer,
   poll: pollReducer,
+  polls: pollsReducer
   familyMembers: familyMembersReducer
 });
 
