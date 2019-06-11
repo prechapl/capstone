@@ -5,26 +5,26 @@ import { AsyncStorage } from 'react-native';
 
 const GET_USERS = 'GET_USERS';
 const GET_USER = 'GET_USER';
-const GET_RELATED = 'GET_RELATED';
+const GET_USER_RELATIONSHIPS = 'GET_USER_RELATIONSHIPS';
 const GET_USER_POLLS = 'GET_USER_POLLS';
 
 //ACTION CREATORS
 
 const getUsers = users => ({
   type: GET_USERS,
-  users,
+  users
 });
 const getUser = user => ({
   type: GET_USER,
-  user,
+  user
 });
-const getRelated = related => ({
-  type: GET_RELATED,
-  related,
+const getUserRelationships = relationships => ({
+  type: GET_USER_RELATIONSHIPS,
+  relationships
 });
 const getUserPolls = polls => ({
   type: GET_USER_POLLS,
-  polls,
+  polls
 });
 
 //THUNKS
@@ -53,7 +53,7 @@ const loginUser = (email, password) => {
   return axios
     .put('https://capstone-api-server.herokuapp.com/api/users/login', {
       email,
-      password,
+      password
     })
     .then(response => response.data)
     .then(token => AsyncStorage.setItem('token', token));
@@ -86,14 +86,14 @@ const signUp = userData => {
     .then(token => AsyncStorage.setItem('token', token));
 };
 
-const fetchRelated = id => {
+const fetchUserRelationships = id => {
   return dispatch => {
     return axios
       .get(
         `https://capstone-api-server.herokuapp.com/api/users/${id}/relationships`
       )
       .then(response => response.data)
-      .then(related => dispatch(getRelated(related)))
+      .then(relationships => dispatch(getUserRelationships(relationships)))
       .catch(error => console.log(error));
   };
 };
@@ -127,10 +127,10 @@ const userReducer = (state = {}, action) => {
   }
 };
 
-const relatedReducer = (state = [], action) => {
+const userRelationshipsReducer = (state = [], action) => {
   switch (action.type) {
-    case GET_RELATED:
-      return action.related;
+    case GET_USER_RELATIONSHIPS:
+      return action.relationships;
     default:
       return state;
   }
@@ -152,10 +152,10 @@ export {
   logoutUser,
   getAuthedUser,
   signUp,
-  fetchRelated,
+  fetchUserRelationships,
   fetchUserPolls,
   userReducer,
   usersReducer,
-  relatedReducer,
-  userPollsReducer,
+  userRelationshipsReducer,
+  userPollsReducer
 };

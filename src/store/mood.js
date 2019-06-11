@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
 //CONSTANTS
 
-const SET_MOOD = "SET_MOOD";
-const GET_MOOD = "GET_MOOD";
-const GET_ALL_MOODS = "GET_ALL_MOODS";
-const GET_FAMILY_MOODS = "GET_FAMILY_MOODS";
+const SET_MOOD = 'SET_MOOD';
+const GET_MOOD = 'GET_MOOD';
+const GET_ALL_MOODS = 'GET_ALL_MOODS';
+const GET_FAMILY_MOODS = 'GET_FAMILY_MOODS';
 
 //ACTION CREATORS
 
