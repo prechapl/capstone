@@ -22,8 +22,8 @@ class Events extends Component {
     let events;
     if (this.props.events.length) {
       this.state.selection === 'MY EVENTS'
-        ? (events = this.props.events)
-        : (events = this.props.assignedEvents);
+        ? (events = this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)))
+        : (events = this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)));
     }
 
     const colorMap = {
@@ -106,8 +106,8 @@ class Events extends Component {
             })}
           </View>
         ) : (
-          <Text>You do not have any events.</Text>
-        )}
+            <Text>You do not have any events.</Text>
+          )}
       </View>
     );
   }
