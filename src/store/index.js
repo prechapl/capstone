@@ -5,14 +5,14 @@ import {
   userReducer,
   usersReducer,
   relatedReducer,
-  userPollsReducer
+  userPollsReducer,
 } from './users';
 import { eventReducer, assignedEventReducer, assigneeReducer } from './events';
 import {
   choicesReducer,
   votesReducer,
   pollReducer,
-  pollsReducer
+  pollsReducer,
 } from './polls';
 import { familyMembersReducer } from './family';
 
@@ -29,8 +29,8 @@ const reducer = combineReducers({
   choices: choicesReducer,
   votes: votesReducer,
   poll: pollReducer,
-  polls: pollsReducer
-  familyMembers: familyMembersReducer
+  polls: pollsReducer,
+  familyMembers: familyMembersReducer,
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
