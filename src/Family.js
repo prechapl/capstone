@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Avatar, Badge } from 'react-native-elements';
 import { getActiveMood, getMoodsByFamilyId } from './store/mood';
+import { fetchUserRelationships } from './store/users';
 import { connect } from 'react-redux';
 import ActionButton from 'react-native-circular-action-menu';
-import { findMoodColor, findMoodText } from './HelperFunctions';
+import { findMoodColor, findMoodText, findStatus } from './HelperFunctions';
 
 class Family extends Component {
   constructor(props) {
@@ -16,7 +17,10 @@ class Family extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.mood.id !== prevProps.mood.id) {
+    if (
+      this.props.mood.id !== prevProps.mood.id ||
+      this.props.userRelationships.length !== prevProps.userRelationships.length
+    ) {
       this.load();
     }
   }
@@ -24,6 +28,7 @@ class Family extends Component {
   load = () => {
     this.props.getActiveMood(this.props.user.id);
     this.props.getMoodsByFamilyId(this.props.user.familyId);
+    this.props.fetchUserRelationships(this.props.user.id);
   };
 
   findFamily = (user, fam) => {
@@ -33,9 +38,9 @@ class Family extends Component {
   };
 
   render() {
-    const { user, mood, moods } = this.props;
+    const { user, mood, moods, userRelationships } = this.props;
 
-    if (mood.id && this.props.moods !== undefined) {
+    if (mood.id && moods !== undefined && userRelationships !== undefined) {
       const family = this.findFamily(user, moods);
       const moodColor = findMoodColor(mood.value);
       const moodText = findMoodText(mood.value);
@@ -57,7 +62,7 @@ class Family extends Component {
             <ActionButton
               active={true}
               degrees={0}
-              radius={125}
+              radius={130}
               outRangeScale={0.8}
               onLongPress={() =>
                 this.props.navigation.navigate('AvatarGenerator', {
@@ -67,7 +72,7 @@ class Family extends Component {
                 })
               }
               icon={
-                <View style={{ margin: 80 }}>
+                <View>
                   <Avatar
                     rounded
                     overlayContainerStyle={{
@@ -106,6 +111,11 @@ class Family extends Component {
                 const personMoodText = findMoodText(
                   person.moods.find(m => m.active).value
                 );
+
+                const relationship = userRelationships.find(
+                  r => r.RelationshipId === person.id
+                );
+
                 return (
                   <ActionButton.Item key={person.id}>
                     <View>
@@ -115,7 +125,7 @@ class Family extends Component {
                           borderWidth: 5,
                           borderColor: personMoodColor
                         }}
-                        size={110}
+                        size={100}
                         source={{
                           uri: `${person.imgUrl}`
                         }}
@@ -130,23 +140,46 @@ class Family extends Component {
                             mood: person.moods.find(m => m.active)
                           })
                         }
-                      />
-                      <Badge
-                        containerStyle={{
-                          position: 'relative',
-                          top: -18
-                        }}
-                        badgeStyle={{
-                          backgroundColor: personMoodColor,
-                          paddingHorizontal: 10,
-                          borderColor: 'transparent'
-                        }}
-                        value={
-                          <Text style={{ fontSize: 12, color: 'white' }}>
-                            {`${personMoodText}`} mood
-                          </Text>
+                        onLongPress={() =>
+                          this.props.navigation.navigate('TwoUp', {
+                            relative: person
+                          })
                         }
                       />
+                      {relationship !== undefined ? (
+                        //status badge
+                        <View
+                          style={{
+                            position: 'absolute',
+                            top: -3,
+
+                            backgroundColor: findStatus(relationship.status)
+                              .color,
+                            paddingHorizontal: 10,
+                            marginLeft: 24,
+                            borderRadius: 50
+                          }}
+                        >
+                          <Text style={{ color: 'white', fontSize: 10 }}>
+                            {personMoodText}
+                          </Text>
+                        </View>
+                      ) : null}
+
+                      <View
+                        style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          backgroundColor: personMoodColor,
+                          paddingHorizontal: 10,
+                          marginLeft: 24,
+                          borderRadius: 50
+                        }}
+                      >
+                        <Text style={{ color: 'white', fontSize: 10 }}>
+                          {personMoodText}
+                        </Text>
+                      </View>
                     </View>
                   </ActionButton.Item>
                 );
@@ -164,15 +197,17 @@ class Family extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     getActiveMood: id => dispatch(getActiveMood(id)),
-    getMoodsByFamilyId: familyId => dispatch(getMoodsByFamilyId(familyId))
+    getMoodsByFamilyId: familyId => dispatch(getMoodsByFamilyId(familyId)),
+    fetchUserRelationships: id => dispatch(fetchUserRelationships(id))
   };
 };
 
-const mapStateToProps = ({ mood, moods, user }) => {
+const mapStateToProps = ({ mood, moods, user, userRelationships }) => {
   return {
     user,
     mood,
-    moods
+    moods,
+    userRelationships
   };
 };
 

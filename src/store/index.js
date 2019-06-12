@@ -4,22 +4,22 @@ import { moodObjReducer, moodArrReducer } from './mood';
 import {
   userReducer,
   usersReducer,
-  relatedReducer,
-  userPollsReducer,
+  userRelationshipsReducer,
+  userPollsReducer
 } from './users';
 import { eventReducer, assignedEventReducer, assigneeReducer } from './events';
 import {
   choicesReducer,
   votesReducer,
   pollReducer,
-  pollsReducer,
+  pollsReducer
 } from './polls';
 import { familyMembersReducer } from './family';
 
 const reducer = combineReducers({
   users: usersReducer,
   user: userReducer,
-  related: relatedReducer,
+  userRelationships: userRelationshipsReducer,
   mood: moodObjReducer,
   moods: moodArrReducer,
   events: eventReducer,
@@ -30,7 +30,7 @@ const reducer = combineReducers({
   votes: votesReducer,
   poll: pollReducer,
   polls: pollsReducer,
-  familyMembers: familyMembersReducer,
+  familyMembers: familyMembersReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
