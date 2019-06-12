@@ -59,6 +59,7 @@ class AvatarGenerator extends Component {
             degrees={360}
             radius={140}
             outRangeScale={1}
+            buttonColor="transparent"
             icon={
               <View>
                 <Avatar
