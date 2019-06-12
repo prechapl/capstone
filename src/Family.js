@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { View, Text } from "react-native";
-import { Avatar, Badge } from "react-native-elements";
-import { getActiveMood, getMoodsByFamilyId } from "./store/mood";
-import { fetchUserRelationships } from "./store/users";
-import { connect } from "react-redux";
-import ActionButton from "react-native-circular-action-menu";
-import { findMoodColor, findMoodText, findStatus } from "./HelperFunctions";
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import { Avatar, Badge } from 'react-native-elements';
+import { getActiveMood, getMoodsByFamilyId } from './store/mood';
+import { fetchUserRelationships } from './store/users';
+import { connect } from 'react-redux';
+import ActionButton from 'react-native-circular-action-menu';
+import { findMoodColor, findMoodText, findStatus } from './HelperFunctions';
 
 class Family extends Component {
   constructor(props) {
@@ -38,40 +38,42 @@ class Family extends Component {
   };
 
   render() {
-    const { user, mood, moods, userRelationships } = this.props;
+    const { user, navigation, mood, moods, userRelationships } = this.props;
 
     if (mood.id && moods !== undefined && userRelationships !== undefined) {
       const family = this.findFamily(user, moods);
       const moodColor = findMoodColor(mood.value);
-      const moodText = findMoodText(mood.value);
+      // const moodText = findMoodText(mood.value);
       return (
         <View
           style={{
             flex: 1,
-            flexDirection: "column",
-            justifyContent: "center"
+            flexDirection: 'column',
+            justifyContent: 'center'
           }}
         >
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center"
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <ActionButton
               active={true}
-              autoInactive={true}
+              autoInactive={false}
               degrees={0}
               radius={130}
+              buttonColor="rgba(0, 0, 0, 0)"
+              btnOutRange="rgba(0, 0, 0, 0)"
               outRangeScale={0.8}
-              onPress={() =>
-                this.props.navigation.navigate("AvatarGenerator", {
+              onLongPress={() => {
+                navigation.navigate('AvatarGenerator', {
                   user: user,
-                  buttonSet: "UserButtons",
+                  buttonSet: 'UserButtons',
                   mood: mood
-                })
-              }
+                });
+              }}
               icon={
                 <View>
                   <Avatar
@@ -85,23 +87,29 @@ class Family extends Component {
                       uri: `${user.imgUrl}`
                     }}
                     title={user.firstName}
+                    onPress={() => {
+                      navigation.navigate('AvatarGenerator', {
+                        user: user,
+                        buttonSet: 'UserButtons',
+                        mood: mood
+                      });
+                    }}
                   />
-                  <Badge
+                  {/* <Badge
                     containerStyle={{
-                      position: "relative",
-                      top: -18
+                      position: 'relative'
                     }}
                     badgeStyle={{
                       backgroundColor: moodColor,
                       paddingHorizontal: 10,
-                      borderColor: "transparent"
+                      borderColor: 'transparent'
                     }}
-                    // value={
-                    //   <Text style={{ fontSize: 12, color: "white" }}>
-                    //     {`${moodText}`} mood
-                    //   </Text>
-                    // }
-                  />
+                    value={
+                      <Text style={{ fontSize: 12, color: "white" }}>
+                        {`${moodText}`} mood
+                      </Text>
+                    }
+                  /> */}
                 </View>
               }
             >
@@ -132,17 +140,17 @@ class Family extends Component {
                         }}
                         title={person.firstName}
                         onPress={() =>
-                          this.props.navigation.navigate("AvatarGenerator", {
+                          navigation.navigate('AvatarGenerator', {
                             user: person,
                             buttonSet:
                               person.age > 18
-                                ? "RelativeButtons"
-                                : "ChildButtons",
+                                ? 'RelativeButtons'
+                                : 'ChildButtons',
                             mood: person.moods.find(m => m.active)
                           })
                         }
                         onLongPress={() =>
-                          this.props.navigation.navigate("TwoUp", {
+                          navigation.navigate('TwoUp', {
                             relative: person
                           })
                         }
