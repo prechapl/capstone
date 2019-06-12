@@ -18,6 +18,8 @@ import AddEvent from "./AddEvent";
 import SingleEventAssigned from "./SingleEventAssigned";
 import AvatarGenerator from "./AvatarGenerator";
 import TwoUp from "./TwoUp";
+import GeoLocation from "./GeoLocation";
+import Mapper from "./Mapper";
 
 const AuthNavigator = createStackNavigator({
   Login: Login,
@@ -60,7 +62,9 @@ const UserNavigator = createStackNavigator(
 
 const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
-  User: UserNavigator
+  User: UserNavigator,
+  Location: GeoLocation,
+  Map: Mapper
 });
 
 const AppContainer = createAppContainer(RootNavigator);
