@@ -57,7 +57,7 @@ class AvatarGenerator extends Component {
           <ActionButton
             active={true}
             degrees={360}
-            radius={140}
+            radius={150}
             outRangeScale={1}
             buttonColor="transparent"
             icon={
@@ -74,7 +74,7 @@ class AvatarGenerator extends Component {
                   }}
                   title={user.firstName}
                 />
-                <Badge
+                {/* <Badge
                   containerStyle={{
                     position: 'relative',
                     top: -18
@@ -89,7 +89,7 @@ class AvatarGenerator extends Component {
                       {`${moodText}`} mood
                     </Text>
                   }
-                />
+                /> */}
               </View>
             }
           >
@@ -106,9 +106,12 @@ class AvatarGenerator extends Component {
                   <View
                     style={{
                       width: button.width,
+                      height: button.height,
                       backgroundColor: button.color,
-
-                      position: 'absolute'
+                      borderRadius: 40,
+                      position: 'relative',
+                      paddingStart: 14,
+                      paddingTop: 13
                     }}
                   >
                     <Text style={styles.text}>{button.title}</Text>
@@ -127,8 +130,12 @@ class AvatarGenerator extends Component {
                     style={{
                       width: button.width,
                       backgroundColor: button.color,
-
-                      position: 'absolute'
+                      height: button.height,
+                      borderRadius: 40,
+                      position: 'relative',
+                      paddingStart: 14,
+                      paddingTop: 12
+                      // paddingBottom: 1,
                     }}
                   >
                     <Text style={styles.text}>{button.title}</Text>
@@ -148,25 +155,32 @@ const buttons = {
     {
       title: 'Mood',
       color: '#FF9900',
-      width: 62,
+      width: 80,
+      height: 50,
+      // width: 62,
       componentToNest: <Mood />
     },
     {
       title: 'Family',
       color: '#8EB51A',
-      width: 66,
+      width: 82,
+      height: 50,
       componentToNest: <Family />
     },
     {
       title: 'Events',
       color: '#EF5029',
-      width: 68,
+      width: 85,
+      height: 50,
       componentToNest: <Events />
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
-      width: 53,
+      width: 72,
+      height: 50,
+      // width: 63,
+      // height: 50,
       componentToNest: <AllPolls />
     }
   ],
@@ -174,19 +188,22 @@ const buttons = {
     {
       title: 'Family',
       color: '#8EB51A',
-      width: 66,
+      width: 82,
+      height: 50,
       componentToNest: <Family />
     },
     {
       title: 'Events',
       color: '#EF5029',
-      width: 68,
+      width: 85,
+      height: 50,
       componentToNest: <Events />
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
-      width: 53,
+      width: 72,
+      height: 50,
       componentToNest: <AllPolls />
     }
   ],
@@ -194,19 +211,22 @@ const buttons = {
     {
       title: 'Family',
       color: '#8EB51A',
-      width: 66,
+      width: 82,
+      height: 50,
       componentToNest: <Family />
     },
     {
       title: 'Events',
       color: '#EF5029',
-      width: 68,
+      width: 85,
+      height: 50,
       componentToNest: <Events />
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
-      width: 53,
+      width: 72,
+      height: 50,
       componentToNest: <AllPolls />
     },
     {
@@ -232,10 +252,10 @@ const buttons = {
 
 const styles = StyleSheet.create({
   text: {
-    paddingStart: 5,
-    paddingTop: 0,
-    paddingBottom: 1,
-    marginBottom: 1,
+    // paddingStart: 5,
+    // paddingTop: 0,
+    // paddingBottom: 1,
+    // marginBottom: 1,
     color: 'white',
     fontSize: 20
   }

@@ -35,10 +35,10 @@ class GeoLocation extends Component {
       const longDelta =
         accuracy /
         (oneDegreeOfLatitudeInMeters * Math.cos(latitude * (Math.PI / 180)));
-      console.log(location.coords.latitude);
-      console.log(location.coords.longitude);
-      console.log(latDelta);
-      console.log(longDelta);
+      console.log('latitude', location.coords.latitude);
+      console.log('longitude', location.coords.longitude);
+      console.log('latitudeDelta', latDelta);
+      console.log('longitudeDelta', longDelta);
 
       return (
         <MapView

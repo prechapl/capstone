@@ -63,10 +63,10 @@ class Family extends Component {
               active={true}
               autoInactive={false}
               degrees={0}
-              radius={130}
+              radius={140}
               buttonColor="rgba(0, 0, 0, 0)"
               btnOutRange="rgba(0, 0, 0, 0)"
-              outRangeScale={0.8}
+              outRangeScale={1}
               onLongPress={() => {
                 navigation.navigate('AvatarGenerator', {
                   user: user,
@@ -134,7 +134,7 @@ class Family extends Component {
                           borderWidth: 5,
                           borderColor: personMoodColor
                         }}
-                        size={100}
+                        size={110}
                         source={{
                           uri: `${person.imgUrl}`
                         }}
