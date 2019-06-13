@@ -63,7 +63,7 @@ class Family extends Component {
               active={true}
               autoInactive={false}
               degrees={0}
-              radius={140}
+              radius={135}
               buttonColor="rgba(0, 0, 0, 0)"
               btnOutRange="rgba(0, 0, 0, 0)"
               outRangeScale={1}
@@ -79,7 +79,7 @@ class Family extends Component {
                   <Avatar
                     rounded
                     overlayContainerStyle={{
-                      borderWidth: 5,
+                      borderWidth: 7,
                       borderColor: moodColor
                     }}
                     size={120}
@@ -131,10 +131,10 @@ class Family extends Component {
                       <Avatar
                         rounded
                         overlayContainerStyle={{
-                          borderWidth: 5,
+                          borderWidth: 7,
                           borderColor: personMoodColor
                         }}
-                        size={110}
+                        size={100}
                         source={{
                           uri: `${person.imgUrl}`
                         }}

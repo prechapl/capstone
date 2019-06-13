@@ -57,7 +57,7 @@ class AvatarGenerator extends Component {
           <ActionButton
             active={true}
             degrees={360}
-            radius={150}
+            radius={146}
             outRangeScale={1}
             buttonColor="transparent"
             icon={
@@ -65,10 +65,10 @@ class AvatarGenerator extends Component {
                 <Avatar
                   rounded
                   overlayContainerStyle={{
-                    borderWidth: 5,
+                    borderWidth: 7,
                     borderColor: moodColor
                   }}
-                  size={165}
+                  size={160}
                   source={{
                     uri: `${user.imgUrl}`
                   }}
@@ -163,21 +163,21 @@ const buttons = {
     {
       title: 'Family',
       color: '#8EB51A',
-      width: 82,
+      width: 83,
       height: 50,
       componentToNest: <Family />
     },
     {
       title: 'Events',
       color: '#EF5029',
-      width: 85,
+      width: 87,
       height: 50,
       componentToNest: <Events />
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
-      width: 72,
+      width: 70,
       height: 50,
       // width: 63,
       // height: 50,
@@ -188,63 +188,67 @@ const buttons = {
     {
       title: 'Family',
       color: '#8EB51A',
-      width: 82,
+      width: 83,
       height: 50,
       componentToNest: <Family />
     },
     {
       title: 'Events',
       color: '#EF5029',
-      width: 85,
+      width: 87,
       height: 50,
       componentToNest: <Events />
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
-      width: 72,
+      width: 70,
       height: 50,
       componentToNest: <AllPolls />
     }
   ],
   ChildButtons: [
     {
-      title: 'Family',
-      color: '#8EB51A',
-      width: 82,
+      title: 'Location',
+      color: '#AD0978',
+      width: 99,
       height: 50,
-      componentToNest: <Family />
+      componentToNest: null
     },
+
     {
       title: 'Events',
       color: '#EF5029',
-      width: 85,
+      width: 87,
       height: 50,
       componentToNest: <Events />
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
-      width: 72,
+      width: 70,
       height: 50,
       componentToNest: <AllPolls />
     },
     {
-      title: 'Location',
-      color: '#AD0978',
-      width: 84,
-      componentToNest: null
+      title: 'Family',
+      color: '#8EB51A',
+      width: 83,
+      height: 50,
+      componentToNest: <Family />
     },
     {
       title: 'Goals',
       color: '#1500FA',
-      width: 61,
+      width: 78,
+      height: 50,
       componentToNest: null
     },
     {
       title: 'Records',
       color: '#E0BF00',
-      width: 82,
+      width: 98,
+      height: 50,
       componentToNest: null
     }
   ]
@@ -252,10 +256,6 @@ const buttons = {
 
 const styles = StyleSheet.create({
   text: {
-    // paddingStart: 5,
-    // paddingTop: 0,
-    // paddingBottom: 1,
-    // marginBottom: 1,
     color: 'white',
     fontSize: 20
   }
