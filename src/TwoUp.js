@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Picker, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { getActiveMood } from './store/mood';
 import { fetchFamilyMembers } from './store/family';
@@ -11,6 +11,9 @@ import { findMoodColor } from './HelperFunctions';
 class TwoUp extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      display: ''
+    };
   }
 
   componentDidMount() {
@@ -78,7 +81,7 @@ class TwoUp extends Component {
               justifyContent: 'space-around',
               alignItems: 'center',
               paddingTop: 50,
-              paddingHorizontal: 30
+              paddingHorizontal: 10
             }}
           >
             <Avatar
@@ -93,7 +96,18 @@ class TwoUp extends Component {
               }}
               title={user.firstName}
             />
-            {this.generateStatusMeter(relationship.status)}
+
+            <Picker
+              selectedValue={this.state.display}
+              style={{ height: 100, width: 100, marginBottom: 100 }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({ display: itemValue })
+              }
+            >
+              <Picker.Item label="Status" value="Status" />
+              <Picker.Item label="Events" value="Events" />
+              <Picker.Item label="Polls" value="Polls" />
+            </Picker>
 
             <Avatar
               rounded
@@ -112,9 +126,14 @@ class TwoUp extends Component {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              paddingTop: 100
             }}
-          />
+          >
+            {this.state.display === 'Status'
+              ? this.generateStatusMeter(relationship.status)
+              : null}
+          </View>
         </View>
       );
     } else {

@@ -30,7 +30,7 @@ class AvatarGenerator extends Component {
     const buttonSet = navigation.getParam('buttonSet');
     const componentToNest = navigation.getParam('nestComponent');
     const moodColor = findMoodColor(mood.value);
-    const moodText = findMoodText(mood.value);
+    // const moodText = findMoodText(mood.value);
 
     return (
       <View
