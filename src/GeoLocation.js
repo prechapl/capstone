@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Alert, View, StyleSheet } from "react-native";
-import { MapView } from "expo";
+import React, { Component } from 'react';
+import { Alert } from 'react-native';
+import { MapView } from 'expo';
 
 class GeoLocation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: null
+      location: { coords: null }
     };
   }
 
@@ -17,69 +17,60 @@ class GeoLocation extends Component {
   findCoordinates = () => {
     navigator.geolocation.getCurrentPosition(
       position => {
-        const location = JSON.stringify(position);
+        // const location = JSON.stringify(position);
+        const location = position;
 
-        this.setState({ location });
+        this.setState({ location: location });
       },
       error => Alert.alert(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 5000 }
     );
   };
 
-  calDelta = (lat, accuracy) => {
-    lat = this.state.location.coords.latitude;
-    accuracy = this.state.location.coords.accuracy;
-    const oneDegreeOfLatitudeInMeters = 111.32 * 1000;
-    const latDelta = accuracy / oneDegreeOfLatitudeInMeters;
-    const longDelta =
-      accuracy /
-      (oneDegreeOfLatitudeInMeters * Math.cos(lat * (Math.PI / 180)));
+  // calDelta = (lat, accuracy) => {
+  //   const oneDegreeOfLatitudeInMeters = 111.32 * 1000;
+  //   const latDelta = accuracy / oneDegreeOfLatitudeInMeters;
+  //   const longDelta =
+  //     accuracy /
+  //     (oneDegreeOfLatitudeInMeters * Math.cos(lat * (Math.PI / 180)));
 
-    return {
-      latitudeDelta: latDelta,
-      longitudeDelta: longDelta
-    };
-  };
+  //   this.setState({
+  //     delta: { latitudeDelta: latDelta, longitudeDelta: longDelta }
+  //   });
+  // };
 
   render() {
-    // console.log(this.state.location);
-    console.log(this.calDelta().latitudeDelta);
+    const location = this.state.location;
 
-    return (
-      <View style={styles.container}>
-        {this.state.location !== null ? (
-          <MapView
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-            initialRegion={{
-              latitude: this.state.location.coords.latitude,
-              longitude: this.state.location.coords.longitude,
-              latitudeDelta: this.calDelta().latitudeDelta,
-              longitudeDelta: this.calDelta().longitudeDelta
-            }}
-          />
-        ) : null}
-      </View>
-    );
+    if (location.coords !== null) {
+      const accuracy = location.coords.accuracy;
+      const latitude = location.coords.latitude;
+
+      const oneDegreeOfLatitudeInMeters = 111.32 * 1000;
+      const latDelta = accuracy / oneDegreeOfLatitudeInMeters;
+      const longDelta =
+        accuracy /
+        (oneDegreeOfLatitudeInMeters * Math.cos(latitude * (Math.PI / 180)));
+      console.log(latDelta);
+      console.log(longDelta);
+      console.log(location.coords.latitude);
+      console.log(location.coords.longitude);
+
+      return (
+        <MapView
+          style={{ flex: 1 }}
+          initialRegion={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: latDelta,
+            longitudeDelta: longDelta
+          }}
+        />
+      );
+    } else {
+      return null;
+    }
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
-  }
-});
 
 export default GeoLocation;
