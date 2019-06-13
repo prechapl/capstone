@@ -62,10 +62,10 @@ class Family extends Component {
               active={true}
               autoInactive={false}
               degrees={0}
-              radius={130}
+              radius={135}
               buttonColor="rgba(0, 0, 0, 0)"
               btnOutRange="rgba(0, 0, 0, 0)"
-              outRangeScale={0.8}
+              outRangeScale={1}
               onLongPress={() => {
                 navigation.navigate('AvatarGenerator', {
                   user: user,
@@ -74,25 +74,27 @@ class Family extends Component {
                 });
               }}
               icon={
-                <Avatar
-                  rounded
-                  overlayContainerStyle={{
-                    borderWidth: 5,
-                    borderColor: moodColor
-                  }}
-                  size={120}
-                  source={{
-                    uri: `${user.imgUrl}`
-                  }}
-                  title={user.firstName}
-                  onPress={() => {
-                    navigation.navigate('AvatarGenerator', {
-                      user: user,
-                      buttonSet: 'UserButtons',
-                      mood: mood
-                    });
-                  }}
-                />
+                <View>
+                  <Avatar
+                    rounded
+                    overlayContainerStyle={{
+                      borderWidth: 7,
+                      borderColor: moodColor
+                    }}
+                    size={120}
+                    source={{
+                      uri: `${user.imgUrl}`
+                    }}
+                    title={user.firstName}
+                    onPress={() => {
+                      navigation.navigate('AvatarGenerator', {
+                        user: user,
+                        buttonSet: 'UserButtons',
+                        mood: mood
+                      });
+                    }}
+                  />
+                </View>
               }
             >
               {family.map(person => {
@@ -106,7 +108,7 @@ class Family extends Component {
                       <Avatar
                         rounded
                         overlayContainerStyle={{
-                          borderWidth: 5,
+                          borderWidth: 7,
                           borderColor: personMoodColor
                         }}
                         size={100}
