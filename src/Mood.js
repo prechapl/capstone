@@ -55,7 +55,7 @@ class Mood extends React.Component {
           style={{
             width: 300,
             paddingTop: 50,
-            paddingBottom: 150,
+            paddingBottom: 230,
             justifyContent: 'center'
           }}
         >
