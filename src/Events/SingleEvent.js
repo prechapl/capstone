@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import { Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { goDeleteEvent, fetchAssignees, goUpdateEvent, invite } from './store/events';
+import { goDeleteEvent, fetchAssignees, goUpdateEvent, invite } from '../store/events';
 
 const styles = StyleSheet.create({
   container: {

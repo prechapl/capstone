@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Header, ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { fetchEvents, fetchAssigned } from './store/events';
+import { fetchEvents, fetchAssigned } from '../store/events';
 import { withNavigation } from 'react-navigation';
 
 class Events extends Component {

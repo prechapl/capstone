@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { goUpdateAssigned } from './store/events';
+import { goUpdateAssigned } from '../store/events';
 // import withNavigation from 'react-navigation';
 
 const SingleEventAssigned = props => {
