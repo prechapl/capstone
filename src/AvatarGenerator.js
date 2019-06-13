@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
-import { Avatar, Badge } from 'react-native-elements';
+import { Avatar } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import ActionButton from 'react-native-circular-action-menu';
-import { findMoodColor, findMoodText } from './HelperFunctions';
+import { findMoodColor } from './HelperFunctions';
 import AllPolls from './Polls/AllPolls';
 import Events from './Events/Events';
 import Mood from './Mood';
@@ -30,7 +30,6 @@ class AvatarGenerator extends Component {
     const buttonSet = navigation.getParam('buttonSet');
     const componentToNest = navigation.getParam('nestComponent');
     const moodColor = findMoodColor(mood.value);
-    const moodText = findMoodText(mood.value);
 
     return (
       <View
@@ -57,37 +56,22 @@ class AvatarGenerator extends Component {
           <ActionButton
             active={true}
             degrees={360}
-            radius={140}
+            radius={146}
             outRangeScale={1}
+            buttonColor="transparent"
             icon={
               <View>
                 <Avatar
                   rounded
                   overlayContainerStyle={{
-                    borderWidth: 5,
+                    borderWidth: 7,
                     borderColor: moodColor
                   }}
-                  size={165}
+                  size={160}
                   source={{
                     uri: `${user.imgUrl}`
                   }}
                   title={user.firstName}
-                />
-                <Badge
-                  containerStyle={{
-                    position: 'relative',
-                    top: -18
-                  }}
-                  badgeStyle={{
-                    backgroundColor: moodColor,
-                    paddingHorizontal: 10,
-                    borderColor: 'transparent'
-                  }}
-                  value={
-                    <Text style={{ fontSize: 12, color: 'white' }}>
-                      {`${moodText}`} mood
-                    </Text>
-                  }
                 />
               </View>
             }
@@ -105,9 +89,12 @@ class AvatarGenerator extends Component {
                   <View
                     style={{
                       width: button.width,
+                      height: button.height,
                       backgroundColor: button.color,
-
-                      position: 'absolute'
+                      borderRadius: 40,
+                      position: 'relative',
+                      paddingStart: 14,
+                      paddingTop: 13
                     }}
                   >
                     <Text style={styles.text}>{button.title}</Text>
@@ -126,11 +113,23 @@ class AvatarGenerator extends Component {
                       style={{
                         width: button.width,
                         backgroundColor: button.color,
-
-                        position: 'absolute'
+                        height: button.height,
+                        borderRadius: 40,
+                        position: 'relative',
+                        paddingStart: 14,
+                        paddingTop: 12
                       }}
                     >
-                      <Text style={styles.text}>{button.title}</Text>
+                      <View
+                        style={{
+                          width: button.width,
+                          backgroundColor: button.color,
+
+                          position: 'absolute'
+                        }}
+                      >
+                        <Text style={styles.text}>{button.title}</Text>
+                      </View>
                     </View>
                   </ActionButton.Item>
                 );
@@ -147,25 +146,29 @@ const buttons = {
     {
       title: 'Mood',
       color: '#FF9900',
-      width: 62,
+      width: 80,
+      height: 50,
       componentToNest: <Mood />
     },
     {
       title: 'Family',
       color: '#8EB51A',
-      width: 66,
+      width: 83,
+      height: 50,
       componentToNest: <Family />
     },
     {
       title: 'Events',
       color: '#EF5029',
-      width: 68,
+      width: 87,
+      height: 50,
       componentToNest: <Events />
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
-      width: 53,
+      width: 70,
+      height: 50,
       componentToNest: <AllPolls />
     }
   ],
@@ -173,57 +176,67 @@ const buttons = {
     {
       title: 'Family',
       color: '#8EB51A',
-      width: 66,
+      width: 83,
+      height: 50,
       componentToNest: <Family />
     },
     {
       title: 'Events',
       color: '#EF5029',
-      width: 68,
+      width: 87,
+      height: 50,
       componentToNest: <Events />
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
-      width: 53,
+      width: 70,
+      height: 50,
       componentToNest: <AllPolls />
     }
   ],
   ChildButtons: [
     {
-      title: 'Family',
-      color: '#8EB51A',
-      width: 66,
-      componentToNest: <Family />
+      title: 'Location',
+      color: '#AD0978',
+      width: 99,
+      height: 50,
+      componentToNest: null
     },
+
     {
       title: 'Events',
       color: '#EF5029',
-      width: 68,
+      width: 87,
+      height: 50,
       componentToNest: <Events />
     },
     {
       title: 'Polls',
       color: '#7DC6CD',
-      width: 53,
+      width: 70,
+      height: 50,
       componentToNest: <AllPolls />
     },
     {
-      title: 'Location',
-      color: '#AD0978',
-      width: 84,
-      componentToNest: null
+      title: 'Family',
+      color: '#8EB51A',
+      width: 83,
+      height: 50,
+      componentToNest: <Family />
     },
     {
       title: 'Goals',
       color: '#1500FA',
-      width: 61,
+      width: 78,
+      height: 50,
       componentToNest: null
     },
     {
       title: 'Records',
       color: '#E0BF00',
-      width: 82,
+      width: 98,
+      height: 50,
       componentToNest: null
     }
   ]
@@ -231,10 +244,6 @@ const buttons = {
 
 const styles = StyleSheet.create({
   text: {
-    paddingStart: 5,
-    paddingTop: 0,
-    paddingBottom: 1,
-    marginBottom: 1,
     color: 'white',
     fontSize: 20
   }
