@@ -52,11 +52,16 @@ class VotePoll extends React.Component {
       userId: '',
       choiceId: '',
       selectedOption: '',
-      pollId: ''
+      pollId: '',
+      familyId: ''
     };
   }
   componentDidMount() {
-    this.setState({ userId: this.props.user.id, pollId: this.props.pollId });
+    this.setState({
+      userId: this.props.user.id,
+      pollId: this.props.pollId,
+      familyId: this.props.user.familyId
+    });
   }
 
   handleSubmit = () => {
@@ -64,7 +69,7 @@ class VotePoll extends React.Component {
   };
 
   handleDelete = () => {
-    this.props.deletePoll(this.state.pollId);
+    this.props.deletePoll(this.state.pollId, this.state.familyId);
     this.props.navigation.navigate('Polls');
   };
 
@@ -144,7 +149,7 @@ class VotePoll extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     castVote: (id, vote) => dispatch(castVoteThunk(id, vote)),
-    deletePoll: id => dispatch(deletePollThunk(id))
+    deletePoll: (id, familyId) => dispatch(deletePollThunk(id, familyId))
   };
 };
 

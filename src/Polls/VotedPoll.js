@@ -2,8 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import {
-  fetchChoices,
-  fetchVotes,
   deletePollThunk,
   changeVoteThunk,
   updatePollStatusThunk
@@ -38,16 +36,16 @@ class VotedPoll extends React.Component {
     this.state = {
       userId: '',
       pollId: '',
-      status: ''
+      status: '',
+      familyId: ''
     };
   }
   componentDidMount() {
-    this.props.fetchChoices(this.state.pollId);
-    this.props.fetchVotes(this.state.pollId);
     this.setState({
       userId: this.props.user.id,
       pollId: this.props.pollId,
-      status: this.props.status
+      status: this.props.status,
+      familyId: this.props.user.familyId
     });
   }
 
@@ -56,7 +54,7 @@ class VotedPoll extends React.Component {
   };
 
   handleDelete = () => {
-    this.props.deletePoll(this.state.pollId);
+    this.props.deletePoll(this.state.pollId, this.state.familyId);
     this.props.navigation.navigate('Polls');
   };
 
@@ -163,9 +161,7 @@ class VotedPoll extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchChoices: id => dispatch(fetchChoices(id)),
-    fetchVotes: id => dispatch(fetchVotes(id)),
-    deletePoll: id => dispatch(deletePollThunk(id)),
+    deletePoll: (id, familyId) => dispatch(deletePollThunk(id, familyId)),
     changeVote: (pollId, voteId) => dispatch(changeVoteThunk(pollId, voteId)),
     changeStatus: (pollId, status) =>
       dispatch(updatePollStatusThunk(pollId, status))
