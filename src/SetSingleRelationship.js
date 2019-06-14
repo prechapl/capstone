@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import { updateRelationshipType, fetchRelated } from './store/users';
+import { updateRelationshipType, fetchUserRelationships } from './store/users';
+import console from 'console';
 
 class SetSingleRelationship extends Component {
   constructor({ relative }) {
@@ -17,14 +18,16 @@ class SetSingleRelationship extends Component {
       type: relative.type,
     };
   }
-  handleSubmit() {
+  handleSubmit = () => {
     const { relative } = this.props;
     updateRelationshipType(
       relative.userId,
       relative.RelationshipId,
       this.state.type
-    ).then(() => this.props.fetchRelated(this.state.relative.userId));
-  }
+    )
+      .then(() => this.props.fetchUserRelationships(relative.userId))
+      .catch(e => console.log(e));
+  };
   render() {
     const { relative } = this.props;
     return (
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRelated: id => dispatch(fetchRelated(id)),
+  fetchUserRelationships: id => dispatch(fetchUserRelationships(id)),
 });
 
 export default connect(

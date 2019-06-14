@@ -10,56 +10,58 @@ import {
 } from 'react-native';
 import { fetchUserRelationships } from './store/users';
 import { fetchFamilyMembers } from './store/family';
-import { SetSingleRelationship } from './SetSingleRelationship';
+import SetSingleRelationship from './SetSingleRelationship';
 import console from 'console';
 
 class SetAllRelationships extends Component {
   constructor() {
     super();
     this.state = {
-      relatives: 'HELLO',
+      relatives: [],
     };
   }
-  load() {
-    const { user, userRelationships, familyMembers } = this.props;
-    if (user) {
-      this.props.fetchFamilyMembers(user.familyId);
-      this.props.fetchUserRelationships(user.id);
-    }
-    if (userRelationships && familyMembers) {
-      const relationships = userRelationships.filter(
-        _relationship => _relationship.userId === user.id
+  load = async () => {
+    await this.props.fetchFamilyMembers(this.props.user.familyId);
+    await this.props.fetchUserRelationships(
+      this.props.user.fetchUserRelationships
+    );
+    const members = this.props.familyMembers.filter(
+      member => member.id !== this.props.user.id
+    );
+    const relatives = members.map(member => {
+      const relationship = this.props.userRelationships.find(
+        _relationship => _relationship.RelationshipId === member.id
       );
-      const relatives = relationships.map(_relationship => {
-        const member = familyMembers.find(
-          _member => _member.id === _relationship.RelationshipId
-        );
-        return {
-          RelationshipId: _relationship.RelationshipId,
-          userId: user.id,
-          firstName: member.firstName,
-          lastName: member.lastName,
-          type: _relationship.type,
-        };
-      });
-      this.setState({ relatives });
-    }
-  }
+      return {
+        id: relationship.id,
+        userId: this.props.user.id,
+        RelationshipId: relationship.RelationshipId,
+        firstName: member.firstName,
+        lastName: member.lastName,
+        type: relationship.type,
+      };
+    });
+    this.setState({ relatives });
+  };
   componentDidMount() {
     this.load();
   }
-  // componentDidUpdate(prevProps) {
-  //   if (
-  //     prevProps.userRelationships !== this.props.userRelationships ||
-  //     prevProps.familyMembers !== this.props.familyMembers
-  //   )
-  //     this.load();
+  // componentDidUpdate() {
+  //   this.load();
   // }
+  goToFamily = () => {
+    this.props.navigation.navigate('Family');
+  };
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.container}>
-          <Text style={styles.header2}>{this.state.relatives}</Text>
+          {this.state.relatives.map(relative => (
+            <SetSingleRelationship key={relative.id} relative={relative} />
+          ))}
+          <TouchableOpacity style={styles.button} onPress={this.goToFamily}>
+            <Text style={styles.buttonText}>Family</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     );
