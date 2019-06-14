@@ -116,6 +116,21 @@ const fetchUserPolls = id => {
   };
 };
 
+const updateRelationshipStatus = (userId, relationshipId, diff) => {
+  return dispatch => {
+    return axios
+      .put(`https://capstone-api-server.herokuapp.com/api/users/${userId}`, {
+        relationshipId,
+        diff
+      })
+      .then((rel) => {
+        console.log(rel);
+        return dispatch(fetchUserRelationships)
+      })
+      .catch(er => console.log(er))
+  }
+}
+
 //REDUCERS
 
 const usersReducer = (state = [], action) => {
@@ -168,4 +183,5 @@ export {
   usersReducer,
   userRelationshipsReducer,
   userPollsReducer,
+  updateRelationshipStatus
 };

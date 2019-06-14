@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { goCreateEvent } from '../store/events';
+import { withNavigation } from 'react-navigation';
 
 
 class AddEvent extends Component {
@@ -34,7 +35,14 @@ class AddEvent extends Component {
     if (!newEvent.description.length) delete newEvent.description;
     newEvent.ownerId = id;
     this.props.saveEvent(newEvent);
-    this.props.navigation.navigate('Events');
+    this.setState({
+      title: '',
+      category: 'event',
+      description: '',
+      showDatePicker: false,
+      showCatPicker: false
+    });
+    this.props.navigation.pop();
   }
   toggleDatePicker = () => {
     this.setState({ showDatePicker: !this.state.showDatePicker });
@@ -52,11 +60,13 @@ class AddEvent extends Component {
             <TextInput
               onChangeText={title => this.setState({ title })}
               style={styles.input}
+              value={this.state.title}
             />
             <Text>Description</Text>
             <TextInput
               onChangeText={description => this.setState({ description })}
               style={styles.input}
+              value={this.state.description}
             />
             {this.state.deadline ? (
               <Text>
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(
+export default withNavigation(connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddEvent);
+)(AddEvent));
