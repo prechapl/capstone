@@ -121,16 +121,7 @@ class AvatarGenerator extends Component {
                       paddingTop: 12
                     }}
                   >
-                    <View
-                      style={{
-                        width: button.width,
-                        backgroundColor: button.color,
-
-                        position: "absolute"
-                      }}
-                    >
-                      <Text style={styles.text}>{button.title}</Text>
-                    </View>
+                    <Text style={styles.text}>{button.title}</Text>
                   </View>
                 </ActionButton.Item>
               );

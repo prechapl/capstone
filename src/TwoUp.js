@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { findMoodColor } from "./HelperFunctions";
 import AllPolls from "./Polls/AllPolls";
-import Events from "./Events";
+import Events from "./Events/Events";
 
 class TwoUp extends Component {
   constructor(props) {
