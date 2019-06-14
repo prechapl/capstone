@@ -30,12 +30,9 @@ class SignUp extends Component {
   }
 
   handleSubmit = userData => {
-    signUp(userData)
+    return signUp(userData)
       .then(() => this.props.getAuthedUser())
-      .then(() => {
-        this.props.navigation.navigate('Family');
-        this.setState({ page: 1 });
-      });
+      .then(() => this.setState({ page: 1 }));
   };
 
   joinFamily = () => {
@@ -48,7 +45,9 @@ class SignUp extends Component {
       imgUrl: this.state.imgUrl,
       familyCode: this.state.familyCode,
     };
-    this.handleSubmit(userData);
+    this.handleSubmit(userData).then(() =>
+      this.props.navigation.navigate('SetAllRelationships')
+    );
   };
 
   createFamily = () => {
@@ -64,7 +63,9 @@ class SignUp extends Component {
         name: this.state.newFamilyName,
       },
     };
-    this.handleSubmit(userData);
+    this.handleSubmit(userData).then(() =>
+      this.props.navigation.navigate('Family')
+    );
   };
 
   nextPage = () => {

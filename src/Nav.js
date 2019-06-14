@@ -1,7 +1,7 @@
 import {
   createBottomTabNavigator,
   createStackNavigator,
-  createAppContainer
+  createAppContainer,
 } from 'react-navigation';
 import { Easing, Animated } from 'react-native';
 import Family from './Family';
@@ -19,17 +19,19 @@ import SingleEventAssigned from './Events/SingleEventAssigned';
 import AvatarGenerator from './AvatarGenerator';
 import TwoUp from './TwoUp';
 import GeoLocation from './GeoLocation';
+import SetAllRelationships from './SetAllRelationships';
+import SetSingleRelationship from './SetSingleRelationship';
 
 const AuthNavigator = createStackNavigator({
   Login: Login,
   SignUp: SignUp,
-  ForgotPassword: ForgotPassword
+  ForgotPassword: ForgotPassword,
 });
 
 const UserNavigator = createStackNavigator(
   {
     Family: {
-      screen: Family
+      screen: Family,
     },
     Mood: { screen: Mood },
     Events: { screen: Events },
@@ -40,29 +42,31 @@ const UserNavigator = createStackNavigator(
     Poll: { screen: SinglePoll },
     CreatePoll: { screen: CreatePoll },
     AvatarGenerator: {
-      screen: AvatarGenerator
+      screen: AvatarGenerator,
     },
-    TwoUp: { screen: TwoUp }
+    TwoUp: { screen: TwoUp },
+    SetAllRelationships: { screen: SetAllRelationships },
+    SetSingleRelationship: { screen: SetSingleRelationship },
   },
   {
     NavigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: false,
     },
 
     transitionConfig: () => ({
       transitionSpec: {
         duration: 0,
         easing: Easing.out(Easing.poly(4)),
-        timing: Animated.timing
-      }
-    })
+        timing: Animated.timing,
+      },
+    }),
   }
 );
 
 const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
   User: UserNavigator,
-  Location: GeoLocation
+  Location: GeoLocation,
 });
 
 const AppContainer = createAppContainer(RootNavigator);
