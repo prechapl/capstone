@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center'
   }
-})
+});
 
 class Events extends Component {
   constructor() {
@@ -34,8 +34,12 @@ class Events extends Component {
     let events;
     if (this.props.events.length) {
       this.state.selection === 'MY EVENTS'
-        ? (events = this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)))
-        : (events = this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)));
+        ? (events = this.props.events.sort(
+            (a, b) => new Date(a.deadline) - new Date(b.deadline)
+          ))
+        : (events = this.props.assignedEvents.sort(
+            (a, b) => new Date(a.deadline) - new Date(b.deadline)
+          ));
     }
 
     const colorMap = {
@@ -60,13 +64,14 @@ class Events extends Component {
             if (this.state.selection === 'MY EVENTS') {
               this.setState({ selection: 'ASSIGNED' });
             } else {
-              this.setState({ selection: 'MY EVENTS' })
+              this.setState({ selection: 'MY EVENTS' });
             }
           }}
         >
-          <Text
-            style={styles.buttonText}>
-            {this.state.selection === 'MY EVENTS' ? 'see events assigned to me' : 'see events created by me'}
+          <Text style={styles.buttonText}>
+            {this.state.selection === 'MY EVENTS'
+              ? 'see events assigned to me'
+              : 'see events created by me'}
           </Text>
         </TouchableOpacity>
 
@@ -100,7 +105,7 @@ class Events extends Component {
           }
         /> */}
         <View />
-        {events ? (
+        {this.props.events.length ? (
           <View>
             {events.map((event, i) => {
               return (
@@ -134,8 +139,8 @@ class Events extends Component {
             })}
           </View>
         ) : (
-            <Text>You do not have any events.</Text>
-          )}
+          <Text>You do not have any events.</Text>
+        )}
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('AddEvent')}
         >
