@@ -31,20 +31,20 @@ class SetSingleRelationship extends Component {
   render() {
     const { relative } = this.props;
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View key={relative.id} style={{ flexDirection: 'row' }}>
-          <Text>{`${relative.firstName} ${relative.lastName}`}</Text>
-          <TextInput
-            value={this.state.type}
-            style={styles.input}
-            placeholder={this.state.type}
-            onChangeText={type => this.setState({ type })}
-          />
-          <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
-            <Text style={styles.buttonText}>Update</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+      <View key={relative.id} style={styles.row}>
+        <Text style={styles.text}>{`${relative.firstName} ${
+          relative.lastName
+        }`}</Text>
+        <TextInput
+          value={this.state.type}
+          style={styles.input}
+          placeholder={this.state.type}
+          onChangeText={type => this.setState({ type })}
+        />
+        <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
+          <Text style={styles.buttonText}>Update</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -56,15 +56,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  row: {
+    flexDirection: 'row',
+  },
   input: {
     height: 40,
     backgroundColor: '#D3D3D4',
-    marginBottom: 20,
     width: 100,
     paddingHorizontal: 10,
+    margin: 10,
   },
+
+  text: {
+    height: 40,
+    width: 100,
+    paddingHorizontal: 10,
+    margin: 10,
+  },
+
   button: {
     backgroundColor: '#448AE6',
+    alignItems: 'center',
     padding: 10,
     width: 100,
     margin: 10,
