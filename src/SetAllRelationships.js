@@ -38,7 +38,9 @@ class SetAllRelationships extends Component {
         RelationshipId: relationship.RelationshipId,
         firstName: member.firstName,
         lastName: member.lastName,
+        mood: member.moods.find(_mood => _mood.active === true),
         type: relationship.type,
+        imgUrl: member.imgUrl,
       };
     });
     this.setState({ relatives });
@@ -57,11 +59,10 @@ class SetAllRelationships extends Component {
           {this.state.relatives.map(relative => (
             <SetSingleRelationship key={relative.id} relative={relative} />
           ))}
-          <View style={{ alignItems: 'center' }}>
-            <TouchableOpacity style={styles.button} onPress={this.goToFamily}>
-              <Text style={styles.buttonText}>Family</Text>
-            </TouchableOpacity>
-          </View>
+
+          <TouchableOpacity style={styles.button} onPress={this.goToFamily}>
+            <Text style={styles.buttonText}>Go to Family</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     );

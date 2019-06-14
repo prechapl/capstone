@@ -9,6 +9,8 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { updateRelationshipType, fetchUserRelationships } from './store/users';
+import { findMoodColor } from './HelperFunctions';
+import { Avatar } from 'react-native-elements';
 import console from 'console';
 
 class SetSingleRelationship extends Component {
@@ -32,6 +34,18 @@ class SetSingleRelationship extends Component {
     const { relative } = this.props;
     return (
       <View key={relative.id} style={styles.row}>
+        <Avatar
+          rounded
+          overlayContainerStyle={{
+            borderWidth: 5,
+            borderColor: findMoodColor(relative.mood.value),
+          }}
+          size={50}
+          source={{
+            uri: `${relative.imgUrl}`,
+          }}
+          title={relative.firstName}
+        />
         <Text style={styles.text}>{`${relative.firstName} ${
           relative.lastName
         }`}</Text>
