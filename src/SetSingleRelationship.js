@@ -32,11 +32,11 @@ class SetSingleRelationship extends Component {
     const { relative } = this.props;
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View key={relative.id}>
+        <View key={relative.id} style={{ flexDirection: 'row' }}>
           <Text>{`${relative.firstName} ${relative.lastName}`}</Text>
           <TextInput
-            style={styles.input}
             value={this.state.type}
+            style={styles.input}
             placeholder={this.state.type}
             onChangeText={type => this.setState({ type })}
           />
@@ -60,13 +60,13 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: '#D3D3D4',
     marginBottom: 20,
-    width: 300,
+    width: 100,
     paddingHorizontal: 10,
   },
   button: {
     backgroundColor: '#448AE6',
     padding: 10,
-    width: 300,
+    width: 100,
     margin: 10,
   },
   buttonText: {
