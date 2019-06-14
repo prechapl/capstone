@@ -45,7 +45,6 @@ class SingleEvent extends Component {
     };
   }
   componentDidMount() {
-    console.log("in the mounting single event")
     this.props.fetchAssignees(this.props.navigation.getParam('event').id);
   }
   invite = id => {

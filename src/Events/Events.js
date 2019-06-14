@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center'
+  },
+  button: {
+    margin: 10,
+    padding: 10
   }
 })
 
@@ -66,6 +70,7 @@ class Events extends Component {
       >
         <Text style={styles.header}>Events</Text>
         <TouchableOpacity
+          style={styles.button}
           onPress={() => {
             if (this.state.selection === 'MY EVENTS') {
               this.setState({ selection: 'ASSIGNED' });
@@ -116,9 +121,17 @@ class Events extends Component {
             })}
           </View>
         ) : (
-            <Text>You do not have any events.</Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 18,
+                margin: 10,
+              }}
+            >You do not have any events.
+            </Text>
           )}
         <TouchableOpacity
+          style={styles.button}
           onPress={() => this.props.navigation.navigate('AddEvent')}
         >
           <Text style={styles.buttonText}>Add a New Event</Text>
