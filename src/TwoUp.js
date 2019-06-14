@@ -1,16 +1,21 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import { getActiveMood } from './store/mood';
-import { fetchFamilyMembers } from './store/family';
-import { fetchUserRelationships } from './store/users';
-import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
-import { findMoodColor } from './HelperFunctions';
+import React, { Component } from "react";
+import { Picker, Text, View } from "react-native";
+import { Avatar } from "react-native-elements";
+import { getActiveMood } from "./store/mood";
+import { fetchFamilyMembers } from "./store/family";
+import { fetchUserRelationships } from "./store/users";
+import { connect } from "react-redux";
+import { withNavigation } from "react-navigation";
+import { findMoodColor } from "./HelperFunctions";
+import AllPolls from "./Polls/AllPolls";
+import Events from "./Events/Events";
 
 class TwoUp extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      display: "Status"
+    };
   }
 
   componentDidMount() {
@@ -24,22 +29,22 @@ class TwoUp extends Component {
 
   generateStatusMeter = value => {
     const colors = [
-      { hex: '#FF2A00', val: 0 },
-      { hex: '#E68200', val: 0.25 },
-      { hex: '#d4b21f', val: 0.5 },
-      { hex: '#64c300', val: 0.75 },
-      { hex: '#009510', val: 1 }
+      { hex: "#FF2A00", val: 0 },
+      { hex: "#E68200", val: 0.25 },
+      { hex: "#d4b21f", val: 0.5 },
+      { hex: "#64c300", val: 0.75 },
+      { hex: "#009510", val: 1 }
     ];
     return colors.map(color => {
-      let bgColor = color.val <= value ? color.hex : '#ffffff';
+      let bgColor = color.val <= value ? color.hex : "#ffffff";
       return (
         <View
           key={color.val}
           style={{
-            height: 25,
-            width: 25,
+            height: 75,
+            width: 75,
             backgroundColor: bgColor,
-            borderColor: 'black',
+            borderColor: "black",
             borderWidth: 1
           }}
         />
@@ -55,7 +60,8 @@ class TwoUp extends Component {
       familyMembers,
       userRelationships
     } = this.props;
-    const relative = navigation.getParam('relative');
+
+    const relative = navigation.getParam("relative");
 
     if (familyMembers.length && userRelationships.length) {
       const relationship = userRelationships.find(
@@ -74,11 +80,11 @@ class TwoUp extends Component {
         >
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'center',
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
               paddingTop: 50,
-              paddingHorizontal: 30
+              paddingHorizontal: 10
             }}
           >
             <Avatar
@@ -93,7 +99,18 @@ class TwoUp extends Component {
               }}
               title={user.firstName}
             />
-            {this.generateStatusMeter(relationship.status)}
+
+            <Picker
+              selectedValue={this.state.display}
+              style={{ height: 100, width: 100, marginBottom: 50 }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({ display: itemValue })
+              }
+            >
+              <Picker.Item label="Status" value="Status" />
+              <Picker.Item label="Events" value="Events" />
+              <Picker.Item label="Polls" value="Polls" />
+            </Picker>
 
             <Avatar
               rounded
@@ -111,10 +128,19 @@ class TwoUp extends Component {
 
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'center'
+              flexDirection: "row",
+              justifyContent: "center",
+              paddingTop: 100
             }}
-          />
+          >
+            {this.state.display === "Status"
+              ? this.generateStatusMeter(relationship.status)
+              : null}
+
+            {this.state.display === "Polls" ? <AllPolls /> : null}
+
+            {this.state.display === "Events" ? <Events /> : null}
+          </View>
         </View>
       );
     } else {
