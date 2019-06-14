@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import { Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { goDeleteEvent, fetchAssignees, goUpdateEvent, invite } from './store/events';
+import { goDeleteEvent, fetchAssignees, goUpdateEvent, invite } from '../store/events';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  text: {
+    textAlign: 'center',
+    padding: 10,
+    margin: 10
   },
   button: {
     backgroundColor: '#448AE6',
@@ -68,12 +74,12 @@ class SingleEvent extends Component {
       ev => ev.id === this.props.navigation.getParam('event').id
     );
     const deadline = new Date(event.deadline);
-    const badgeStatusMap = {
-      upcoming: 'primary',
-      completed: 'success',
-      'completed-pending': 'warning',
-      overdue: 'warning',
-      missed: 'error'
+    const statusColor = {
+      upcoming: 'blue',
+      overdue: 'orange',
+      'completed-pending': 'yellow',
+      completed: 'green',
+      missed: 'red'
     };
     const colorMap = {
       chore: '#AA8EB7',
@@ -83,22 +89,20 @@ class SingleEvent extends Component {
     };
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: 30, color: colorMap[event.category] }}>
-          {event.title}
+        <Text style={{ fontSize: 30, color: colorMap[event.category], padding: 15 }}>
+          {event.title} ({event.category})
         </Text>
-        <Text style={{ fontSize: 15 }}>{event.category}</Text>
 
         {this.state.showAssigneePicker ? (
           <View
             style={{
-              flex: 1,
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               alignItems: 'center'
             }}
           >
             <Picker
               selectedValue={this.state.assignee}
-              style={{ height: 50, width: 250, flex: 2, margin: 10 }}
+              style={{ height: 150, width: 250, margin: 10 }}
               onValueChange={(val, idx) => this.setState({ assignee: val })}
             >
               <Picker.Item label="select a family member to invite" value="" />
@@ -128,14 +132,13 @@ class SingleEvent extends Component {
         {this.state.showStatusPicker ? (
           <View
             style={{
-              flex: 1,
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               alignItems: 'center'
             }}
           >
             <Picker
               selectedValue={this.state.status}
-              style={{ height: 50, width: 250, flex: 2, margin: 10 }}
+              style={{ height: 150, width: 250, margin: 10 }}
               onValueChange={(val, idx) => this.setState({ status: val })}
             >
               <Picker.Item label="upcoming" value="upcoming" />
@@ -144,7 +147,7 @@ class SingleEvent extends Component {
               <Picker.Item label="missed" value="missed" />
             </Picker>
 
-            <View style={{ flex: 1 }}>
+            <View>
               <TouchableOpacity
                 onPress={() => this.updateStatus(event.id)}
                 style={styles.button}
@@ -162,36 +165,31 @@ class SingleEvent extends Component {
         ) : null}
 
         {!this.state.showStatusPicker && !this.state.showAssigneePicker ? (
-          <View>
-            <Badge value={event.status} status={badgeStatusMap[event.status]} />
-            <View>
-              {event.status === 'completed-pending' ? (
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.approve}
-                >
-                  <Text>approve</Text>
-                </TouchableOpacity>
-              ) : (
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={this.toggleStatusPicker}
-                  >
-                    <Text>edit status</Text>
-                  </TouchableOpacity>
-                )}
-            </View>
-
-            <Text>
-              DATE: {deadline.getMonth()}/{deadline.getDate()}/
-              {deadline.getFullYear()}
-            </Text>
-            <Text>
-              TIME: {deadline.getHours()}:
+          <View
+            style={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+            <TouchableOpacity
+              style={{
+                backgroundColor: statusColor[event.status],
+                margin: 10,
+                padding: 10,
+                width: 100
+              }}
+              onPress={this.toggleStatusPicker}
+            >
+              <Text
+                style={styles.buttonText}
+              >
+                {event.status}
+              </Text>
+            </TouchableOpacity>
+            <Text style={styles.text}>
+              {deadline.getMonth()}/{deadline.getDate()}/{deadline.getFullYear()} at
+              {deadline.getHours()}:
               {('0' + deadline.getMinutes()).slice(-2)}
             </Text>
-            <Text>{event.description}</Text>
-            <Text>
+            <Text style={styles.text}>{event.description}</Text>
+            <Text style={styles.text}>
               {this.props.assignees.length
                 ? `Assigned to: ${this.props.assignees.map(user => user.firstName).join(', ')}`
                 : 'not yet assigned'}
@@ -200,13 +198,13 @@ class SingleEvent extends Component {
               onPress={this.toggleAssigneePicker}
               style={styles.button}
             >
-              <Text>invite someone</Text>
+              <Text style={styles.buttonText}>invite someone</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.delete(event.id)}
               style={styles.button}
             >
-              <Text>delete</Text>
+              <Text style={styles.buttonText}>delete</Text>
             </TouchableOpacity>
           </View>
         ) : null}

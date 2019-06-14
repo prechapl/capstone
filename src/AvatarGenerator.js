@@ -6,7 +6,7 @@ import { withNavigation } from 'react-navigation';
 import ActionButton from 'react-native-circular-action-menu';
 import { findMoodColor } from './HelperFunctions';
 import AllPolls from './Polls/AllPolls';
-import Events from './Events';
+import Events from './Events/Events';
 import Mood from './Mood';
 import Family from './Family';
 
@@ -101,29 +101,38 @@ class AvatarGenerator extends Component {
                   </View>
                 </ActionButton.Item>
               ) : (
-                <ActionButton.Item
-                  key={idx}
-                  onPress={() =>
-                    this.props.navigation.setParams({
-                      nestComponent: button.componentToNest
-                    })
-                  }
-                >
-                  <View
-                    style={{
-                      width: button.width,
-                      backgroundColor: button.color,
-                      height: button.height,
-                      borderRadius: 40,
-                      position: 'relative',
-                      paddingStart: 14,
-                      paddingTop: 12
-                    }}
+                  <ActionButton.Item
+                    key={idx}
+                    onPress={() =>
+                      this.props.navigation.setParams({
+                        nestComponent: button.componentToNest
+                      })
+                    }
                   >
-                    <Text style={styles.text}>{button.title}</Text>
-                  </View>
-                </ActionButton.Item>
-              );
+                    <View
+                      style={{
+                        width: button.width,
+                        backgroundColor: button.color,
+                        height: button.height,
+                        borderRadius: 40,
+                        position: 'relative',
+                        paddingStart: 14,
+                        paddingTop: 12
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: button.width,
+                          backgroundColor: button.color,
+
+                          position: 'absolute'
+                        }}
+                      >
+                        <Text style={styles.text}>{button.title}</Text>
+                      </View>
+                    </View>
+                  </ActionButton.Item>
+                );
             })}
           </ActionButton>
         </View>

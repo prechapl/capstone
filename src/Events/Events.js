@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Header, ListItem, Button } from 'react-native-elements';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { fetchEvents, fetchAssigned } from './store/events';
+import { fetchEvents, fetchAssigned } from '../store/events';
 import { withNavigation } from 'react-navigation';
+
+const styles = StyleSheet.create({
+  header: {
+    padding: 10,
+    margin: 10,
+    fontSize: 30,
+    textAlign: 'center'
+  },
+  buttonText: {
+    textAlign: 'center'
+  }
+})
 
 class Events extends Component {
   constructor() {
@@ -22,8 +34,8 @@ class Events extends Component {
     let events;
     if (this.props.events.length) {
       this.state.selection === 'MY EVENTS'
-        ? (events = this.props.events)
-        : (events = this.props.assignedEvents);
+        ? (events = this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)))
+        : (events = this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)));
     }
 
     const colorMap = {
@@ -42,7 +54,23 @@ class Events extends Component {
           paddingBottom: 150
         }}
       >
-        <Header
+        <Text style={styles.header}>Events</Text>
+        <TouchableOpacity
+          onPress={() => {
+            if (this.state.selection === 'MY EVENTS') {
+              this.setState({ selection: 'ASSIGNED' });
+            } else {
+              this.setState({ selection: 'MY EVENTS' })
+            }
+          }}
+        >
+          <Text
+            style={styles.buttonText}>
+            {this.state.selection === 'MY EVENTS' ? 'see events assigned to me' : 'see events created by me'}
+          </Text>
+        </TouchableOpacity>
+
+        {/* <Header
           leftComponent={
             <Button
               type="outline"
@@ -70,7 +98,7 @@ class Events extends Component {
               onPress={() => this.props.navigation.navigate('AddEvent')}
             />
           }
-        />
+        /> */}
         <View />
         {events ? (
           <View>
@@ -106,8 +134,13 @@ class Events extends Component {
             })}
           </View>
         ) : (
-          <Text>You do not have any events.</Text>
-        )}
+            <Text>You do not have any events.</Text>
+          )}
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('AddEvent')}
+        >
+          <Text style={styles.buttonText}>Add a New Event</Text>
+        </TouchableOpacity>
       </View>
     );
   }
