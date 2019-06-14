@@ -55,12 +55,6 @@ class AllPolls extends Component {
     this.props.fetchPolls(this.props.user.familyId);
   }
 
-  componentDidUpdate(prevProps) {
-    // if (this.props !== prevProps.props) {
-    //   this.props.fetchPolls(this.props.user.familyId);
-    // }
-  }
-
   changeViewStatus = () => {
     this.state.status === 'open'
       ? this.setState({ status: 'closed' })
