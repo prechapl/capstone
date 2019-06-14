@@ -47,6 +47,9 @@ const deleteEvent = id => ({
 const eventReducer = (state = [], action) => {
   switch (action.type) {
     case GET_EVENTS:
+      if (!action.events) {
+        return state;
+      }
       return action.events;
     case UPDATE_EVENT:
       return [
@@ -56,7 +59,7 @@ const eventReducer = (state = [], action) => {
     case CREATE_EVENT:
       return [...state, action.event];
     case DELETE_EVENT:
-      return state.filter(ev => ev.id !== action.id);
+      return [...state.filter(ev => ev.id !== action.id)];
     default:
       return state;
   }
@@ -89,10 +92,7 @@ const fetchEvents = id => {
   return dispatch => {
     return axios
       .get(`${API_URL}/events/user/${id}`)
-      .then(res => {
-        return res.data;
-      })
-      .then(events => dispatch(getEvents(events)));
+      .then(({ data }) => dispatch(getEvents(data)))
   };
 };
 
@@ -128,7 +128,6 @@ const goCreateEvent = newEvent => {
     return axios
       .post(`${API_URL}/events`, newEvent)
       .then(res => {
-        console.log(res.data)
         return res.data
       })
       .then(event => dispatch(createEvent(event)))
@@ -136,15 +135,11 @@ const goCreateEvent = newEvent => {
   };
 };
 
-const goDeleteEvent = id => {
+const goDeleteEvent = (id, userId) => {
   return dispatch => {
     return axios
       .delete(`${API_URL}/events/${id}`)
-      .then((res) => {
-        if (res.status === 204) {
-          dispatch(deleteEvent(id))
-        }
-      })
+      .then(() => dispatch(deleteEvent(id)))
   }
 }
 

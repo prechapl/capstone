@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchEvents, fetchAssigned } from '../store/events';
 import { withNavigation } from 'react-navigation';
 
+
 const styles = StyleSheet.create({
   header: {
     padding: 10,
@@ -18,8 +19,8 @@ const styles = StyleSheet.create({
 })
 
 class Events extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       selection: 'MY EVENTS'
     };
@@ -27,15 +28,18 @@ class Events extends Component {
   componentDidMount() {
     //must fetch events
     const id = this.props.id;
-    this.props.fetchEvents(id);
-    this.props.fetchAssigned(id);
+    if (!this.props.events.length) {
+      this.props.fetchEvents(id);
+      this.props.fetchAssigned(id);
+    }
+
   }
   render() {
-    let events;
+    let events = [];
     if (this.props.events.length) {
       this.state.selection === 'MY EVENTS'
-        ? (events = this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)))
-        : (events = this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)));
+        ? (events = [...this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))])
+        : (events = [...this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))]);
     }
 
     const colorMap = {
@@ -45,12 +49,18 @@ class Events extends Component {
       errand: '#D79963'
     };
 
+    if (!this.props.events || !this.props.assignedEvents) {
+      return (
+        <View>
+          <Text>loading...</Text>
+        </View>)
+    }
     return (
       <View
         style={{
+          flex: 1,
           flexDirection: 'column',
           justifyContent: 'center',
-          width: 350,
           paddingBottom: 150
         }}
       >
@@ -70,37 +80,9 @@ class Events extends Component {
           </Text>
         </TouchableOpacity>
 
-        {/* <Header
-          leftComponent={
-            <Button
-              type="outline"
-              title="Events"
-              titleStyle={{ color: 'white' }}
-              containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.setState({ selection: 'MY EVENTS' })}
-            />
-          }
-          centerComponent={
-            <Button
-              type="outline"
-              title="Invited"
-              titleStyle={{ color: 'white' }}
-              containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.setState({ selection: 'ASSIGNED' })}
-            />
-          }
-          rightComponent={
-            <Button
-              type="outline"
-              title="Add"
-              titleStyle={{ color: 'white' }}
-              containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.props.navigation.navigate('AddEvent')}
-            />
-          }
-        /> */}
+
         <View />
-        {events ? (
+        {events.length ? (
           <View>
             {events.map((event, i) => {
               return (
