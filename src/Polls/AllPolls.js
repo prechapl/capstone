@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity
+} from 'react-native';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../store/users';
 import { fetchPolls } from '../store/polls';
@@ -49,12 +55,6 @@ class AllPolls extends Component {
     this.props.fetchPolls(this.props.user.familyId);
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props !== prevProps.props) {
-      this.props.fetchPolls(this.props.user.familyId);
-    }
-  }
-
   changeViewStatus = () => {
     this.state.status === 'open'
       ? this.setState({ status: 'closed' })
@@ -69,75 +69,81 @@ class AllPolls extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>
-          {this.state.status === 'open' ? 'Open' : 'Closed'} Polls
-        </Text>
-        <Text style={styles.subheader}>Your Polls</Text>
-        {currentPolls.map(
-          poll =>
-            poll.ownerId === this.props.user.id && (
-              <TouchableOpacity
-                key={poll.id}
-                style={styles.poll}
-                text={poll.text}
-                onPress={() =>
-                  this.props.navigation.navigate('Poll', {
-                    poll: poll,
-                    id: poll.id,
-                    question: poll.text
-                  })
-                }
-              >
-                <Text style={styles.buttonText}>{poll.text}</Text>
-              </TouchableOpacity>
-            )
-        )}
-
-        <Text style={styles.subheader}>Family Polls</Text>
-        {currentPolls.map(
-          poll =>
-            poll.ownerId !== this.props.user.id && (
-              <TouchableOpacity
-                key={poll.id}
-                style={styles.poll}
-                text={poll.text}
-                onPress={() =>
-                  this.props.navigation.navigate('Poll', {
-                    poll: poll,
-                    id: poll.id,
-                    question: poll.text
-                  })
-                }
-              >
-                <Text style={styles.buttonText}>{poll.text}</Text>
-              </TouchableOpacity>
-            )
-        )}
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#8EB51A',
-            padding: 10,
-            margin: 10,
-            width: 300
-          }}
-          onPress={() => this.props.navigation.navigate('CreatePoll')}
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
         >
-          <Text style={styles.createButtonText}>Create New Poll</Text>
-        </TouchableOpacity>
+          <View style={styles.container}>
+            <Text style={styles.header}>
+              {this.state.status === 'open' ? 'Open' : 'Closed'} Polls
+            </Text>
+            <Text style={styles.subheader}>Your Polls</Text>
+            {currentPolls.map(
+              poll =>
+                poll.ownerId === this.props.user.id && (
+                  <TouchableOpacity
+                    key={poll.id}
+                    style={styles.poll}
+                    text={poll.text}
+                    onPress={() =>
+                      this.props.navigation.navigate('Poll', {
+                        poll: poll,
+                        id: poll.id,
+                        question: poll.text
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonText}>{poll.text}</Text>
+                  </TouchableOpacity>
+                )
+            )}
 
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#7DC6CD',
-            padding: 10,
-            margin: 10,
-            width: 300
-          }}
-          onPress={() => this.changeViewStatus()}
-        >
-          <Text style={styles.createButtonText}>
-            View {this.state.status === 'open' ? 'Closed' : 'Open'} Polls
-          </Text>
-        </TouchableOpacity>
+            <Text style={styles.subheader}>Family Polls</Text>
+            {currentPolls.map(
+              poll =>
+                poll.ownerId !== this.props.user.id && (
+                  <TouchableOpacity
+                    key={poll.id}
+                    style={styles.poll}
+                    text={poll.text}
+                    onPress={() =>
+                      this.props.navigation.navigate('Poll', {
+                        poll: poll,
+                        id: poll.id,
+                        question: poll.text
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonText}>{poll.text}</Text>
+                  </TouchableOpacity>
+                )
+            )}
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#8EB51A',
+                padding: 10,
+                margin: 10,
+                width: 300
+              }}
+              onPress={() => this.props.navigation.navigate('CreatePoll')}
+            >
+              <Text style={styles.createButtonText}>Create New Poll</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#7DC6CD',
+                padding: 10,
+                margin: 10,
+                width: 300
+              }}
+              onPress={() => this.changeViewStatus()}
+            >
+              <Text style={styles.createButtonText}>
+                View {this.state.status === 'open' ? 'Closed' : 'Open'} Polls
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     );
   }
