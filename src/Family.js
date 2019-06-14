@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { Avatar, Badge } from 'react-native-elements';
+import { View } from 'react-native';
+import { Avatar } from 'react-native-elements';
 import { getActiveMood, getMoodsByFamilyId } from './store/mood';
 import { fetchUserRelationships } from './store/users';
 import { connect } from 'react-redux';
 import ActionButton from 'react-native-circular-action-menu';
-import { findMoodColor, findMoodText, findStatus } from './HelperFunctions';
+import { findMoodColor } from './HelperFunctions';
 
 class Family extends Component {
   constructor(props) {
@@ -43,7 +43,6 @@ class Family extends Component {
     if (mood.id && moods !== undefined && userRelationships !== undefined) {
       const family = this.findFamily(user, moods);
       const moodColor = findMoodColor(mood.value);
-      // const moodText = findMoodText(mood.value);
       return (
         <View
           style={{
@@ -95,34 +94,12 @@ class Family extends Component {
                       });
                     }}
                   />
-                  {/* <Badge
-                    containerStyle={{
-                      position: 'relative'
-                    }}
-                    badgeStyle={{
-                      backgroundColor: moodColor,
-                      paddingHorizontal: 10,
-                      borderColor: 'transparent'
-                    }}
-                    value={
-                      <Text style={{ fontSize: 12, color: "white" }}>
-                        {`${moodText}`} mood
-                      </Text>
-                    }
-                  /> */}
                 </View>
               }
             >
               {family.map(person => {
                 const personMoodColor = findMoodColor(
                   person.moods.find(m => m.active).value
-                );
-                const personMoodText = findMoodText(
-                  person.moods.find(m => m.active).value
-                );
-
-                const relationship = userRelationships.find(
-                  r => r.RelationshipId === person.id
                 );
 
                 return (
@@ -155,40 +132,6 @@ class Family extends Component {
                           })
                         }
                       />
-                      {/* {relationship !== undefined ? (
-                        //status badge
-                        <View
-                          style={{
-                            position: "absolute",
-                            top: -3,
-
-                            backgroundColor: findStatus(relationship.status)
-                              .color,
-                            paddingHorizontal: 10,
-                            marginLeft: 24,
-                            borderRadius: 50
-                          }}
-                        >
-                          <Text style={{ color: "white", fontSize: 10 }}>
-                            {personMoodText}
-                          </Text>
-                        </View>
-                      ) : null} */}
-
-                      {/* <View
-                        style={{
-                          position: "absolute",
-                          bottom: 0,
-                          backgroundColor: personMoodColor,
-                          paddingHorizontal: 10,
-                          marginLeft: 24,
-                          borderRadius: 50
-                        }}
-                      >
-                        <Text style={{ color: "white", fontSize: 10 }}>
-                          {personMoodText}
-                        </Text>
-                      </View> */}
                     </View>
                   </ActionButton.Item>
                 );

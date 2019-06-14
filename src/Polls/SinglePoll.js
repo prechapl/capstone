@@ -33,10 +33,19 @@ class SinglePoll extends React.Component {
           pollId={this.state.pollId}
           question={question}
           status={poll.status === 'open' ? 'open' : 'closed'}
+          poll={poll}
+          navigation={this.props.navigation}
         />
       );
     } else {
-      return <VotePoll pollId={this.state.pollId} question={question} />;
+      return (
+        <VotePoll
+          pollId={this.state.pollId}
+          question={question}
+          poll={poll}
+          navigation={this.props.navigation}
+        />
+      );
     }
   }
 }

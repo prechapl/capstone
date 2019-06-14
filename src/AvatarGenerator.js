@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { StyleSheet, Text, View } from 'react-native';
-import { Avatar, Badge } from 'react-native-elements';
-import { withNavigation } from 'react-navigation';
-import ActionButton from 'react-native-circular-action-menu';
-import { findMoodColor, findMoodText } from './HelperFunctions';
-import AllPolls from './Polls/AllPolls';
-import Events from './Events';
-import Mood from './Mood';
-import Family from './Family';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { StyleSheet, Text, View } from "react-native";
+import { Avatar } from "react-native-elements";
+import { withNavigation } from "react-navigation";
+import ActionButton from "react-native-circular-action-menu";
+import { findMoodColor } from "./HelperFunctions";
+import AllPolls from "./Polls/AllPolls";
+import Events from "./Events/Events";
+import Mood from "./Mood";
+import Family from "./Family";
 
 class AvatarGenerator extends Component {
   constructor(props) {
@@ -25,10 +25,10 @@ class AvatarGenerator extends Component {
 
   render() {
     const { navigation } = this.props;
-    const user = navigation.getParam('user');
-    const mood = navigation.getParam('mood');
-    const buttonSet = navigation.getParam('buttonSet');
-    const componentToNest = navigation.getParam('nestComponent');
+    const user = navigation.getParam("user");
+    const mood = navigation.getParam("mood");
+    const buttonSet = navigation.getParam("buttonSet");
+    const componentToNest = navigation.getParam("nestComponent");
     const moodColor = findMoodColor(mood.value);
     // const moodText = findMoodText(mood.value);
 
@@ -36,20 +36,20 @@ class AvatarGenerator extends Component {
       <View
         style={{
           flex: 1,
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center'
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center"
         }}
       >
-        <View style={{ flexDirection: 'row', marginBottom: 60 }}>
+        <View style={{ flexDirection: "row", marginBottom: 60 }}>
           {componentToNest}
         </View>
 
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
             paddingEnd: 25,
             marginBottom: 25
           }}
@@ -74,27 +74,11 @@ class AvatarGenerator extends Component {
                   }}
                   title={user.firstName}
                 />
-                {/* <Badge
-                  containerStyle={{
-                    position: 'relative',
-                    top: -18
-                  }}
-                  badgeStyle={{
-                    backgroundColor: moodColor,
-                    paddingHorizontal: 10,
-                    borderColor: 'transparent'
-                  }}
-                  value={
-                    <Text style={{ fontSize: 12, color: 'white' }}>
-                      {`${moodText}`} mood
-                    </Text>
-                  }
-                /> */}
               </View>
             }
           >
             {buttons[buttonSet].map((button, idx) => {
-              return button.title === 'Family' ? (
+              return button.title === "Family" ? (
                 <ActionButton.Item
                   key={idx}
                   onPress={() =>
@@ -109,7 +93,7 @@ class AvatarGenerator extends Component {
                       height: button.height,
                       backgroundColor: button.color,
                       borderRadius: 40,
-                      position: 'relative',
+                      position: "relative",
                       paddingStart: 14,
                       paddingTop: 13
                     }}
@@ -132,13 +116,21 @@ class AvatarGenerator extends Component {
                       backgroundColor: button.color,
                       height: button.height,
                       borderRadius: 40,
-                      position: 'relative',
+                      position: "relative",
                       paddingStart: 14,
                       paddingTop: 12
-                      // paddingBottom: 1,
                     }}
                   >
-                    <Text style={styles.text}>{button.title}</Text>
+                    <View
+                      style={{
+                        width: button.width,
+                        backgroundColor: button.color,
+
+                        position: "absolute"
+                      }}
+                    >
+                      <Text style={styles.text}>{button.title}</Text>
+                    </View>
                   </View>
                 </ActionButton.Item>
               );
@@ -153,55 +145,52 @@ class AvatarGenerator extends Component {
 const buttons = {
   UserButtons: [
     {
-      title: 'Mood',
-      color: '#FF9900',
+      title: "Mood",
+      color: "#FF9900",
       width: 80,
       height: 50,
-      // width: 62,
       componentToNest: <Mood />
     },
     {
-      title: 'Family',
-      color: '#8EB51A',
+      title: "Family",
+      color: "#8EB51A",
       width: 83,
       height: 50,
       componentToNest: <Family />
     },
     {
-      title: 'Events',
-      color: '#EF5029',
+      title: "Events",
+      color: "#EF5029",
       width: 87,
       height: 50,
       componentToNest: <Events />
     },
     {
-      title: 'Polls',
-      color: '#7DC6CD',
+      title: "Polls",
+      color: "#7DC6CD",
       width: 70,
       height: 50,
-      // width: 63,
-      // height: 50,
       componentToNest: <AllPolls />
     }
   ],
   RelativeButtons: [
     {
-      title: 'Family',
-      color: '#8EB51A',
+      title: "Family",
+      color: "#8EB51A",
       width: 83,
       height: 50,
       componentToNest: <Family />
     },
     {
-      title: 'Events',
-      color: '#EF5029',
+      title: "Events",
+      color: "#EF5029",
       width: 87,
       height: 50,
       componentToNest: <Events />
     },
     {
-      title: 'Polls',
-      color: '#7DC6CD',
+      title: "Polls",
+      color: "#7DC6CD",
       width: 70,
       height: 50,
       componentToNest: <AllPolls />
@@ -209,44 +198,44 @@ const buttons = {
   ],
   ChildButtons: [
     {
-      title: 'Location',
-      color: '#AD0978',
+      title: "Location",
+      color: "#AD0978",
       width: 99,
       height: 50,
       componentToNest: null
     },
 
     {
-      title: 'Events',
-      color: '#EF5029',
+      title: "Events",
+      color: "#EF5029",
       width: 87,
       height: 50,
       componentToNest: <Events />
     },
     {
-      title: 'Polls',
-      color: '#7DC6CD',
+      title: "Polls",
+      color: "#7DC6CD",
       width: 70,
       height: 50,
       componentToNest: <AllPolls />
     },
     {
-      title: 'Family',
-      color: '#8EB51A',
+      title: "Family",
+      color: "#8EB51A",
       width: 83,
       height: 50,
       componentToNest: <Family />
     },
     {
-      title: 'Goals',
-      color: '#1500FA',
+      title: "Goals",
+      color: "#1500FA",
       width: 78,
       height: 50,
       componentToNest: null
     },
     {
-      title: 'Records',
-      color: '#E0BF00',
+      title: "Records",
+      color: "#E0BF00",
       width: 98,
       height: 50,
       componentToNest: null
@@ -256,7 +245,7 @@ const buttons = {
 
 const styles = StyleSheet.create({
   text: {
-    color: 'white',
+    color: "white",
     fontSize: 20
   }
 });

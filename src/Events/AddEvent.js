@@ -10,7 +10,7 @@ import {
   DatePickerIOS
 } from 'react-native';
 import { connect } from 'react-redux';
-import { goCreateEvent } from './store/events';
+import { goCreateEvent } from '../store/events';
 
 
 class AddEvent extends Component {
