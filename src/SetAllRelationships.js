@@ -38,7 +38,9 @@ class SetAllRelationships extends Component {
         RelationshipId: relationship.RelationshipId,
         firstName: member.firstName,
         lastName: member.lastName,
+        mood: member.moods.find(_mood => _mood.active === true),
         type: relationship.type,
+        imgUrl: member.imgUrl,
       };
     });
     this.setState({ relatives });
@@ -46,21 +48,20 @@ class SetAllRelationships extends Component {
   componentDidMount() {
     this.load();
   }
-  // componentDidUpdate() {
-  //   this.load();
-  // }
   goToFamily = () => {
     this.props.navigation.navigate('Family');
   };
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.container}>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={styles.header2}>Define Your Relationships</Text>
           {this.state.relatives.map(relative => (
             <SetSingleRelationship key={relative.id} relative={relative} />
           ))}
+
           <TouchableOpacity style={styles.button} onPress={this.goToFamily}>
-            <Text style={styles.buttonText}>Family</Text>
+            <Text style={styles.buttonText}>Go to Family</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   input: {
     height: 40,
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
   header2: {
     padding: 10,
     marginBottom: 30,
-    fontSize: 42,
+    fontSize: 36,
   },
 });
 
