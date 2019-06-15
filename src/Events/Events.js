@@ -13,11 +13,14 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   buttonText: {
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#ffffff'
   },
   button: {
     margin: 10,
-    padding: 10
+    padding: 10,
+    width: 200,
+    alignSelf: 'center'
   }
 });
 
@@ -79,37 +82,45 @@ class Events extends Component {
           flex: 1,
           flexDirection: 'column',
           justifyContent: 'center',
-          paddingBottom: 150
+          paddingBottom: 50
         }}
       >
         <Text style={styles.header}>Events</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            if (this.state.selection === 'MY EVENTS') {
-              this.setState({ selection: 'ASSIGNED' });
-            } else {
-              this.setState({ selection: 'MY EVENTS' });
-            }
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-evenly'
           }}
         >
-          <Text style={styles.buttonText}>
-            {this.state.selection === 'MY EVENTS'
-              ? 'see events assigned to me'
-              : 'see events created by me'}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            this.setState({ viewPast: !this.state.viewPast });
-          }}
-        >
-          <Text style={styles.buttonText}>
-            {this.state.viewPast ? 'current' : 'past'}
-          </Text>
-        </TouchableOpacity>
-
+          <TouchableOpacity
+            style={{ ...styles.button, backgroundColor: '#81769e' }}
+            onPress={() => {
+              if (this.state.selection === 'MY EVENTS') {
+                this.setState({ selection: 'ASSIGNED' });
+              } else {
+                this.setState({ selection: 'MY EVENTS' });
+              }
+            }}
+          >
+            <Text style={styles.buttonText}>
+              {this.state.selection === 'MY EVENTS'
+                ? 'see events assigned to me'
+                : 'see events created by me'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ ...styles.button, backgroundColor: '#9e8376' }}
+            onPress={() => {
+              this.setState({ viewPast: !this.state.viewPast })
+            }}
+          >
+            <Text style={styles.buttonText}>
+              {this.state.viewPast
+                ? 'current' : 'past'}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View />
         {events.length ? (
           <EventList eventlist={events} type={this.state.selection} />
@@ -125,7 +136,7 @@ class Events extends Component {
           </Text>
         )}
         <TouchableOpacity
-          style={styles.button}
+          style={{ ...styles.button, backgroundColor: '#668e6c' }}
           onPress={() => this.props.navigation.navigate('AddEvent')}
         >
           <Text style={styles.buttonText}>Add a New Event</Text>

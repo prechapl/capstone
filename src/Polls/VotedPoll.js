@@ -8,6 +8,7 @@ import {
 } from '../store/polls';
 import { findChoiceText } from '../HelperFunctions';
 import PureChart from 'react-native-pure-chart';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   container: {
@@ -62,12 +63,27 @@ class VotedPoll extends React.Component {
     if (this.state.status === 'closed') {
       this.props.changeStatus(this.state.pollId, { status: 'open' });
       this.setState({ status: 'open' });
+      this.props.family.forEach(user => {
+        axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
+          alertType: 'poll',
+          message: `${this.props.user.firstName} has re-opened voting for '${this.props.question}'. Go Vote!`,
+          targetId: this.state.pollId,
+          userId: user.id
+        });
+      })
     } else {
       this.props.changeStatus(this.state.pollId, { status: 'closed' });
       this.setState({ status: 'closed' });
+      this.props.family.forEach(user => {
+        axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
+          alertType: 'poll',
+          message: `${this.props.user.firstName} has closed voting for '${this.props.question}'. Go check out the winner!`,
+          targetId: this.state.pollId,
+          userId: user.id
+        });
+      })
     }
-  };
-
+  }
   render() {
     const { choices, votes } = this.props;
 
@@ -140,18 +156,18 @@ class VotedPoll extends React.Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#FF0000',
-                padding: 10,
-                margin: 10,
-                width: 300
-              }}
-              onPress={this.handleStatus}
-            >
-              <Text style={styles.buttonText}>Close Poll</Text>
-            </TouchableOpacity>
-          )
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FF0000',
+                  padding: 10,
+                  margin: 10,
+                  width: 300
+                }}
+                onPress={this.handleStatus}
+              >
+                <Text style={styles.buttonText}>Close Poll</Text>
+              </TouchableOpacity>
+            )
         ) : null}
       </View>
     );
@@ -167,11 +183,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ user, choices, votes }) => {
+const mapStateToProps = ({ user, choices, votes, moods }) => {
   return {
     user,
     choices,
-    votes
+    votes,
+    family: moods
   };
 };
 

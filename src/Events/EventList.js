@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, ScrollView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 
@@ -14,7 +14,7 @@ const EventList = (props) => {
         errand: '#D79963'
     };
     return (
-        <View>
+        <ScrollView style={{ maxHeight: 300 }}>
             {events.map((event, i) => {
                 return (
                     <TouchableOpacity
@@ -45,7 +45,7 @@ const EventList = (props) => {
                     </TouchableOpacity>
                 );
             })}
-        </View>
+        </ScrollView>
     )
 }
 
