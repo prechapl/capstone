@@ -106,7 +106,7 @@ class VotePoll extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <Text style={styles.subheader}>{this.props.question}</Text>
+        <Text style={styles.header}>{this.props.question}</Text>
 
         <RadioButtons
           options={options}

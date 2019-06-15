@@ -67,6 +67,10 @@ class CreatePoll extends Component {
     this.props.navigation.navigate('Polls');
   };
 
+  handleClearChoices = () => {
+    this.setState({ choices: [] });
+  };
+
   render() {
     if (!this.state.submitted) {
       return (
@@ -125,6 +129,18 @@ class CreatePoll extends Component {
                   onPress={this.handleAddChoice}
                 >
                   <Text style={styles.buttonText}>Add Choice</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#FF0000',
+                    padding: 10,
+                    margin: 10,
+                    width: 300
+                  }}
+                  onPress={this.handleClearChoices}
+                >
+                  <Text style={styles.buttonText}>Clear Choices</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
