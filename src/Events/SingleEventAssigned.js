@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Card, Badge } from 'react-native-elements';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { goUpdateAssigned } from '../store/events';
 // import withNavigation from 'react-navigation';
@@ -24,24 +24,18 @@ const SingleEventAssigned = props => {
     errand: '#D79963'
   };
   return (
-    <Card
-      title={event.title}
-      subtitle={event.category}
-      containerStyle={{
-        borderColor: colorMap[event.category],
-        flex: 1,
-        justifyContent: 'space-between'
-      }}
-    >
+    <View style={styles.container}>
+      <Text style={{ fontSize: 30, color: colorMap[event.category], padding: 15 }}>
+        {event.title} ({event.category})
+        </Text>
       <Badge value={event.status} status={badgeStatusMap[event.status]} />
-      <Text>
-        DATE: {deadline.getMonth()}/{deadline.getDate()}/
-        {deadline.getFullYear()}
+      <Text style={styles.text}>
+        {deadline.getMonth()}/{deadline.getDate()}/{deadline.getFullYear()} at
+              {deadline.getHours()}:
+              {('0' + deadline.getMinutes()).slice(-2)}
       </Text>
-      <Text>
-        TIME: {deadline.getHours()}:{('0' + deadline.getMinutes()).slice(-2)}
-      </Text>
-      <Text>{event.description}</Text>
+      <Text>Invited by: {props.family.find(user => user.id === event.ownerId).firstName}</Text>
+      {event.description ? (<Text style={styles.text}>{event.description}</Text>) : null}
       <TouchableOpacity
         onPress={() =>
           props.completeAssignedTask(event.id, { status: 'completed-pending' })
@@ -50,13 +44,15 @@ const SingleEventAssigned = props => {
       >
         <Text>complete</Text>
       </TouchableOpacity>
-    </Card>
+    </View>
+
   );
 };
 
-const mapStateToProps = ({ assignedEvents }) => {
+const mapStateToProps = ({ assignedEvents, moods }) => {
   return {
-    assignedEvents
+    assignedEvents,
+    family: moods
   };
 };
 
@@ -74,23 +70,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  input: {
-    height: 40,
-    backgroundColor: '#D3D3D4',
-    marginBottom: 20,
-    width: 300,
-    paddingHorizontal: 10
-  },
   button: {
     backgroundColor: '#448AE6',
     padding: 10,
     width: 300,
-    margin: 10
-  },
-  buttonSmall: {
-    backgroundColor: '#448AE6',
-    padding: 10,
-    width: 100,
     margin: 10
   },
   buttonText: {
@@ -101,7 +84,12 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 30,
     fontSize: 35
-  }
+  },
+  text: {
+    textAlign: 'center',
+    padding: 10,
+    margin: 10
+  },
 });
 
 export default connect(

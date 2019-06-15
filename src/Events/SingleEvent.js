@@ -27,11 +27,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFFFFF'
   },
-  bottom: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 36
-  }
 });
 
 class SingleEvent extends Component {
@@ -199,7 +194,7 @@ class SingleEvent extends Component {
               {deadline.getHours()}:
               {('0' + deadline.getMinutes()).slice(-2)}
             </Text>
-            <Text style={styles.text}>{event.description}</Text>
+            {event.description ? (<Text style={styles.text}>{event.description}</Text>) : null}
             <Text style={styles.text}>
               {this.props.assignees.length
                 ? `Assigned to: ${this.props.assignees.map(user => user.firstName).join(', ')}`

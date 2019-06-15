@@ -15,6 +15,7 @@ import {
   pollsReducer
 } from './polls';
 import { familyMembersReducer } from './family';
+import { alertsReducer } from './alerts';
 
 const reducer = combineReducers({
   users: usersReducer,
@@ -30,7 +31,8 @@ const reducer = combineReducers({
   votes: votesReducer,
   poll: pollReducer,
   polls: pollsReducer,
-  familyMembers: familyMembersReducer
+  familyMembers: familyMembersReducer,
+  alerts: alertsReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
