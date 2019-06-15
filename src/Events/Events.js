@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchEvents, fetchAssigned } from '../store/events';
 import { withNavigation } from 'react-navigation';
 
+
 const styles = StyleSheet.create({
   header: {
     padding: 10,
@@ -14,12 +15,16 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center'
+  },
+  button: {
+    margin: 10,
+    padding: 10
   }
 });
 
 class Events extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       selection: 'MY EVENTS'
     };
@@ -27,19 +32,18 @@ class Events extends Component {
   componentDidMount() {
     //must fetch events
     const id = this.props.id;
-    this.props.fetchEvents(id);
-    this.props.fetchAssigned(id);
+    if (!this.props.events.length) {
+      this.props.fetchEvents(id);
+      this.props.fetchAssigned(id);
+    }
+
   }
   render() {
-    let events;
+    let events = [];
     if (this.props.events.length) {
       this.state.selection === 'MY EVENTS'
-        ? (events = this.props.events.sort(
-            (a, b) => new Date(a.deadline) - new Date(b.deadline)
-          ))
-        : (events = this.props.assignedEvents.sort(
-            (a, b) => new Date(a.deadline) - new Date(b.deadline)
-          ));
+        ? (events = [...this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))])
+        : (events = [...this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))]);
     }
 
     const colorMap = {
@@ -49,17 +53,24 @@ class Events extends Component {
       errand: '#D79963'
     };
 
+    if (!this.props.events || !this.props.assignedEvents) {
+      return (
+        <View>
+          <Text>loading...</Text>
+        </View>)
+    }
     return (
       <View
         style={{
+          flex: 1,
           flexDirection: 'column',
           justifyContent: 'center',
-          width: 350,
           paddingBottom: 150
         }}
       >
         <Text style={styles.header}>Events</Text>
         <TouchableOpacity
+          style={styles.button}
           onPress={() => {
             if (this.state.selection === 'MY EVENTS') {
               this.setState({ selection: 'ASSIGNED' });
@@ -75,37 +86,9 @@ class Events extends Component {
           </Text>
         </TouchableOpacity>
 
-        {/* <Header
-          leftComponent={
-            <Button
-              type="outline"
-              title="Events"
-              titleStyle={{ color: 'white' }}
-              containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.setState({ selection: 'MY EVENTS' })}
-            />
-          }
-          centerComponent={
-            <Button
-              type="outline"
-              title="Invited"
-              titleStyle={{ color: 'white' }}
-              containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.setState({ selection: 'ASSIGNED' })}
-            />
-          }
-          rightComponent={
-            <Button
-              type="outline"
-              title="Add"
-              titleStyle={{ color: 'white' }}
-              containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.props.navigation.navigate('AddEvent')}
-            />
-          }
-        /> */}
+
         <View />
-        {this.props.events.length ? (
+        {events.length ? (
           <View>
             {events.map((event, i) => {
               return (
@@ -139,9 +122,17 @@ class Events extends Component {
             })}
           </View>
         ) : (
-          <Text>You do not have any events.</Text>
-        )}
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 18,
+                margin: 10,
+              }}
+            >You do not have any events.
+            </Text>
+          )}
         <TouchableOpacity
+          style={styles.button}
           onPress={() => this.props.navigation.navigate('AddEvent')}
         >
           <Text style={styles.buttonText}>Add a New Event</Text>
