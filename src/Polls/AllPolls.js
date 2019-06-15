@@ -44,7 +44,6 @@ class AllPolls extends Component {
   constructor() {
     super();
     this.state = {
-      text: '',
       status: 'open'
     };
   }

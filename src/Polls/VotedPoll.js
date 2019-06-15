@@ -55,7 +55,7 @@ class VotedPoll extends React.Component {
 
   handleDelete = () => {
     this.props.deletePoll(this.state.pollId, this.state.familyId);
-    this.props.navigation.navigate('Polls');
+    this.props.navigation.pop();
   };
 
   handleStatus = () => {

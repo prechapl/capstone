@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView
@@ -48,10 +49,21 @@ class CreatePoll extends Component {
 
   handleSubmitChoices = () => {
     this.state.choices.map(choice => {
-      this.props.createChoice(this.state.pollId, {
-        pollId: this.state.pollId,
-        text: choice.text
-      });
+      this.props.createChoice(
+        this.state.pollId,
+        {
+          pollId: this.state.pollId,
+          text: choice.text
+        },
+        this.state.familyId
+      );
+    });
+    this.setState({
+      pollId: '',
+      text: '',
+      submitted: false,
+      choices: [],
+      currentChoice: ''
     });
     this.props.navigation.navigate('Polls');
   };
@@ -61,7 +73,7 @@ class CreatePoll extends Component {
       return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
-            <Text style={styles.subheader}>Add your question</Text>
+            <Text style={styles.subheader}>Poll Question</Text>
             <TextInput
               style={styles.input}
               placeholder="Question"
@@ -77,52 +89,60 @@ class CreatePoll extends Component {
               }}
               onPress={this.handleSubmit}
             >
-              <Text style={styles.buttonText}>Submit</Text>
+              <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
       );
     } else {
       return (
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
-          <View style={styles.container}>
-            <Text style={styles.subheader}>{this.state.text}</Text>
-            {this.state.choices.map(choice => (
-              <View key={choice.text} style={styles.choiceContainer}>
-                <Text style={styles.choiceText}>{choice.text}</Text>
-              </View>
-            ))}
-            <TextInput
-              style={styles.input}
-              placeholder="Add a choice"
-              onChangeText={currentChoice => this.setState({ currentChoice })}
-            />
+        <View style={styles.container}>
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+          >
+            <View style={styles.container}>
+              <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                <Text style={styles.subheader}>{this.state.text}</Text>
+                {this.state.choices.map(choice => (
+                  <View key={choice.text} style={styles.choiceContainer}>
+                    <Text style={styles.choiceText}>{choice.text}</Text>
+                  </View>
+                ))}
+                <TextInput
+                  style={styles.input}
+                  placeholder="Add a choice"
+                  onChangeText={currentChoice =>
+                    this.setState({ currentChoice })
+                  }
+                />
 
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#8EB51A',
-                padding: 10,
-                margin: 10,
-                width: 300
-              }}
-              onPress={this.handleAddChoice}
-            >
-              <Text style={styles.buttonText}>Add Choice</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#7DC6CD',
+                    padding: 10,
+                    margin: 10,
+                    width: 300
+                  }}
+                  onPress={this.handleAddChoice}
+                >
+                  <Text style={styles.buttonText}>Add Choice</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#8EB51A',
-                padding: 10,
-                margin: 10,
-                width: 300
-              }}
-              onPress={this.handleSubmitChoices}
-            >
-              <Text style={styles.buttonText}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#8EB51A',
+                    padding: 10,
+                    margin: 10,
+                    width: 300
+                  }}
+                  onPress={this.handleSubmitChoices}
+                >
+                  <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+              </KeyboardAvoidingView>
+            </View>
+          </ScrollView>
+        </View>
       );
     }
   }
@@ -160,20 +180,21 @@ const styles = StyleSheet.create({
     height: 40,
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    marginBottom: 20,
     color: '#000000',
     width: 300,
+    paddingTop: 10,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: '#000000'
+    borderColor: '#000000',
+    margin: 5
   }
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     createPoll: poll => dispatch(createPollThunk(poll)),
-    createChoice: (pollId, choice) =>
-      dispatch(createChoiceThunk(pollId, choice))
+    createChoice: (pollId, choice, familyId) =>
+      dispatch(createChoiceThunk(pollId, choice, familyId))
   };
 };
 
