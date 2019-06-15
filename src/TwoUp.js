@@ -14,7 +14,7 @@ class TwoUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: "Status"
+      display: "Reliability"
     };
   }
 
@@ -67,6 +67,9 @@ class TwoUp extends Component {
       const relationship = userRelationships.find(
         relation => relation.userId === user.id
       );
+      const relativeRelationship = userRelationships.find(
+        relation => relation.RelationshipId === relative.id
+      );
 
       const relativeMoodValue = familyMembers
         .find(member => member.id === relative.id)
@@ -103,11 +106,9 @@ class TwoUp extends Component {
             <Picker
               selectedValue={this.state.display}
               style={{ height: 100, width: 100, marginBottom: 50 }}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({ display: itemValue })
-              }
+              onValueChange={itemValue => this.setState({ display: itemValue })}
             >
-              <Picker.Item label="Status" value="Status" />
+              <Picker.Item label="Reliability" value="Reliability" />
               <Picker.Item label="Events" value="Events" />
               <Picker.Item label="Polls" value="Polls" />
             </Picker>
@@ -133,9 +134,32 @@ class TwoUp extends Component {
               paddingTop: 100
             }}
           >
-            {this.state.display === "Status"
-              ? this.generateStatusMeter(relationship.status)
-              : null}
+            {this.state.display === "Reliability" ? (
+              <View>
+                <Text
+                  style={{
+                    flexDirection: "row",
+                    marginBottom: 10
+                  }}
+                >
+                  {relative.firstName}'s realiabilty meter:
+                </Text>
+                <View style={{ flexDirection: "row", marginBottom: 20 }}>
+                  {this.generateStatusMeter(relationship.status)}
+                </View>
+                <Text
+                  style={{
+                    flexDirection: "row",
+                    marginBottom: 10
+                  }}
+                >
+                  {user.firstName}'s realiabilty meter:
+                </Text>
+                <View style={{ flexDirection: "row" }}>
+                  {this.generateStatusMeter(relativeRelationship.status)}
+                </View>
+              </View>
+            ) : null}
 
             {this.state.display === "Polls" ? <AllPolls /> : null}
 
