@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
-import { Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { goDeleteEvent, fetchAssignees, goUpdateEvent, invite } from '../store/events';
+import { updateRelationshipStatus } from '../store/users';
+import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,16 +27,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFFFFF'
   },
-  bottom: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 36
-  }
 });
 
 class SingleEvent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showStatusPicker: false,
       showAssigneePicker: false,
@@ -50,15 +46,18 @@ class SingleEvent extends Component {
     this.props.invite(id, this.state.assignee);
     this.toggleAssigneePicker();
   }
-  delete = id => {
-    this.props.deleteEvent(id);
-    this.props.navigation.navigate('Events');
-  };
-  approve = id => {
-    this.props.updateEvent(id, { status: 'complete' });
+  delete = (id, userId) => {
+    this.props.deleteEvent(id, userId);
+    this.props.navigation.pop();
   };
   updateStatus = id => {
     this.props.updateEvent(id, { status: this.state.status });
+    if (this.state.status === 'completed') {
+      this.props.assignees.forEach(assignee => {
+
+        this.props.updateRel(this.props.user.id, assignee.id, 0.25)
+      })
+    }
     this.toggleStatusPicker();
   };
   toggleStatusPicker = () => {
@@ -87,6 +86,13 @@ class SingleEvent extends Component {
       appointment: '#BCD59B',
       errand: '#D79963'
     };
+    if (!event) {
+      return (
+        <View>
+          <Text>OOPS! There is nothing here</Text>
+        </View>
+      )
+    }
     return (
       <View style={styles.container}>
         <Text style={{ fontSize: 30, color: colorMap[event.category], padding: 15 }}>
@@ -188,7 +194,7 @@ class SingleEvent extends Component {
               {deadline.getHours()}:
               {('0' + deadline.getMinutes()).slice(-2)}
             </Text>
-            <Text style={styles.text}>{event.description}</Text>
+            {event.description ? (<Text style={styles.text}>{event.description}</Text>) : null}
             <Text style={styles.text}>
               {this.props.assignees.length
                 ? `Assigned to: ${this.props.assignees.map(user => user.firstName).join(', ')}`
@@ -201,7 +207,7 @@ class SingleEvent extends Component {
               <Text style={styles.buttonText}>invite someone</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this.delete(event.id)}
+              onPress={() => this.delete(event.id, event.ownerId)}
               style={styles.button}
             >
               <Text style={styles.buttonText}>delete</Text>
@@ -213,8 +219,9 @@ class SingleEvent extends Component {
   }
 }
 
-const mapStateToProps = ({ assignees, events, moods }) => {
+const mapStateToProps = ({ assignees, events, moods, user }) => {
   return {
+    user,
     assignees,
     events,
     family: moods
@@ -223,14 +230,15 @@ const mapStateToProps = ({ assignees, events, moods }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteEvent: id => dispatch(goDeleteEvent(id)),
+    deleteEvent: (id, userId) => dispatch(goDeleteEvent(id, userId)),
     fetchAssignees: id => dispatch(fetchAssignees(id)),
     updateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates)),
-    invite: (evId, userId) => dispatch(invite(evId, userId))
+    invite: (evId, userId) => dispatch(invite(evId, userId)),
+    updateRel: (userId, relationshipId, diff) => dispatch(updateRelationshipStatus(userId, relationshipId, diff))
   };
 };
 
-export default connect(
+export default withNavigation(connect(
   mapStateToProps,
   mapDispatchToProps
-)(SingleEvent);
+)(SingleEvent));

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchEvents, fetchAssigned } from '../store/events';
 import { withNavigation } from 'react-navigation';
+import EventList from './EventList';
+
 
 const styles = StyleSheet.create({
   header: {
@@ -14,129 +15,111 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center'
+  },
+  button: {
+    margin: 10,
+    padding: 10
   }
-})
+});
 
 class Events extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      selection: 'MY EVENTS'
+      selection: 'MY EVENTS',
+      viewPast: false
     };
   }
   componentDidMount() {
     //must fetch events
     const id = this.props.id;
-    this.props.fetchEvents(id);
-    this.props.fetchAssigned(id);
-  }
-  render() {
-    let events;
-    if (this.props.events.length) {
-      this.state.selection === 'MY EVENTS'
-        ? (events = this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)))
-        : (events = this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline)));
+    if (!this.props.events.length) {
+      this.props.fetchEvents(id);
+      this.props.fetchAssigned(id);
     }
 
-    const colorMap = {
-      chore: '#AA8EB7',
-      event: '#9BB8D5',
-      appointment: '#BCD59B',
-      errand: '#D79963'
-    };
-
+  }
+  // eslint-disable-next-line complexity
+  render() {
+    let events = [];
+    if (this.props.events.length) {
+      this.state.selection === 'MY EVENTS'
+        ? (events = [...this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))])
+        : (events = [...this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))]);
+    }
+    if (this.state.viewPast) {
+      events = events.filter(ev => {
+        if (ev.status === 'completed' || ev.status === 'missed') {
+          return ev;
+        }
+      });
+    }
+    else {
+      events = events.filter(ev => {
+        if (ev.status !== 'completed' && ev.status !== 'missed') {
+          return ev;
+        }
+      })
+    }
+    if (!this.props.events || !this.props.assignedEvents) {
+      return (
+        <View>
+          <Text>loading...</Text>
+        </View>)
+    }
     return (
       <View
         style={{
+          flex: 1,
           flexDirection: 'column',
           justifyContent: 'center',
-          width: 350,
           paddingBottom: 150
         }}
       >
         <Text style={styles.header}>Events</Text>
         <TouchableOpacity
+          style={styles.button}
           onPress={() => {
             if (this.state.selection === 'MY EVENTS') {
               this.setState({ selection: 'ASSIGNED' });
             } else {
-              this.setState({ selection: 'MY EVENTS' })
+              this.setState({ selection: 'MY EVENTS' });
             }
           }}
         >
-          <Text
-            style={styles.buttonText}>
-            {this.state.selection === 'MY EVENTS' ? 'see events assigned to me' : 'see events created by me'}
+          <Text style={styles.buttonText}>
+            {this.state.selection === 'MY EVENTS'
+              ? 'see events assigned to me'
+              : 'see events created by me'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            this.setState({ viewPast: !this.state.viewPast })
+          }}
+        >
+          <Text style={styles.buttonText}>
+            {this.state.viewPast
+              ? 'current' : 'past'}
           </Text>
         </TouchableOpacity>
 
-        {/* <Header
-          leftComponent={
-            <Button
-              type="outline"
-              title="Events"
-              titleStyle={{ color: 'white' }}
-              containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.setState({ selection: 'MY EVENTS' })}
-            />
-          }
-          centerComponent={
-            <Button
-              type="outline"
-              title="Invited"
-              titleStyle={{ color: 'white' }}
-              containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.setState({ selection: 'ASSIGNED' })}
-            />
-          }
-          rightComponent={
-            <Button
-              type="outline"
-              title="Add"
-              titleStyle={{ color: 'white' }}
-              containerStyle={{ width: 100, paddingHorizontal: 10 }}
-              onPress={() => this.props.navigation.navigate('AddEvent')}
-            />
-          }
-        /> */}
         <View />
-        {events ? (
-          <View>
-            {events.map((event, i) => {
-              return (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() => {
-                    if (this.state.selection === 'MY EVENTS') {
-                      this.props.navigation.navigate('Event', {
-                        event: event
-                      });
-                    } else {
-                      this.props.navigation.navigate('EventAssigned', {
-                        event: event
-                      });
-                    }
-                  }}
-                >
-                  <ListItem
-                    key={i}
-                    title={event.title}
-                    subtitle={`${new Date(
-                      event.deadline
-                    ).getMonth()}/${new Date(event.deadline).getDate()}`}
-                    badge={{
-                      value: event.category,
-                      badgeStyle: { backgroundColor: colorMap[event.category] }
-                    }}
-                  />
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+        {events.length ? (
+          <EventList eventlist={events} type={this.state.selection} />
         ) : (
-            <Text>You do not have any events.</Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 18,
+                margin: 10,
+              }}
+            >You do not have any events.
+            </Text>
           )}
         <TouchableOpacity
+          style={styles.button}
           onPress={() => this.props.navigation.navigate('AddEvent')}
         >
           <Text style={styles.buttonText}>Add a New Event</Text>

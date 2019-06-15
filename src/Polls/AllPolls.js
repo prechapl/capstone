@@ -16,17 +16,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 60
   },
   header: {
     padding: 10,
-    margin: 10,
-    fontSize: 24
+    fontSize: 32
   },
   subheader: {
     padding: 10,
-    margin: 10,
-    fontSize: 32
+    fontSize: 24
   },
   poll: {
     backgroundColor: '#D3D3D4',
@@ -45,7 +44,6 @@ class AllPolls extends Component {
   constructor() {
     super();
     this.state = {
-      text: '',
       status: 'open'
     };
   }
