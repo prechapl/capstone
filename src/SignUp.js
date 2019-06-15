@@ -26,9 +26,7 @@ class SignUp extends Component {
       familyCode: "",
       newFamilyCode: "",
       newFamilyName: "",
-      page: 1,
-      imageUri: null,
-      imageBase64: null
+      page: 1
     };
   }
 
@@ -52,13 +50,18 @@ class SignUp extends Component {
       aspect: [4, 3],
       base64: true
     });
+    console.log("result", result);
+
+    const imageUriPrepend = "data:image/jpeg;base64,";
+    let uri = imageUriPrepend.concat(result.base64);
 
     if (!result.cancelled) {
-      this.setState({ imageUri: result.uri, imageBase64: result.base64 });
+      this.setState({ imgUrl: uri });
     }
   };
 
   handleSubmit = userData => {
+    userData = this.state;
     return signUp(userData)
       .then(() => this.props.getAuthedUser())
       .then(() => this.setState({ page: 1 }));
@@ -74,6 +77,7 @@ class SignUp extends Component {
       imgUrl: this.state.imgUrl,
       familyCode: this.state.familyCode
     };
+
     this.handleSubmit(userData).then(() =>
       this.props.navigation.navigate("SetAllRelationships")
     );
@@ -110,48 +114,30 @@ class SignUp extends Component {
   };
 
   render() {
-    if (this.state.page === 1 && this.state.imageBase64) {
-      let { imageUri, imageBase64 } = this.state;
-      // let _imageUriprepend = "data:image/" + imageUri.slice(-3) + ";base64,";
-      // let uri = _imageUriprepend.concat(imageBase64);
-      // console.log("uri", uri);
-      console.log("imageUri.slice(-3)", imageUri.slice(-3));
+    if (this.state.page === 1) {
       return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
-            {imageBase64 ? (
-              <View>
+            {this.state.imgUrl ? (
+              <View style={{ marginBottom: 30 }}>
                 <Avatar
                   rounded
-                  editButton="true"
-                  onEditPress={this._pickImage}
                   overlayContainerStyle={{
                     borderWidth: 7,
                     borderColor: "#009510"
                   }}
                   size={120}
                   source={{
-                    uri: _imageUri
+                    uri: this.state.imgUrl
                   }}
-                  // title={this.state.firstName}
                 />
               </View>
             ) : (
               <View>
-                <Avatar
-                  rounded
-                  editButton="true"
-                  onEditPress={this._pickImage}
-                  overlayContainerStyle={{
-                    borderWidth: 7,
-                    borderColor: "#009510"
-                  }}
-                  source={{}}
-                  size={120}
-                />
                 <Text style={styles.header}>Mender</Text>
                 <Text
                   style={{
+                    flexDirection: "row",
                     fontSize: 12,
                     marginBottom: 16,
                     alignItems: "center"
@@ -199,6 +185,10 @@ class SignUp extends Component {
                 this.setState({ password });
               }}
             />
+
+            <TouchableOpacity style={styles.button} onPress={this._pickImage}>
+              <Text style={styles.buttonText}>Select Profile Image</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={this.nextPage}>
               <Text style={styles.buttonText}>Create or Join a Family</Text>

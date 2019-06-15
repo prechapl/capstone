@@ -67,8 +67,7 @@ const UserNavigator = createStackNavigator(
 
 const RootNavigator = createBottomTabNavigator({
   Account: AuthNavigator,
-  Family: UserNavigator,
-  ImagePicker: ImgPicker
+  Family: UserNavigator
 });
 
 const AppContainer = createAppContainer(RootNavigator);
