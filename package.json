@@ -25,6 +25,7 @@
     "react-native-radio-buttons": "^1.0.0",
     "react-native-simple-button": "^1.0.0",
     "react-native-simple-radio-button": "^2.7.3",
+    "react-native-swipe-gestures": "^1.0.3",
     "react-navigation": "^3.11.0",
     "react-redux": "6.0.1",
     "redux": "^4.0.1",

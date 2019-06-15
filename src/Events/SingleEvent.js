@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { goDeleteEvent, fetchAssignees, goUpdateEvent, invite } from '../store/events';
 import { updateRelationshipStatus } from '../store/users';
 import { withNavigation } from 'react-navigation';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,8 +43,14 @@ class SingleEvent extends Component {
   componentDidMount() {
     this.props.fetchAssignees(this.props.navigation.getParam('event').id);
   }
-  invite = id => {
-    this.props.invite(id, this.state.assignee);
+  invite = (event) => {
+    this.props.invite(event.id, this.state.assignee);
+    axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
+      alertType: 'event',
+      message: `${this.props.user.firstName} has invited you to ${event.title}!`,
+      targetId: event.id,
+      userId: this.state.assignee
+    });
     this.toggleAssigneePicker();
   }
   delete = (id, userId) => {
@@ -121,7 +128,7 @@ class SingleEvent extends Component {
               }
             </Picker>
             <TouchableOpacity
-              onPress={() => this.invite(event.id)}
+              onPress={() => this.invite(event)}
               style={styles.button}
             >
               <Text style={styles.buttonText}>invite</Text>
