@@ -6,6 +6,7 @@ import { fetchUserRelationships } from './store/users';
 import { connect } from 'react-redux';
 import ActionButton from 'react-native-circular-action-menu';
 import { findMoodColor } from './HelperFunctions';
+import { fetchEvents, fetchAssigned } from './store/events';
 
 class Family extends Component {
   constructor(props) {
@@ -29,6 +30,8 @@ class Family extends Component {
     this.props.getActiveMood(this.props.user.id);
     this.props.getMoodsByFamilyId(this.props.user.familyId);
     this.props.fetchUserRelationships(this.props.user.id);
+    this.props.fetchEvents(this.props.user.id);
+    this.props.fetchAssigned(this.props.user.id);
   };
 
   findFamily = (user, fam) => {
@@ -150,16 +153,27 @@ const mapDispatchToProps = dispatch => {
   return {
     getActiveMood: id => dispatch(getActiveMood(id)),
     getMoodsByFamilyId: familyId => dispatch(getMoodsByFamilyId(familyId)),
-    fetchUserRelationships: id => dispatch(fetchUserRelationships(id))
+    fetchUserRelationships: id => dispatch(fetchUserRelationships(id)),
+    fetchEvents: id => dispatch(fetchEvents(id)),
+    fetchAssigned: id => dispatch(fetchAssigned(id))
   };
 };
 
-const mapStateToProps = ({ mood, moods, user, userRelationships }) => {
+const mapStateToProps = ({
+  mood,
+  moods,
+  user,
+  userRelationships,
+  events,
+  assignedEvents
+}) => {
   return {
     user,
     mood,
     moods,
-    userRelationships
+    userRelationships,
+    events,
+    assignedEvents
   };
 };
 

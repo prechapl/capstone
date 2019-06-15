@@ -5,7 +5,6 @@ import { fetchEvents, fetchAssigned } from '../store/events';
 import { withNavigation } from 'react-navigation';
 import EventList from './EventList';
 
-
 const styles = StyleSheet.create({
   header: {
     padding: 10,
@@ -37,15 +36,22 @@ class Events extends Component {
       this.props.fetchEvents(id);
       this.props.fetchAssigned(id);
     }
-
   }
   // eslint-disable-next-line complexity
   render() {
     let events = [];
     if (this.props.events.length) {
       this.state.selection === 'MY EVENTS'
-        ? (events = [...this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))])
-        : (events = [...this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))]);
+        ? (events = [
+            ...this.props.events.sort(
+              (a, b) => new Date(a.deadline) - new Date(b.deadline)
+            )
+          ])
+        : (events = [
+            ...this.props.assignedEvents.sort(
+              (a, b) => new Date(a.deadline) - new Date(b.deadline)
+            )
+          ]);
     }
     if (this.state.viewPast) {
       events = events.filter(ev => {
@@ -53,19 +59,19 @@ class Events extends Component {
           return ev;
         }
       });
-    }
-    else {
+    } else {
       events = events.filter(ev => {
         if (ev.status !== 'completed' && ev.status !== 'missed') {
           return ev;
         }
-      })
+      });
     }
     if (!this.props.events || !this.props.assignedEvents) {
       return (
         <View>
           <Text>loading...</Text>
-        </View>)
+        </View>
+      );
     }
     return (
       <View
@@ -96,12 +102,11 @@ class Events extends Component {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            this.setState({ viewPast: !this.state.viewPast })
+            this.setState({ viewPast: !this.state.viewPast });
           }}
         >
           <Text style={styles.buttonText}>
-            {this.state.viewPast
-              ? 'current' : 'past'}
+            {this.state.viewPast ? 'current' : 'past'}
           </Text>
         </TouchableOpacity>
 
@@ -109,15 +114,16 @@ class Events extends Component {
         {events.length ? (
           <EventList eventlist={events} type={this.state.selection} />
         ) : (
-            <Text
-              style={{
-                textAlign: 'center',
-                fontSize: 18,
-                margin: 10,
-              }}
-            >You do not have any events.
-            </Text>
-          )}
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 18,
+              margin: 10
+            }}
+          >
+            You do not have any events.
+          </Text>
+        )}
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate('AddEvent')}

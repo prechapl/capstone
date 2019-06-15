@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { fetchAlerts, goDismissAlert } from '../store/alerts';
+import { fetchUser } from '../store/users';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 60
+    marginBottom: 60,
+    marginTop: 30
   },
   header: {
     padding: 10,
     fontSize: 32
-  },
-  alertContainer: {
-    height: 40,
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    color: '#000000',
-    width: 350,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: '#000000'
   }
 });
+
+const images = {
+  poll:
+    'https://cdn4.iconfinder.com/data/icons/juicyfruit_by_salleedesign/256x256/stats.png',
+  event:
+    'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-512.png'
+};
 
 class AllAlerts extends Component {
   componentDidMount() {
@@ -45,7 +43,7 @@ class AllAlerts extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
-
+    console.log(this.props.assignedEvents);
     return (
       <View style={styles.container}>
         <ScrollView
@@ -61,16 +59,43 @@ class AllAlerts extends Component {
                       onSwipe={direction => this.onSwipe(direction, alert)}
                       config={config}
                       style={{
-                        height: 40,
-                        alignItems: 'center',
+                        height: 75,
                         color: '#000000',
                         width: 350,
                         paddingHorizontal: 10,
-                        borderWidth: 1,
-                        borderColor: '#000000'
+                        borderWidth: 0.5,
+                        borderColor: '#bebebe',
+                        justifyContent: 'center'
                       }}
                     >
-                      <Text>{alert.message}</Text>
+                      <Text
+                        style={{
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                        onPress={() => {
+                          alert.alertType === 'poll'
+                            ? this.props.navigation.navigate('Poll', {
+                                id: alert.targetId
+                              })
+                            : this.props.navigation.navigate('EventAssigned', {
+                                event: this.props.assignedEvents.find(
+                                  ev => ev.id === alert.targetId
+                                )
+                              });
+                        }}
+                      >
+                        <Image
+                          style={{ width: 50, height: 50 }}
+                          source={{
+                            uri:
+                              alert.alertType === 'poll'
+                                ? images.poll
+                                : images.event
+                          }}
+                        />
+                        {alert.message}
+                      </Text>
                     </GestureRecognizer>
                   </View>
                 )
@@ -85,14 +110,16 @@ class AllAlerts extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     fetchAlerts: id => dispatch(fetchAlerts(id)),
-    dismissAlert: id => dispatch(goDismissAlert(id))
+    dismissAlert: id => dispatch(goDismissAlert(id)),
+    fetchUser: id => dispatch(fetchUser(id))
   };
 };
 
-const mapStateToProps = ({ user, alerts }) => {
+const mapStateToProps = ({ user, alerts, assignedEvents }) => {
   return {
     user,
-    alerts
+    alerts,
+    assignedEvents
   };
 };
 export default withNavigation(
