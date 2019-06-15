@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { goUpdateAssigned } from '../store/events';
+import axios from 'axios';
 // import withNavigation from 'react-navigation';
 
 const SingleEventAssigned = props => {
@@ -27,7 +28,7 @@ const SingleEventAssigned = props => {
     <View style={styles.container}>
       <Text style={{ fontSize: 30, color: colorMap[event.category], padding: 15 }}>
         {event.title} ({event.category})
-        </Text>
+      </Text>
       <Badge value={event.status} status={badgeStatusMap[event.status]} />
       <Text style={styles.text}>
         {deadline.getMonth()}/{deadline.getDate()}/{deadline.getFullYear()} at
@@ -37,9 +38,15 @@ const SingleEventAssigned = props => {
       <Text>Invited by: {props.family.find(user => user.id === event.ownerId).firstName}</Text>
       {event.description ? (<Text style={styles.text}>{event.description}</Text>) : null}
       <TouchableOpacity
-        onPress={() =>
-          props.completeAssignedTask(event.id, { status: 'completed-pending' })
-        }
+        onPress={() => {
+          props.completeAssignedTask(event.id, { status: 'completed-pending' });
+          axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
+            alertType: 'event',
+            message: `${props.user.firstName} has completed ${event.title}! Please confirm event has been completed.`,
+            targetId: event.id,
+            userId: event.ownerId
+          });
+        }}
         style={styles.button}
       >
         <Text>complete</Text>
@@ -49,8 +56,9 @@ const SingleEventAssigned = props => {
   );
 };
 
-const mapStateToProps = ({ assignedEvents, moods }) => {
+const mapStateToProps = ({ assignedEvents, moods, user }) => {
   return {
+    user,
     assignedEvents,
     family: moods
   };
