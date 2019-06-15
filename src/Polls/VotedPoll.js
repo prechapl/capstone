@@ -110,7 +110,6 @@ class VotedPoll extends React.Component {
         acc.push(obj);
         return acc;
       }, []);
-
     return (
       <View style={styles.container}>
         <Text style={styles.header}>{this.props.question}</Text>
