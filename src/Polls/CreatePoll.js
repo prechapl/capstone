@@ -65,17 +65,10 @@ class CreatePoll extends Component {
           pollId: this.state.pollId,
           text: choice.text
         },
-        this.state.familyId
+        this.props.user.familyId
       );
     });
-    this.setState({
-      pollId: '',
-      text: '',
-      submitted: false,
-      choices: [],
-      currentChoice: ''
-    });
-    this.props.navigation.navigate('Polls');
+    this.props.navigation.pop();
   };
 
   handleClearChoices = () => {
@@ -112,6 +105,7 @@ class CreatePoll extends Component {
       return (
         <View style={styles.container}>
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
           >
             <View style={styles.container}>
