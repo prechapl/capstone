@@ -43,7 +43,6 @@ class AllAlerts extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
-    console.log(this.props.assignedEvents);
     return (
       <View style={styles.container}>
         <ScrollView
