@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import { fetchAlerts, goDismissAlert } from '../store/alerts';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,63 +29,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const alerts = [
-  {
-    id: '1',
-    message: 'New poll creates',
-    alertType: 'poll',
-    targetId: '',
-    staus: 'active',
-    userId: ''
-  },
-  {
-    id: '2',
-    message: 'New event assigned to you',
-    alertType: 'event',
-    targetId: '',
-    status: 'active',
-    userId: ''
-  },
-  {
-    id: '3',
-    message: 'Poll closed! View winner here',
-    alertType: 'poll',
-    targetId: '',
-    status: 'active',
-    userId: ''
-  },
-  {
-    id: '4',
-    message: 'Event completed',
-    alertType: 'event',
-    targetId: '',
-    status: 'active',
-    userId: ''
-  }
-];
-
 class AllAlerts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      alerts: alerts
-    };
+  componentDidMount() {
+    this.props.fetchAlerts(this.props.user.id);
   }
 
   onSwipe(gestureName, alertTarget) {
     if (gestureName === 'SWIPE_LEFT') {
-      const alertArr = this.state.alerts.filter(
-        alert => alert.id !== alertTarget.id
-      );
-      const newAlert = {
-        alertType: alertTarget.alertType,
-        id: alertTarget.id,
-        message: alertTarget.message,
-        targetId: alertTarget.targetId,
-        userId: alertTarget.userId,
-        status: 'inactive'
-      };
-      this.setState({ alerts: [...alertArr, newAlert] });
+      this.props.dismissAlert(alertTarget.id);
     }
   }
 
@@ -100,10 +52,10 @@ class AllAlerts extends Component {
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
         >
           <View style={styles.container}>
-            <Text style={styles.header}>Alerts</Text>
-            {this.state.alerts.map(
+            <Text style={styles.header}>Notifications</Text>
+            {this.props.alerts.map(
               alert =>
-                alert.status === 'active' && (
+                alert.active === true && (
                   <View key={alert.id}>
                     <GestureRecognizer
                       onSwipe={direction => this.onSwipe(direction, alert)}
@@ -131,12 +83,16 @@ class AllAlerts extends Component {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    fetchAlerts: id => dispatch(fetchAlerts(id)),
+    dismissAlert: id => dispatch(goDismissAlert(id))
+  };
 };
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ user, alerts }) => {
   return {
-    user
+    user,
+    alerts
   };
 };
 export default withNavigation(
