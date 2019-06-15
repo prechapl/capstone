@@ -26,7 +26,8 @@ class SignUp extends Component {
       familyCode: "",
       newFamilyCode: "",
       newFamilyName: "",
-      page: 1
+      page: 1,
+      phone: ""
     };
   }
 
@@ -73,6 +74,7 @@ class SignUp extends Component {
       lastName: this.state.lastName,
       email: this.state.email,
       password: this.state.password,
+      phone: this.state.phone,
       age: this.state.age,
       imgUrl: this.state.imgUrl,
       familyCode: this.state.familyCode
@@ -89,6 +91,7 @@ class SignUp extends Component {
       lastName: this.state.lastName,
       email: this.state.email,
       password: this.state.password,
+      phone: this.state.phone,
       age: this.state.age,
       imgUrl: this.state.imgUrl,
       family: {
@@ -178,6 +181,12 @@ class SignUp extends Component {
               placeholderTextColor="red"
               onChangeText={email => this.setState({ email })}
             />
+            <TextInput
+              value={this.state.phone}
+              style={styles.input}
+              placeholder="phone number"
+              onChangeText={phone => this.setState({ phone })}
+            />
 
             <TextInput
               style={styles.input}
@@ -257,10 +266,6 @@ class SignUp extends Component {
             <TouchableOpacity style={styles.button} onPress={this.createFamily}>
               <Text style={styles.buttonText}>Submit and Create Family</Text>
             </TouchableOpacity>
-
-            {/* <TouchableOpacity style={styles.button} onPress={this.previousPage}>
-              <Text style={styles.buttonText}>Previous</Text>
-            </TouchableOpacity> */}
           </View>
         </KeyboardAvoidingView>
       );
