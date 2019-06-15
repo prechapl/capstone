@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10
   }
-})
+});
 
 class Events extends Component {
   constructor(props) {
@@ -75,13 +75,14 @@ class Events extends Component {
             if (this.state.selection === 'MY EVENTS') {
               this.setState({ selection: 'ASSIGNED' });
             } else {
-              this.setState({ selection: 'MY EVENTS' })
+              this.setState({ selection: 'MY EVENTS' });
             }
           }}
         >
-          <Text
-            style={styles.buttonText}>
-            {this.state.selection === 'MY EVENTS' ? 'see events assigned to me' : 'see events created by me'}
+          <Text style={styles.buttonText}>
+            {this.state.selection === 'MY EVENTS'
+              ? 'see events assigned to me'
+              : 'see events created by me'}
           </Text>
         </TouchableOpacity>
 

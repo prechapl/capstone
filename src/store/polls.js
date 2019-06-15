@@ -50,7 +50,6 @@ const updatePollStatusThunk = (id, status) => {
 };
 
 const deletePollThunk = (pollId, familyId) => {
-  console.log(pollId, familyId);
   return dispatch => {
     return axios
       .delete(`https://capstone-api-server.herokuapp.com/api/polls/${pollId}/`)
