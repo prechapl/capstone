@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { findMoodColor } from "./HelperFunctions";
 import AllPolls from "./Polls/AllPolls";
-import Events from "./Events/Events";
+import TwoUpEvents from "./Events/TwoUpEvents";
 
 class TwoUp extends Component {
   constructor(props) {
@@ -163,7 +163,7 @@ class TwoUp extends Component {
 
             {this.state.display === "Polls" ? <AllPolls /> : null}
 
-            {this.state.display === "Events" ? <Events /> : null}
+            {this.state.display === "Events" ? <TwoUpEvents relative={relative} /> : null}
           </View>
         </View>
       );
