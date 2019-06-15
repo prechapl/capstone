@@ -137,10 +137,9 @@ class SignUp extends Component {
                 <Text style={styles.header}>Mender</Text>
                 <Text
                   style={{
-                    flexDirection: "row",
-                    fontSize: 12,
+                    fontSize: 10,
                     marginBottom: 16,
-                    alignItems: "center"
+                    textAlign: "center"
                   }}
                 >
                   sign up for a free account
@@ -151,28 +150,32 @@ class SignUp extends Component {
             <TextInput
               value={this.state.firstName}
               style={styles.input}
-              placeholder="First Name"
+              placeholder="first name required"
+              placeholderTextColor="red"
               onChangeText={firstName => this.setState({ firstName })}
             />
 
             <TextInput
               value={this.state.lastName}
               style={styles.input}
-              placeholder="Last Name"
+              placeholder="last name required"
+              placeholderTextColor="red"
               onChangeText={lastName => this.setState({ lastName })}
             />
 
             <TextInput
               value={this.state.age}
               style={styles.input}
-              placeholder="Age"
+              placeholder="age required"
+              placeholderTextColor="red"
               onChangeText={age => this.setState({ age })}
             />
 
             <TextInput
               value={this.state.email}
               style={styles.input}
-              placeholder="Email"
+              placeholder="email required"
+              placeholderTextColor="red"
               onChangeText={email => this.setState({ email })}
             />
 
@@ -180,18 +183,31 @@ class SignUp extends Component {
               style={styles.input}
               secureTextEntry
               value={this.state.password}
-              placeholder="password"
+              placeholder="password required"
+              placeholderTextColor="red"
               onChangeText={password => {
                 this.setState({ password });
               }}
             />
-
+            <Text style={{ fontSize: 10, fontStyle: "italic" }}>
+              profile image required
+            </Text>
             <TouchableOpacity style={styles.button} onPress={this._pickImage}>
               <Text style={styles.buttonText}>Select Profile Image</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.setState({
+                  page: 3
+                });
+              }}
+            >
+              <Text style={styles.buttonText}>Create a Family</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={this.nextPage}>
-              <Text style={styles.buttonText}>Create or Join a Family</Text>
+              <Text style={styles.buttonText}>Join a Family</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
@@ -206,15 +222,24 @@ class SignUp extends Component {
             <TextInput
               value={this.state.familyCode}
               style={styles.input}
-              placeholder="Family Code"
+              placeholder="family code required"
+              placeholderTextColor="red"
               onChangeText={familyCode => this.setState({ familyCode })}
             />
 
             <TouchableOpacity style={styles.button} onPress={this.joinFamily}>
               <Text style={styles.buttonText}>Submit and Join Family</Text>
             </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      );
+    }
 
-            <Text style={styles.header2}>Create Family</Text>
+    if (this.state.page === 3) {
+      return (
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          <View style={styles.container}>
+            <Text>Create Family</Text>
             <TextInput
               value={this.state.newFamilyCode}
               style={styles.input}
@@ -233,9 +258,9 @@ class SignUp extends Component {
               <Text style={styles.buttonText}>Submit and Create Family</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={this.previousPage}>
+            {/* <TouchableOpacity style={styles.button} onPress={this.previousPage}>
               <Text style={styles.buttonText}>Previous</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </KeyboardAvoidingView>
       );
