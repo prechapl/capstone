@@ -44,7 +44,6 @@ class CreatePoll extends Component {
     this.setState({
       choices: [...this.state.choices, { text: this.state.currentChoice }]
     });
-    this.setState({ currentChoice: '' });
   };
 
   handleSubmitChoices = () => {

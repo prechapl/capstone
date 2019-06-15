@@ -97,7 +97,7 @@ class VotedPoll extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.subheader}>{this.props.question}</Text>
+        <Text style={styles.header}>{this.props.question}</Text>
         {votesData.length && <PureChart data={votesData} type="pie" />}
 
         {this.state.status === 'open' ? (
