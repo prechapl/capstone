@@ -63,25 +63,27 @@ class VotedPoll extends React.Component {
     if (this.state.status === 'closed') {
       this.props.changeStatus(this.state.pollId, { status: 'open' });
       this.setState({ status: 'open' });
-      this.props.family.forEach(user => {
-        axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
-          alertType: 'poll',
-          message: `${this.props.user.firstName} has re-opened voting for '${this.props.question}'. Go Vote!`,
-          targetId: this.state.pollId,
-          userId: user.id
-        });
-      })
+      this.props.family.filter(user => user.id !== this.props.user.id)
+        .forEach(user => {
+          axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
+            alertType: 'poll',
+            message: `${this.props.user.firstName} has re-opened voting for '${this.props.question}'. Go Vote!`,
+            targetId: this.state.pollId,
+            userId: user.id
+          });
+        })
     } else {
       this.props.changeStatus(this.state.pollId, { status: 'closed' });
       this.setState({ status: 'closed' });
-      this.props.family.forEach(user => {
-        axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
-          alertType: 'poll',
-          message: `${this.props.user.firstName} has closed voting for '${this.props.question}'. Go check out the winner!`,
-          targetId: this.state.pollId,
-          userId: user.id
-        });
-      })
+      this.props.family.filter(user => user.id !== this.props.user.id)
+        .forEach(user => {
+          axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
+            alertType: 'poll',
+            message: `${this.props.user.firstName} has closed voting for '${this.props.question}'. Go check out the winner!`,
+            targetId: this.state.pollId,
+            userId: user.id
+          });
+        })
     }
   }
   render() {
