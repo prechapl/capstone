@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import { createPollThunk, createChoiceThunk } from '../store/polls';
 
@@ -37,7 +38,17 @@ class CreatePoll extends Component {
         familyId: this.props.user.familyId
       })
       .then(({ poll }) => this.setState({ pollId: poll.id }))
-      .then(() => this.setState({ submitted: true }));
+      .then(() => this.setState({ submitted: true }))
+      .then(() => {
+        this.props.family.forEach(user => {
+          axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
+            alertType: 'poll',
+            message: `${this.props.user.firstName} has created a family poll. Go Vote!`,
+            targetId: this.state.pollId,
+            userId: user.id
+          });
+        })
+      })
   };
 
   handleAddChoice = () => {
@@ -207,9 +218,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ user, moods }) => {
   return {
-    user
+    user,
+    family: moods
   };
 };
 export default connect(

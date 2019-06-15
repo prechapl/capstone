@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchEvents, fetchAssigned } from '../store/events';
 import { withNavigation } from 'react-navigation';
+import EventList from './EventList';
 
 
 const styles = StyleSheet.create({
@@ -26,7 +26,8 @@ class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selection: 'MY EVENTS'
+      selection: 'MY EVENTS',
+      viewPast: false
     };
   }
   componentDidMount() {
@@ -38,6 +39,7 @@ class Events extends Component {
     }
 
   }
+  // eslint-disable-next-line complexity
   render() {
     let events = [];
     if (this.props.events.length) {
@@ -45,14 +47,20 @@ class Events extends Component {
         ? (events = [...this.props.events.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))])
         : (events = [...this.props.assignedEvents.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))]);
     }
-
-    const colorMap = {
-      chore: '#AA8EB7',
-      event: '#9BB8D5',
-      appointment: '#BCD59B',
-      errand: '#D79963'
-    };
-
+    if (this.state.viewPast) {
+      events = events.filter(ev => {
+        if (ev.status === 'completed' || ev.status === 'missed') {
+          return ev;
+        }
+      });
+    }
+    else {
+      events = events.filter(ev => {
+        if (ev.status !== 'completed' && ev.status !== 'missed') {
+          return ev;
+        }
+      })
+    }
     if (!this.props.events || !this.props.assignedEvents) {
       return (
         <View>
@@ -85,42 +93,21 @@ class Events extends Component {
               : 'see events created by me'}
           </Text>
         </TouchableOpacity>
-
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            this.setState({ viewPast: !this.state.viewPast })
+          }}
+        >
+          <Text style={styles.buttonText}>
+            {this.state.viewPast
+              ? 'current' : 'past'}
+          </Text>
+        </TouchableOpacity>
 
         <View />
         {events.length ? (
-          <View>
-            {events.map((event, i) => {
-              return (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() => {
-                    if (this.state.selection === 'MY EVENTS') {
-                      this.props.navigation.navigate('Event', {
-                        event: event
-                      });
-                    } else {
-                      this.props.navigation.navigate('EventAssigned', {
-                        event: event
-                      });
-                    }
-                  }}
-                >
-                  <ListItem
-                    key={i}
-                    title={event.title}
-                    subtitle={`${new Date(
-                      event.deadline
-                    ).getMonth()}/${new Date(event.deadline).getDate()}`}
-                    badge={{
-                      value: event.category,
-                      badgeStyle: { backgroundColor: colorMap[event.category] }
-                    }}
-                  />
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+          <EventList eventlist={events} type={this.state.selection} />
         ) : (
             <Text
               style={{

@@ -22,6 +22,7 @@ import Location from './Location';
 import SetAllRelationships from './SetAllRelationships';
 import SetSingleRelationship from './SetSingleRelationship';
 import AllAlerts from './Alerts/AllAlerts';
+import ImgPicker from "./ImagePicker";
 
 const AuthNavigator = createStackNavigator({
   Login: Login,
