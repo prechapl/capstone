@@ -10,6 +10,7 @@ import { findMoodColor } from "./HelperFunctions";
 import AllPolls from "./Polls/AllPolls";
 import TwoUpEvents from "./Events/TwoUpEvents";
 
+
 class TwoUp extends Component {
   constructor(props) {
     super(props);
@@ -67,7 +68,7 @@ class TwoUp extends Component {
 
     if (familyMembers.length && userRelationships.length) {
       const relationship = userRelationships.find(
-        relation => relation.userId === user.id
+        relation => relation.RelationshipId === relative.id
       );
       const relativeRelationship = relativeRelationships.find(
         relation => relation.userId === relative.id

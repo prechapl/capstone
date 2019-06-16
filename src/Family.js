@@ -33,7 +33,6 @@ class Family extends Component {
     this.props.getMoodsByFamilyId(this.props.user.familyId);
     this.props.fetchUserRelationships(this.props.user.id);
     this.props.fetchRelativeRelationships(this.props.user.id);
-
   }
   loadEvents = () => {
     const now = new Date();
