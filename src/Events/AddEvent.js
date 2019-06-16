@@ -86,10 +86,10 @@ class AddEvent extends Component {
               <Text style={styles.buttonText}>Edit Category</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.button}
+              style={!this.state.title.length ? styles.buttonDisabled : styles.button}
               onPress={this.save}
               disabled={!this.state.title.length ? true : false}
-              activeOpacity={0.3}
+
             >
               <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
@@ -173,6 +173,12 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#448AE6',
+    padding: 10,
+    width: 300,
+    margin: 10
+  },
+  buttonDisabled: {
+    backgroundColor: '#dce5f2',
     padding: 10,
     width: 300,
     margin: 10
