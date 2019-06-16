@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { getActiveMood, getMoodsByFamilyId } from './store/mood';
-import { fetchUserRelationships } from './store/users';
+import { fetchUserRelationships, fetchUserRelativeRelationships } from './store/users';
 import { connect } from 'react-redux';
 import ActionButton from 'react-native-circular-action-menu';
 import { findMoodColor } from './HelperFunctions';
@@ -32,6 +32,8 @@ class Family extends Component {
     this.props.getActiveMood(this.props.user.id);
     this.props.getMoodsByFamilyId(this.props.user.familyId);
     this.props.fetchUserRelationships(this.props.user.id);
+    this.props.fetchRelativeRelationships(this.props.user.id);
+
   }
   loadEvents = () => {
     const now = new Date();
@@ -183,7 +185,8 @@ const mapDispatchToProps = dispatch => {
     fetchEvents: id => dispatch(fetchEvents(id)),
     fetchAssigned: id => dispatch(fetchAssigned(id)),
     goUpdateAssigned: (id, updates) => dispatch(goUpdateAssigned(id, updates)),
-    goUpdateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates))
+    goUpdateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates)),
+    fetchRelativeRelationships: (id) => dispatch(fetchUserRelativeRelationships(id))
   };
 };
 

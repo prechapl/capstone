@@ -65,6 +65,10 @@ class SingleEvent extends Component {
 
         this.props.updateRel(this.props.user.id, assignee.id, 0.25)
       })
+    } else if (this.state.status === 'missed') {
+      this.props.assignees.forEach(assignee => {
+        this.props.updateRel(this.props.user.id, assignee.id, -0.25)
+      })
     }
     this.toggleStatusPicker();
   };
