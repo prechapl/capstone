@@ -38,17 +38,14 @@ class VotedPoll extends React.Component {
     this.state = {
       userId: '',
       pollId: '',
-      status: '',
       familyId: ''
     };
   }
   componentDidMount() {
     this.props.fetchPoll(this.props.pollId);
-    console.log(this.props.poll);
     this.setState({
       userId: this.props.user.id,
       pollId: this.props.pollId,
-      status: this.props.status,
       familyId: this.props.user.familyId
     });
   }
@@ -63,7 +60,7 @@ class VotedPoll extends React.Component {
   };
 
   handleStatus = () => {
-    if (this.state.status === 'closed') {
+    if (this.props.poll.status === 'closed') {
       this.props.changeStatus(
         this.state.pollId,
         { status: 'open' },
@@ -130,7 +127,7 @@ class VotedPoll extends React.Component {
         <Text style={styles.header}>{this.props.question}</Text>
         {votesData.length && <PureChart data={votesData} type="pie" />}
 
-        {this.state.status === 'open' ? (
+        {this.props.poll.status === 'open' ? (
           <TouchableOpacity
             style={{
               backgroundColor: '#7DC6CD',
@@ -144,7 +141,7 @@ class VotedPoll extends React.Component {
           </TouchableOpacity>
         ) : null}
         {this.props.user.id === this.props.poll.ownerId ? (
-          this.state.status === 'closed' ? (
+          this.props.poll.status === 'closed' ? (
             <View>
               <TouchableOpacity
                 style={{
