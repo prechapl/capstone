@@ -60,15 +60,13 @@ class AllPolls extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (this.props !== prevProps) {
+    if (this.props.openPolls.length !== prevProps.openPolls.length) {
       this.props.fetchPolls(this.props.user.familyId);
     }
   }
 
   render() {
-    const { polls, openPolls, closedPolls } = this.props;
-    // const openPolls = polls.filter(poll => poll.status === 'open');
-    // const closedPolls = polls.filter(poll => poll.status === 'closed');
+    const { openPolls, closedPolls } = this.props;
     const currentPolls = this.state.status === 'open' ? openPolls : closedPolls;
     return (
       <View style={styles.container}>
@@ -89,7 +87,7 @@ class AllPolls extends Component {
                     text={poll.text}
                     onPress={() =>
                       this.props.navigation.navigate('Poll', {
-                        poll: poll,
+                        // poll: poll,
                         id: poll.id,
                         question: poll.text
                       })
@@ -110,7 +108,7 @@ class AllPolls extends Component {
                     text={poll.text}
                     onPress={() =>
                       this.props.navigation.navigate('Poll', {
-                        poll: poll,
+                        // poll: poll,
                         id: poll.id,
                         question: poll.text
                       })
@@ -163,7 +161,6 @@ const mapStateToProps = ({ user, users, polls }) => {
   return {
     user,
     users,
-    polls,
     openPolls: polls.filter(poll => poll.status === 'open'),
     closedPolls: polls.filter(poll => poll.status === 'closed')
   };

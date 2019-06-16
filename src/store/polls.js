@@ -49,11 +49,12 @@ const fetchPolls = familyId => {
   };
 };
 
-const updatePollStatusThunk = (id, status) => {
+const updatePollStatusThunk = (id, status, familyId) => {
+  console.log(familyId);
   return dispatch => {
     return axios
       .put(`https://capstone-api-server.herokuapp.com/api/polls/${id}/`, status)
-      .then(({ data }) => dispatch(getPoll(data)))
+      .then(() => dispatch(fetchPolls(familyId)))
       .catch(err => console.log(err));
   };
 };
