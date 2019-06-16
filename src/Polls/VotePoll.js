@@ -70,7 +70,7 @@ class VotePoll extends React.Component {
 
   handleDelete = () => {
     this.props.deletePoll(this.state.pollId, this.state.familyId);
-    this.props.navigation.navigate('Polls');
+    this.props.navigation.pop();
   };
 
   render() {
@@ -106,7 +106,7 @@ class VotePoll extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <Text style={styles.subheader}>{this.props.question}</Text>
+        <Text style={styles.header}>{this.props.question}</Text>
 
         <RadioButtons
           options={options}

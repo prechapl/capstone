@@ -3,11 +3,13 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import { createPollThunk, createChoiceThunk } from '../store/polls';
 
@@ -36,24 +38,43 @@ class CreatePoll extends Component {
         familyId: this.props.user.familyId
       })
       .then(({ poll }) => this.setState({ pollId: poll.id }))
-      .then(() => this.setState({ submitted: true }));
+      .then(() => this.setState({ submitted: true }))
+      .then(() => {
+        this.props.family.forEach(user => {
+          axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
+            alertType: 'poll',
+            message: `${
+              this.props.user.firstName
+            } has created a family poll. Go Vote!`,
+            targetId: this.state.pollId,
+            userId: user.id
+          });
+        });
+      });
   };
 
   handleAddChoice = () => {
     this.setState({
       choices: [...this.state.choices, { text: this.state.currentChoice }]
     });
-    this.setState({ currentChoice: '' });
   };
 
   handleSubmitChoices = () => {
     this.state.choices.map(choice => {
-      this.props.createChoice(this.state.pollId, {
-        pollId: this.state.pollId,
-        text: choice.text
-      });
+      this.props.createChoice(
+        this.state.pollId,
+        {
+          pollId: this.state.pollId,
+          text: choice.text
+        },
+        this.props.user.familyId
+      );
     });
-    this.props.navigation.navigate('Polls');
+    this.props.navigation.pop();
+  };
+
+  handleClearChoices = () => {
+    this.setState({ choices: [] });
   };
 
   render() {
@@ -61,7 +82,7 @@ class CreatePoll extends Component {
       return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
-            <Text style={styles.subheader}>Add your question</Text>
+            <Text style={styles.subheader}>Poll Question</Text>
             <TextInput
               style={styles.input}
               placeholder="Question"
@@ -77,52 +98,73 @@ class CreatePoll extends Component {
               }}
               onPress={this.handleSubmit}
             >
-              <Text style={styles.buttonText}>Submit</Text>
+              <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
       );
     } else {
       return (
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
-          <View style={styles.container}>
-            <Text style={styles.subheader}>{this.state.text}</Text>
-            {this.state.choices.map(choice => (
-              <View key={choice.text} style={styles.choiceContainer}>
-                <Text style={styles.choiceText}>{choice.text}</Text>
-              </View>
-            ))}
-            <TextInput
-              style={styles.input}
-              placeholder="Add a choice"
-              onChangeText={currentChoice => this.setState({ currentChoice })}
-            />
+        <View style={styles.container}>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+          >
+            <View style={styles.container}>
+              <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                <Text style={styles.subheader}>{this.state.text}</Text>
+                {this.state.choices.map(choice => (
+                  <View key={choice.text} style={styles.choiceContainer}>
+                    <Text style={styles.choiceText}>{choice.text}</Text>
+                  </View>
+                ))}
+                <TextInput
+                  style={styles.input}
+                  placeholder="Add a choice"
+                  onChangeText={currentChoice =>
+                    this.setState({ currentChoice })
+                  }
+                />
 
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#8EB51A',
-                padding: 10,
-                margin: 10,
-                width: 300
-              }}
-              onPress={this.handleAddChoice}
-            >
-              <Text style={styles.buttonText}>Add Choice</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#7DC6CD',
+                    padding: 10,
+                    margin: 10,
+                    width: 300
+                  }}
+                  onPress={this.handleAddChoice}
+                >
+                  <Text style={styles.buttonText}>Add Choice</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#8EB51A',
-                padding: 10,
-                margin: 10,
-                width: 300
-              }}
-              onPress={this.handleSubmitChoices}
-            >
-              <Text style={styles.buttonText}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#FF0000',
+                    padding: 10,
+                    margin: 10,
+                    width: 300
+                  }}
+                  onPress={this.handleClearChoices}
+                >
+                  <Text style={styles.buttonText}>Clear Choices</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: '#8EB51A',
+                    padding: 10,
+                    margin: 10,
+                    width: 300
+                  }}
+                  onPress={this.handleSubmitChoices}
+                >
+                  <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+              </KeyboardAvoidingView>
+            </View>
+          </ScrollView>
+        </View>
       );
     }
   }
@@ -160,26 +202,28 @@ const styles = StyleSheet.create({
     height: 40,
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    marginBottom: 20,
     color: '#000000',
     width: 300,
+    paddingTop: 10,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: '#000000'
+    borderColor: '#000000',
+    margin: 5
   }
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     createPoll: poll => dispatch(createPollThunk(poll)),
-    createChoice: (pollId, choice) =>
-      dispatch(createChoiceThunk(pollId, choice))
+    createChoice: (pollId, choice, familyId) =>
+      dispatch(createChoiceThunk(pollId, choice, familyId))
   };
 };
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ user, moods }) => {
   return {
-    user
+    user,
+    family: moods
   };
 };
 export default connect(
