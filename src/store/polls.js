@@ -29,6 +29,15 @@ const getPoll = poll => ({
 
 //THUNKS
 
+const fetchPoll = pollId => {
+  return dispatch => {
+    return axios
+      .get(`http://capstone-api-server.herokuapp.com/api/polls/${pollId}`)
+      .then(({ data }) => dispatch(getPoll(data)))
+      .catch(err => console.log(err));
+  };
+};
+
 const fetchPolls = familyId => {
   return dispatch => {
     return axios
@@ -159,6 +168,7 @@ const pollsReducer = (state = [], action) => {
 };
 
 export {
+  fetchPoll,
   fetchPolls,
   fetchChoices,
   fetchVotes,

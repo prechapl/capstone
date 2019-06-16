@@ -6,6 +6,7 @@ import { updateRelationshipStatus } from '../store/users';
 import { withNavigation } from 'react-navigation';
 import axios from 'axios';
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

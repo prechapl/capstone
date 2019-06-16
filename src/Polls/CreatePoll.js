@@ -40,6 +40,7 @@ class CreatePoll extends Component {
       .then(({ poll }) => this.setState({ pollId: poll.id }))
       .then(() => this.setState({ submitted: true }))
       .then(() => {
+<<<<<<< HEAD
         this.props.family.filter(user => user.id !== this.props.user.id)
           .forEach(user => {
             axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
@@ -50,6 +51,19 @@ class CreatePoll extends Component {
             });
           })
       })
+=======
+        this.props.family.forEach(user => {
+          axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
+            alertType: 'poll',
+            message: `${
+              this.props.user.firstName
+            } has created a family poll. Go Vote!`,
+            targetId: this.state.pollId,
+            userId: user.id
+          });
+        });
+      });
+>>>>>>> 69d30c4e41b6185914caf92ca729df6691f9e821
   };
 
   handleAddChoice = () => {
