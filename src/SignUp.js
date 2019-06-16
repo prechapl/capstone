@@ -19,7 +19,7 @@ class SignUp extends Component {
     this.state = {
       firstName: '',
       lastName: '',
-      age: '',
+      birthday: '',
       email: '',
       password: '',
       imgUrl: '',
@@ -74,7 +74,7 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
-      age: this.state.age,
+      birthday: this.state.birthday,
       imgUrl: this.state.imgUrl,
       familyCode: this.state.familyCode,
     };
@@ -91,7 +91,7 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
-      age: this.state.age,
+      birthday: this.state.birthday,
       imgUrl: this.state.imgUrl,
       family: {
         code: this.state.newFamilyCode,
@@ -166,11 +166,10 @@ class SignUp extends Component {
             />
 
             <TextInput
-              value={this.state.age}
+              value={this.state.birthday}
               style={styles.input}
-              placeholder="age required"
-              placeholderTextColor="red"
-              onChangeText={age => this.setState({ age })}
+              placeholder="birthday mm/dd/yyyy"
+              onChangeText={birthday => this.setState({ birthday })}
             />
 
             <TextInput
@@ -183,7 +182,8 @@ class SignUp extends Component {
             <TextInput
               value={this.state.phone}
               style={styles.input}
-              placeholder="phone number"
+              placeholder="phone number required"
+              placeholderTextColor="red"
               onChangeText={phone => this.setState({ phone })}
             />
 
