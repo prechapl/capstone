@@ -59,12 +59,17 @@ class AllPolls extends Component {
       : this.setState({ status: 'open' });
   };
 
-  render() {
-    const { polls } = this.props;
-    const openPolls = polls.filter(poll => poll.status === 'open');
-    const closedPolls = polls.filter(poll => poll.status === 'closed');
-    const currentPolls = this.state.status === 'open' ? openPolls : closedPolls;
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.props.fetchPolls(this.props.user.familyId);
+    }
+  }
 
+  render() {
+    const { polls, openPolls, closedPolls } = this.props;
+    // const openPolls = polls.filter(poll => poll.status === 'open');
+    // const closedPolls = polls.filter(poll => poll.status === 'closed');
+    const currentPolls = this.state.status === 'open' ? openPolls : closedPolls;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -158,7 +163,9 @@ const mapStateToProps = ({ user, users, polls }) => {
   return {
     user,
     users,
-    polls
+    polls,
+    openPolls: polls.filter(poll => poll.status === 'open'),
+    closedPolls: polls.filter(poll => poll.status === 'closed')
   };
 };
 export default withNavigation(

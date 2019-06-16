@@ -23,7 +23,7 @@ class Login extends Component {
   handleSubmit = () => {
     loginUser(this.state.email, this.state.password)
       .then(() => this.props.getAuthedUser())
-      .then(() => this.props.navigation.navigate('App'))
+      .then(() => this.props.navigation.navigate('Family'))
       .catch(e => console.log(e));
   };
 

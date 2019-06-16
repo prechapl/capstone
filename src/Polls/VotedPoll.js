@@ -87,6 +87,7 @@ class VotedPoll extends React.Component {
         });
       });
     }
+    this.props.navigation.pop();
   };
   render() {
     const { choices, votes } = this.props;
