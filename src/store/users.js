@@ -7,6 +7,7 @@ const GET_USERS = 'GET_USERS';
 const GET_USER = 'GET_USER';
 const GET_USER_RELATIONSHIPS = 'GET_USER_RELATIONSHIPS';
 const GET_USER_POLLS = 'GET_USER_POLLS';
+const GET_USER_RELATIVE_RELATIONSHIPS = 'GET_USER_RELATIVE_RELATIONSHIPS';
 
 //ACTION CREATORS
 
@@ -22,13 +23,25 @@ const getUserRelationships = relationships => ({
   type: GET_USER_RELATIONSHIPS,
   relationships
 });
+const getUserRelativesRelationships = relationships => ({
+  type: GET_USER_RELATIVE_RELATIONSHIPS,
+  relationships
+})
 const getUserPolls = polls => ({
   type: GET_USER_POLLS,
   polls
 });
 
 //THUNKS
-
+const fetchUserRelativeRelationships = id => {
+  return dispatch => {
+    return axios
+      .get(`https://capstone-api-server.herokuapp.com/api/users/${id}/relatives/relationships`)
+      .then(response => response.data)
+      .then(relationships => dispatch(getUserRelativesRelationships(relationships)))
+      .catch(e => console.log(e))
+  }
+}
 const fetchUsers = () => {
   return dispatch => {
     return axios
@@ -119,13 +132,12 @@ const fetchUserPolls = id => {
 const updateRelationshipStatus = (userId, relationshipId, diff) => {
   return dispatch => {
     return axios
-      .put(`https://capstone-api-server.herokuapp.com/api/users/${userId}`, {
-        relationshipId,
-        diff
+      .put(`https://capstone-api-server.herokuapp.com/api/users/${userId}/relationships/status`, {
+        RelationshipId: relationshipId,
+        diff: diff
       })
       .then(rel => {
-        console.log(rel);
-        return dispatch(fetchUserRelationships);
+        return dispatch(fetchUserRelationships(userId));
       })
       .catch(er => console.log(er));
   };
@@ -160,6 +172,15 @@ const userRelationshipsReducer = (state = [], action) => {
   }
 };
 
+const relativeRelationshipReducer = (state = [], action) => {
+  switch (action.type) {
+    case GET_USER_RELATIVE_RELATIONSHIPS:
+      return action.relationships;
+    default:
+      return state;
+  }
+}
+
 const userPollsReducer = (state = [], action) => {
   switch (action.type) {
     case GET_USER_POLLS:
@@ -183,5 +204,7 @@ export {
   usersReducer,
   userRelationshipsReducer,
   userPollsReducer,
-  updateRelationshipStatus
+  updateRelationshipStatus,
+  relativeRelationshipReducer,
+  fetchUserRelativeRelationships
 };

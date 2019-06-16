@@ -5,7 +5,8 @@ import {
   userReducer,
   usersReducer,
   userRelationshipsReducer,
-  userPollsReducer
+  userPollsReducer,
+  relativeRelationshipReducer
 } from './users';
 import { eventReducer, assignedEventReducer, assigneeReducer } from './events';
 import {
@@ -16,6 +17,7 @@ import {
 } from './polls';
 import { familyMembersReducer } from './family';
 import { alertsReducer } from './alerts';
+
 
 const reducer = combineReducers({
   users: usersReducer,
@@ -32,7 +34,8 @@ const reducer = combineReducers({
   poll: pollReducer,
   polls: pollsReducer,
   familyMembers: familyMembersReducer,
-  alerts: alertsReducer
+  alerts: alertsReducer,
+  relativeRelationships: relativeRelationshipReducer
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));

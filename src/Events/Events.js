@@ -81,8 +81,8 @@ class Events extends Component {
         style={{
           flex: 1,
           flexDirection: 'column',
-          justifyContent: 'center',
-          paddingBottom: 50
+          justifyContent: 'space-evenly',
+          paddingBottom: 150
         }}
       >
         <Text style={styles.header}>Events</Text>
