@@ -66,24 +66,28 @@ class VotedPoll extends React.Component {
       this.props.family.forEach(user => {
         axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
           alertType: 'poll',
-          message: `${this.props.user.firstName} has re-opened voting for '${this.props.question}'. Go Vote!`,
+          message: `${this.props.user.firstName} has re-opened voting for '${
+            this.props.question
+          }'. Go Vote!`,
           targetId: this.state.pollId,
           userId: user.id
         });
-      })
+      });
     } else {
       this.props.changeStatus(this.state.pollId, { status: 'closed' });
       this.setState({ status: 'closed' });
       this.props.family.forEach(user => {
         axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
           alertType: 'poll',
-          message: `${this.props.user.firstName} has closed voting for '${this.props.question}'. Go check out the winner!`,
+          message: `${this.props.user.firstName} has closed voting for '${
+            this.props.question
+          }'. Go check out the winner!`,
           targetId: this.state.pollId,
           userId: user.id
         });
-      })
+      });
     }
-  }
+  };
   render() {
     const { choices, votes } = this.props;
 
@@ -156,18 +160,18 @@ class VotedPoll extends React.Component {
               </TouchableOpacity>
             </View>
           ) : (
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#FF0000',
-                  padding: 10,
-                  margin: 10,
-                  width: 300
-                }}
-                onPress={this.handleStatus}
-              >
-                <Text style={styles.buttonText}>Close Poll</Text>
-              </TouchableOpacity>
-            )
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#FF0000',
+                padding: 10,
+                margin: 10,
+                width: 300
+              }}
+              onPress={this.handleStatus}
+            >
+              <Text style={styles.buttonText}>Close Poll</Text>
+            </TouchableOpacity>
+          )
         ) : null}
       </View>
     );
