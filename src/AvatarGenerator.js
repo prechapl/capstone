@@ -10,10 +10,16 @@ import Events from './Events/Events';
 import Mood from './Mood';
 import Family from './Family';
 import Location from './Location';
+import ShareLocation from './ShareLocation';
 
 class AvatarGenerator extends Component {
   constructor(props) {
     super(props);
+    // this.state = {
+    //   permitLocationShare: false,
+    //   location: null,
+    //   errorMessage: null
+    // };
   }
 
   componentDidUpdate(prevProps) {
@@ -201,7 +207,7 @@ const buttons = {
       color: '#AD0978',
       width: 99,
       height: 50,
-      componentToNest: <Location />
+      componentToNest: <ShareLocation />
     }
   ],
   ChildButtons: [
@@ -210,7 +216,7 @@ const buttons = {
       color: '#AD0978',
       width: 99,
       height: 50,
-      componentToNest: <Location />
+      componentToNest: <ShareLocation />
     },
 
     {

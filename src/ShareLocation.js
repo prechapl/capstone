@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import { Switch, Text, View } from "react-native";
-import { Constants, Location, Permissions } from "expo";
+import React, { Component } from 'react';
+import { Switch, Text, View } from 'react-native';
+import { Constants, Location, Permissions } from 'expo';
+import openSocket from 'socket.io-client';
 // import io from "socket.io-client";
 
 class ShareLocation extends Component {
@@ -19,9 +20,9 @@ class ShareLocation extends Component {
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
+    if (status !== 'granted') {
       this.setState({
-        errorMessage: "Permission to access location was denied"
+        errorMessage: 'Permission to access location was denied'
       });
     }
 
@@ -32,9 +33,23 @@ class ShareLocation extends Component {
   render() {
     const { permitLocationShare, location } = this.state;
 
+    if (location !== null) {
+      const accuracy = location.coords.accuracy;
+      const latitude = location.coords.latitude;
+      const longitude = location.coords.longitude;
+      const oneDegreeOfLatitudeInMeters = 111.32 * 1000;
+      const latDelta = accuracy / oneDegreeOfLatitudeInMeters;
+      const longDelta =
+        accuracy /
+        (oneDegreeOfLatitudeInMeters * Math.cos(latitude * (Math.PI / 180)));
+      console.log('latitude', latitude);
+      console.log('longitude', longitude);
+      console.log('latitudeDelta', latDelta);
+      console.log('longitudeDelta', longDelta);
+    }
     // const socket = io("http://localhost");
 
-    let text = "Waiting..";
+    let text = 'Waiting..';
     if (this.state.errorMessage) {
       text = this.state.errorMessage;
     } else if (location) {
@@ -42,15 +57,16 @@ class ShareLocation extends Component {
     }
 
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Switch
           value={permitLocationShare}
           onValueChange={() =>
             this.setState({ permitLocationShare: !permitLocationShare })
           }
         />
-        {location ? (
+        {location && permitLocationShare ? (
           <View>
+            <Text> Sharing my location: </Text>
             <Text> {text} </Text>
           </View>
         ) : null}
