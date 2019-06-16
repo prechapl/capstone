@@ -68,7 +68,6 @@ const UserNavigator = createStackNavigator(
 );
 
 const RootNavigator = createBottomTabNavigator({
-  // Account: AuthNavigator,
   Family: UserNavigator,
   Notifications: AllAlerts
 });
