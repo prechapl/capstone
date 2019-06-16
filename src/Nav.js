@@ -1,7 +1,8 @@
 import {
   createBottomTabNavigator,
   createStackNavigator,
-  createAppContainer
+  createAppContainer,
+  createSwitchNavigator
 } from 'react-navigation';
 import { Easing, Animated } from 'react-native';
 import Family from './Family';
@@ -67,11 +68,16 @@ const UserNavigator = createStackNavigator(
 );
 
 const RootNavigator = createBottomTabNavigator({
-  Account: AuthNavigator,
+  // Account: AuthNavigator,
   Family: UserNavigator,
   Notifications: AllAlerts
 });
 
-const AppContainer = createAppContainer(RootNavigator);
+const AppContainer = createAppContainer(
+  createSwitchNavigator(
+    { Account: AuthNavigator, App: RootNavigator },
+    { initialRouteName: 'Account' }
+  )
+);
 
 export default AppContainer;
