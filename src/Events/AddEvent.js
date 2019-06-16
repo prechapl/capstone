@@ -50,6 +50,7 @@ class AddEvent extends Component {
   toggleCategoryPicker = () => {
     this.setState({ showCatPicker: !this.state.showCatPicker });
   }
+  // eslint-disable-next-line complexity
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -84,7 +85,12 @@ class AddEvent extends Component {
             <TouchableOpacity style={styles.button} onPress={this.toggleCategoryPicker}>
               <Text style={styles.buttonText}>Edit Category</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={this.save}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.save}
+              disabled={!this.state.title.length ? true : false}
+              activeOpacity={0.3}
+            >
               <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
           </View>
