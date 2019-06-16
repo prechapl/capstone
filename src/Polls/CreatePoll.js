@@ -45,7 +45,7 @@ class CreatePoll extends Component {
             alertType: 'poll',
             message: `${
               this.props.user.firstName
-            } has created a family poll. Go Vote!`,
+              } has created a family poll. Go Vote!`,
             targetId: this.state.pollId,
             userId: user.id
           });

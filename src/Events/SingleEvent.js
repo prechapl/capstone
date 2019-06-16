@@ -6,6 +6,8 @@ import { updateRelationshipStatus } from '../store/users';
 import { withNavigation } from 'react-navigation';
 import axios from 'axios';
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -60,9 +62,15 @@ class SingleEvent extends Component {
   updateStatus = id => {
     this.props.updateEvent(id, { status: this.state.status });
     if (this.state.status === 'completed') {
+      console.log('in the completed')
       this.props.assignees.forEach(assignee => {
 
         this.props.updateRel(this.props.user.id, assignee.id, 0.25)
+      })
+    } else if (this.state.status === 'missed') {
+
+      this.props.assignees.forEach(assignee => {
+        this.props.updateRel(this.props.user.id, assignee.id, -0.25)
       })
     }
     this.toggleStatusPicker();

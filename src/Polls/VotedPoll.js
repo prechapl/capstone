@@ -68,7 +68,7 @@ class VotedPoll extends React.Component {
           alertType: 'poll',
           message: `${this.props.user.firstName} has re-opened voting for '${
             this.props.question
-          }'. Go Vote!`,
+            }'. Go Vote!`,
           targetId: this.state.pollId,
           userId: user.id
         });
@@ -81,7 +81,7 @@ class VotedPoll extends React.Component {
           alertType: 'poll',
           message: `${this.props.user.firstName} has closed voting for '${
             this.props.question
-          }'. Go check out the winner!`,
+            }'. Go check out the winner!`,
           targetId: this.state.pollId,
           userId: user.id
         });
@@ -160,18 +160,18 @@ class VotedPoll extends React.Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#FF0000',
-                padding: 10,
-                margin: 10,
-                width: 300
-              }}
-              onPress={this.handleStatus}
-            >
-              <Text style={styles.buttonText}>Close Poll</Text>
-            </TouchableOpacity>
-          )
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#FF0000',
+                  padding: 10,
+                  margin: 10,
+                  width: 300
+                }}
+                onPress={this.handleStatus}
+              >
+                <Text style={styles.buttonText}>Close Poll</Text>
+              </TouchableOpacity>
+            )
         ) : null}
       </View>
     );

@@ -10,11 +10,12 @@ import { findMoodColor } from "./HelperFunctions";
 import AllPolls from "./Polls/AllPolls";
 import TwoUpEvents from "./Events/TwoUpEvents";
 
+
 class TwoUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: "Reliability"
+      display: "Reliability",
     };
   }
 
@@ -25,6 +26,7 @@ class TwoUp extends Component {
   load = () => {
     this.props.getActiveMood(this.props.user.id);
     this.props.fetchFamilyMembers(this.props.user.familyId);
+
   };
 
   generateStatusMeter = value => {
@@ -58,17 +60,18 @@ class TwoUp extends Component {
       navigation,
       mood,
       familyMembers,
-      userRelationships
+      userRelationships,
+      relativeRelationships
     } = this.props;
 
     const relative = navigation.getParam("relative");
 
     if (familyMembers.length && userRelationships.length) {
       const relationship = userRelationships.find(
-        relation => relation.userId === user.id
-      );
-      const relativeRelationship = userRelationships.find(
         relation => relation.RelationshipId === relative.id
+      );
+      const relativeRelationship = relativeRelationships.find(
+        relation => relation.userId === relative.id
       );
 
       const relativeMoodValue = familyMembers
@@ -142,7 +145,7 @@ class TwoUp extends Component {
                     marginBottom: 10
                   }}
                 >
-                  {relative.firstName}'s realiabilty meter:
+                  {relative.firstName}'s reliabilty meter:
                 </Text>
                 <View style={{ flexDirection: "row", marginBottom: 20 }}>
                   {this.generateStatusMeter(relationship.status)}
@@ -153,7 +156,7 @@ class TwoUp extends Component {
                     marginBottom: 10
                   }}
                 >
-                  {user.firstName}'s realiabilty meter:
+                  My reliabilty meter:
                 </Text>
                 <View style={{ flexDirection: "row" }}>
                   {this.generateStatusMeter(relativeRelationship.status)}
@@ -181,12 +184,13 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ mood, user, familyMembers, userRelationships }) => {
+const mapStateToProps = ({ mood, user, familyMembers, userRelationships, relativeRelationships }) => {
   return {
     user,
     mood,
     familyMembers,
-    userRelationships
+    userRelationships,
+    relativeRelationships
   };
 };
 
