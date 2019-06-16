@@ -41,14 +41,19 @@ class CreatePoll extends Component {
       .then(() => this.setState({ submitted: true }))
       .then(() => {
         this.props.family.forEach(user => {
-          axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
-            alertType: 'poll',
-            message: `${
-              this.props.user.firstName
-              } has created a family poll. Go Vote!`,
-            targetId: this.state.pollId,
-            userId: user.id
-          });
+          if (user.id !== this.props.user.id) {
+            axios.post(
+              `https://capstone-api-server.herokuapp.com/api/alerts/`,
+              {
+                alertType: 'poll',
+                message: `${
+                  this.props.user.firstName
+                } has created a family poll. Go Vote!`,
+                targetId: this.state.pollId,
+                userId: user.id
+              }
+            );
+          }
         });
       });
   };

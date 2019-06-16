@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import {
   deletePollThunk,
   changeVoteThunk,
-  updatePollStatusThunk
+  updatePollStatusThunk,
+  fetchPoll
 } from '../store/polls';
 import { findChoiceText } from '../HelperFunctions';
 import PureChart from 'react-native-pure-chart';
@@ -37,15 +38,14 @@ class VotedPoll extends React.Component {
     this.state = {
       userId: '',
       pollId: '',
-      status: '',
       familyId: ''
     };
   }
   componentDidMount() {
+    this.props.fetchPoll(this.props.pollId);
     this.setState({
       userId: this.props.user.id,
       pollId: this.props.pollId,
-      status: this.props.status,
       familyId: this.props.user.familyId
     });
   }
@@ -60,9 +60,12 @@ class VotedPoll extends React.Component {
   };
 
   handleStatus = () => {
-    if (this.state.status === 'closed') {
-      this.props.changeStatus(this.state.pollId, { status: 'open' });
-      this.setState({ status: 'open' });
+    if (this.props.poll.status === 'closed') {
+      this.props.changeStatus(
+        this.state.pollId,
+        { status: 'open' },
+        this.state.familyId
+      );
       this.props.family.forEach(user => {
         axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
           alertType: 'poll',
@@ -74,7 +77,11 @@ class VotedPoll extends React.Component {
         });
       });
     } else {
-      this.props.changeStatus(this.state.pollId, { status: 'closed' });
+      this.props.changeStatus(
+        this.state.pollId,
+        { status: 'closed' },
+        this.state.familyId
+      );
       this.setState({ status: 'closed' });
       this.props.family.forEach(user => {
         axios.post('https://capstone-api-server.herokuapp.com/api/alerts/', {
@@ -87,6 +94,7 @@ class VotedPoll extends React.Component {
         });
       });
     }
+    this.props.navigation.pop();
   };
   render() {
     const { choices, votes } = this.props;
@@ -119,7 +127,7 @@ class VotedPoll extends React.Component {
         <Text style={styles.header}>{this.props.question}</Text>
         {votesData.length && <PureChart data={votesData} type="pie" />}
 
-        {this.state.status === 'open' ? (
+        {this.props.poll.status === 'open' ? (
           <TouchableOpacity
             style={{
               backgroundColor: '#7DC6CD',
@@ -133,7 +141,7 @@ class VotedPoll extends React.Component {
           </TouchableOpacity>
         ) : null}
         {this.props.user.id === this.props.poll.ownerId ? (
-          this.state.status === 'closed' ? (
+          this.props.poll.status === 'closed' ? (
             <View>
               <TouchableOpacity
                 style={{
@@ -182,17 +190,19 @@ const mapDispatchToProps = dispatch => {
   return {
     deletePoll: (id, familyId) => dispatch(deletePollThunk(id, familyId)),
     changeVote: (pollId, voteId) => dispatch(changeVoteThunk(pollId, voteId)),
-    changeStatus: (pollId, status) =>
-      dispatch(updatePollStatusThunk(pollId, status))
+    changeStatus: (pollId, status, familyId) =>
+      dispatch(updatePollStatusThunk(pollId, status, familyId)),
+    fetchPoll: pollId => dispatch(fetchPoll(pollId))
   };
 };
 
-const mapStateToProps = ({ user, choices, votes, moods }) => {
+const mapStateToProps = ({ user, choices, votes, moods, poll }) => {
   return {
     user,
     choices,
     votes,
-    family: moods
+    family: moods,
+    poll
   };
 };
 
