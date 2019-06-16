@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -7,27 +7,27 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView
-} from "react-native";
-import { signUp, getAuthedUser } from "./store/users";
-import { ImagePicker, Permissions, Constants } from "expo";
-import { Avatar } from "react-native-elements";
+} from 'react-native';
+import { signUp, getAuthedUser } from './store/users';
+import { ImagePicker, Permissions, Constants } from 'expo';
+import { Avatar } from 'react-native-elements';
 
 class SignUp extends Component {
   constructor() {
     super();
 
     this.state = {
-      firstName: "",
-      lastName: "",
-      age: "",
-      email: "",
-      password: "",
-      imgUrl: "",
-      familyCode: "",
-      newFamilyCode: "",
-      newFamilyName: "",
+      firstName: '',
+      lastName: '',
+      age: '',
+      email: '',
+      password: '',
+      imgUrl: '',
+      familyCode: '',
+      newFamilyCode: '',
+      newFamilyName: '',
       page: 1,
-      phone: ""
+      phone: ''
     };
   }
 
@@ -38,8 +38,8 @@ class SignUp extends Component {
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
       }
     }
   };
@@ -51,9 +51,9 @@ class SignUp extends Component {
       aspect: [4, 3],
       base64: true
     });
-    console.log("result", result);
+    console.log('result', result);
 
-    const imageUriPrepend = "data:image/jpeg;base64,";
+    const imageUriPrepend = 'data:image/jpeg;base64,';
     let uri = imageUriPrepend.concat(result.base64);
 
     if (!result.cancelled) {
@@ -81,7 +81,7 @@ class SignUp extends Component {
     };
 
     this.handleSubmit(userData).then(() =>
-      this.props.navigation.navigate("SetAllRelationships")
+      this.props.navigation.navigate('SetAllRelationships')
     );
   };
 
@@ -100,7 +100,7 @@ class SignUp extends Component {
       }
     };
     this.handleSubmit(userData).then(() =>
-      this.props.navigation.navigate("Family")
+      this.props.navigation.navigate('App')
     );
   };
 
@@ -127,7 +127,7 @@ class SignUp extends Component {
                   rounded
                   overlayContainerStyle={{
                     borderWidth: 7,
-                    borderColor: "#009510"
+                    borderColor: '#009510'
                   }}
                   size={120}
                   source={{
@@ -142,7 +142,7 @@ class SignUp extends Component {
                   style={{
                     fontSize: 10,
                     marginBottom: 16,
-                    textAlign: "center"
+                    textAlign: 'center'
                   }}
                 >
                   sign up for a free account
@@ -198,7 +198,7 @@ class SignUp extends Component {
                 this.setState({ password });
               }}
             />
-            <Text style={{ fontSize: 10, fontStyle: "italic" }}>
+            <Text style={{ fontSize: 10, fontStyle: 'italic' }}>
               profile image required
             </Text>
             <TouchableOpacity style={styles.button} onPress={this._pickImage}>
@@ -276,26 +276,26 @@ class SignUp extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   input: {
     height: 40,
-    backgroundColor: "#D3D3D4",
+    backgroundColor: '#D3D3D4',
     marginBottom: 20,
     width: 300,
     paddingHorizontal: 10
   },
   button: {
-    backgroundColor: "#448AE6",
+    backgroundColor: '#448AE6',
     padding: 10,
     width: 300,
     margin: 10
   },
   buttonText: {
-    textAlign: "center",
-    color: "#FFFFFF"
+    textAlign: 'center',
+    color: '#FFFFFF'
   },
   header: {
     padding: 10,

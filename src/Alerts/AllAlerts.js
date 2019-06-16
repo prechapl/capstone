@@ -73,15 +73,40 @@ class AllAlerts extends Component {
                           justifyContent: 'center'
                         }}
                         onPress={() => {
-                          alert.alertType === 'poll'
-                            ? this.props.navigation.navigate('Poll', {
-                                id: alert.targetId
-                              })
-                            : this.props.navigation.navigate('EventAssigned', {
-                                event: this.props.assignedEvents.find(
-                                  ev => ev.id === alert.targetId
+                          if (alert.alertType === 'poll') {
+                            this.props.navigation.navigate('Poll', {
+                              id: alert.targetId
+                            });
+                          }
+
+                          if (alert.alertType === 'event') {
+                            const assignedEvent = this.props.assignedEvents.find(
+                              ev => ev.id === alert.targetId
+                            );
+                            const event = this.props.events.find(
+                              ev => ev.id === alert.targetId
+                            );
+                            assignedEvent
+                              ? this.props.navigation.navigate(
+                                  'EventAssigned',
+                                  {
+                                    event: assignedEvent
+                                  }
                                 )
-                              });
+                              : this.props.navigation.navigate('Event', {
+                                  event: event
+                                });
+                          }
+
+                          // alert.alertType === 'poll'
+                          //   ? this.props.navigation.navigate('Poll', {
+                          //       id: alert.targetId
+                          //     })
+                          //   : this.props.navigation.navigate('EventAssigned', {
+                          //       event: this.props.assignedEvents.find(
+                          //         ev => ev.id === alert.targetId
+                          //       )
+                          //     });
                         }}
                       >
                         <Image
@@ -114,10 +139,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ user, alerts, assignedEvents }) => {
+const mapStateToProps = ({ user, alerts, events, assignedEvents }) => {
   return {
     user,
     alerts,
+    events,
     assignedEvents
   };
 };

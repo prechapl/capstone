@@ -1,28 +1,29 @@
 import {
   createBottomTabNavigator,
   createStackNavigator,
-  createAppContainer
-} from "react-navigation";
-import { Easing, Animated } from "react-native";
-import Family from "./Family";
-import Login from "./Login";
-import SignUp from "./SignUp";
-import Mood from "./Mood";
-import AllPolls from "./Polls/AllPolls";
-import SinglePoll from "./Polls/SinglePoll";
-import CreatePoll from "./Polls/CreatePoll";
-import ForgotPassword from "./ForgotPassword";
-import Events from "./Events/Events";
-import SingleEvent from "./Events/SingleEvent";
-import AddEvent from "./Events/AddEvent";
-import SingleEventAssigned from "./Events/SingleEventAssigned";
-import AvatarGenerator from "./AvatarGenerator";
-import TwoUp from "./TwoUp";
-import Location from "./Location";
-import SetAllRelationships from "./SetAllRelationships";
-import SetSingleRelationship from "./SetSingleRelationship";
-import AllAlerts from "./Alerts/AllAlerts";
-import ShareLocation from "./ShareLocation";
+  createAppContainer,
+  createSwitchNavigator
+} from 'react-navigation';
+import { Easing, Animated } from 'react-native';
+import Family from './Family';
+import Login from './Login';
+import SignUp from './SignUp';
+import Mood from './Mood';
+import AllPolls from './Polls/AllPolls';
+import SinglePoll from './Polls/SinglePoll';
+import CreatePoll from './Polls/CreatePoll';
+import ForgotPassword from './ForgotPassword';
+import Events from './Events/Events';
+import SingleEvent from './Events/SingleEvent';
+import AddEvent from './Events/AddEvent';
+import SingleEventAssigned from './Events/SingleEventAssigned';
+import AvatarGenerator from './AvatarGenerator';
+import TwoUp from './TwoUp';
+import Location from './Location';
+import SetAllRelationships from './SetAllRelationships';
+import SetSingleRelationship from './SetSingleRelationship';
+import AllAlerts from './Alerts/AllAlerts';
+import ShareLocation from './ShareLocation';
 
 const AuthNavigator = createStackNavigator({
   Login: Login,
@@ -67,12 +68,16 @@ const UserNavigator = createStackNavigator(
 );
 
 const RootNavigator = createBottomTabNavigator({
-  Account: AuthNavigator,
   Family: UserNavigator,
   Notifications: AllAlerts,
   ShareLocation: ShareLocation
 });
 
-const AppContainer = createAppContainer(RootNavigator);
+const AppContainer = createAppContainer(
+  createSwitchNavigator(
+    { Account: AuthNavigator, App: RootNavigator },
+    { initialRouteName: 'Account' }
+  )
+);
 
 export default AppContainer;
