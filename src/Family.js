@@ -6,7 +6,8 @@ import { fetchUserRelationships } from './store/users';
 import { connect } from 'react-redux';
 import ActionButton from 'react-native-circular-action-menu';
 import { findMoodColor } from './HelperFunctions';
-import { fetchEvents, fetchAssigned } from './store/events';
+import { fetchEvents, fetchAssigned, goUpdateEvent, goUpdateAssigned } from './store/events';
+import axios from 'axios';
 
 class Family extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Family extends Component {
 
   componentDidMount() {
     this.load();
+    this.loadEvents();
   }
 
   componentDidUpdate(prevProps) {
@@ -25,15 +27,40 @@ class Family extends Component {
       this.load();
     }
   }
-
   load = () => {
+    const now = new Date();
     this.props.getActiveMood(this.props.user.id);
     this.props.getMoodsByFamilyId(this.props.user.familyId);
     this.props.fetchUserRelationships(this.props.user.id);
-    this.props.fetchEvents(this.props.user.id);
-    this.props.fetchAssigned(this.props.user.id);
+  }
+  loadEvents = () => {
+    const now = new Date();
+    this.props.fetchEvents(this.props.user.id)
+      .then(() => {
+        this.props.events
+          .filter(ev => new Date(ev.deadline) < now && ev.status === 'upcoming')
+          .forEach(ev => this.setOverdue(ev));
+      });
+    this.props.fetchAssigned(this.props.user.id)
+      .then(() => {
+        this.props.assignedEvents
+          .filter(ev => new Date(ev.deadline) < now && ev.status === 'upcoming')
+          .forEach(ev => this.setOverdue(ev));
+      });
   };
-
+  setOverdue = (ev) => {
+    if (ev.ownerId === this.props.user.id) {
+      this.props.goUpdateEvent(ev.id, { status: 'overdue' });
+    } else {
+      this.props.goUpdateAssigned(ev.id, { status: 'overdue' });
+    }
+    axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
+      alertType: 'event',
+      message: `Your event ${ev.title} is overdue!`,
+      targetId: ev.id,
+      userId: this.props.user.id
+    });
+  }
   findFamily = (user, fam) => {
     return fam.filter(
       usr => usr.familyId === user.familyId && usr.id !== user.id
@@ -42,7 +69,6 @@ class Family extends Component {
 
   render() {
     const { user, navigation, mood, moods, userRelationships } = this.props;
-
     if (mood.id && moods !== undefined && userRelationships !== undefined) {
       const family = this.findFamily(user, moods);
       const moodColor = findMoodColor(mood.value);
@@ -155,7 +181,9 @@ const mapDispatchToProps = dispatch => {
     getMoodsByFamilyId: familyId => dispatch(getMoodsByFamilyId(familyId)),
     fetchUserRelationships: id => dispatch(fetchUserRelationships(id)),
     fetchEvents: id => dispatch(fetchEvents(id)),
-    fetchAssigned: id => dispatch(fetchAssigned(id))
+    fetchAssigned: id => dispatch(fetchAssigned(id)),
+    goUpdateAssigned: (id, updates) => dispatch(goUpdateAssigned(id, updates)),
+    goUpdateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates))
   };
 };
 
