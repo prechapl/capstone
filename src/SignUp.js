@@ -6,7 +6,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
 import { signUp, getAuthedUser } from './store/users';
 import { ImagePicker, Permissions, Constants } from 'expo';
@@ -19,7 +19,7 @@ class SignUp extends Component {
     this.state = {
       firstName: '',
       lastName: '',
-      age: '',
+      birthday: '',
       email: '',
       password: '',
       imgUrl: '',
@@ -27,7 +27,7 @@ class SignUp extends Component {
       newFamilyCode: '',
       newFamilyName: '',
       page: 1,
-      phone: ''
+      phone: '',
     };
   }
 
@@ -49,7 +49,7 @@ class SignUp extends Component {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      base64: true
+      base64: true,
     });
     console.log('result', result);
 
@@ -62,7 +62,6 @@ class SignUp extends Component {
   };
 
   handleSubmit = userData => {
-    userData = this.state;
     return signUp(userData)
       .then(() => this.props.getAuthedUser())
       .then(() => this.setState({ page: 1 }));
@@ -75,9 +74,9 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
-      age: this.state.age,
+      birthday: this.state.birthday,
       imgUrl: this.state.imgUrl,
-      familyCode: this.state.familyCode
+      familyCode: this.state.familyCode,
     };
 
     this.handleSubmit(userData).then(() =>
@@ -92,12 +91,12 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
-      age: this.state.age,
+      birthday: this.state.birthday,
       imgUrl: this.state.imgUrl,
       family: {
         code: this.state.newFamilyCode,
-        name: this.state.newFamilyName
-      }
+        name: this.state.newFamilyName,
+      },
     };
     this.handleSubmit(userData).then(() =>
       this.props.navigation.navigate('App')
@@ -106,13 +105,13 @@ class SignUp extends Component {
 
   nextPage = () => {
     this.setState({
-      page: this.state.page + 1
+      page: this.state.page + 1,
     });
   };
 
   previousPage = () => {
     this.setState({
-      page: this.state.page - 1
+      page: this.state.page - 1,
     });
   };
 
@@ -127,11 +126,11 @@ class SignUp extends Component {
                   rounded
                   overlayContainerStyle={{
                     borderWidth: 7,
-                    borderColor: '#009510'
+                    borderColor: '#009510',
                   }}
                   size={120}
                   source={{
-                    uri: this.state.imgUrl
+                    uri: this.state.imgUrl,
                   }}
                 />
               </View>
@@ -142,7 +141,7 @@ class SignUp extends Component {
                   style={{
                     fontSize: 10,
                     marginBottom: 16,
-                    textAlign: 'center'
+                    textAlign: 'center',
                   }}
                 >
                   sign up for a free account
@@ -167,11 +166,10 @@ class SignUp extends Component {
             />
 
             <TextInput
-              value={this.state.age}
+              value={this.state.birthday}
               style={styles.input}
-              placeholder="age required"
-              placeholderTextColor="red"
-              onChangeText={age => this.setState({ age })}
+              placeholder="birthday mm/dd/yyyy"
+              onChangeText={birthday => this.setState({ birthday })}
             />
 
             <TextInput
@@ -184,7 +182,8 @@ class SignUp extends Component {
             <TextInput
               value={this.state.phone}
               style={styles.input}
-              placeholder="phone number"
+              placeholder="phone number required"
+              placeholderTextColor="red"
               onChangeText={phone => this.setState({ phone })}
             />
 
@@ -209,7 +208,7 @@ class SignUp extends Component {
               style={styles.button}
               onPress={() => {
                 this.setState({
-                  page: 3
+                  page: 3,
                 });
               }}
             >
@@ -278,39 +277,39 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   input: {
     height: 40,
     backgroundColor: '#D3D3D4',
     marginBottom: 20,
     width: 300,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   button: {
     backgroundColor: '#448AE6',
     padding: 10,
     width: 300,
-    margin: 10
+    margin: 10,
   },
   buttonText: {
     textAlign: 'center',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   header: {
     padding: 10,
     marginBottom: 30,
-    fontSize: 75
+    fontSize: 75,
   },
   header2: {
     padding: 10,
     marginBottom: 30,
-    fontSize: 42
-  }
+    fontSize: 42,
+  },
 });
 
 const mapDispatchToProps = dispatch => ({
-  getAuthedUser: () => dispatch(getAuthedUser())
+  getAuthedUser: () => dispatch(getAuthedUser()),
 });
 
 export default connect(

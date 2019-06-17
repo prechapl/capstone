@@ -50,42 +50,48 @@ class AddEvent extends Component {
   toggleCategoryPicker = () => {
     this.setState({ showCatPicker: !this.state.showCatPicker });
   }
+  // eslint-disable-next-line complexity
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <Text style={styles.header}>New Event</Text>
         {!this.state.showCatPicker && !this.state.showDatePicker ? (
-          <View>
-            <Text>Title</Text>
+          <View style={styles.container}>
+            <Text style={styles.text}>Title</Text>
             <TextInput
               onChangeText={title => this.setState({ title })}
               style={styles.input}
               value={this.state.title}
             />
-            <Text>Description</Text>
+            <Text style={styles.text}>Description</Text>
             <TextInput
               onChangeText={description => this.setState({ description })}
               style={styles.input}
               value={this.state.description}
             />
             {this.state.deadline ? (
-              <Text>
+              <Text style={styles.text}>
                 Deadline: {this.state.deadline.toString()}
               </Text>
             ) : (
-                <Text>
+                <Text style={styles.text} >
                   No Deadline
                 </Text>
               )}
             <TouchableOpacity style={styles.button} onPress={this.toggleDatePicker}>
-              <Text>Add or Edit Deadline</Text>
+              <Text style={styles.buttonText}>Add or Edit Deadline</Text>
             </TouchableOpacity>
-            <Text>Category: {this.state.category} </Text>
+            <Text style={styles.text}>Category: {this.state.category} </Text>
             <TouchableOpacity style={styles.button} onPress={this.toggleCategoryPicker}>
-              <Text>Edit Category</Text>
+              <Text style={styles.buttonText}>Edit Category</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={this.save}>
-              <Text>Save</Text>
+            <TouchableOpacity
+              style={!this.state.title.length ? styles.buttonDisabled : styles.button}
+              onPress={this.save}
+              disabled={!this.state.title.length ? true : false}
+
+            >
+              <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
           </View>
         ) : null}
@@ -171,14 +177,25 @@ const styles = StyleSheet.create({
     width: 300,
     margin: 10
   },
+  buttonDisabled: {
+    backgroundColor: '#dce5f2',
+    padding: 10,
+    width: 300,
+    margin: 10
+  },
   buttonText: {
     textAlign: 'center',
     color: '#FFFFFF'
   },
   header: {
     padding: 10,
-    marginBottom: 30,
+    margin: 10,
     fontSize: 35
+  },
+  text: {
+    textAlign: 'center',
+    padding: 10,
+    margin: 10
   }
 });
 

@@ -1,4 +1,9 @@
 import axios from 'axios';
+import SocketIOClient from 'socket.io-client';
+const socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
+  secure: true,
+  transports: ['websocket'],
+});
 
 const API_URL = 'https://capstone-api-server.herokuapp.com/api';
 
@@ -48,4 +53,13 @@ const goDismissAlert = id => {
   };
 };
 
-export { fetchAlerts, alertsReducer, goDismissAlert };
+const createAlert = (alert, userId) => {
+  return dispatch => {
+    axios
+      .post(`${API_URL}/alerts`, alert)
+      .then(() => dispatch(fetchAlerts(userId)))
+      .then(() => socket.emit('new_alert'))
+  }
+}
+
+export { fetchAlerts, alertsReducer, goDismissAlert, createAlert };
