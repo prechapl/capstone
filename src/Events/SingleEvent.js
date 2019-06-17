@@ -5,8 +5,8 @@ import { goDeleteEvent, fetchAssignees, goUpdateEvent, invite } from '../store/e
 import { updateRelationshipStatus } from '../store/users';
 import { withNavigation } from 'react-navigation';
 import axios from 'axios';
-
-
+import { createAlert } from '../store/alerts';
+import SocketIOClient from 'socket.io-client';
 
 const styles = StyleSheet.create({
   container: {
@@ -41,18 +41,22 @@ class SingleEvent extends Component {
       assignee: '',
       status: ''
     };
+    this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
+      secure: true,
+      transports: ['websocket'],
+    });
   }
   componentDidMount() {
     this.props.fetchAssignees(this.props.navigation.getParam('event').id);
   }
   invite = (event) => {
     this.props.invite(event.id, this.state.assignee);
-    axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
+    this.props.createAlert({
       alertType: 'event',
       message: `${this.props.user.firstName} has invited you to ${event.title}!`,
       targetId: event.id,
       userId: this.state.assignee
-    });
+    }, event.ownerId)
     this.toggleAssigneePicker();
   }
   delete = (id, userId) => {
@@ -249,7 +253,8 @@ const mapDispatchToProps = dispatch => {
     fetchAssignees: id => dispatch(fetchAssignees(id)),
     updateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates)),
     invite: (evId, userId) => dispatch(invite(evId, userId)),
-    updateRel: (userId, relationshipId, diff) => dispatch(updateRelationshipStatus(userId, relationshipId, diff))
+    updateRel: (userId, relationshipId, diff) => dispatch(updateRelationshipStatus(userId, relationshipId, diff)),
+    createAlert: (alert, id) => dispatch(createAlert(alert, id))
   };
 };
 
