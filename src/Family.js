@@ -2,31 +2,37 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { getActiveMood, getMoodsByFamilyId } from './store/mood';
-import { fetchUserRelationships, fetchUserRelativeRelationships } from './store/users';
+import {
+  fetchUserRelationships,
+  fetchUserRelativeRelationships
+} from './store/users';
 import { connect } from 'react-redux';
 import ActionButton from 'react-native-circular-action-menu';
 import { findMoodColor } from './HelperFunctions';
-import { fetchEvents, fetchAssigned, goUpdateEvent, goUpdateAssigned } from './store/events';
-import axios from 'axios';
+import {
+  fetchEvents,
+  fetchAssigned,
+  goUpdateEvent,
+  goUpdateAssigned
+} from './store/events';
 import SocketIOClient from 'socket.io-client';
 import { fetchAlerts, createAlert } from './store/alerts';
-
 
 class Family extends Component {
   constructor(props) {
     super(props);
     this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
       secure: true,
-      transports: ['websocket'],
+      transports: ['websocket']
     });
   }
 
   componentDidMount() {
     this.socket.connect();
-    this.socket.on('connect', () => console.log('connected'))
-    this.socket.on('hello', () => console.log('hello hello hello'))
+    this.socket.on('connect', () => console.log('connected'));
+    this.socket.on('hello', () => console.log('hello hello hello'));
     this.socket.on('new_alert', () => {
-      this.props.loadAlerts(this.props.user.id)
+      this.props.loadAlerts(this.props.user.id);
     });
     this.socket.on('new_event', () => this.loadEvents());
     this.load();
@@ -45,35 +51,36 @@ class Family extends Component {
     this.props.getMoodsByFamilyId(this.props.user.familyId);
     this.props.fetchUserRelationships(this.props.user.id);
     this.props.fetchRelativeRelationships(this.props.user.id);
-  }
+  };
   loadEvents = () => {
     const now = new Date();
-    this.props.fetchEvents(this.props.user.id)
-      .then(() => {
-        this.props.events
-          .filter(ev => new Date(ev.deadline) < now && ev.status === 'upcoming')
-          .forEach(ev => this.setOverdue(ev));
-      });
-    this.props.fetchAssigned(this.props.user.id)
-      .then(() => {
-        this.props.assignedEvents
-          .filter(ev => new Date(ev.deadline) < now && ev.status === 'upcoming')
-          .forEach(ev => this.setOverdue(ev));
-      });
+    this.props.fetchEvents(this.props.user.id).then(() => {
+      this.props.events
+        .filter(ev => new Date(ev.deadline) < now && ev.status === 'upcoming')
+        .forEach(ev => this.setOverdue(ev));
+    });
+    this.props.fetchAssigned(this.props.user.id).then(() => {
+      this.props.assignedEvents
+        .filter(ev => new Date(ev.deadline) < now && ev.status === 'upcoming')
+        .forEach(ev => this.setOverdue(ev));
+    });
   };
-  setOverdue = (ev) => {
+  setOverdue = ev => {
     if (ev.ownerId === this.props.user.id) {
       this.props.goUpdateEvent(ev.id, { status: 'overdue' });
     } else {
       this.props.goUpdateAssigned(ev.id, { status: 'overdue' });
     }
-    this.props.createAlert({
-      alertType: 'event',
-      message: `Your event ${ev.title} is overdue!`,
-      targetId: ev.id,
-      userId: this.props.user.id
-    }, this.props.user.id)
-  }
+    this.props.createAlert(
+      {
+        alertType: 'event',
+        message: `Your event ${ev.title} is overdue!`,
+        targetId: ev.id,
+        userId: this.props.user.id
+      },
+      this.props.user.id
+    );
+  };
   findFamily = (user, fam) => {
     return fam.filter(
       usr => usr.familyId === user.familyId && usr.id !== user.id
@@ -160,11 +167,8 @@ class Family extends Component {
                         title={person.firstName}
                         onPress={() =>
                           navigation.navigate('AvatarGenerator', {
-                            user: person,
-                            buttonSet:
-                              person.age > 18
-                                ? 'RelativeButtons'
-                                : 'ChildButtons',
+                            familyMember: person,
+                            buttonSet: 'RelativeButtons',
                             mood: person.moods.find(m => m.active)
                           })
                         }
@@ -197,8 +201,9 @@ const mapDispatchToProps = dispatch => {
     fetchAssigned: id => dispatch(fetchAssigned(id)),
     goUpdateAssigned: (id, updates) => dispatch(goUpdateAssigned(id, updates)),
     goUpdateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates)),
-    fetchRelativeRelationships: (id) => dispatch(fetchUserRelativeRelationships(id)),
-    loadAlerts: (id) => dispatch(fetchAlerts(id)),
+    fetchRelativeRelationships: id =>
+      dispatch(fetchUserRelativeRelationships(id)),
+    loadAlerts: id => dispatch(fetchAlerts(id)),
     createAlert: (alert, id) => dispatch(createAlert(alert, id))
   };
 };
