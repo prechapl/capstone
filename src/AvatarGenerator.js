@@ -87,53 +87,53 @@ class AvatarGenerator extends Component {
             {buttons[buttonSet].map((button, idx) => {
               return button.title !== 'Location' &&
                 button.title !== 'Family' ? (
-                  <ActionButton.Item
-                    key={idx}
-                    onPress={() =>
-                      this.props.navigation.setParams({
-                        nestComponent: button.componentToNest
-                      })
-                    }
+                <ActionButton.Item
+                  key={idx}
+                  onPress={() =>
+                    this.props.navigation.setParams({
+                      nestComponent: button.componentToNest
+                    })
+                  }
+                >
+                  <View
+                    style={{
+                      width: button.width,
+                      height: button.height,
+                      backgroundColor: button.color,
+                      borderRadius: 40,
+                      position: 'relative',
+                      paddingStart: 14,
+                      paddingTop: 13
+                    }}
                   >
-                    <View
-                      style={{
-                        width: button.width,
-                        height: button.height,
-                        backgroundColor: button.color,
-                        borderRadius: 40,
-                        position: 'relative',
-                        paddingStart: 14,
-                        paddingTop: 13
-                      }}
-                    >
-                      <Text style={styles.text}>{button.title}</Text>
-                    </View>
-                  </ActionButton.Item>
-                ) : (
-                  <ActionButton.Item
-                    key={idx}
-                    onPress={() =>
-                      this.props.navigation.navigate(button.title, {
-                        user: user,
-                        mood: mood
-                      })
-                    }
+                    <Text style={styles.text}>{button.title}</Text>
+                  </View>
+                </ActionButton.Item>
+              ) : (
+                <ActionButton.Item
+                  key={idx}
+                  onPress={() =>
+                    this.props.navigation.navigate(button.title, {
+                      user: user,
+                      mood: mood
+                    })
+                  }
+                >
+                  <View
+                    style={{
+                      width: button.width,
+                      backgroundColor: button.color,
+                      height: button.height,
+                      borderRadius: 40,
+                      position: 'relative',
+                      paddingStart: 14,
+                      paddingTop: 12
+                    }}
                   >
-                    <View
-                      style={{
-                        width: button.width,
-                        backgroundColor: button.color,
-                        height: button.height,
-                        borderRadius: 40,
-                        position: 'relative',
-                        paddingStart: 14,
-                        paddingTop: 12
-                      }}
-                    >
-                      <Text style={styles.text}>{button.title}</Text>
-                    </View>
-                  </ActionButton.Item>
-                );
+                    <Text style={styles.text}>{button.title}</Text>
+                  </View>
+                </ActionButton.Item>
+              );
             })}
           </ActionButton>
         </View>
@@ -156,7 +156,7 @@ const buttons = {
       color: '#8EB51A',
       width: 83,
       height: 50,
-      componentToNest: <Family />
+      componentToNest: null
     },
     {
       title: 'Polls',
@@ -171,14 +171,14 @@ const buttons = {
       width: 87,
       height: 50,
       componentToNest: <Events />
-    },
-    {
-      title: 'Location',
-      color: '#AD0978',
-      width: 99,
-      height: 50,
-      componentToNest: <Location />
     }
+    // {
+    //   title: 'Location',
+    //   color: '#AD0978',
+    //   width: 99,
+    //   height: 50,
+    //   componentToNest: <Location />
+    // }
   ],
   RelativeButtons: [
     {
