@@ -8,17 +8,30 @@ import ActionButton from 'react-native-circular-action-menu';
 import { findMoodColor } from './HelperFunctions';
 import { fetchEvents, fetchAssigned, goUpdateEvent, goUpdateAssigned } from './store/events';
 import axios from 'axios';
+import SocketIOClient from 'socket.io-client';
+import { fetchAlerts, createAlert } from './store/alerts';
+
 
 class Family extends Component {
   constructor(props) {
     super(props);
+    this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
+      secure: true,
+      transports: ['websocket'],
+    });
   }
 
   componentDidMount() {
+    this.socket.connect();
+    this.socket.on('connect', () => console.log('connected'))
+    this.socket.on('hello', () => console.log('hello hello hello'))
+    this.socket.on('new_alert', () => {
+      this.props.loadAlerts(this.props.user.id)
+    });
+    this.socket.on('new_event', () => this.loadEvents());
     this.load();
     this.loadEvents();
   }
-
   componentDidUpdate(prevProps) {
     if (
       this.props.mood.id !== prevProps.mood.id ||
@@ -28,7 +41,6 @@ class Family extends Component {
     }
   }
   load = () => {
-    const now = new Date();
     this.props.getActiveMood(this.props.user.id);
     this.props.getMoodsByFamilyId(this.props.user.familyId);
     this.props.fetchUserRelationships(this.props.user.id);
@@ -55,12 +67,12 @@ class Family extends Component {
     } else {
       this.props.goUpdateAssigned(ev.id, { status: 'overdue' });
     }
-    axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
+    this.props.createAlert({
       alertType: 'event',
       message: `Your event ${ev.title} is overdue!`,
       targetId: ev.id,
       userId: this.props.user.id
-    });
+    }, this.props.user.id)
   }
   findFamily = (user, fam) => {
     return fam.filter(
@@ -185,7 +197,9 @@ const mapDispatchToProps = dispatch => {
     fetchAssigned: id => dispatch(fetchAssigned(id)),
     goUpdateAssigned: (id, updates) => dispatch(goUpdateAssigned(id, updates)),
     goUpdateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates)),
-    fetchRelativeRelationships: (id) => dispatch(fetchUserRelativeRelationships(id))
+    fetchRelativeRelationships: (id) => dispatch(fetchUserRelativeRelationships(id)),
+    loadAlerts: (id) => dispatch(fetchAlerts(id)),
+    createAlert: (alert, id) => dispatch(createAlert(alert, id))
   };
 };
 

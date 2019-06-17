@@ -3,10 +3,15 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Badge } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { goUpdateAssigned } from '../store/events';
+import { createAlert } from '../store/alerts';
 import axios from 'axios';
+import io from 'socket.io-client';
+
 // import withNavigation from 'react-navigation';
 
+
 const SingleEventAssigned = props => {
+  const socket = io('https://capstone-api-server.herokuapp.com/');
   const event = props.assignedEvents.find(
     ev => ev.id === props.navigation.getParam('event').id
   );
@@ -40,12 +45,12 @@ const SingleEventAssigned = props => {
       <TouchableOpacity
         onPress={() => {
           props.completeAssignedTask(event.id, { status: 'completed-pending' });
-          axios.post(`https://capstone-api-server.herokuapp.com/api/alerts/`, {
+          props.createAlert({
             alertType: 'event',
             message: `${props.user.firstName} has completed ${event.title}! Please confirm event has been completed.`,
             targetId: event.id,
             userId: event.ownerId
-          });
+          }, props.user.id);
         }}
         style={styles.button}
       >
@@ -67,7 +72,8 @@ const mapStateToProps = ({ assignedEvents, moods, user }) => {
 const mapDispatchToProps = dispatch => {
   return {
     completeAssignedTask: (id, updates) =>
-      dispatch(goUpdateAssigned(id, updates))
+      dispatch(goUpdateAssigned(id, updates)),
+    createAlert: (alert, id) => dispatch(createAlert(alert, id))
   };
 };
 
