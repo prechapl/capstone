@@ -32,9 +32,6 @@ class AvatarGenerator extends Component {
     const componentToNest = navigation.getParam('nestComponent');
     const moodColor = findMoodColor(mood.value);
 
-    console.log('user', user);
-    console.log('familyMember', familyMember);
-
     return (
       <View
         style={{
