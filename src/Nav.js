@@ -69,8 +69,7 @@ const UserNavigator = createStackNavigator(
 
 const RootNavigator = createBottomTabNavigator({
   Family: UserNavigator,
-  Notifications: AllAlerts,
-  ShareLocation: ShareLocation
+  Notifications: AllAlerts
 });
 
 const AppContainer = createAppContainer(

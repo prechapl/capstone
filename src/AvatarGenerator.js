@@ -8,18 +8,11 @@ import { findMoodColor } from './HelperFunctions';
 import AllPolls from './Polls/AllPolls';
 import Events from './Events/Events';
 import Mood from './Mood';
-import Family from './Family';
 import Location from './Location';
-import ShareLocation from './ShareLocation';
 
 class AvatarGenerator extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   permitLocationShare: false,
-    //   location: null,
-    //   errorMessage: null
-    // };
   }
 
   componentDidUpdate(prevProps) {
@@ -33,11 +26,14 @@ class AvatarGenerator extends Component {
   render() {
     const { navigation } = this.props;
     const user = navigation.getParam('user');
+    const familyMember = navigation.getParam('familyMember');
     const mood = navigation.getParam('mood');
     const buttonSet = navigation.getParam('buttonSet');
     const componentToNest = navigation.getParam('nestComponent');
     const moodColor = findMoodColor(mood.value);
-    // const moodText = findMoodText(mood.value);
+
+    console.log('user', user);
+    console.log('familyMember', familyMember);
 
     return (
       <View
@@ -49,7 +45,7 @@ class AvatarGenerator extends Component {
         }}
       >
         <View style={{ flexDirection: 'row', marginBottom: 60 }}>
-          {componentToNest}
+          {componentToNest ? componentToNest : null}
         </View>
 
         <View
@@ -77,16 +73,15 @@ class AvatarGenerator extends Component {
                   }}
                   size={160}
                   source={{
-                    uri: `${user.imgUrl}`
+                    uri: user ? user.imgUrl : familyMember.imgUrl
                   }}
-                  title={user.firstName}
+                  title={user ? user.firstName : familyMember.firstName}
                 />
               </View>
             }
           >
             {buttons[buttonSet].map((button, idx) => {
-              return button.title !== 'Location' &&
-                button.title !== 'Family' ? (
+              return button.componentToNest ? (
                 <ActionButton.Item
                   key={idx}
                   onPress={() =>
@@ -115,7 +110,8 @@ class AvatarGenerator extends Component {
                   onPress={() =>
                     this.props.navigation.navigate(button.title, {
                       user: user,
-                      mood: mood
+                      mood: mood,
+                      familyMember: familyMember
                     })
                   }
                 >
@@ -172,13 +168,6 @@ const buttons = {
       height: 50,
       componentToNest: <Events />
     }
-    // {
-    //   title: 'Location',
-    //   color: '#AD0978',
-    //   width: 99,
-    //   height: 50,
-    //   componentToNest: <Location />
-    // }
   ],
   RelativeButtons: [
     {
@@ -186,44 +175,14 @@ const buttons = {
       color: '#8EB51A',
       width: 83,
       height: 50,
-      componentToNest: <Family />
+      componentToNest: null
     },
     {
       title: 'Location',
       color: '#AD0978',
       width: 99,
       height: 50,
-      componentToNest: <ShareLocation />
-    }
-  ],
-  ChildButtons: [
-    {
-      title: 'Location',
-      color: '#AD0978',
-      width: 99,
-      height: 50,
-      componentToNest: <ShareLocation />
-    },
-    {
-      title: 'Family',
-      color: '#8EB51A',
-      width: 83,
-      height: 50,
-      componentToNest: <Family />
-    },
-    {
-      title: 'Goals',
-      color: '#1500FA',
-      width: 78,
-      height: 50,
-      componentToNest: null
-    },
-    {
-      title: 'Awards',
-      color: '#E0BF00',
-      width: 98,
-      height: 50,
-      componentToNest: null
+      componentToNest: <Location />
     }
   ]
 };

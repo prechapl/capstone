@@ -15,7 +15,6 @@ import {
   goUpdateEvent,
   goUpdateAssigned
 } from './store/events';
-import axios from 'axios';
 import SocketIOClient from 'socket.io-client';
 import { fetchAlerts, createAlert } from './store/alerts';
 
@@ -168,7 +167,7 @@ class Family extends Component {
                         title={person.firstName}
                         onPress={() =>
                           navigation.navigate('AvatarGenerator', {
-                            user: person,
+                            familyMember: person,
                             buttonSet: 'RelativeButtons',
                             mood: person.moods.find(m => m.active)
                           })

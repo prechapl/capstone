@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
-import { Alert, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { MapView } from 'expo';
 import { Marker } from 'react-native-maps';
 import { Avatar } from 'react-native-elements';
@@ -15,22 +15,23 @@ class Location extends Component {
   }
 
   componentDidMount() {
-    this.findCoordinates();
+    // this.findCoordinates();
   }
 
-  findCoordinates = () => {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const loc = position;
-        this.setState({ location: loc });
-      },
-      error => Alert.alert(error.message),
-      { enableHighAccuracy: true, timeout: 30000, maximumAge: 5000 }
-    );
-  };
+  // findCoordinates = () => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     position => {
+  //       const loc = position;
+  //       this.setState({ location: loc });
+  //     },
+  //     error => Alert.alert(error.message),
+  //     { enableHighAccuracy: true, timeout: 30000, maximumAge: 5000 }
+  //   );
+  // };
 
   render() {
-    const user = this.props.navigation.getParam('user');
+    const familyMember = this.props.navigation.getParam('familyMember');
+    // const user = this.props.navigation.getParam('user');
     const mood = this.props.navigation.getParam('mood');
     const locate = this.state.location;
     if (locate.coords !== null) {
@@ -74,16 +75,20 @@ class Location extends Component {
                 }}
                 size={50}
                 source={{
-                  uri: `${user.imgUrl}`
+                  uri: `${familyMember.imgUrl}`
                 }}
-                title={user.firstName}
+                title={familyMember.firstName}
               />
             </View>
           </Marker>
         </MapView>
       );
     } else {
-      return null;
+      return (
+        <View style={{ paddingBottom: 50 }}>
+          <Text>No FamilyMember coordinates</Text>
+        </View>
+      );
     }
   }
 }
