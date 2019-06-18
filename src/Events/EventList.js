@@ -2,7 +2,6 @@ import React from 'react';
 import { View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Calendar } from 'react-native-calendars';
-import Arrow from 'react-native-arrow';
 
 const EventList = props => {
   const events = props.eventlist;
