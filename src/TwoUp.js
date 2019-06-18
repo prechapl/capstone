@@ -76,10 +76,9 @@ class TwoUp extends Component {
       userRelationships,
       relativeRelationships
     } = this.props;
-    console.log(' userRelationships', userRelationships);
-    console.log(' relativeRelationships', relativeRelationships);
+
     const relative = navigation.getParam('relative');
-    const relativeCoords = navigation.getParam('relativeCoords');
+    // const relativeCoords = navigation.getParam('relativeCoords');
 
     if (familyMembers.length && userRelationships.length) {
       const relationship = userRelationships.find(
@@ -187,7 +186,7 @@ class TwoUp extends Component {
             ) : null}
 
             {this.state.display === 'Location' ? (
-              <Location relative={relative} coords={relativeCoords} />
+              <Location relative={relative} user={user} />
             ) : null}
           </View>
         </View>

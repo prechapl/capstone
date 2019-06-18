@@ -22,22 +22,49 @@ class Location extends Component {
       return _token;
     };
 
-    this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
-      extraHeaders: { authorization: getToken() }
-    });
-    this.socket.connect();
+    const socket = SocketIOClient(
+      'https://capstone-api-server.herokuapp.com/',
+      {
+        extraHeaders: { authorization: getToken() }
+      }
+    );
+    socket.connect();
 
-    this.findCoordinates();
+    const { user, relative } = this.props;
+    // console.log('relative in location', relative);
+    socket.on('request_loc', {
+      target: relative.id,
+      requester: user.id
+    });
+    // .then(positionData => {
+    //   console.log('positionData in location', positionData);
+    //   this.setState({
+    //     location: positionData
+    //   });
+    // });
   }
 
-  findCoordinates = () => {
-    this.socket.on('response_location', positionData => {
-      console.log('positionData', positionData);
-      this.setState({
-        location: positionData
-      });
-    });
-  };
+  // findCoordinates = () => {
+
+  //   // const user = this.props.navigation.getParam('user');
+  //   // const relative = this.props.navigation.getParam('relative');
+
+  //     .then(positionData => {
+  //       console.log('positionData in location', positionData);
+  //       this.setState({
+  //         location: positionData
+  //       });
+  //     });
+  // };
+
+  // findCoordinates = () => {
+  //   this.socket.on('response_location', positionData => {
+  //     console.log('positionData', positionData);
+  //     this.setState({
+  //       location: positionData
+  //     });
+  //   });
+  // };
 
   // findCoordinates = () => {
   //   navigator.geolocation.getCurrentPosition(
@@ -51,7 +78,8 @@ class Location extends Component {
   // };
 
   render() {
-    const familyMember = this.props.navigation.getParam('familyMember');
+    // const user = this.props.navigation.getParam('user');
+    const relative = this.props.navigation.getParam('relative');
     const mood = this.props.navigation.getParam('mood');
 
     const locate = this.state.location;
@@ -96,9 +124,9 @@ class Location extends Component {
                 }}
                 size={50}
                 source={{
-                  uri: `${familyMember.imgUrl}`
+                  uri: `${relative.imgUrl}`
                 }}
-                title={familyMember.firstName}
+                title={relative.firstName}
               />
             </View>
           </Marker>

@@ -37,8 +37,6 @@ class Family extends Component {
 
     this.socket.on('connect', () => console.log('connected'));
 
-    // this.socket.on('hello', () => console.log('hello hello hello'));
-
     this.socket.on('new_alert', () => {
       this.props.loadAlerts(this.props.user.id);
     });
@@ -46,9 +44,10 @@ class Family extends Component {
 
     navigator.geolocation.getCurrentPosition(
       position => {
-        this.socket.emit('request_loc', {
-          data: position,
-          id: this.props.user.id
+        console.log('emit position in family', position);
+        this.socket.emit('response_location', {
+          requester: this.props.user.id,
+          coords: position
         });
       },
       error => console.log(error),
