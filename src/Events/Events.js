@@ -17,9 +17,6 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   button: {
-    margin: 10,
-    padding: 10,
-    width: 200,
     alignSelf: 'center'
   }
 });
@@ -79,24 +76,7 @@ class Events extends Component {
             alignItems: 'center',
             justifyContent: 'space-evenly'
           }}
-        >
-          <TouchableOpacity
-            style={{ ...styles.button, backgroundColor: '#81769e' }}
-            onPress={() => {
-              if (this.state.selection === 'MY EVENTS') {
-                this.setState({ selection: 'ASSIGNED' });
-              } else {
-                this.setState({ selection: 'MY EVENTS' });
-              }
-            }}
-          >
-            <Text style={styles.buttonText}>
-              {this.state.selection === 'MY EVENTS'
-                ? 'see events assigned to me'
-                : 'see events created by me'}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        />
         <View />
         {events.length ? (
           <EventList
@@ -116,10 +96,38 @@ class Events extends Component {
           </Text>
         )}
         <TouchableOpacity
-          style={{ ...styles.button, backgroundColor: '#668e6c' }}
+          style={{
+            ...styles.button,
+            backgroundColor: '#8EB51A',
+            padding: 10,
+            margin: 10,
+            width: 300
+          }}
           onPress={() => this.props.navigation.navigate('AddEvent')}
         >
           <Text style={styles.buttonText}>Add a New Event</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            ...styles.button,
+            backgroundColor: '#7DC6CD',
+            padding: 10,
+            margin: 10,
+            width: 300
+          }}
+          onPress={() => {
+            if (this.state.selection === 'MY EVENTS') {
+              this.setState({ selection: 'ASSIGNED' });
+            } else {
+              this.setState({ selection: 'MY EVENTS' });
+            }
+          }}
+        >
+          <Text style={styles.buttonText}>
+            {this.state.selection === 'MY EVENTS'
+              ? 'My Assigned Events'
+              : 'My Created Events'}
+          </Text>
         </TouchableOpacity>
       </View>
     );
