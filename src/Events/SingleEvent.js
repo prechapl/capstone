@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import { connect } from 'react-redux';
-import { goDeleteEvent, fetchAssignees, goUpdateEvent, invite } from '../store/events';
+import {
+  goDeleteEvent,
+  fetchAssignees,
+  goUpdateEvent,
+  invite
+} from '../store/events';
 import { updateRelationshipStatus } from '../store/users';
 import { withNavigation } from 'react-navigation';
 import axios from 'axios';
@@ -29,7 +34,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     color: '#FFFFFF'
-  },
+  }
 });
 
 class SingleEvent extends Component {
@@ -43,22 +48,27 @@ class SingleEvent extends Component {
     };
     this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
       secure: true,
-      transports: ['websocket'],
+      transports: ['websocket']
     });
   }
   componentDidMount() {
     this.props.fetchAssignees(this.props.navigation.getParam('event').id);
   }
-  invite = (event) => {
+  invite = event => {
     this.props.invite(event.id, this.state.assignee);
-    this.props.createAlert({
-      alertType: 'event',
-      message: `${this.props.user.firstName} has invited you to ${event.title}!`,
-      targetId: event.id,
-      userId: this.state.assignee
-    }, event.ownerId)
+    this.props.createAlert(
+      {
+        alertType: 'event',
+        message: `${this.props.user.firstName} has invited you to ${
+          event.title
+        }!`,
+        targetId: event.id,
+        userId: this.state.assignee
+      },
+      event.ownerId
+    );
     this.toggleAssigneePicker();
-  }
+  };
   delete = (id, userId) => {
     this.props.deleteEvent(id, userId);
     this.props.navigation.pop();
@@ -66,16 +76,14 @@ class SingleEvent extends Component {
   updateStatus = id => {
     this.props.updateEvent(id, { status: this.state.status });
     if (this.state.status === 'completed') {
-      console.log('in the completed')
+      console.log('in the completed');
       this.props.assignees.forEach(assignee => {
-
-        this.props.updateRel(this.props.user.id, assignee.id, 0.25)
-      })
+        this.props.updateRel(this.props.user.id, assignee.id, 0.25);
+      });
     } else if (this.state.status === 'missed') {
-
       this.props.assignees.forEach(assignee => {
-        this.props.updateRel(this.props.user.id, assignee.id, -0.25)
-      })
+        this.props.updateRel(this.props.user.id, assignee.id, -0.25);
+      });
     }
     this.toggleStatusPicker();
   };
@@ -110,11 +118,13 @@ class SingleEvent extends Component {
         <View>
           <Text>OOPS! There is nothing here</Text>
         </View>
-      )
+      );
     }
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: 30, color: colorMap[event.category], padding: 15 }}>
+        <Text
+          style={{ fontSize: 30, color: colorMap[event.category], padding: 15 }}
+        >
           {event.title} ({event.category})
         </Text>
 
@@ -130,14 +140,24 @@ class SingleEvent extends Component {
               style={{ height: 150, width: 250, margin: 10 }}
               onValueChange={(val, idx) => this.setState({ assignee: val })}
             >
-              <Picker.Item label="select a family member to invite" value="" />
-              {this.props.family.filter(user => user.id !== event.ownerId && !this.props.assignees.find(assignee => assignee.id === user.id))
+              <Picker.Item label="Select a family member to invite" value="" />
+              {this.props.family
+                .filter(
+                  user =>
+                    user.id !== event.ownerId &&
+                    !this.props.assignees.find(
+                      assignee => assignee.id === user.id
+                    )
+                )
                 .map(user => {
                   return (
-                    <Picker.Item label={user.firstName} value={user.id} key={user.id} />
-                  )
-                })
-              }
+                    <Picker.Item
+                      label={user.firstName}
+                      value={user.id}
+                      key={user.id}
+                    />
+                  );
+                })}
             </Picker>
             <TouchableOpacity
               onPress={() => this.invite(event)}
@@ -166,10 +186,10 @@ class SingleEvent extends Component {
               style={{ height: 150, width: 250, margin: 10 }}
               onValueChange={(val, idx) => this.setState({ status: val })}
             >
-              <Picker.Item label="upcoming" value="upcoming" />
-              <Picker.Item label="completed" value="completed" />
-              <Picker.Item label="overdue" value="overdue" />
-              <Picker.Item label="missed" value="missed" />
+              <Picker.Item label="upcoming" value="Upcoming" />
+              <Picker.Item label="completed" value="Completed" />
+              <Picker.Item label="overdue" value="Overdue" />
+              <Picker.Item label="missed" value="Missed" />
             </Picker>
 
             <View>
@@ -190,9 +210,7 @@ class SingleEvent extends Component {
         ) : null}
 
         {!this.state.showStatusPicker && !this.state.showAssigneePicker ? (
-          <View
-            style={{ justifyContent: 'center', alignItems: 'center' }}
-          >
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <TouchableOpacity
               style={{
                 backgroundColor: statusColor[event.status],
@@ -202,34 +220,34 @@ class SingleEvent extends Component {
               }}
               onPress={this.toggleStatusPicker}
             >
-              <Text
-                style={styles.buttonText}
-              >
-                {event.status}
-              </Text>
+              <Text style={styles.buttonText}>{event.status}</Text>
             </TouchableOpacity>
             <Text style={styles.text}>
-              {deadline.getMonth()}/{deadline.getDate()}/{deadline.getFullYear()} at
-              {deadline.getHours()}:
-              {('0' + deadline.getMinutes()).slice(-2)}
+              {deadline.getMonth()}/{deadline.getDate()}/
+              {deadline.getFullYear()} at
+              {deadline.getHours()}:{('0' + deadline.getMinutes()).slice(-2)}
             </Text>
-            {event.description ? (<Text style={styles.text}>{event.description}</Text>) : null}
+            {event.description ? (
+              <Text style={styles.text}>{event.description}</Text>
+            ) : null}
             <Text style={styles.text}>
               {this.props.assignees.length
-                ? `Assigned to: ${this.props.assignees.map(user => user.firstName).join(', ')}`
-                : 'not yet assigned'}
+                ? `Assigned to: ${this.props.assignees
+                    .map(user => user.firstName)
+                    .join(', ')}`
+                : 'Not yet assigned'}
             </Text>
             <TouchableOpacity
               onPress={this.toggleAssigneePicker}
               style={styles.button}
             >
-              <Text style={styles.buttonText}>invite someone</Text>
+              <Text style={styles.buttonText}>Invite Someone</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.delete(event.id, event.ownerId)}
               style={styles.button}
             >
-              <Text style={styles.buttonText}>delete</Text>
+              <Text style={styles.buttonText}>Delete</Text>
             </TouchableOpacity>
           </View>
         ) : null}
@@ -253,12 +271,15 @@ const mapDispatchToProps = dispatch => {
     fetchAssignees: id => dispatch(fetchAssignees(id)),
     updateEvent: (id, updates) => dispatch(goUpdateEvent(id, updates)),
     invite: (evId, userId) => dispatch(invite(evId, userId)),
-    updateRel: (userId, relationshipId, diff) => dispatch(updateRelationshipStatus(userId, relationshipId, diff)),
+    updateRel: (userId, relationshipId, diff) =>
+      dispatch(updateRelationshipStatus(userId, relationshipId, diff)),
     createAlert: (alert, id) => dispatch(createAlert(alert, id))
   };
 };
 
-export default withNavigation(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SingleEvent));
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SingleEvent)
+);

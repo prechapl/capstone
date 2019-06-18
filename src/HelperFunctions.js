@@ -37,34 +37,3 @@ export const findStatus = value => {
   };
   return statusValues[value];
 };
-
-// ChildButtons: [
-//   {
-//     title: 'Location',
-//     color: '#AD0978',
-//     width: 99,
-//     height: 50,
-//     componentToNest: <ShareLocation />
-//   },
-//   {
-//     title: 'Family',
-//     color: '#8EB51A',
-//     width: 83,
-//     height: 50,
-//     componentToNest: <Family />
-//   },
-//   {
-//     title: 'Goals',
-//     color: '#1500FA',
-//     width: 78,
-//     height: 50,
-//     componentToNest: null
-//   },
-//   {
-//     title: 'Awards',
-//     color: '#E0BF00',
-//     width: 98,
-//     height: 50,
-//     componentToNest: null
-//   }
-// ]

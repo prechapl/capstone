@@ -20,6 +20,8 @@
     "react": "16.5.0",
     "react-minimal-pie-chart": "^4.1.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-arrow": "^1.0.3",
+    "react-native-calendars": "^1.188.0",
     "react-native-chart-kit": "^2.6.1",
     "react-native-circular-action-menu": "^0.5.0",
     "react-native-elements": "^1.1.0",

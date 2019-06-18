@@ -17,9 +17,6 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   button: {
-    margin: 10,
-    padding: 10,
-    width: 200,
     alignSelf: 'center'
   }
 });
@@ -28,8 +25,7 @@ class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selection: 'MY EVENTS',
-      viewPast: false
+      selection: 'MY EVENTS'
     };
   }
   componentDidMount() {
@@ -56,19 +52,7 @@ class Events extends Component {
             )
           ]);
     }
-    if (this.state.viewPast) {
-      events = events.filter(ev => {
-        if (ev.status === 'completed' || ev.status === 'missed') {
-          return ev;
-        }
-      });
-    } else {
-      events = events.filter(ev => {
-        if (ev.status !== 'completed' && ev.status !== 'missed') {
-          return ev;
-        }
-      });
-    }
+
     if (!this.props.events || !this.props.assignedEvents) {
       return (
         <View>
@@ -82,48 +66,16 @@ class Events extends Component {
           flex: 1,
           flexDirection: 'column',
           justifyContent: 'space-evenly',
-          paddingBottom: 150
+          paddingBottom: 100
         }}
       >
         <Text style={styles.header}>Events</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-evenly'
-          }}
-        >
-          <TouchableOpacity
-            style={{ ...styles.button, backgroundColor: '#81769e' }}
-            onPress={() => {
-              if (this.state.selection === 'MY EVENTS') {
-                this.setState({ selection: 'ASSIGNED' });
-              } else {
-                this.setState({ selection: 'MY EVENTS' });
-              }
-            }}
-          >
-            <Text style={styles.buttonText}>
-              {this.state.selection === 'MY EVENTS'
-                ? 'see events assigned to me'
-                : 'see events created by me'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ ...styles.button, backgroundColor: '#9e8376' }}
-            onPress={() => {
-              this.setState({ viewPast: !this.state.viewPast })
-            }}
-          >
-            <Text style={styles.buttonText}>
-              {this.state.viewPast
-                ? 'current' : 'past'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View />
         {events.length ? (
-          <EventList eventlist={events} type={this.state.selection} />
+          <EventList
+            eventlist={events}
+            id={this.props.id}
+            type={this.state.selection}
+          />
         ) : (
           <Text
             style={{
@@ -136,10 +88,38 @@ class Events extends Component {
           </Text>
         )}
         <TouchableOpacity
-          style={{ ...styles.button, backgroundColor: '#668e6c' }}
+          style={{
+            ...styles.button,
+            backgroundColor: '#8EB51A',
+            padding: 10,
+            margin: 10,
+            width: 300
+          }}
           onPress={() => this.props.navigation.navigate('AddEvent')}
         >
           <Text style={styles.buttonText}>Add a New Event</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            ...styles.button,
+            backgroundColor: '#7DC6CD',
+            padding: 10,
+            margin: 10,
+            width: 300
+          }}
+          onPress={() => {
+            if (this.state.selection === 'MY EVENTS') {
+              this.setState({ selection: 'ASSIGNED' });
+            } else {
+              this.setState({ selection: 'MY EVENTS' });
+            }
+          }}
+        >
+          <Text style={styles.buttonText}>
+            {this.state.selection === 'MY EVENTS'
+              ? 'My Assigned Events'
+              : 'My Created Events'}
+          </Text>
         </TouchableOpacity>
       </View>
     );

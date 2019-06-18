@@ -7,10 +7,10 @@ import { fetchUserRelationships } from './store/users';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { findMoodColor } from './HelperFunctions';
-import AllPolls from './Polls/AllPolls';
 import TwoUpEvents from './Events/TwoUpEvents';
 import Location from './Location';
 import SocketIOClient from 'socket.io-client';
+import TwoUpPolls from './Polls/TwoUpPolls';
 
 class TwoUp extends Component {
   constructor(props) {
@@ -176,7 +176,7 @@ class TwoUp extends Component {
               </View>
             ) : null}
 
-            {this.state.display === 'Polls' ? <AllPolls /> : null}
+            {this.state.display === 'Polls' ? <TwoUpPolls /> : null}
 
             {this.state.display === 'Events' ? (
               <TwoUpEvents relative={relative} />
