@@ -30,8 +30,8 @@ class Location extends Component {
     socket.connect();
 
     const { user, relative } = this.props;
-    console.log('relative.id in location', relative.id);
-    console.log('user.id in location', user.id);
+    // console.log('relative.id in location', relative.id);
+    // console.log('user.id in location', user.id);
 
     const findCoordinates = async () => {
       const positionData = await socket.on('request_loc', {
