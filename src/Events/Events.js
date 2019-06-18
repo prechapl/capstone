@@ -28,8 +28,7 @@ class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selection: 'MY EVENTS',
-      viewPast: false
+      selection: 'MY EVENTS'
     };
   }
   componentDidMount() {
@@ -56,19 +55,7 @@ class Events extends Component {
             )
           ]);
     }
-    if (this.state.viewPast) {
-      events = events.filter(ev => {
-        if (ev.status === 'completed' || ev.status === 'missed') {
-          return ev;
-        }
-      });
-    } else {
-      events = events.filter(ev => {
-        if (ev.status !== 'completed' && ev.status !== 'missed') {
-          return ev;
-        }
-      });
-    }
+
     if (!this.props.events || !this.props.assignedEvents) {
       return (
         <View>
@@ -107,16 +94,6 @@ class Events extends Component {
               {this.state.selection === 'MY EVENTS'
                 ? 'see events assigned to me'
                 : 'see events created by me'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ ...styles.button, backgroundColor: '#9e8376' }}
-            onPress={() => {
-              this.setState({ viewPast: !this.state.viewPast });
-            }}
-          >
-            <Text style={styles.buttonText}>
-              {this.state.viewPast ? 'current' : 'past'}
             </Text>
           </TouchableOpacity>
         </View>
