@@ -33,12 +33,7 @@ const EventList = props => {
             });
           }
         }}
-        monthFormat={'yyyy MM'}
-        onMonthChange={month => {
-          console.log('month changed', month);
-        }}
-        hideArrows={true}
-        renderArrow={direction => <Arrow size={15} color="blue" />}
+        hideArrows={false}
         hideExtraDays={true}
         disableMonthChange={true}
         firstDay={1}
