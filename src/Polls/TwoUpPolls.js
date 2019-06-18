@@ -17,17 +17,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 100
+    marginBottom: 60
   },
   header: {
     padding: 10,
-    fontSize: 32,
-    textAlign: 'center'
+    fontSize: 32
   },
   subheader: {
     padding: 10,
-    fontSize: 24,
-    textAlign: 'center'
+    fontSize: 24
   },
   poll: {
     backgroundColor: '#D3D3D4',
@@ -41,12 +39,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF'
   },
   pollContainer: {
-    alignItems: 'center',
-    justifyContent: 'center'
+    maxHeight: 300
   }
 });
 
-class AllPolls extends Component {
+class TwoUpPolls extends Component {
   constructor() {
     super();
     this.state = {
@@ -77,51 +74,29 @@ class AllPolls extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>
-          {this.state.status === 'open' ? 'Open' : 'Closed'}
+          {this.state.status === 'open' ? 'Open' : 'Closed'} Polls
         </Text>
-        <View style={{ maxHeight: 300 }}>
-          <ScrollView styles={styles.pollContainer}>
-            <Text style={styles.subheader}>Your Polls</Text>
-            {currentPolls.map(
-              poll =>
-                poll.ownerId === this.props.user.id && (
-                  <TouchableOpacity
-                    key={poll.id}
-                    style={styles.poll}
-                    text={poll.text}
-                    onPress={() =>
-                      this.props.navigation.navigate('Poll', {
-                        id: poll.id,
-                        question: poll.text
-                      })
-                    }
-                  >
-                    <Text style={styles.buttonText}>{poll.text}</Text>
-                  </TouchableOpacity>
-                )
-            )}
-
-            <Text style={styles.subheader}>Family Polls</Text>
-            {currentPolls.map(
-              poll =>
-                poll.ownerId !== this.props.user.id && (
-                  <TouchableOpacity
-                    key={poll.id}
-                    style={styles.poll}
-                    text={poll.text}
-                    onPress={() =>
-                      this.props.navigation.navigate('Poll', {
-                        id: poll.id,
-                        question: poll.text
-                      })
-                    }
-                  >
-                    <Text style={styles.buttonText}>{poll.text}</Text>
-                  </TouchableOpacity>
-                )
-            )}
-          </ScrollView>
-        </View>
+        <Text style={styles.subheader}>Family Polls</Text>
+        <ScrollView style={styles.pollContainer}>
+          {currentPolls.map(
+            poll =>
+              poll.ownerId !== this.props.user.id && (
+                <TouchableOpacity
+                  key={poll.id}
+                  style={styles.poll}
+                  text={poll.text}
+                  onPress={() =>
+                    this.props.navigation.navigate('Poll', {
+                      id: poll.id,
+                      question: poll.text
+                    })
+                  }
+                >
+                  <Text style={styles.buttonText}>{poll.text}</Text>
+                </TouchableOpacity>
+              )
+          )}
+        </ScrollView>
         <TouchableOpacity
           style={{
             backgroundColor: '#8EB51A',
@@ -171,5 +146,5 @@ export default withNavigation(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(AllPolls)
+  )(TwoUpPolls)
 );
