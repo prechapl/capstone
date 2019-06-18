@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { AsyncStorage, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { getActiveMood, getMoodsByFamilyId } from './store/mood';
 import {
@@ -21,20 +21,39 @@ import { fetchAlerts, createAlert } from './store/alerts';
 class Family extends Component {
   constructor(props) {
     super(props);
-    this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
-      secure: true,
-      transports: ['websocket']
-    });
   }
 
   componentDidMount() {
+    const getToken = async () => {
+      const _token = await AsyncStorage.getItem('token');
+      console.log('token', _token);
+      return _token;
+    };
+
+    this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
+      extraHeaders: { authorization: getToken() }
+    });
     this.socket.connect();
+
     this.socket.on('connect', () => console.log('connected'));
-    this.socket.on('hello', () => console.log('hello hello hello'));
+
+    // this.socket.on('hello', () => console.log('hello hello hello'));
+
     this.socket.on('new_alert', () => {
       this.props.loadAlerts(this.props.user.id);
     });
     this.socket.on('new_event', () => this.loadEvents());
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.socket.emit('request_loc', {
+          data: position,
+          id: this.props.user.id
+        });
+      },
+      error => console.log(error),
+      { enableHighAccuracy: true, timeout: 20000, distanceFilter: 10 }
+    );
     this.load();
     this.loadEvents();
   }

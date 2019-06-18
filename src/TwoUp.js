@@ -1,44 +1,57 @@
-import React, { Component } from "react";
-import { Picker, Text, View } from "react-native";
-import { Avatar } from "react-native-elements";
-import { getActiveMood } from "./store/mood";
-import { fetchFamilyMembers } from "./store/family";
-import { fetchUserRelationships } from "./store/users";
-import { connect } from "react-redux";
-import { withNavigation } from "react-navigation";
-import { findMoodColor } from "./HelperFunctions";
-import AllPolls from "./Polls/AllPolls";
-import TwoUpEvents from "./Events/TwoUpEvents";
-
+import React, { Component } from 'react';
+import { AsyncStorage, Picker, Text, View } from 'react-native';
+import { Avatar } from 'react-native-elements';
+import { getActiveMood } from './store/mood';
+import { fetchFamilyMembers } from './store/family';
+import { fetchUserRelationships } from './store/users';
+import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
+import { findMoodColor } from './HelperFunctions';
+import AllPolls from './Polls/AllPolls';
+import TwoUpEvents from './Events/TwoUpEvents';
+import Location from './Location';
+import SocketIOClient from 'socket.io-client';
 
 class TwoUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: "Reliability",
+      display: 'Reliability'
     };
   }
 
   componentDidMount() {
+    const getToken = async () => {
+      const _token = await AsyncStorage.getItem('token');
+      console.log('token in Two Up', _token);
+      return _token;
+    };
+
+    this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
+      extraHeaders: { authorization: getToken() }
+    });
+    this.socket.connect();
+
+    // this.socket.on('connect', () => console.log('connected'))
+
     this.load();
   }
 
   load = () => {
     this.props.getActiveMood(this.props.user.id);
     this.props.fetchFamilyMembers(this.props.user.familyId);
-
   };
 
   generateStatusMeter = value => {
     const colors = [
-      { hex: "#FF2A00", val: 0 },
-      { hex: "#E68200", val: 0.25 },
-      { hex: "#d4b21f", val: 0.5 },
-      { hex: "#64c300", val: 0.75 },
-      { hex: "#009510", val: 1 }
+      { hex: '#FF2A00', val: 0 },
+      { hex: '#E68200', val: 0.25 },
+      { hex: '#d4b21f', val: 0.5 },
+      { hex: '#64c300', val: 0.75 },
+      { hex: '#009510', val: 1 }
     ];
     return colors.map(color => {
-      let bgColor = color.val <= value ? color.hex : "#ffffff";
+      let bgColor = color.val <= value ? color.hex : '#ffffff';
       return (
         <View
           key={color.val}
@@ -46,7 +59,7 @@ class TwoUp extends Component {
             height: 75,
             width: 75,
             backgroundColor: bgColor,
-            borderColor: "black",
+            borderColor: 'black',
             borderWidth: 1
           }}
         />
@@ -63,8 +76,10 @@ class TwoUp extends Component {
       userRelationships,
       relativeRelationships
     } = this.props;
-
-    const relative = navigation.getParam("relative");
+    console.log(' userRelationships', userRelationships);
+    console.log(' relativeRelationships', relativeRelationships);
+    const relative = navigation.getParam('relative');
+    const relativeCoords = navigation.getParam('relativeCoords');
 
     if (familyMembers.length && userRelationships.length) {
       const relationship = userRelationships.find(
@@ -86,9 +101,9 @@ class TwoUp extends Component {
         >
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
               paddingTop: 50,
               paddingHorizontal: 10
             }}
@@ -114,6 +129,7 @@ class TwoUp extends Component {
               <Picker.Item label="Reliability" value="Reliability" />
               <Picker.Item label="Events" value="Events" />
               <Picker.Item label="Polls" value="Polls" />
+              <Picker.Item label="Location" value="Location" />
             </Picker>
 
             <Avatar
@@ -132,41 +148,47 @@ class TwoUp extends Component {
 
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "center",
+              flexDirection: 'row',
+              justifyContent: 'center',
               paddingTop: 100
             }}
           >
-            {this.state.display === "Reliability" ? (
+            {this.state.display === 'Reliability' ? (
               <View>
                 <Text
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
                     marginBottom: 10
                   }}
                 >
                   {relative.firstName}'s reliabilty meter:
                 </Text>
-                <View style={{ flexDirection: "row", marginBottom: 20 }}>
+                <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                   {this.generateStatusMeter(relationship.status)}
                 </View>
                 <Text
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
                     marginBottom: 10
                   }}
                 >
                   My reliabilty meter:
                 </Text>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   {this.generateStatusMeter(relativeRelationship.status)}
                 </View>
               </View>
             ) : null}
 
-            {this.state.display === "Polls" ? <AllPolls /> : null}
+            {this.state.display === 'Polls' ? <AllPolls /> : null}
 
-            {this.state.display === "Events" ? <TwoUpEvents relative={relative} /> : null}
+            {this.state.display === 'Events' ? (
+              <TwoUpEvents relative={relative} />
+            ) : null}
+
+            {this.state.display === 'Location' ? (
+              <Location relative={relative} coords={relativeCoords} />
+            ) : null}
           </View>
         </View>
       );
@@ -184,7 +206,13 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ mood, user, familyMembers, userRelationships, relativeRelationships }) => {
+const mapStateToProps = ({
+  mood,
+  user,
+  familyMembers,
+  userRelationships,
+  relativeRelationships
+}) => {
   return {
     user,
     mood,

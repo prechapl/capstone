@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
-import { Alert, Text, View } from 'react-native';
+import { AsyncStorage, Alert, Text, View } from 'react-native';
 import { MapView } from 'expo';
 import { Marker } from 'react-native-maps';
 import { Avatar } from 'react-native-elements';
 import { findMoodColor } from './HelperFunctions';
+import SocketIOClient from 'socket.io-client';
 
 class Location extends Component {
   constructor(props) {
@@ -15,8 +16,28 @@ class Location extends Component {
   }
 
   componentDidMount() {
-    // this.findCoordinates();
+    const getToken = async () => {
+      const _token = await AsyncStorage.getItem('token');
+      console.log('token in Two Up', _token);
+      return _token;
+    };
+
+    this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
+      extraHeaders: { authorization: getToken() }
+    });
+    this.socket.connect();
+
+    this.findCoordinates();
   }
+
+  findCoordinates = () => {
+    this.socket.on('response_location', positionData => {
+      console.log('positionData', positionData);
+      this.setState({
+        location: positionData
+      });
+    });
+  };
 
   // findCoordinates = () => {
   //   navigator.geolocation.getCurrentPosition(
@@ -31,8 +52,8 @@ class Location extends Component {
 
   render() {
     const familyMember = this.props.navigation.getParam('familyMember');
-    // const user = this.props.navigation.getParam('user');
     const mood = this.props.navigation.getParam('mood');
+
     const locate = this.state.location;
     if (locate.coords !== null) {
       const accuracy = locate.coords.accuracy;
