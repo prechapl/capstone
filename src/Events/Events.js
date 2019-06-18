@@ -66,18 +66,10 @@ class Events extends Component {
           flex: 1,
           flexDirection: 'column',
           justifyContent: 'space-evenly',
-          paddingBottom: 150
+          paddingBottom: 100
         }}
       >
         <Text style={styles.header}>Events</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-evenly'
-          }}
-        />
-        <View />
         {events.length ? (
           <EventList
             eventlist={events}

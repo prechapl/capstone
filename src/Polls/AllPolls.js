@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 60
+    marginBottom: 100
   },
   header: {
     padding: 10,
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF'
   },
   pollContainer: {
-    maxHeight: 300,
     alignItems: 'center',
     justifyContent: 'center'
   }
@@ -78,49 +77,51 @@ class AllPolls extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>
-          {this.state.status === 'open' ? 'Open' : 'Closed'} Polls
+          {this.state.status === 'open' ? 'Open' : 'Closed'}
         </Text>
-        <ScrollView styles={styles.pollContainer}>
-          <Text style={styles.subheader}>Your Polls</Text>
-          {currentPolls.map(
-            poll =>
-              poll.ownerId === this.props.user.id && (
-                <TouchableOpacity
-                  key={poll.id}
-                  style={styles.poll}
-                  text={poll.text}
-                  onPress={() =>
-                    this.props.navigation.navigate('Poll', {
-                      id: poll.id,
-                      question: poll.text
-                    })
-                  }
-                >
-                  <Text style={styles.buttonText}>{poll.text}</Text>
-                </TouchableOpacity>
-              )
-          )}
+        <View style={{ maxHeight: 300 }}>
+          <ScrollView styles={styles.pollContainer}>
+            <Text style={styles.subheader}>Your Polls</Text>
+            {currentPolls.map(
+              poll =>
+                poll.ownerId === this.props.user.id && (
+                  <TouchableOpacity
+                    key={poll.id}
+                    style={styles.poll}
+                    text={poll.text}
+                    onPress={() =>
+                      this.props.navigation.navigate('Poll', {
+                        id: poll.id,
+                        question: poll.text
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonText}>{poll.text}</Text>
+                  </TouchableOpacity>
+                )
+            )}
 
-          <Text style={styles.subheader}>Family Polls</Text>
-          {currentPolls.map(
-            poll =>
-              poll.ownerId !== this.props.user.id && (
-                <TouchableOpacity
-                  key={poll.id}
-                  style={styles.poll}
-                  text={poll.text}
-                  onPress={() =>
-                    this.props.navigation.navigate('Poll', {
-                      id: poll.id,
-                      question: poll.text
-                    })
-                  }
-                >
-                  <Text style={styles.buttonText}>{poll.text}</Text>
-                </TouchableOpacity>
-              )
-          )}
-        </ScrollView>
+            <Text style={styles.subheader}>Family Polls</Text>
+            {currentPolls.map(
+              poll =>
+                poll.ownerId !== this.props.user.id && (
+                  <TouchableOpacity
+                    key={poll.id}
+                    style={styles.poll}
+                    text={poll.text}
+                    onPress={() =>
+                      this.props.navigation.navigate('Poll', {
+                        id: poll.id,
+                        question: poll.text
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonText}>{poll.text}</Text>
+                  </TouchableOpacity>
+                )
+            )}
+          </ScrollView>
+        </View>
         <TouchableOpacity
           style={{
             backgroundColor: '#8EB51A',
