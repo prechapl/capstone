@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
-import { AsyncStorage, Alert, Text, View } from 'react-native';
+import { AsyncStorage, Text, View } from 'react-native';
 import { MapView } from 'expo';
 import { Marker } from 'react-native-maps';
 import { Avatar } from 'react-native-elements';
@@ -21,7 +21,6 @@ class Location extends Component {
       console.log('token in Two Up', _token);
       return _token;
     };
-
     const socket = SocketIOClient(
       'https://capstone-api-server.herokuapp.com/',
       {
@@ -31,54 +30,26 @@ class Location extends Component {
     socket.connect();
 
     const { user, relative } = this.props;
-    // console.log('relative in location', relative);
-    socket.on('request_loc', {
-      target: relative.id,
-      requester: user.id
-    });
-    // .then(positionData => {
-    //   console.log('positionData in location', positionData);
-    //   this.setState({
-    //     location: positionData
-    //   });
-    // });
+    console.log('relative.id in location', relative.id);
+    console.log('user.id in location', user.id);
+
+    const findCoordinates = async () => {
+      const positionData = await socket.on('request_loc', {
+        target: relative.id,
+        requester: user.id
+      });
+
+      console.log('positionData', positionData);
+
+      this.setState({
+        location: positionData
+      });
+    };
+
+    findCoordinates();
   }
 
-  // findCoordinates = () => {
-
-  //   // const user = this.props.navigation.getParam('user');
-  //   // const relative = this.props.navigation.getParam('relative');
-
-  //     .then(positionData => {
-  //       console.log('positionData in location', positionData);
-  //       this.setState({
-  //         location: positionData
-  //       });
-  //     });
-  // };
-
-  // findCoordinates = () => {
-  //   this.socket.on('response_location', positionData => {
-  //     console.log('positionData', positionData);
-  //     this.setState({
-  //       location: positionData
-  //     });
-  //   });
-  // };
-
-  // findCoordinates = () => {
-  //   navigator.geolocation.getCurrentPosition(
-  //     position => {
-  //       const loc = position;
-  //       this.setState({ location: loc });
-  //     },
-  //     error => Alert.alert(error.message),
-  //     { enableHighAccuracy: true, timeout: 30000, maximumAge: 5000 }
-  //   );
-  // };
-
   render() {
-    // const user = this.props.navigation.getParam('user');
     const relative = this.props.navigation.getParam('relative');
     const mood = this.props.navigation.getParam('mood');
 

@@ -26,12 +26,10 @@ class TwoUp extends Component {
       console.log('token in Two Up', _token);
       return _token;
     };
-
     this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
       extraHeaders: { authorization: getToken() }
     });
     this.socket.connect();
-
     // this.socket.on('connect', () => console.log('connected'))
 
     this.load();
@@ -78,7 +76,6 @@ class TwoUp extends Component {
     } = this.props;
 
     const relative = navigation.getParam('relative');
-    // const relativeCoords = navigation.getParam('relativeCoords');
 
     if (familyMembers.length && userRelationships.length) {
       const relationship = userRelationships.find(

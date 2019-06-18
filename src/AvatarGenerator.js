@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AsyncStorage, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import ActionButton from 'react-native-circular-action-menu';
@@ -9,19 +9,10 @@ import AllPolls from './Polls/AllPolls';
 import Events from './Events/Events';
 import Mood from './Mood';
 import Location from './Location';
-// import SocketIOClient from 'socket.io-client';
 
 class AvatarGenerator extends Component {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    // AsyncStorage.getItem('token')
-    //   this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
-    //     extraHeaders: { authorization: token }
-    //   });
-    // this.socket.connect();
   }
 
   componentDidUpdate(prevProps) {
@@ -40,9 +31,6 @@ class AvatarGenerator extends Component {
     const buttonSet = navigation.getParam('buttonSet');
     const componentToNest = navigation.getParam('nestComponent');
     const moodColor = findMoodColor(mood.value);
-
-    // console.log('user', user);
-    // console.log('familyMember', familyMember);
 
     return (
       <View

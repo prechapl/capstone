@@ -46,7 +46,7 @@ class Family extends Component {
       position => {
         console.log('emit position in family', position);
         this.socket.emit('response_location', {
-          requester: this.props.user.id,
+          target: this.props.user.id,
           coords: position
         });
       },
