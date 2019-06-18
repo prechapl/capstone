@@ -112,18 +112,21 @@ class Events extends Component {
           <TouchableOpacity
             style={{ ...styles.button, backgroundColor: '#9e8376' }}
             onPress={() => {
-              this.setState({ viewPast: !this.state.viewPast })
+              this.setState({ viewPast: !this.state.viewPast });
             }}
           >
             <Text style={styles.buttonText}>
-              {this.state.viewPast
-                ? 'current' : 'past'}
+              {this.state.viewPast ? 'current' : 'past'}
             </Text>
           </TouchableOpacity>
         </View>
         <View />
         {events.length ? (
-          <EventList eventlist={events} type={this.state.selection} />
+          <EventList
+            eventlist={events}
+            id={this.props.id}
+            type={this.state.selection}
+          />
         ) : (
           <Text
             style={{

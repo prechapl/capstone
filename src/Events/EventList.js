@@ -1,52 +1,55 @@
 import React from 'react';
-import { TouchableOpacity, ScrollView } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { View } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { Calendar } from 'react-native-calendars';
+import Arrow from 'react-native-arrow';
 
+const EventList = props => {
+  const events = props.eventlist;
+  const id = props.id;
 
-const EventList = (props) => {
-    const events = props.eventlist;
-    const type = props.type;
-    const colorMap = {
-        chore: '#AA8EB7',
-        event: '#9BB8D5',
-        appointment: '#BCD59B',
-        errand: '#D79963'
-    };
-    return (
-        <ScrollView style={{ maxHeight: 300 }}>
-            {events.map((event, i) => {
-                return (
-                    <TouchableOpacity
-                        key={i}
-                        onPress={() => {
-                            if (type === 'MY EVENTS') {
-                                props.navigation.navigate('Event', {
-                                    event: event
-                                });
-                            } else {
-                                props.navigation.navigate('EventAssigned', {
-                                    event: event
-                                });
-                            }
-                        }}
-                    >
-                        <ListItem
-                            key={i}
-                            title={event.title}
-                            subtitle={`${new Date(
-                                event.deadline
-                            ).getMonth()}/${new Date(event.deadline).getDate()}`}
-                            badge={{
-                                value: event.category,
-                                badgeStyle: { backgroundColor: colorMap[event.category] }
-                            }}
-                        />
-                    </TouchableOpacity>
-                );
-            })}
-        </ScrollView>
-    )
-}
+  const eventsWithDeadlines = events.filter(evt => evt.deadline);
+
+  const datesObj = eventsWithDeadlines.reduce((acc, event) => {
+    const date = event.deadline.slice(0, 10);
+    if (event.ownerId === id) {
+      acc[date] = { marked: true, dotColor: 'green' };
+    } else {
+      acc[date] = { marked: true };
+    }
+    return acc;
+  }, {});
+
+  return (
+    <View>
+      <Calendar
+        onDayPress={day => {
+          const evt = eventsWithDeadlines.find(event =>
+            event.deadline.includes(day.dateString)
+          );
+          if (evt) {
+            props.navigation.navigate('Event', {
+              event: evt
+            });
+          }
+        }}
+        monthFormat={'yyyy MM'}
+        onMonthChange={month => {
+          console.log('month changed', month);
+        }}
+        hideArrows={true}
+        renderArrow={direction => <Arrow size={15} color="blue" />}
+        hideExtraDays={true}
+        disableMonthChange={true}
+        firstDay={1}
+        hideDayNames={true}
+        showWeekNumbers={true}
+        onPressArrowLeft={substractMonth => substractMonth()}
+        onPressArrowRight={addMonth => addMonth()}
+        markedDates={datesObj}
+      />
+    </View>
+  );
+};
 
 export default withNavigation(EventList);
