@@ -23,7 +23,6 @@ import Location from './Location';
 import SetAllRelationships from './SetAllRelationships';
 import SetSingleRelationship from './SetSingleRelationship';
 import AllAlerts from './Alerts/AllAlerts';
-import { Image } from 'react-native';
 
 const AuthNavigator = createStackNavigator({
   Login: Login,
