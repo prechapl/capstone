@@ -23,6 +23,7 @@ import Location from './Location';
 import SetAllRelationships from './SetAllRelationships';
 import SetSingleRelationship from './SetSingleRelationship';
 import AllAlerts from './Alerts/AllAlerts';
+import { Image } from 'react-native';
 
 const AuthNavigator = createStackNavigator({
   Login: Login,
@@ -74,7 +75,11 @@ const RootNavigator = createBottomTabNavigator({
 const AppContainer = createAppContainer(
   createSwitchNavigator(
     { Account: AuthNavigator, App: RootNavigator },
-    { initialRouteName: 'Account' }
+    {
+      initialRouteName: 'Account',
+      activeColor: '#f0edf6',
+      inactiveColor: '#3e2465'
+    }
   )
 );
 
