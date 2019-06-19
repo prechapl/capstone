@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { fetchUsers } from '../store/users';
 import { fetchPolls } from '../store/polls';
 import { withNavigation } from 'react-navigation';
+import { Block, Button, Card, Icon, Input, NavBar } from 'galio-framework';
 
 const styles = StyleSheet.create({
   container: {
