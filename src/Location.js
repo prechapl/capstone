@@ -15,39 +15,39 @@ class Location extends Component {
     };
   }
 
-  componentDidMount() {
-    const getToken = async () => {
-      const _token = await AsyncStorage.getItem('token');
-      console.log('token in Two Up', _token);
-      return _token;
-    };
-    const socket = SocketIOClient(
-      'https://capstone-api-server.herokuapp.com/',
-      {
-        extraHeaders: { authorization: getToken() }
-      }
-    );
-    socket.connect();
+  // componentDidMount() {
+  //   const getToken = async () => {
+  //     const _token = await AsyncStorage.getItem('token');
+  //     console.log('token in Two Up', _token);
+  //     return _token;
+  //   };
+  //   const socket = SocketIOClient(
+  //     'https://capstone-api-server.herokuapp.com/',
+  //     {
+  //       extraHeaders: { authorization: getToken() }
+  //     }
+  //   );
+  //   socket.connect();
 
-    const { user, relative } = this.props;
-    // console.log('relative.id in location', relative.id);
-    // console.log('user.id in location', user.id);
+  //   const { user, relative } = this.props;
+  //   console.log('relative.id in location', relative.id);
+  //   console.log('user.id in location', user.id);
 
-    const findCoordinates = async () => {
-      const positionData = await socket.on('request_loc', {
-        target: relative.id,
-        requester: user.id
-      });
+  //   const findCoordinates = async () => {
+  //     const positionData = await socket.on('request_loc', {
+  //       target: relative.id,
+  //       requester: user.id
+  //     });
 
-      console.log('positionData', positionData);
+  //     console.log('positionData', positionData);
 
-      this.setState({
-        location: positionData
-      });
-    };
+  //     this.setState({
+  //       location: positionData
+  //     });
+  //   };
 
-    findCoordinates();
-  }
+  //   findCoordinates();
+  // }
 
   render() {
     const relative = this.props.navigation.getParam('relative');
