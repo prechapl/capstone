@@ -101,18 +101,24 @@ class SingleEvent extends Component {
     );
     const deadline = new Date(event.deadline);
     const statusColor = {
-      upcoming: 'blue',
-      overdue: 'orange',
-      'completed-pending': 'yellow',
-      completed: 'green',
-      missed: 'red'
+      upcoming: 'ad0978',
+      overdue: 'ff9900',
+      'completed-pending': '009510',
+      completed: '64c300',
+      missed: 'ff2a00'
     };
     const colorMap = {
-      chore: '#AA8EB7',
-      event: '#9BB8D5',
-      appointment: '#BCD59B',
-      errand: '#D79963'
+      chore: '#ad0978',
+      event: '#64c300',
+      appointment: '#ff9900',
+      errand: '#009510'
     };
+    // const colorMap = {
+    //   chore: '#AA8EB7',
+    //   event: '#9BB8D5',
+    //   appointment: '#BCD59B',
+    //   errand: '#D79963'
+    // };
     if (!event) {
       return (
         <View>
@@ -239,13 +245,23 @@ class SingleEvent extends Component {
             </Text>
             <TouchableOpacity
               onPress={this.toggleAssigneePicker}
-              style={styles.button}
+              style={{
+                backgroundColor: '#ff9900',
+                padding: 10,
+                width: 300,
+                margin: 10
+              }}
             >
               <Text style={styles.buttonText}>Invite Someone</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.delete(event.id, event.ownerId)}
-              style={styles.button}
+              style={{
+                backgroundColor: '#ff2a00',
+                padding: 10,
+                width: 300,
+                margin: 10
+              }}
             >
               <Text style={styles.buttonText}>Delete</Text>
             </TouchableOpacity>

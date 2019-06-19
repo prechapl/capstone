@@ -8,8 +8,8 @@ export const findChoiceText = (id, arr) => {
 export const findMoodColor = value => {
   const colors = {
     0.0: '#FF2A00',
-    0.25: '#E68200',
-    0.5: '#d4b21f',
+    0.25: '#ff9900',
+    0.5: '#e3d025',
     0.75: '#64c300',
     1.0: '#009510'
   };
