@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
-import { AsyncStorage, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { MapView } from 'expo';
 import { Marker } from 'react-native-maps';
 import { Avatar } from 'react-native-elements';
 import { findMoodColor } from './HelperFunctions';
-import SocketIOClient from 'socket.io-client';
 
 class Location extends Component {
   constructor(props) {
@@ -16,35 +15,15 @@ class Location extends Component {
   }
 
   componentDidMount() {
-    const getToken = async () => {
-      const _token = await AsyncStorage.getItem('token');
-      console.log('token in Two Up', _token);
-      return _token;
-    };
-    const socket = SocketIOClient(
-      'https://capstone-api-server.herokuapp.com/',
-      {
-        extraHeaders: { authorization: getToken() }
-      }
-    );
-    socket.connect();
-
-    const { user, relative } = this.props;
-    // console.log('relative.id in location', relative.id);
-    // console.log('user.id in location', user.id);
-
-    const findCoordinates = async () => {
-      const positionData = await socket.on('request_loc', {
-        target: relative.id,
-        requester: user.id
-      });
-
-      console.log('positionData', positionData);
-
-      this.setState({
-        location: positionData
-      });
-    };
+    const findCoordinates = async () =>
+      navigator.geolocation.getCurrentPosition(
+        position => {},
+        error => console.log(error),
+        { enableHighAccuracy: true, timeout: 20000, distanceFilter: 10 }
+      );
+    this.setState({
+      location: positionData
+    });
 
     findCoordinates();
   }

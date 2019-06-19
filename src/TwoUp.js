@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Picker, Text, View } from 'react-native';
+import { Picker, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { getActiveMood } from './store/mood';
 import { fetchFamilyMembers } from './store/family';
@@ -9,7 +9,6 @@ import { withNavigation } from 'react-navigation';
 import { findMoodColor } from './HelperFunctions';
 import TwoUpEvents from './Events/TwoUpEvents';
 import Location from './Location';
-import SocketIOClient from 'socket.io-client';
 import TwoUpPolls from './Polls/TwoUpPolls';
 
 class TwoUp extends Component {
@@ -21,17 +20,6 @@ class TwoUp extends Component {
   }
 
   componentDidMount() {
-    const getToken = async () => {
-      const _token = await AsyncStorage.getItem('token');
-      console.log('token in Two Up', _token);
-      return _token;
-    };
-    this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
-      extraHeaders: { authorization: getToken() }
-    });
-    this.socket.connect();
-    // this.socket.on('connect', () => console.log('connected'))
-
     this.load();
   }
 
