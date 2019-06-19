@@ -269,7 +269,7 @@ class SignUp extends Component {
       return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
-            <Text>Create Family</Text>
+            <Text style={{ paddingBottom: 20 }}>Create Family</Text>
             <TextInput
               value={this.state.newFamilyCode}
               style={styles.input}
@@ -284,8 +284,19 @@ class SignUp extends Component {
               onChangeText={newFamilyName => this.setState({ newFamilyName })}
             />
 
-            <TouchableOpacity style={styles.button} onPress={this.createFamily}>
-              <Text style={styles.buttonText}>Submit and Create Family</Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#64c300',
+                borderRadius: 50,
+                padding: 10,
+                width: 300,
+                margin: 10
+              }}
+              onPress={this.createFamily}
+            >
+              <Text style={{ textAlign: 'center', color: '#FFFFFF' }}>
+                Submit and Create Family
+              </Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
