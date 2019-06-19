@@ -132,14 +132,6 @@ class SignUp extends Component {
               </View>
             ) : (
               <View style={{ padding: 10, marginBottom: 30 }}>
-                {/* <Text
-                  style={{
-                    fontFamily: 'Avenir-Black',
-                    fontSize: 75
-                  }}
-                >
-                  Mender
-                </Text> */}
                 <Image
                   source={require('../assets/mnderLogoOnly_02-300px.png')}
                   style={{ marginBottom: 30 }}
