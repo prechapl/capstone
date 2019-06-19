@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Image,
   StyleSheet,
   Text,
   View,
@@ -51,6 +50,7 @@ class SignUp extends Component {
       aspect: [4, 3],
       base64: true
     });
+    console.log('result', result);
 
     const imageUriPrepend = 'data:image/jpeg;base64,';
     let uri = imageUriPrepend.concat(result.base64);
@@ -116,26 +116,22 @@ class SignUp extends Component {
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
             {this.state.imgUrl ? (
-              <View style={{ marginBottom: 60 }}>
+              <View style={{ marginBottom: 30 }}>
                 <Avatar
                   rounded
                   overlayContainerStyle={{
                     borderWidth: 7,
                     borderColor: '#009510'
                   }}
-                  size={160}
+                  size={120}
                   source={{
                     uri: this.state.imgUrl
                   }}
                 />
               </View>
             ) : (
-              <View style={{ padding: 10, marginBottom: 30 }}>
-                <Image
-                  source={require('../assets/mnderLogoOnly_02-300px.png')}
-                  style={{ marginBottom: 30 }}
-                />
-
+              <View>
+                <Text style={styles.header}>Mender</Text>
                 <Text
                   style={{
                     fontSize: 10,
@@ -147,77 +143,57 @@ class SignUp extends Component {
                 </Text>
               </View>
             )}
-            <View style={{ paddingBottom: 20 }}>
-              <TextInput
-                value={this.state.firstName}
-                style={styles.input}
-                placeholder="first name required"
-                onChangeText={firstName => this.setState({ firstName })}
-              />
 
-              <TextInput
-                value={this.state.lastName}
-                style={styles.input}
-                placeholder="last name required"
-                onChangeText={lastName => this.setState({ lastName })}
-              />
+            <TextInput
+              value={this.state.firstName}
+              style={styles.input}
+              placeholder="first name required"
+              placeholderTextColor="red"
+              onChangeText={firstName => this.setState({ firstName })}
+            />
 
-              <TextInput
-                value={this.state.email}
-                style={styles.input}
-                placeholder="email required"
-                onChangeText={email => this.setState({ email })}
-              />
-              <TextInput
-                value={this.state.phone}
-                style={styles.input}
-                placeholder="phone number required"
-                onChangeText={phone => this.setState({ phone })}
-              />
+            <TextInput
+              value={this.state.lastName}
+              style={styles.input}
+              placeholder="last name required"
+              placeholderTextColor="red"
+              onChangeText={lastName => this.setState({ lastName })}
+            />
 
-              <TextInput
-                style={styles.input}
-                secureTextEntry
-                value={this.state.password}
-                placeholder="password required"
-                onChangeText={password => {
-                  this.setState({ password });
-                }}
-              />
-            </View>
+            <TextInput
+              value={this.state.email}
+              style={styles.input}
+              placeholder="email required"
+              placeholderTextColor="red"
+              onChangeText={email => this.setState({ email })}
+            />
+            <TextInput
+              value={this.state.phone}
+              style={styles.input}
+              placeholder="phone number required"
+              placeholderTextColor="red"
+              onChangeText={phone => this.setState({ phone })}
+            />
 
-            {!this.state.imgUrl ? (
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <Text style={{ fontSize: 10 }}>profile image required</Text>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: '#144ecc',
-
-                    borderRadius: 50,
-                    padding: 10,
-                    width: 300,
-                    margin: 10
-                  }}
-                  onPress={this._pickImage}
-                >
-                  <Text style={styles.buttonText}>Select Profile Image</Text>
-                </TouchableOpacity>
-              </View>
-            ) : null}
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              value={this.state.password}
+              placeholder="password required"
+              placeholderTextColor="red"
+              onChangeText={password => {
+                this.setState({ password });
+              }}
+            />
+            <Text style={{ fontSize: 10, fontStyle: 'italic' }}>
+              profile image required
+            </Text>
+            <TouchableOpacity style={styles.button} onPress={this._pickImage}>
+              <Text style={styles.buttonText}>Select Profile Image</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
-              style={{
-                backgroundColor: '#ff9900',
-                borderRadius: 50,
-                padding: 10,
-                width: 300,
-                margin: 10
-              }}
+              style={styles.button}
               onPress={() => {
                 this.setState({
                   page: 3
@@ -226,16 +202,7 @@ class SignUp extends Component {
             >
               <Text style={styles.buttonText}>Create a Family</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#64c300',
-                borderRadius: 50,
-                padding: 10,
-                width: 300,
-                margin: 10
-              }}
-              onPress={this.nextPage}
-            >
+            <TouchableOpacity style={styles.button} onPress={this.nextPage}>
               <Text style={styles.buttonText}>Join a Family</Text>
             </TouchableOpacity>
           </View>
@@ -268,7 +235,7 @@ class SignUp extends Component {
       return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
-            <Text style={{ paddingBottom: 20 }}>Create Family</Text>
+            <Text>Create Family</Text>
             <TextInput
               value={this.state.newFamilyCode}
               style={styles.input}
@@ -283,19 +250,8 @@ class SignUp extends Component {
               onChangeText={newFamilyName => this.setState({ newFamilyName })}
             />
 
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#64c300',
-                borderRadius: 50,
-                padding: 10,
-                width: 300,
-                margin: 10
-              }}
-              onPress={this.createFamily}
-            >
-              <Text style={{ textAlign: 'center', color: '#FFFFFF' }}>
-                Submit and Create Family
-              </Text>
+            <TouchableOpacity style={styles.button} onPress={this.createFamily}>
+              <Text style={styles.buttonText}>Submit and Create Family</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
