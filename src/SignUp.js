@@ -73,7 +73,6 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
-
       imgUrl: this.state.imgUrl,
       familyCode: this.state.familyCode
     };
