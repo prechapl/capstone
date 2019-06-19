@@ -99,7 +99,8 @@ class CreatePoll extends Component {
                 backgroundColor: '#8EB51A',
                 padding: 10,
                 margin: 10,
-                width: 300
+                width: 300,
+                borderRadius: 50
               }}
               onPress={this.handleSubmit}
             >
@@ -136,7 +137,8 @@ class CreatePoll extends Component {
                     backgroundColor: '#7DC6CD',
                     padding: 10,
                     margin: 10,
-                    width: 300
+                    width: 300,
+                    borderRadius: 50
                   }}
                   onPress={this.handleAddChoice}
                 >
@@ -148,7 +150,8 @@ class CreatePoll extends Component {
                     backgroundColor: '#FF0000',
                     padding: 10,
                     margin: 10,
-                    width: 300
+                    width: 300,
+                    borderRadius: 50
                   }}
                   onPress={this.handleClearChoices}
                 >
@@ -160,7 +163,8 @@ class CreatePoll extends Component {
                     backgroundColor: '#8EB51A',
                     padding: 10,
                     margin: 10,
-                    width: 300
+                    width: 300,
+                    borderRadius: 50
                   }}
                   onPress={this.handleSubmitChoices}
                 >

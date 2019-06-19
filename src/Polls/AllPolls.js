@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import { fetchUsers } from '../store/users';
 import { fetchPolls } from '../store/polls';
 import { withNavigation } from 'react-navigation';
-import { Block, Button, Card, Icon, Input, NavBar } from 'galio-framework';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,7 +38,8 @@ const styles = StyleSheet.create({
   },
   createButtonText: {
     textAlign: 'center',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    borderRadius: 50
   },
   pollContainer: {
     alignItems: 'center',
@@ -128,7 +128,8 @@ class AllPolls extends Component {
             backgroundColor: '#8EB51A',
             padding: 10,
             margin: 10,
-            width: 300
+            width: 300,
+            borderRadius: 50
           }}
           onPress={() => this.props.navigation.navigate('CreatePoll')}
         >
@@ -140,7 +141,8 @@ class AllPolls extends Component {
             backgroundColor: '#7DC6CD',
             padding: 10,
             margin: 10,
-            width: 300
+            width: 300,
+            borderRadius: 50
           }}
           onPress={() => this.changeViewStatus()}
         >
