@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
   },
   createButtonText: {
     textAlign: 'center',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    borderRadius: 50
   },
   pollContainer: {
     alignItems: 'center',
@@ -127,7 +128,8 @@ class AllPolls extends Component {
             backgroundColor: '#8EB51A',
             padding: 10,
             margin: 10,
-            width: 300
+            width: 300,
+            borderRadius: 50
           }}
           onPress={() => this.props.navigation.navigate('CreatePoll')}
         >
@@ -139,7 +141,8 @@ class AllPolls extends Component {
             backgroundColor: '#7DC6CD',
             padding: 10,
             margin: 10,
-            width: 300
+            width: 300,
+            borderRadius: 50
           }}
           onPress={() => this.changeViewStatus()}
         >
