@@ -160,7 +160,7 @@ class CreatePoll extends Component {
 
                 <TouchableOpacity
                   style={{
-                    backgroundColor: '#8EB51A',
+                    backgroundColor: '#64c300',
                     padding: 10,
                     margin: 10,
                     width: 300,

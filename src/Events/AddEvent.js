@@ -65,7 +65,7 @@ class AddEvent extends Component {
             <Text style={styles.header}>Description</Text>
             <TextInput
               onChangeText={description => this.setState({ description })}
-              style={styles.descriptionInput}
+              style={styles.input}
               value={this.state.description}
             />
             {this.state.deadline ? (
@@ -90,7 +90,9 @@ class AddEvent extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={
-                !this.state.title.length ? styles.buttonDisabled : styles.button
+                !this.state.title.length
+                  ? styles.buttonDisabled
+                  : styles.submitButton
               }
               onPress={this.save}
               disabled={!this.state.title.length ? true : false}
@@ -103,8 +105,8 @@ class AddEvent extends Component {
           <View
             style={{
               flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-evenly'
+              alignItems: 'center'
+              // justifyContent: 'space-evenly'
             }}
           >
             <Picker
@@ -119,7 +121,7 @@ class AddEvent extends Component {
               <Picker.Item label="Errand" value="errand" />
             </Picker>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonSubmit}
               onPress={this.toggleCategoryPicker}
             >
               <Text style={styles.buttonText}>Save</Text>
@@ -140,7 +142,7 @@ class AddEvent extends Component {
               onDateChange={this.setDate}
             />
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonSubmit}
               onPress={this.toggleDatePicker}
             >
               <Text style={styles.buttonText}>Save</Text>
@@ -178,15 +180,8 @@ const styles = StyleSheet.create({
     width: 300,
     paddingHorizontal: 10
   },
-  descriptionInput: {
-    height: 70,
-    backgroundColor: '#D3D3D4',
-    marginBottom: 20,
-    width: 300,
-    paddingHorizontal: 10
-  },
   button: {
-    backgroundColor: '#448AE6',
+    backgroundColor: '#144ecc',
     padding: 10,
     width: 300,
     margin: 10,
@@ -198,6 +193,14 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 300,
     margin: 10,
+    borderRadius: 50
+  },
+  submitButton: {
+    backgroundColor: '#64c300',
+    padding: 10,
+    width: 300,
+    margin: 10,
+    textAlign: 'center',
     borderRadius: 50
   },
   buttonText: {

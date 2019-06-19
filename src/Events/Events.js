@@ -17,7 +17,14 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   button: {
-    alignSelf: 'center'
+    backgroundColor: '#dce5f2',
+    alignSelf: 'center',
+    borderRadius: 50
+  },
+  submitButton: {
+    backgroundColor: '#64c300',
+    alignSelf: 'center',
+    borderRadius: 50
   }
 });
 
