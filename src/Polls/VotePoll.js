@@ -4,11 +4,12 @@ import {
   Text,
   View,
   TouchableWithoutFeedback,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import { RadioButtons } from 'react-native-radio-buttons';
 import { connect } from 'react-redux';
 import { castVoteThunk, deletePollThunk } from '../store/polls';
+import SocketIoClient from 'socket.io-client';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,33 +17,33 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   header: {
     padding: 10,
     margin: 10,
     fontSize: 18,
     width: 400,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   selected: {
     backgroundColor: '#D3D3D4',
     textAlign: 'center',
     padding: 10,
     width: 300,
-    borderWidth: 1
+    borderWidth: 1,
   },
   unselected: {
     backgroundColor: 'white',
     textAlign: 'center',
     padding: 10,
     width: 300,
-    borderWidth: 1
+    borderWidth: 1,
   },
   buttonText: {
     textAlign: 'center',
-    color: '#FFFFFF'
-  }
+    color: '#FFFFFF',
+  },
 });
 
 class VotePoll extends React.Component {
@@ -53,19 +54,21 @@ class VotePoll extends React.Component {
       choiceId: '',
       selectedOption: '',
       pollId: '',
-      familyId: ''
+      familyId: '',
     };
+    this.socket = SocketIoClient('https://capstone-api-server.herokuapp.com');
   }
   componentDidMount() {
     this.setState({
       userId: this.props.user.id,
       pollId: this.props.pollId,
-      familyId: this.props.user.familyId
+      familyId: this.props.user.familyId,
     });
   }
 
   handleSubmit = () => {
     this.props.castVote(this.props.pollId, this.state);
+    this.socket.emit('new_vote');
   };
 
   handleDelete = () => {
@@ -85,7 +88,7 @@ class VotePoll extends React.Component {
       const selected = choices.filter(choice => choice.text === selectedOption);
       this.setState({
         selectedOption,
-        choiceId: selected[0].id
+        choiceId: selected[0].id,
       });
     };
 
@@ -121,7 +124,7 @@ class VotePoll extends React.Component {
             backgroundColor: '#8EB51A',
             padding: 10,
             margin: 10,
-            width: 300
+            width: 300,
           }}
           onPress={this.handleSubmit}
         >
@@ -134,7 +137,7 @@ class VotePoll extends React.Component {
               backgroundColor: '#FF0000',
               padding: 10,
               margin: 10,
-              width: 300
+              width: 300,
             }}
             onPress={this.handleDelete}
           >
@@ -149,14 +152,14 @@ class VotePoll extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     castVote: (id, vote) => dispatch(castVoteThunk(id, vote)),
-    deletePoll: (id, familyId) => dispatch(deletePollThunk(id, familyId))
+    deletePoll: (id, familyId) => dispatch(deletePollThunk(id, familyId)),
   };
 };
 
 const mapStateToProps = ({ user, choices }) => {
   return {
     user,
-    choices
+    choices,
   };
 };
 
