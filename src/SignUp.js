@@ -111,7 +111,6 @@ class SignUp extends Component {
   };
 
   render() {
-    // console.log('url', !this.state.imgUrl);
     if (this.state.page === 1) {
       return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
