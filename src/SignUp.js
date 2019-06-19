@@ -51,7 +51,6 @@ class SignUp extends Component {
       aspect: [4, 3],
       base64: true
     });
-    // console.log('result', result);
 
     const imageUriPrepend = 'data:image/jpeg;base64,';
     let uri = imageUriPrepend.concat(result.base64);
@@ -74,7 +73,7 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
-      // birthday: this.state.birthday,
+
       imgUrl: this.state.imgUrl,
       familyCode: this.state.familyCode
     };
@@ -90,7 +89,6 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
-      // birthday: this.state.birthday,
       imgUrl: this.state.imgUrl,
       family: {
         code: this.state.newFamilyCode,
@@ -172,13 +170,6 @@ class SignUp extends Component {
                 placeholder="last name required"
                 onChangeText={lastName => this.setState({ lastName })}
               />
-              {/*
-            <TextInput
-              value={this.state.birthday}
-              style={styles.input}
-              placeholder="birthday mm/dd/yyyy"
-              onChangeText={birthday => this.setState({ birthday })}
-            /> */}
 
               <TextInput
                 value={this.state.email}
