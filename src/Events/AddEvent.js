@@ -65,7 +65,7 @@ class AddEvent extends Component {
             <Text style={styles.header}>Description</Text>
             <TextInput
               onChangeText={description => this.setState({ description })}
-              style={styles.input}
+              style={styles.descriptionInput}
               value={this.state.description}
             />
             {this.state.deadline ? (
@@ -175,6 +175,13 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    backgroundColor: '#D3D3D4',
+    marginBottom: 20,
+    width: 300,
+    paddingHorizontal: 10
+  },
+  descriptionInput: {
+    height: 70,
     backgroundColor: '#D3D3D4',
     marginBottom: 20,
     width: 300,
