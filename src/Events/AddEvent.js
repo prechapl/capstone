@@ -90,7 +90,9 @@ class AddEvent extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={
-                !this.state.title.length ? styles.buttonDisabled : styles.button
+                !this.state.title.length
+                  ? styles.buttonDisabled
+                  : styles.buttonSubmit
               }
               onPress={this.save}
               disabled={!this.state.title.length ? true : false}
@@ -119,7 +121,7 @@ class AddEvent extends Component {
               <Picker.Item label="Errand" value="errand" />
             </Picker>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonSubmit}
               onPress={this.toggleCategoryPicker}
             >
               <Text style={styles.buttonText}>Save</Text>
@@ -140,7 +142,7 @@ class AddEvent extends Component {
               onDateChange={this.setDate}
             />
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonSubmit}
               onPress={this.toggleDatePicker}
             >
               <Text style={styles.buttonText}>Save</Text>
@@ -186,7 +188,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   button: {
-    backgroundColor: '#448AE6',
+    backgroundColor: '#52c2cc',
+    padding: 10,
+    width: 300,
+    margin: 10,
+    textAlign: 'center',
+    borderRadius: 50
+  },
+  buttonSubmit: {
+    backgroundColor: '#64c300',
     padding: 10,
     width: 300,
     margin: 10,
@@ -212,7 +222,7 @@ const styles = StyleSheet.create({
   mainHeader: {
     padding: 5,
     margin: 5,
-    fontSize: 26
+    fontSize: 24
   },
   text: {
     textAlign: 'center',

@@ -78,11 +78,11 @@ class AllPolls extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>
-          {this.state.status === 'open' ? 'Open' : 'Closed'}
+          {this.state.status === 'open' ? 'Open Polls' : 'Closed Polls'}
         </Text>
         <View style={{ maxHeight: 300 }}>
           <ScrollView styles={styles.pollContainer}>
-            <Text style={styles.subheader}>Your Polls</Text>
+            <Text style={styles.subheader}>Mine</Text>
             {currentPolls.map(
               poll =>
                 poll.ownerId === this.props.user.id && (
@@ -102,7 +102,7 @@ class AllPolls extends Component {
                 )
             )}
 
-            <Text style={styles.subheader}>Family Polls</Text>
+            <Text style={styles.subheader}>Family</Text>
             {currentPolls.map(
               poll =>
                 poll.ownerId !== this.props.user.id && (
@@ -125,7 +125,7 @@ class AllPolls extends Component {
         </View>
         <TouchableOpacity
           style={{
-            backgroundColor: '#8EB51A',
+            backgroundColor: '#64c300',
             padding: 10,
             margin: 10,
             width: 300,
@@ -133,12 +133,12 @@ class AllPolls extends Component {
           }}
           onPress={() => this.props.navigation.navigate('CreatePoll')}
         >
-          <Text style={styles.createButtonText}>Create New Poll</Text>
+          <Text style={styles.createButtonText}>Create</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={{
-            backgroundColor: '#7DC6CD',
+            backgroundColor: '#52c2cc',
             padding: 10,
             margin: 10,
             width: 300,
@@ -147,7 +147,7 @@ class AllPolls extends Component {
           onPress={() => this.changeViewStatus()}
         >
           <Text style={styles.createButtonText}>
-            View {this.state.status === 'open' ? 'Closed' : 'Open'} Polls
+            View {this.state.status === 'open' ? 'Closed' : 'Open'}
           </Text>
         </TouchableOpacity>
       </View>
