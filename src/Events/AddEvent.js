@@ -92,7 +92,7 @@ class AddEvent extends Component {
               style={
                 !this.state.title.length
                   ? styles.buttonDisabled
-                  : styles.submitButton
+                  : styles.buttonSubmit
               }
               onPress={this.save}
               disabled={!this.state.title.length ? true : false}
@@ -105,8 +105,8 @@ class AddEvent extends Component {
           <View
             style={{
               flexDirection: 'column',
-              alignItems: 'center'
-              // justifyContent: 'space-evenly'
+              alignItems: 'center',
+              justifyContent: 'space-evenly'
             }}
           >
             <Picker
@@ -181,7 +181,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   button: {
-    backgroundColor: '#144ecc',
+    backgroundColor: '#52c2cc',
+    padding: 10,
+    width: 300,
+    margin: 10,
+    textAlign: 'center',
+    borderRadius: 50
+  },
+  buttonSubmit: {
+    backgroundColor: '#64c300',
     padding: 10,
     width: 300,
     margin: 10,
@@ -193,14 +201,6 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 300,
     margin: 10,
-    borderRadius: 50
-  },
-  submitButton: {
-    backgroundColor: '#64c300',
-    padding: 10,
-    width: 300,
-    margin: 10,
-    textAlign: 'center',
     borderRadius: 50
   },
   buttonText: {
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   mainHeader: {
     padding: 5,
     margin: 5,
-    fontSize: 26
+    fontSize: 24
   },
   text: {
     textAlign: 'center',
