@@ -78,7 +78,8 @@ class SignUp extends Component {
     };
 
     this.handleSubmit(userData).then(() =>
-      this.props.navigation.navigate('SetAllRelationships'));
+      this.props.navigation.navigate('SetAllRelationships')
+    );
   };
 
   createFamily = () => {
@@ -95,7 +96,8 @@ class SignUp extends Component {
       }
     };
     this.handleSubmit(userData).then(() =>
-      this.props.navigation.navigate('App'));
+      this.props.navigation.navigate('App')
+    );
   };
 
   nextPage = () => {
@@ -143,7 +145,7 @@ class SignUp extends Component {
                     textAlign: 'center'
                   }}
                 >
-                  sign up for a free account
+                  Sign up for a free account
                 </Text>
               </View>
             )}
@@ -151,27 +153,27 @@ class SignUp extends Component {
               <TextInput
                 value={this.state.firstName}
                 style={styles.input}
-                placeholder="first name required"
+                placeholder="First name required"
                 onChangeText={firstName => this.setState({ firstName })}
               />
 
               <TextInput
                 value={this.state.lastName}
                 style={styles.input}
-                placeholder="last name required"
+                placeholder="Last name required"
                 onChangeText={lastName => this.setState({ lastName })}
               />
 
               <TextInput
                 value={this.state.email}
                 style={styles.input}
-                placeholder="email required"
+                placeholder="Email required"
                 onChangeText={email => this.setState({ email })}
               />
               <TextInput
                 value={this.state.phone}
                 style={styles.input}
-                placeholder="phone number required"
+                placeholder="Phone number required"
                 onChangeText={phone => this.setState({ phone })}
               />
 
@@ -179,7 +181,7 @@ class SignUp extends Component {
                 style={styles.input}
                 secureTextEntry
                 value={this.state.password}
-                placeholder="password required"
+                placeholder="Password required"
                 onChangeText={password => {
                   this.setState({ password });
                 }}
@@ -193,7 +195,7 @@ class SignUp extends Component {
                   justifyContent: 'center'
                 }}
               >
-                <Text style={{ fontSize: 10 }}>profile image required</Text>
+                <Text style={{ fontSize: 10 }}>Profile image required</Text>
                 <TouchableOpacity
                   style={{
                     backgroundColor: '#144ecc',
