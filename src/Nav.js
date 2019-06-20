@@ -3,26 +3,26 @@ import {
   createStackNavigator,
   createAppContainer,
   createSwitchNavigator
-} from 'react-navigation';
-import { Easing, Animated } from 'react-native';
-import Family from './Family';
-import Login from './Login';
-import SignUp from './SignUp';
-import Mood from './Mood';
-import AllPolls from './Polls/AllPolls';
-import SinglePoll from './Polls/SinglePoll';
-import CreatePoll from './Polls/CreatePoll';
-import ForgotPassword from './ForgotPassword';
-import Events from './Events/Events';
-import SingleEvent from './Events/SingleEvent';
-import AddEvent from './Events/AddEvent';
-import SingleEventAssigned from './Events/SingleEventAssigned';
-import AvatarGenerator from './AvatarGenerator';
-import TwoUp from './TwoUp';
-import Location from './Location';
-import SetAllRelationships from './SetAllRelationships';
-import SetSingleRelationship from './SetSingleRelationship';
-import AllAlerts from './Alerts/AllAlerts';
+} from "react-navigation";
+import { Easing, Animated } from "react-native";
+import Family from "./Family";
+import Login from "./Login";
+import SignUp from "./SignUp";
+import Mood from "./Mood";
+import AllPolls from "./Polls/AllPolls";
+import SinglePoll from "./Polls/SinglePoll";
+import CreatePoll from "./Polls/CreatePoll";
+import ForgotPassword from "./ForgotPassword";
+import Events from "./Events/Events";
+import SingleEvent from "./Events/SingleEvent";
+import AddEvent from "./Events/AddEvent";
+import SingleEventAssigned from "./Events/SingleEventAssigned";
+import AvatarGenerator from "./AvatarGenerator";
+import TwoUp from "./TwoUp";
+import Location from "./Location";
+import SetAllRelationships from "./SetAllRelationships";
+import SetSingleRelationship from "./SetSingleRelationship";
+import AllAlerts from "./Alerts/AllAlerts";
 
 const AuthNavigator = createStackNavigator({
   Login: Login,
@@ -75,9 +75,9 @@ const AppContainer = createAppContainer(
   createSwitchNavigator(
     { Account: AuthNavigator, App: RootNavigator },
     {
-      initialRouteName: 'Account',
-      activeColor: '#f0edf6',
-      inactiveColor: '#3e2465'
+      initialRouteName: "Account",
+      activeColor: "#f0edf6",
+      inactiveColor: "#3e2465"
     }
   )
 );
