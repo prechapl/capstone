@@ -42,8 +42,8 @@ class TwoUp extends Component {
         <View
           key={color.val}
           style={{
-            height: 75,
-            width: 75,
+            height: 50,
+            width: 50,
             backgroundColor: bgColor,
             borderColor: 'black',
             borderWidth: 1
@@ -77,6 +77,7 @@ class TwoUp extends Component {
         .find(member => member.id === relative.id)
         .moods.find(m => m.active).value;
 
+      // console.log('relativeMoodValue', relativeMoodValue);
       return (
         <View
           style={{
@@ -113,7 +114,7 @@ class TwoUp extends Component {
               <Picker.Item label="Reliability" value="Reliability" />
               <Picker.Item label="Events" value="Events" />
               <Picker.Item label="Polls" value="Polls" />
-              <Picker.Item label="Location" value="Location" />
+              {/* <Picker.Item label="Location" value="Location" /> */}
             </Picker>
 
             <Avatar
@@ -142,7 +143,9 @@ class TwoUp extends Component {
                 <Text
                   style={{
                     flexDirection: 'row',
-                    marginBottom: 10
+                    marginBottom: 10,
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
                   }}
                 >
                   {relative.firstName}'s reliabilty meter:
@@ -152,8 +155,10 @@ class TwoUp extends Component {
                 </View>
                 <Text
                   style={{
-                    flexDirection: 'row',
-                    marginBottom: 10
+                    flexDirection: 'column',
+                    marginBottom: 10,
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
                   }}
                 >
                   My reliabilty meter:
@@ -170,9 +175,13 @@ class TwoUp extends Component {
               <TwoUpEvents relative={relative} />
             ) : null}
 
-            {this.state.display === 'Location' ? (
-              <Location relative={relative} user={user} />
-            ) : null}
+            {/* {this.state.display === 'Location' ? (
+              <Location
+                relative={relative}
+                user={user}
+                mood={relativeMoodValue}
+              />
+            ) : null} */}
           </View>
         </View>
       );
