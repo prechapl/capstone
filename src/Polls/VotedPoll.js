@@ -71,7 +71,7 @@ class VotedPoll extends React.Component {
           alertType: 'poll',
           message: `${this.props.user.firstName} has re-opened voting for '${
             this.props.question
-            }'. Go Vote!`,
+          }'. Go Vote!`,
           targetId: this.state.pollId,
           userId: user.id
         });
@@ -88,7 +88,7 @@ class VotedPoll extends React.Component {
           alertType: 'poll',
           message: `${this.props.user.firstName} has closed voting for '${
             this.props.question
-            }'. Go check out the winner!`,
+          }'. Go check out the winner!`,
           targetId: this.state.pollId,
           userId: user.id
         });
@@ -133,7 +133,8 @@ class VotedPoll extends React.Component {
               backgroundColor: '#7DC6CD',
               padding: 10,
               margin: 10,
-              width: 300
+              width: 300,
+              borderRadius: 50
             }}
             onPress={this.changeVote}
           >
@@ -148,7 +149,8 @@ class VotedPoll extends React.Component {
                   backgroundColor: '#8EB51A',
                   padding: 10,
                   margin: 10,
-                  width: 300
+                  width: 300,
+                  borderRadius: 50
                 }}
                 onPress={this.handleStatus}
               >
@@ -160,7 +162,8 @@ class VotedPoll extends React.Component {
                   backgroundColor: '#FF0000',
                   padding: 10,
                   margin: 10,
-                  width: 300
+                  width: 300,
+                  borderRadius: 50
                 }}
                 onPress={this.handleDelete}
               >
@@ -168,18 +171,19 @@ class VotedPoll extends React.Component {
               </TouchableOpacity>
             </View>
           ) : (
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#FF0000',
-                  padding: 10,
-                  margin: 10,
-                  width: 300
-                }}
-                onPress={this.handleStatus}
-              >
-                <Text style={styles.buttonText}>Close Poll</Text>
-              </TouchableOpacity>
-            )
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#FF0000',
+                padding: 10,
+                margin: 10,
+                width: 300,
+                borderRadius: 50
+              }}
+              onPress={this.handleStatus}
+            >
+              <Text style={styles.buttonText}>Close Poll</Text>
+            </TouchableOpacity>
+          )
         ) : null}
       </View>
     );

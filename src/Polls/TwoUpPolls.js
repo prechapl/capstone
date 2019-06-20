@@ -102,7 +102,8 @@ class TwoUpPolls extends Component {
             backgroundColor: '#8EB51A',
             padding: 10,
             margin: 10,
-            width: 300
+            width: 300,
+            borderRadius: 50
           }}
           onPress={() => this.props.navigation.navigate('CreatePoll')}
         >
@@ -114,7 +115,8 @@ class TwoUpPolls extends Component {
             backgroundColor: '#7DC6CD',
             padding: 10,
             margin: 10,
-            width: 300
+            width: 300,
+            borderRadius: 50
           }}
           onPress={() => this.changeViewStatus()}
         >
