@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { findMoodColor } from './HelperFunctions';
 import TwoUpEvents from './Events/TwoUpEvents';
-import Location from './Location';
 import TwoUpPolls from './Polls/TwoUpPolls';
 
 class TwoUp extends Component {
@@ -30,11 +29,11 @@ class TwoUp extends Component {
 
   generateStatusMeter = value => {
     const colors = [
-      { hex: '#FF2A00', val: 0 },
-      { hex: '#E68200', val: 0.25 },
-      { hex: '#d4b21f', val: 0.5 },
-      { hex: '#64c300', val: 0.75 },
-      { hex: '#009510', val: 1 }
+      { hex: '#009510', val: 0.75 < value && value >= 1 },
+      { hex: '#64c300', val: 1 > value && value >= 0.75 },
+      { hex: '#d4b21f', val: 0.75 > value && value >= 0.5 },
+      { hex: '#E68200', val: 0.5 > value && value >= 0.25 },
+      { hex: '#FF2A00', val: 0.25 < value && value >= 0 }
     ];
     return colors.map(color => {
       let bgColor = color.val <= value ? color.hex : '#ffffff';
@@ -43,15 +42,27 @@ class TwoUp extends Component {
           key={color.val}
           style={{
             height: 50,
-            width: 50,
+            width: 130,
             backgroundColor: bgColor,
             borderColor: 'black',
-            borderWidth: 1
+            borderWidth: 1,
+            borderRadius: 20
           }}
         />
       );
     });
   };
+
+  // generateReliabilityText = value => {
+  //   const score = {
+  //     1: 'extremely',
+  //     0.75: 'very',
+  //     0.5: 'kind of',
+  //     0.25: 'not very',
+  //     0: 'not at all'
+  //   };
+  //   return score[value];
+  // };
 
   render() {
     const {
@@ -77,7 +88,16 @@ class TwoUp extends Component {
         .find(member => member.id === relative.id)
         .moods.find(m => m.active).value;
 
-      // console.log('relativeMoodValue', relativeMoodValue);
+      console.log('relationship', relationship);
+
+      const score = {
+        1: 'extremely',
+        0.75: 'very',
+        0.5: 'kind of',
+        0.25: 'not very',
+        0: 'not at all'
+      };
+
       return (
         <View
           style={{
@@ -114,7 +134,6 @@ class TwoUp extends Component {
               <Picker.Item label="Reliability" value="Reliability" />
               <Picker.Item label="Events" value="Events" />
               <Picker.Item label="Polls" value="Polls" />
-              {/* <Picker.Item label="Location" value="Location" /> */}
             </Picker>
 
             <Avatar
@@ -133,38 +152,45 @@ class TwoUp extends Component {
 
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: 'column',
               justifyContent: 'center',
               paddingTop: 100
             }}
           >
             {this.state.display === 'Reliability' ? (
               <View>
-                <Text
+                <View
                   style={{
                     flexDirection: 'row',
-                    marginBottom: 10,
-                    marginLeft: 'auto',
-                    marginRight: 'auto'
+                    justifyContent: 'center'
                   }}
                 >
-                  {relative.firstName}'s reliabilty meter:
-                </Text>
-                <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-                  {this.generateStatusMeter(relationship.status)}
+                  <View
+                    style={{
+                      flexDirection: 'row'
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: 'column',
+
+                        marginRight: 35
+                      }}
+                    >
+                      {this.generateStatusMeter(relationship.status)}
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'column', marginLeft: 35 }}>
+                      {this.generateStatusMeter(relativeRelationship.status)}
+                    </View>
+                  </View>
                 </View>
-                <Text
-                  style={{
-                    flexDirection: 'column',
-                    marginBottom: 10,
-                    marginLeft: 'auto',
-                    marginRight: 'auto'
-                  }}
-                >
-                  My reliabilty meter:
-                </Text>
                 <View style={{ flexDirection: 'row' }}>
-                  {this.generateStatusMeter(relativeRelationship.status)}
+                  <Text>
+                    {/* I'm {score.relationship.status} */}
+                    reliable to {relative.firstName}
+                  </Text>
                 </View>
               </View>
             ) : null}
@@ -174,14 +200,6 @@ class TwoUp extends Component {
             {this.state.display === 'Events' ? (
               <TwoUpEvents relative={relative} />
             ) : null}
-
-            {/* {this.state.display === 'Location' ? (
-              <Location
-                relative={relative}
-                user={user}
-                mood={relativeMoodValue}
-              />
-            ) : null} */}
           </View>
         </View>
       );
