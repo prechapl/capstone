@@ -153,7 +153,7 @@ const buttons = {
     },
     {
       title: 'Polls',
-      color: '#7DC6CD',
+      color: '#52c2cc',
       width: 70,
       height: 50,
       componentToNest: <AllPolls />

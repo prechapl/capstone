@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Image,
   StyleSheet,
   Text,
   View,
@@ -31,7 +32,11 @@ class Login extends Component {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.container}>
-          <Text style={styles.header}>Mender</Text>
+          <Image
+            source={require('../assets/mnderLogo_02-300px.png')}
+            style={{ marginBottom: 30 }}
+          />
+
           <Text style={{ fontSize: 12, marginBottom: 16 }}>
             login to your account
           </Text>
@@ -51,7 +56,8 @@ class Login extends Component {
 
           <TouchableOpacity
             style={{
-              backgroundColor: '#8EB51A',
+              borderRadius: 50,
+              backgroundColor: '#64c300',
               padding: 10,
               margin: 10,
               width: 300
@@ -63,7 +69,8 @@ class Login extends Component {
 
           <TouchableOpacity
             style={{
-              backgroundColor: '#7DC6CD',
+              backgroundColor: '#52c2cc',
+              borderRadius: 50,
               padding: 10,
               margin: 10,
               width: 300
@@ -75,6 +82,7 @@ class Login extends Component {
           <TouchableOpacity
             style={{
               backgroundColor: '#FF9900',
+              borderRadius: 50,
               padding: 10,
               margin: 10,
               width: 300
@@ -94,7 +102,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 20
   },
   input: {
     height: 40,
