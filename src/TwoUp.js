@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { findMoodColor } from './HelperFunctions';
 import TwoUpEvents from './Events/TwoUpEvents';
-import Location from './Location';
 import TwoUpPolls from './Polls/TwoUpPolls';
 
 class TwoUp extends Component {
@@ -99,9 +98,6 @@ class TwoUp extends Component {
         relation => relation.userId === relative.id
       ).status;
 
-      // console.log('relationship', relationship);
-      // console.log('relativeRelationship', relativeRelationship);
-
       const relativeMoodValue = familyMembers
         .find(member => member.id === relative.id)
         .moods.find(m => m.active).value;
@@ -142,7 +138,6 @@ class TwoUp extends Component {
               <Picker.Item label="Reliability" value="Reliability" />
               <Picker.Item label="Events" value="Events" />
               <Picker.Item label="Polls" value="Polls" />
-              {/* <Picker.Item label="Location" value="Location" /> */}
             </Picker>
 
             <Avatar
@@ -228,14 +223,6 @@ class TwoUp extends Component {
             {this.state.display === 'Events' ? (
               <TwoUpEvents relative={relative} />
             ) : null}
-
-            {/* {this.state.display === 'Location' ? (
-              <Location
-                relative={relative}
-                user={user}
-                mood={relativeMoodValue}
-              />
-            ) : null} */}
           </View>
         </View>
       );
