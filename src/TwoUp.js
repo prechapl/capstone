@@ -15,7 +15,7 @@ class TwoUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: 'Reliability'
+      display: 'Events'
     };
   }
 
@@ -30,12 +30,13 @@ class TwoUp extends Component {
 
   generateStatusMeter = value => {
     const colors = [
-      { hex: '#FF2A00', val: 0 },
-      { hex: '#E68200', val: 0.25 },
-      { hex: '#d4b21f', val: 0.5 },
+      { hex: '#009510', val: 1 },
       { hex: '#64c300', val: 0.75 },
-      { hex: '#009510', val: 1 }
+      { hex: '#d4b21f', val: 0.5 },
+      { hex: '#E68200', val: 0.25 },
+      { hex: '#FF2A00', val: 0 }
     ];
+
     return colors.map(color => {
       let bgColor = color.val <= value ? color.hex : '#ffffff';
       return (
@@ -43,14 +44,38 @@ class TwoUp extends Component {
           key={color.val}
           style={{
             height: 50,
-            width: 50,
+            width: 110,
             backgroundColor: bgColor,
             borderColor: 'black',
-            borderWidth: 1
+            borderWidth: 1,
+            borderRadius: 20
           }}
         />
       );
     });
+  };
+
+  generateStatusText = value => {
+    const val =
+      value < 0.25
+        ? 0
+        : null || (value > 0 && value < 0.5)
+        ? 0.25
+        : null || (value > 0.5 && value < 0.75)
+        ? 0.5
+        : null || (value > 0.75 && value < 1)
+        ? 0.75
+        : null;
+
+    const score = {
+      1: 'extremely ',
+      0.75: 'very ',
+      0.5: 'somewhat ',
+      0.25: 'not very ',
+      0: 'not at all '
+    };
+
+    return score[val];
   };
 
   render() {
@@ -68,16 +93,19 @@ class TwoUp extends Component {
     if (familyMembers.length && userRelationships.length) {
       const relationship = userRelationships.find(
         relation => relation.RelationshipId === relative.id
-      );
+      ).status;
+
       const relativeRelationship = relativeRelationships.find(
         relation => relation.userId === relative.id
-      );
+      ).status;
+
+      // console.log('relationship', relationship);
+      // console.log('relativeRelationship', relativeRelationship);
 
       const relativeMoodValue = familyMembers
         .find(member => member.id === relative.id)
         .moods.find(m => m.active).value;
 
-      // console.log('relativeMoodValue', relativeMoodValue);
       return (
         <View
           style={{
@@ -140,31 +168,57 @@ class TwoUp extends Component {
           >
             {this.state.display === 'Reliability' ? (
               <View>
-                <Text
+                <View
                   style={{
                     flexDirection: 'row',
-                    marginBottom: 10,
-                    marginLeft: 'auto',
-                    marginRight: 'auto'
+                    justifyContent: 'center'
                   }}
                 >
-                  {relative.firstName}'s reliabilty meter:
-                </Text>
-                <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-                  {this.generateStatusMeter(relationship.status)}
+                  <View
+                    style={{
+                      flexDirection: 'row'
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: 'column',
+
+                        marginRight: 35
+                      }}
+                    >
+                      {this.generateStatusMeter(relationship)}
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'column', marginLeft: 35 }}>
+                      {this.generateStatusMeter(relativeRelationship)}
+                    </View>
+                  </View>
                 </View>
-                <Text
+                <View
                   style={{
-                    flexDirection: 'column',
-                    marginBottom: 10,
-                    marginLeft: 'auto',
-                    marginRight: 'auto'
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    marginTop: 35
                   }}
                 >
-                  My reliabilty meter:
-                </Text>
-                <View style={{ flexDirection: 'row' }}>
-                  {this.generateStatusMeter(relativeRelationship.status)}
+                  <Text>
+                    I'm {this.generateStatusText(relationship)}
+                    reliable to {relative.firstName}.
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    marginTop: 35
+                  }}
+                >
+                  <Text>
+                    {relative.firstName} is{' '}
+                    {this.generateStatusText(relativeRelationship)}
+                    reliable to me.
+                  </Text>
                 </View>
               </View>
             ) : null}
