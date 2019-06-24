@@ -27,9 +27,15 @@ const EventList = props => {
             event.deadline.includes(day.dateString)
           );
           if (evt) {
-            props.navigation.navigate('Event', {
-              event: evt
-            });
+            if (id === evt.ownerId) {
+              props.navigation.navigate('Event', {
+                event: evt,
+              });
+            } else {
+              props.navigation.navigate('EventAssigned', {
+                event: evt,
+              });
+            }
           }
         }}
         hideArrows={false}

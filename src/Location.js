@@ -1,57 +1,50 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
-import { AsyncStorage, Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { MapView } from 'expo';
 import { Marker } from 'react-native-maps';
 import { Avatar } from 'react-native-elements';
 import { findMoodColor } from './HelperFunctions';
-import SocketIOClient from 'socket.io-client';
 
 class Location extends Component {
   constructor(props) {
     super(props);
+    // this.state = {
+    //   location: { coords: null }
+    // };
     this.state = {
-      location: { coords: null }
+      location: {
+        coords: {
+          accuracy: 5,
+          altitude: 0,
+          altitudeAccuracy: -1,
+          heading: -1,
+          latitude: 37.785834,
+          longitude: -122.406417,
+          speed: -1
+        }
+      }
     };
   }
 
   // componentDidMount() {
-  //   const getToken = async () => {
-  //     const _token = await AsyncStorage.getItem('token');
-  //     console.log('token in Two Up', _token);
-  //     return _token;
-  //   };
-  //   const socket = SocketIOClient(
-  //     'https://capstone-api-server.herokuapp.com/',
-  //     {
-  //       extraHeaders: { authorization: getToken() }
-  //     }
-  //   );
-  //   socket.connect();
-
-  //   const { user, relative } = this.props;
-  //   console.log('relative.id in location', relative.id);
-  //   console.log('user.id in location', user.id);
-
-  //   const findCoordinates = async () => {
-  //     const positionData = await socket.on('request_loc', {
-  //       target: relative.id,
-  //       requester: user.id
-  //     });
-
-  //     console.log('positionData', positionData);
-
-  //     this.setState({
-  //       location: positionData
-  //     });
-  //   };
-
+  //   const findCoordinates = async () =>
+  //     await navigator.geolocation.getCurrentPosition(
+  //       position => {
+  //         const location = JSON.stringify(position);
+  //         this.setState({ location });
+  //       },
+  //       error => Alert.alert(error.message),
+  //       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+  //     );
   //   findCoordinates();
   // }
 
   render() {
     const relative = this.props.navigation.getParam('relative');
-    const mood = this.props.navigation.getParam('mood');
+    // const mood = this.props.navigation.getParam('mood');
+    // console.log('mood', mood);
+    // console.log('relative', relative.moods[0].value);
 
     const locate = this.state.location;
     if (locate.coords !== null) {
@@ -91,7 +84,7 @@ class Location extends Component {
                 rounded
                 overlayContainerStyle={{
                   borderWidth: 7,
-                  borderColor: findMoodColor(mood.value)
+                  borderColor: relative.moods[0].value
                 }}
                 size={50}
                 source={{

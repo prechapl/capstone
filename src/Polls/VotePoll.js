@@ -9,6 +9,7 @@ import {
 import { RadioButtons } from 'react-native-radio-buttons';
 import { connect } from 'react-redux';
 import { castVoteThunk, deletePollThunk } from '../store/polls';
+import SocketIoClient from 'socket.io-client';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,6 +56,7 @@ class VotePoll extends React.Component {
       pollId: '',
       familyId: ''
     };
+    this.socket = SocketIoClient('https://capstone-api-server.herokuapp.com');
   }
   componentDidMount() {
     this.setState({
@@ -66,6 +68,7 @@ class VotePoll extends React.Component {
 
   handleSubmit = () => {
     this.props.castVote(this.props.pollId, this.state);
+    this.socket.emit('new_vote');
   };
 
   handleDelete = () => {
@@ -121,7 +124,8 @@ class VotePoll extends React.Component {
             backgroundColor: '#8EB51A',
             padding: 10,
             margin: 10,
-            width: 300
+            width: 300,
+            borderRadius: 50
           }}
           onPress={this.handleSubmit}
         >
@@ -134,7 +138,8 @@ class VotePoll extends React.Component {
               backgroundColor: '#FF0000',
               padding: 10,
               margin: 10,
-              width: 300
+              width: 300,
+              borderRadius: 50
             }}
             onPress={this.handleDelete}
           >

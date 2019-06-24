@@ -51,7 +51,6 @@ class SignUp extends Component {
       aspect: [4, 3],
       base64: true
     });
-    // console.log('result', result);
 
     const imageUriPrepend = 'data:image/jpeg;base64,';
     let uri = imageUriPrepend.concat(result.base64);
@@ -74,13 +73,13 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
-      // birthday: this.state.birthday,
       imgUrl: this.state.imgUrl,
       familyCode: this.state.familyCode
     };
 
     this.handleSubmit(userData).then(() =>
-      this.props.navigation.navigate('SetAllRelationships'));
+      this.props.navigation.navigate('SetAllRelationships')
+    );
   };
 
   createFamily = () => {
@@ -90,7 +89,6 @@ class SignUp extends Component {
       email: this.state.email,
       password: this.state.password,
       phone: this.state.phone,
-      // birthday: this.state.birthday,
       imgUrl: this.state.imgUrl,
       family: {
         code: this.state.newFamilyCode,
@@ -98,7 +96,8 @@ class SignUp extends Component {
       }
     };
     this.handleSubmit(userData).then(() =>
-      this.props.navigation.navigate('App'));
+      this.props.navigation.navigate('App')
+    );
   };
 
   nextPage = () => {
@@ -134,14 +133,6 @@ class SignUp extends Component {
               </View>
             ) : (
               <View style={{ padding: 10, marginBottom: 30 }}>
-                {/* <Text
-                  style={{
-                    fontFamily: 'Avenir-Black',
-                    fontSize: 75
-                  }}
-                >
-                  Mender
-                </Text> */}
                 <Image
                   source={require('../assets/mnderLogoOnly_02-300px.png')}
                   style={{ marginBottom: 30 }}
@@ -154,7 +145,7 @@ class SignUp extends Component {
                     textAlign: 'center'
                   }}
                 >
-                  sign up for a free account
+                  Sign up for a free account
                 </Text>
               </View>
             )}
@@ -162,34 +153,27 @@ class SignUp extends Component {
               <TextInput
                 value={this.state.firstName}
                 style={styles.input}
-                placeholder="first name required"
+                placeholder="First name required"
                 onChangeText={firstName => this.setState({ firstName })}
               />
 
               <TextInput
                 value={this.state.lastName}
                 style={styles.input}
-                placeholder="last name required"
+                placeholder="Last name required"
                 onChangeText={lastName => this.setState({ lastName })}
               />
-              {/*
-            <TextInput
-              value={this.state.birthday}
-              style={styles.input}
-              placeholder="birthday mm/dd/yyyy"
-              onChangeText={birthday => this.setState({ birthday })}
-            /> */}
 
               <TextInput
                 value={this.state.email}
                 style={styles.input}
-                placeholder="email required"
+                placeholder="Email required"
                 onChangeText={email => this.setState({ email })}
               />
               <TextInput
                 value={this.state.phone}
                 style={styles.input}
-                placeholder="phone number required"
+                placeholder="Phone number required"
                 onChangeText={phone => this.setState({ phone })}
               />
 
@@ -197,7 +181,7 @@ class SignUp extends Component {
                 style={styles.input}
                 secureTextEntry
                 value={this.state.password}
-                placeholder="password required"
+                placeholder="Password required"
                 onChangeText={password => {
                   this.setState({ password });
                 }}
@@ -211,11 +195,10 @@ class SignUp extends Component {
                   justifyContent: 'center'
                 }}
               >
-                <Text style={{ fontSize: 10 }}>profile image required</Text>
+                <Text style={{ fontSize: 10 }}>Profile image required</Text>
                 <TouchableOpacity
                   style={{
                     backgroundColor: '#144ecc',
-
                     borderRadius: 50,
                     padding: 10,
                     width: 300,
@@ -270,7 +253,6 @@ class SignUp extends Component {
               value={this.state.familyCode}
               style={styles.input}
               placeholder="family code required"
-              placeholderTextColor="red"
               onChangeText={familyCode => this.setState({ familyCode })}
             />
 
@@ -286,7 +268,7 @@ class SignUp extends Component {
       return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <View style={styles.container}>
-            <Text>Create Family</Text>
+            <Text style={{ paddingBottom: 20 }}>Create Family</Text>
             <TextInput
               value={this.state.newFamilyCode}
               style={styles.input}
@@ -301,8 +283,19 @@ class SignUp extends Component {
               onChangeText={newFamilyName => this.setState({ newFamilyName })}
             />
 
-            <TouchableOpacity style={styles.button} onPress={this.createFamily}>
-              <Text style={styles.buttonText}>Submit and Create Family</Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#64c300',
+                borderRadius: 50,
+                padding: 10,
+                width: 300,
+                margin: 10
+              }}
+              onPress={this.createFamily}
+            >
+              <Text style={{ textAlign: 'center', color: '#FFFFFF' }}>
+                Submit and Create Family
+              </Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>

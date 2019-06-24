@@ -23,6 +23,7 @@ class Login extends Component {
 
   handleSubmit = () => {
     loginUser(this.state.email, this.state.password)
+      // loginUser('preston.chaplin@gmail.com', 'p@ssWord!2')
       .then(() => this.props.getAuthedUser())
       .then(() => this.props.navigation.navigate('App'))
       .catch(e => console.log(e));
@@ -38,7 +39,7 @@ class Login extends Component {
           />
 
           <Text style={{ fontSize: 12, marginBottom: 16 }}>
-            login to your account
+            Login to your account
           </Text>
           <TextInput
             style={styles.input}

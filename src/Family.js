@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage, View } from 'react-native';
+import { View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { getActiveMood, getMoodsByFamilyId } from './store/mood';
 import {
@@ -15,7 +15,6 @@ import {
   goUpdateEvent,
   goUpdateAssigned
 } from './store/events';
-import SocketIOClient from 'socket.io-client';
 import { fetchAlerts, createAlert } from './store/alerts';
 
 class Family extends Component {
@@ -24,35 +23,6 @@ class Family extends Component {
   }
 
   componentDidMount() {
-    // const getToken = async () => {
-    //   const _token = await AsyncStorage.getItem('token');
-    //   console.log('token', _token);
-    //   return _token;
-    // };
-
-    // this.socket = SocketIOClient('https://capstone-api-server.herokuapp.com/', {
-    //   extraHeaders: { authorization: getToken() }
-    // });
-    // this.socket.connect();
-
-    // this.socket.on('connect', () => console.log('connected'));
-
-    // this.socket.on('new_alert', () => {
-    //   this.props.loadAlerts(this.props.user.id);
-    // });
-    // this.socket.on('new_event', () => this.loadEvents());
-
-    // navigator.geolocation.getCurrentPosition(
-    //   position => {
-    //     console.log('emit position in family', position);
-    //     this.socket.emit('response_location', {
-    //       target: this.props.user.id,
-    //       coords: position
-    //     });
-    //   },
-    //   error => console.log(error),
-    //   { enableHighAccuracy: true, timeout: 20000, distanceFilter: 10 }
-    // );
     this.load();
     this.loadEvents();
   }
@@ -183,13 +153,6 @@ class Family extends Component {
                           uri: `${person.imgUrl}`
                         }}
                         title={person.firstName}
-                        // onPress={() =>
-                        //   navigation.navigate('AvatarGenerator', {
-                        //     familyMember: person,
-                        //     buttonSet: 'RelativeButtons',
-                        //     mood: person.moods.find(m => m.active)
-                        //   })
-                        // }
                         onPress={() =>
                           navigation.navigate('TwoUp', {
                             relative: person
