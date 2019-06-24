@@ -113,7 +113,7 @@ class TwoUp extends Component {
               flexDirection: 'row',
               justifyContent: 'space-around',
               alignItems: 'center',
-              paddingTop: 50,
+              paddingTop: 30,
               paddingHorizontal: 10
             }}
           >
@@ -132,7 +132,7 @@ class TwoUp extends Component {
 
             <Picker
               selectedValue={this.state.display}
-              style={{ height: 100, width: 100, marginBottom: 50 }}
+              style={{ height: 100, width: 100, marginBottom: 40 }}
               onValueChange={itemValue => this.setState({ display: itemValue })}
             >
               <Picker.Item label="Reliability" value="Reliability" />
@@ -158,7 +158,7 @@ class TwoUp extends Component {
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
-              paddingTop: 100
+              marginTop: 80
             }}
           >
             {this.state.display === 'Reliability' ? (
